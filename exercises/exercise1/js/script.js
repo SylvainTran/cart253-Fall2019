@@ -1,10 +1,9 @@
 "use strict";
 // Exercise 1 - Movement
-// Pippin Barr
+// Sylvain Tran
 //
-// Starter code for exercise 1.
-// Draws a moving square and circle that intersect
-// in the middle of the canvas.
+// Customized code for Exercise 1.
+// Draws a moving circle, square, dove and musical clef that moves.
 
 // The current position and size of the circle
 let circleX;
@@ -79,6 +78,11 @@ function setup() {
   image(doveImg, 0, 0, 100, 100);
 }
 
+/*
+  Increments (for later translation) the shape's (X, Y) attributes.
+
+*/
+
 function translateCircle(valueX, valueY){
   // Move circle up and to the right
   circleX += valueX;
@@ -91,24 +95,44 @@ function translateSquare(valueX, valueY){
   squareY -= valueY;
 }
 
-function displayCircle(){
-  // Make the circle transparent red
-  fill(255,0,0,10);
-  // Display the circle
-  ellipse(circleX,circleY,circleSize,circleSize);
-}
-
-function displaySquare(){
-  // Make the square transparent blue
-  fill(0,0,255,10);
-  // Display the square
-  rect(squareX,squareY,squareSize,squareSize);
-}
-
 function translateDove(valueX, valueY){
   // Positions the dove image on the left side of the canvas
   image(doveImg, doveXPosition += valueX, valueY, doveWidth, doveHeight);
 }
+
+/*
+  Displays the shape with a fill color and size.
+
+*/
+
+function displayCircle(r, g, b, alpha, width, height){
+  fill(r, g, b, alpha);
+  // Display the circle
+  ellipse(circleX, circleY, width, height);
+}
+
+function displaySquare(r, g, b, alpha, width, height){
+  // Make the square transparent blue
+  fill(r, g, b, alpha, width, height);
+  // Display the square
+  rect(squareX, squareY, squareSize, squareSize);
+}
+
+/*
+  Alternate display: Ensures that the image will only spawn under the cursor if the cursor is somewhere on the canvas.
+
+*/
+
+function displayImgAtMouse(img, width, height){
+  if(mouseX > 0 && mouseY > 0){
+    image(img, mouseX, mouseY, width, height);
+  }
+}
+
+/*
+  Clamps value of X position if it exceeds canvas size.
+
+*/
 
 function clampXPosition(){
   // Resets the position of the image to x=0 if x > the canvas's X position (looping effect)
@@ -117,13 +141,15 @@ function clampXPosition(){
     doveXPosition = 0;
   }
 }
+
 function draw() {
   // We don't fill the background so we get a drawing effect
   translateCircle(1, 1);
-  displayCircle();
+  // Make the circle transparent red
+  displayCircle(255, 0, 0, 10, circleSize, circleSize);
   translateSquare(1, 1);
-  displaySquare();
+  displaySquare(0, 0, 255, 10, squareSize, squareSize);
   translateDove(5, 0);
   clampXPosition();
-  image(clefImg, mouseX, mouseY, 100, 100);
+  displayImgAtMouse(clefImg, 100, 100);
 }
