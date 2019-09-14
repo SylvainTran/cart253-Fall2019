@@ -16,19 +16,27 @@ let squareX;
 let squareY;
 let squareSize = 100;
 
-// The dove image's attribute
+// The dove image's attributes
 let doveImg;
 let doveXPosition = 0;
 let doveYPosition = 0;
 let doveWidth = 100;
 let doveHeight = 100;
 
+// The musical clef image's attributes
+let clefImg;
+let clefXPosition = 0;
+let clefYPosition = 0;
+let clefWidth = 100;
+let clefHeight = 100;
+
 // preload()
 //
-// Preload a dove image.
+// Preload the dove and shooting star images.
 
 function preload() {
   doveImg = loadImage('./assets/images/dove.png');
+  clefImg = loadImage('./assets/images/clef.png');
 }
 
 /*
@@ -117,4 +125,5 @@ function draw() {
   displaySquare();
   translateDove(5, 0);
   clampXPosition();
+  image(clefImg, mouseX, mouseY, 100, 100);
 }
