@@ -1,3 +1,4 @@
+"use strict";
 // Exercise 1 - Movement
 // Pippin Barr
 //
@@ -19,6 +20,8 @@ let squareSize = 100;
 let doveImg;
 let doveXPosition = 0;
 let doveYPosition = 0;
+let doveWidth = 100;
+let doveHeight = 100;
 
 // preload()
 //
@@ -28,15 +31,12 @@ function preload() {
   doveImg = loadImage('./assets/images/dove.png');
 }
 
+/*
+  Setups the coordinates for the circle and square shapes.
 
-// setup()
-//
-// Set up the canvas, position the images, set the image mode.
+*/
 
-function setup() {
-  // Create our canvas
-  createCanvas(640,640);
-
+function setupCoordinates(){
   // Start the circle off screen to the bottom left
   // We divide the size by two because we're drawing from the center
   circleX = -circleSize/2;
@@ -46,44 +46,75 @@ function setup() {
   // We divide the size by two because we're drawing from the center
   squareX = width + squareSize/2;
   squareY = height + squareSize/2;
+}
 
-  // We'll draw rectangles from the center
+/*
+  Setups the mode and stroke settings for the shapes.
+
+*/
+
+function setupShapeSettings(){
   rectMode(CENTER);
-  // We won't have a stroke in this
   noStroke();
+}
+
+/*
+  Setups the basic canvas state: coordinates and settings for the shapes plus the dove image.
+
+*/
+
+function setup() {
+  createCanvas(640,640);
+  setupCoordinates();
+  setupShapeSettings();
   // Positions the image of the dove on the top left of the canvas
   image(doveImg, 0, 0, 100, 100);
 }
 
-// draw()
-//
-// Change the circle and square's positions so they move
-// Draw the circle and square on screen
-
-function draw() {
-  // We don't fill the background so we get a drawing effect
-
+function translateCircle(valueX, valueY){
   // Move circle up and to the right
-  circleX += 1;
-  circleY -= 1;
+  circleX += valueX;
+  circleY -= valueY;
+}
+
+function translateSquare(valueX, valueY){
+  // Move square up and to the left
+  squareX -= valueX;
+  squareY -= valueY;
+}
+
+function displayCircle(){
   // Make the circle transparent red
   fill(255,0,0,10);
   // Display the circle
   ellipse(circleX,circleY,circleSize,circleSize);
+}
 
-  // Move square up and to the left
-  squareX -= 1;
-  squareY -= 1;
+function displaySquare(){
   // Make the square transparent blue
   fill(0,0,255,10);
   // Display the square
   rect(squareX,squareY,squareSize,squareSize);
+}
 
+function translateDove(valueX, valueY){
   // Positions the dove image on the left side of the canvas
-  image(doveImg, doveXPosition += 5, 0, 100, 100);
+  image(doveImg, doveXPosition += valueX, valueY, doveWidth, doveHeight);
+}
+
+function clampXPosition(){
   // Resets the position of the image to x=0 if x > the canvas's X position (looping effect)
   if(doveXPosition >= 640)
   {
     doveXPosition = 0;
   }
+}
+function draw() {
+  // We don't fill the background so we get a drawing effect
+  translateCircle(1, 1);
+  displayCircle();
+  translateSquare(1, 1);
+  displaySquare();
+  translateDove(5, 0);
+  clampXPosition();
 }
