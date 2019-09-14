@@ -17,8 +17,8 @@ let squareSize = 100;
 
 // The dove image's attribute
 let doveImg;
-let doveXPosition;
-let doveYPosition;
+let doveXPosition = 0;
+let doveYPosition = 0;
 
 // preload()
 //
@@ -51,9 +51,9 @@ function setup() {
   rectMode(CENTER);
   // We won't have a stroke in this
   noStroke();
-
+  // Positions the image of the dove on the top left of the canvas
+  image(doveImg, 0, 0, 100, 100);
 }
-
 
 // draw()
 //
@@ -79,11 +79,11 @@ function draw() {
   // Display the square
   rect(squareX,squareY,squareSize,squareSize);
 
-  /* Positions the dove image on the left side of the canvas
+  // Positions the dove image on the left side of the canvas
   image(doveImg, doveXPosition += 5, 0, 100, 100);
-  if(doveXPosition >= 640) // Resets the position of the image if goes beyond canvas (looping effect)
+  // Resets the position of the image to x=0 if x > the canvas's X position (looping effect)
+  if(doveXPosition >= 640)
   {
     doveXPosition = 0;
   }
-  */
 }
