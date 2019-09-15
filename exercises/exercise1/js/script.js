@@ -1,11 +1,14 @@
 "use strict";
 /**
-  Exercise 1 - Movement
-  Sylvain Tran - CART 253 - Section A - Student ID: 26651550
+  Title: Exercise 1 - Movement
+  Author: Sylvain Tran - CART 253 - Section A - Student ID: 26651550
+  Date: 2019-09-14.
 
-  Customized code for Exercise 1.
-  Draws a moving circle, square, two doves and a musical clef under mouse location.
-  Added classes to remember some past stuff...
+  Goal of the program:
+    Customized sketch code in p5.js for Exercise 1.
+    Draws a moving circle, square, two moving doves and a musical clef under mouse location.
+    I added classes to remember some past stuff about polymorphism and inheritance...
+    Would be useful if I had cooler ideas about what to do with this.
 
 */
 
@@ -15,43 +18,43 @@ let circleSize = 100;
 // The current size of the square. Change here.
 let squareSize = 100;
 
-// The dove image's attributes
+// The dove image's attributes.
 let doveImg;
 let doveXPosition = 0;
 let doveYPosition = 0;
 let doveWidth = 100;
 let doveHeight = 100;
 
-// Iterator alpha value and visibility threshold (alpha transparency)
+// Iterator alpha value and visibility threshold (alpha transparency).
 let alpha = 0;
 let VISIBLE = 50;
 
-// The musical clef image's attributes
+// The musical clef image's attributes.
 let clefImg;
 let clefXPosition = 0;
 let clefYPosition = 0;
 let clefWidth = 100;
 let clefHeight = 100;
 
-// The fireworks image's attributes
+// The fireworks image's attributes.
 let fireworksImg;
 let fireworksXPosition = 0;
 let fireworksYPosition = 0;
 let fireworksWidth = 100;
 let fireworksHeight = 100;
 
-// Optional challenge: Sine curve attributes
-let curveX = 0; // X value on the period
-let xSpacing = 10; // Distance between each horizontal location
-let waveWidth; // width of entire wave
-let theta = 0.0; // Start angle at 0
-let amplitude = 150; // Height of wave
-let period = 320; // How many pixels before the wave repeats
-let increment = 0; // Value for incrementing sine function's domain values
-let periodYValues = []; // An array to store the Y values of the sine function
+// Optional challenge: Sine curve attributes.
+let curveX = 0; // X value on the period.
+let xSpacing = 10; // Distance between each horizontal location.
+let waveWidth; // width of entire wave.
+let theta = 0.0; // Start angle at 0.
+let amplitude = 150; // Height of wave.
+let period = 320; // How many pixels before the wave repeats.
+let increment = 0; // Value for incrementing sine function's domain values.
+let periodYValues = []; // An array to store the Y values of the sine function.
 
 /**
-  The base class to be inherited from, for custom shapes
+  The base class to be inherited from, for the custom shapes
   used in this exercise.
 
 */
@@ -63,11 +66,11 @@ class CustomShape{
     this.shapeWidth = w;
     this.shapeHeight = h;
   }
-  // Abstract function to be overriden; should return the type
+  // Abstract function to be overriden; should return the type.
   getType(){
     console.log("Needs an override");
   }
-  // Accessors and mutators
+  // Accessors and mutators.
   getXPos(){
     return console.log("X Pos of this shape: " + this.xPos);
   }
@@ -93,8 +96,8 @@ class CustomShape{
 
   */
   setupCoordinates(){
-    // Start the circle off screen to the bottom left
-    // We divide the size by two because we're drawing from the center
+    // Start the circle off screen to the bottom left.
+    // We divide the size by two because we're drawing from the center.
     this.xPos = -circleSize / 2;
     this.yPos = height + circleSize / 2;
   }
@@ -103,8 +106,7 @@ class CustomShape{
 class Ellipse extends CustomShape{
   constructor(x, y, w, h){
     super(x, y, w, h);
-    console.log("constructing the ellipse");
-    console.log("xPos: " + this.xPos);
+    console.log("Constructing the ellipse. Welcome to mayhem!");
   }
 
   /**
@@ -120,7 +122,6 @@ class Ellipse extends CustomShape{
 
   */
   displayEllipse(r, g, b, alpha, width, height){
-    console.log("displaying ellipse");
     fill(r, g, b, alpha);
     ellipse(this.xPos, this.yPos, width, height);
   }
@@ -130,7 +131,6 @@ class Ellipse extends CustomShape{
 
   */
   translateEllipse(valueX, valueY){
-    console.log("translating ellipse");
     this.xPos += valueX;
     this.yPos -= valueY;
   }
@@ -138,6 +138,7 @@ class Ellipse extends CustomShape{
 class Square extends CustomShape{
   constructor(x, y, w, h){
     super(x, y, w, h);
+    console.log("Constructing the square. Ah, yes--I am indeed a higher life form.");
   }
 
   /**
@@ -149,7 +150,7 @@ class Square extends CustomShape{
   }
 
   /**
-    Override function. Setups the coordinates for the square shape.
+    Overriden function. Setups the coordinates for the square shape.
 
   */
   setupCoordinates(){
@@ -173,16 +174,22 @@ class Square extends CustomShape{
 }
 
 /**
-  Setups the mode and stroke settings for the shapes.
+  Setups the mode and stroke settings for the shapes,
+  the sine curve motion (width of screen),
+  the value of incrementation,
+  and the array storing the Y value of the images.
 
 */
-function setupShapeSettings(){
+function shapeSettings(){
   rectMode(CENTER);
   noStroke();
+  waveWidth = width;
+  increment = (TWO_PI / period) * xSpacing;
+  periodYValues = new Array( floor(waveWidth / xSpacing) );
 }
 
 /**
-  Preload the dove, clef and fireworks images.
+  Preloads the dove, clef and fireworks images.
 
 */
 function preload() {
@@ -203,21 +210,12 @@ function setup(){
   createCanvas(640, 640);
   profsRedEllipse.setupCoordinates();
   profsBlueSquare.setupCoordinates();
-  setupShapeSettings();
-  // Positions the image of the dove on the top left of the canvas
-  image(doveImg, 0, 0, 100, 100);
-
-  // Setting up the sine curve motion (width of screen)
-  // Value of incrementation
-  // Array storing the Y value of the images
-  waveWidth = width;
-  increment = (TWO_PI / period) * xSpacing;
-  periodYValues = new Array( floor(waveWidth / xSpacing) );
+  shapeSettings();
 }
 
 function translateDove(valueX, valueY, alpha){
-  // Positions the dove image on the left side of the canvas
-  // Draws a transparent rectangle to erase the trail a little bit
+  // Positions the dove image on the left side of the canvas.
+  // Draws a transparent rectangle to erase the trail a little bit.
   image(doveImg, doveXPosition += valueX, valueY, doveWidth, doveHeight, alpha);
   fill(255, alpha);
   rect(doveXPosition, valueY, doveWidth, doveHeight * 2);
@@ -239,7 +237,7 @@ function displayImgAtMouse(img, width, height){
 
 */
 function clampXPosition(){
-  // Resets the position of the image to x=0 if x > the canvas's X position (looping effect)
+  // Resets the position of the image to x = 0 if x > the canvas's X position (creates a looping effect).
   if(doveXPosition >= 640)
   {
     doveXPosition = 0;
@@ -281,12 +279,12 @@ function renderWave() {
 }
 
 /**
-  Draw function-called shapes on each frame.
+  Main (update) function. Draw function-called shapes on each frame.
 
 */
 function draw() {
-  // We don't fill the background so we get a drawing effect
-  // Displays the ellipse and square
+  // We don't fill the background so we get a drawing effect.
+  // Displays the ellipse and square.
   profsRedEllipse.displayEllipse(255, 0, 0, 10, circleSize, circleSize);
   profsRedEllipse.translateEllipse(1, 1);
 
@@ -299,19 +297,19 @@ function draw() {
   //profsBlueSquare.getXPos();
   //profsBlueSquare.getYPos();
 
-  //wing flapping effect using the alpha property
+  // Creates a wing flapping effect by incrementing the alpha property.
   translateDove(5, 0, alpha += 25);
 
-  //reset the alpha when it is beyond visibility
+  // Resets the alpha when it is beyond visibility.
   if(alpha > VISIBLE) alpha = 0;
 
-  //reset the position of the dove image if it is offscreen
+  // Resets the position of the dove image if it is offscreen.
   clampXPosition();
 
-  //display clef image at mouse location
+  // Displays clef image at mouse location.
   displayImgAtMouse(clefImg, 100, 100);
 
-  // Dove moving according to a sine function
+  // Makes dove image move according to a sine function.
   calcWave();
   renderWave();
 }
