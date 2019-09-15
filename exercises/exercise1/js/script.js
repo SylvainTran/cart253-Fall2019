@@ -36,13 +36,6 @@ let clefYPosition = 0;
 let clefWidth = 100;
 let clefHeight = 100;
 
-// The fireworks image's attributes.
-let fireworksImg;
-let fireworksXPosition = 0;
-let fireworksYPosition = 0;
-let fireworksWidth = 100;
-let fireworksHeight = 100;
-
 // Optional challenge: Sine curve attributes.
 let curveX = 0; // X value on the period.
 let xSpacing = 10; // Distance between each horizontal location.
@@ -59,7 +52,7 @@ let periodYValues = []; // An array to store the Y values of the sine function.
 
 */
 class CustomShape{
-  // Explicit constructor
+  // Explicit constructor.
   constructor(x, y, w, h){
     this.xPos = x;
     this.yPos = y;
@@ -127,7 +120,7 @@ class Ellipse extends CustomShape{
   }
 
   /**
-    Move circle up and to the right.
+    Moves circle up and to the right.
 
   */
   translateEllipse(valueX, valueY){
@@ -154,7 +147,7 @@ class Square extends CustomShape{
 
   */
   setupCoordinates(){
-    // Start the circle and square off screen to the bottom left
+    // Starts the circle and square off screen to the bottom left
     // We divide their size by two because we're drawing from the center
     this.xPos = width + squareSize / 2;
     this.yPos = height + squareSize / 2;
@@ -189,13 +182,12 @@ function shapeSettings(){
 }
 
 /**
-  Preloads the dove, clef and fireworks images.
+  Preloads the dove and clef images.
 
 */
 function preload() {
   doveImg = loadImage('./assets/images/dove.png');
   clefImg = loadImage('./assets/images/clef.png');
-  fireworksImg = loadImage('./assets/images/fireworks.jpg');
 }
 
 /**
@@ -213,7 +205,7 @@ function setup(){
   shapeSettings();
 }
 
-function translateDove(valueX, valueY, alpha){
+function translateImg(valueX, valueY, alpha){
   // Positions the dove image on the left side of the canvas.
   // Draws a transparent rectangle to erase the trail a little bit.
   image(doveImg, doveXPosition += valueX, valueY, doveWidth, doveHeight, alpha);
@@ -298,7 +290,7 @@ function draw() {
   //profsBlueSquare.getYPos();
 
   // Creates a wing flapping effect by incrementing the alpha property.
-  translateDove(5, 0, alpha += 25);
+  translateImg(5, 0, alpha += 25);
 
   // Resets the alpha when it is beyond visibility.
   if(alpha > VISIBLE) alpha = 0;
