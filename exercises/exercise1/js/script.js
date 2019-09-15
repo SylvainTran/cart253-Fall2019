@@ -5,16 +5,14 @@
 
   Customized code for Exercise 1.
   Draws a moving circle, square, two doves and a musical clef under mouse location.
+  Added classes to remember some past stuff...
+
 */
 
-// The current position and size of the circle
-let circleX = 0;
-let circleY = 0;
+// The current size of the circle. Change here.
 let circleSize = 100;
 
-// The current position and size of the square
-let squareX = 0;
-let squareY = 0;
+// The current size of the square. Change here.
 let squareSize = 100;
 
 // The dove image's attributes
@@ -24,7 +22,7 @@ let doveYPosition = 0;
 let doveWidth = 100;
 let doveHeight = 100;
 
-// Visibility (alpha transparency)
+// Iterator alpha value and visibility threshold (alpha transparency)
 let alpha = 0;
 let VISIBLE = 50;
 
@@ -58,51 +56,129 @@ let periodYValues = []; // An array to store the Y values of the sine function
 
 */
 class CustomShape{
-  xPos = 0;
-  yPos = 0;
-  width = 100;
-  height = 100;
-
+  // Explicit constructor
   constructor(x, y, w, h){
     this.xPos = x;
     this.yPos = y;
-    this.width = w;
-    this.height = h;
+    this.shapeWidth = w;
+    this.shapeHeight = h;
+  }
+  // Abstract function to be overriden; should return the type
+  getType(){
+    console.log("Needs an override");
+  }
+  // Accessors and mutators
+  getXPos(){
+    return console.log("X Pos of this shape: " + this.xPos);
   }
 
-  //Accessors and mutators
-  getWidth(){
-    return this.width;
-  }
-
-  getHeight(){
-    return this.height;
+  getYPos(){
+    return console.log("Y Pos of this shape: " + this.yPos);
   }
 
   setWidth(newWidth){
     if(newWidth > 0){
-      width = this.newWidth;
+      this.shapeWidth = newWidth;
     }
   }
 
   setHeight(newHeight){
     if(newHeight > 0){
-      height = this.newHeight;
+      this.shapeHeight = newHeight;
     }
+  }
+
+  /**
+    Setups starting position for the circle shape.
+
+  */
+  setupCoordinates(){
+    // Start the circle off screen to the bottom left
+    // We divide the size by two because we're drawing from the center
+    this.xPos = -circleSize / 2;
+    this.yPos = height + circleSize / 2;
   }
 }
 
 class Ellipse extends CustomShape{
   constructor(x, y, w, h){
     super(x, y, w, h);
+    console.log("constructing the ellipse");
+    console.log("xPos: " + this.xPos);
   }
 
+  /**
+   Returns the name of this shape.
+
+  */
+  getType(){
+    return "Ellipse";
+  }
+
+  /**
+    Displays an ellipse with a fill color and size.
+
+  */
+  displayEllipse(r, g, b, alpha, width, height){
+    console.log("displaying ellipse");
+    fill(r, g, b, alpha);
+    ellipse(this.xPos, this.yPos, width, height);
+  }
+
+  /**
+    Move circle up and to the right.
+
+  */
+  translateEllipse(valueX, valueY){
+    console.log("translating ellipse");
+    this.xPos += valueX;
+    this.yPos -= valueY;
+  }
 }
 class Square extends CustomShape{
   constructor(x, y, w, h){
     super(x, y, w, h);
   }
 
+  /**
+   Returns the name of this shape.
+
+  */
+  getType(){
+    return "Square";
+  }
+
+  /**
+    Override function. Setups the coordinates for the square shape.
+
+  */
+  setupCoordinates(){
+    // Start the circle and square off screen to the bottom left
+    // We divide their size by two because we're drawing from the center
+    this.xPos = width + squareSize / 2;
+    this.yPos = height + squareSize / 2;
+  }
+
+  displaySquare(r, g, b, alpha, width, height){
+    // Make the square transparent blue
+    fill(r, g, b, alpha, width, height);
+    rect(this.xPos, this.yPos, width, height);
+  }
+
+  translateSquare(valueX, valueY){
+    // Move square up and to the left
+    this.xPos -= valueX;
+    this.yPos -= valueY;
+  }
+}
+
+/**
+  Setups the mode and stroke settings for the shapes.
+
+*/
+function setupShapeSettings(){
+  rectMode(CENTER);
+  noStroke();
 }
 
 /**
@@ -116,34 +192,17 @@ function preload() {
 }
 
 /**
-  Setups the coordinates for the circle and square shapes.
-
-*/
-function setupCoordinates(){
-  // Start the circle and square off screen to the bottom left
-  // We divide their size by two because we're drawing from the center
-  circleX = -circleSize/2;
-  circleY = height + circleSize/2;
-  squareX = width + squareSize/2;
-  squareY = height + squareSize/2;
-}
-
-/**
-  Setups the mode and stroke settings for the shapes.
-
-*/
-function setupShapeSettings(){
-  rectMode(CENTER);
-  noStroke();
-}
-
-/**
   Setups the basic canvas state: coordinates and settings for the shapes plus the dove image.
 
 */
+// Practice: Classes, polymorphism and inheritance.
+let profsRedEllipse = new Ellipse(0, 0, circleSize, circleSize);
+let profsBlueSquare = new Square(0, 0, 255, 10, squareSize, squareSize);
+
 function setup(){
-  createCanvas(640,640);
-  setupCoordinates();
+  createCanvas(640, 640);
+  profsRedEllipse.setupCoordinates();
+  profsBlueSquare.setupCoordinates();
   setupShapeSettings();
   // Positions the image of the dove on the top left of the canvas
   image(doveImg, 0, 0, 100, 100);
@@ -153,23 +212,7 @@ function setup(){
   // Array storing the Y value of the images
   waveWidth = width;
   increment = (TWO_PI / period) * xSpacing;
-  periodYValues = new Array(floor(waveWidth / xSpacing));
-}
-
-/**
-  Increments the shape's (X, Y) attributes.
-
-*/
-function translateCircle(valueX, valueY){
-  // Move circle up and to the right
-  circleX += valueX;
-  circleY -= valueY;
-}
-
-function translateSquare(valueX, valueY){
-  // Move square up and to the left
-  squareX -= valueX;
-  squareY -= valueY;
+  periodYValues = new Array( floor(waveWidth / xSpacing) );
 }
 
 function translateDove(valueX, valueY, alpha){
@@ -178,21 +221,6 @@ function translateDove(valueX, valueY, alpha){
   image(doveImg, doveXPosition += valueX, valueY, doveWidth, doveHeight, alpha);
   fill(255, alpha);
   rect(doveXPosition, valueY, doveWidth, doveHeight * 2);
-}
-
-/**
-  Functions prefixed "display" are to display each shape with a fill color and size.
-
-*/
-function displayCircle(r, g, b, alpha, width, height){
-  fill(r, g, b, alpha);
-  ellipse(circleX, circleY, width, height);
-}
-
-function displaySquare(r, g, b, alpha, width, height){
-  // Make the square transparent blue
-  fill(r, g, b, alpha, width, height);
-  rect(squareX, squareY, squareSize, squareSize);
 }
 
 /**
@@ -254,14 +282,22 @@ function renderWave() {
 
 /**
   Draw function-called shapes on each frame.
+
 */
 function draw() {
   // We don't fill the background so we get a drawing effect
-  //display shapes
-  translateCircle(1, 1);
-  displayCircle(255, 0, 0, 10, circleSize, circleSize);
-  translateSquare(1, 1);
-  displaySquare(0, 0, 255, 10, squareSize, squareSize);
+  // Displays the ellipse and square
+  profsRedEllipse.displayEllipse(255, 0, 0, 10, circleSize, circleSize);
+  profsRedEllipse.translateEllipse(1, 1);
+
+  //profsRedEllipse.getXPos();
+  //profsRedEllipse.getYPos();
+
+  profsBlueSquare.displaySquare(0, 0, 255, 10, squareSize, squareSize);
+  profsBlueSquare.translateSquare(1, 1);
+
+  //profsBlueSquare.getXPos();
+  //profsBlueSquare.getYPos();
 
   //wing flapping effect using the alpha property
   translateDove(5, 0, alpha += 25);
