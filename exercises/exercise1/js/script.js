@@ -51,7 +51,7 @@ let periodYValues = []; // An array to store the Y values of the sine function.
   used in this exercise.
 
 */
-class CustomShape{
+class GeometricalFigure{
   // Explicit constructor.
   constructor(x, y, w, h){
     this.xPos = x;
@@ -96,7 +96,7 @@ class CustomShape{
   }
 }
 
-class Ellipse extends CustomShape{
+class Ellipse extends GeometricalFigure{
   constructor(x, y, w, h){
     super(x, y, w, h);
     console.log("Constructing the ellipse. Welcome to mayhem!");
@@ -128,7 +128,7 @@ class Ellipse extends CustomShape{
     this.yPos -= valueY;
   }
 }
-class Square extends CustomShape{
+class Square extends GeometricalFigure{
   constructor(x, y, w, h){
     super(x, y, w, h);
     console.log("Constructing the square. Ah, yes--I am indeed a higher life form.");
