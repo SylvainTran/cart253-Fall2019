@@ -13,8 +13,9 @@ let speed = 0.005;
 let ax = 0.25;
 let ay = 0.25;
 
+
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(1280, 780);
   x = width / 2;
   y = height / 2;
 }
@@ -27,19 +28,10 @@ function draw() {
   y += vy;
 
   ellipse(x += vx * speed, y += vy, 50, 50);
+}
 
-  if( x > width || x > height ){
-    x = width / 2;
-    fill(255);
-    rect( (width / 2), height / 2, 50, 50);
-  }
+function mousePressed(){
+  ellipse(width / 2, height / 2, 250, 250);
+  background(255);
 
-  if(mouseX > width / 2)
-  {
-    background(0);
-  }
-  else
-  {
-    background(255);
-  }
 }
