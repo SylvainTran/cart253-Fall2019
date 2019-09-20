@@ -56,6 +56,11 @@ function setup() {
 function draw() {
   // A pink background
   background(255,220,220);
+  
+  fill(0);
+  textFont('Arial');
+  textSize(28);
+  text(dodges + " DODGED!", 0, 15);
 
   // Default the avatar's velocity to 0 in case no key is pressed this frame
   avatarVX = 0;
@@ -122,10 +127,10 @@ function draw() {
     // This means the player dodged so update its dodge statistic
     dodges = dodges + 1;
     // Tell them how many dodges they have made
-    console.log(dodges + " DODGES!");
+    text(dodges + " DODGES!");
     // Reset the enemy's position to the left at a random height
     enemyX = 0;
-    enemyY = random(0,height);
+    enemyY = random(0,height);    
   }
 
   // Display the number of successful dodges in the console
