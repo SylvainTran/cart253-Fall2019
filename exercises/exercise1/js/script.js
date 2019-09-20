@@ -28,7 +28,7 @@ let doveHeight = 100;
 
 // Iterator alpha value and visibility threshold (alpha transparency).
 let alpha = 0;
-let VISIBLE = 50;
+const VISIBLE = 50;
 
 // The musical clef image's attributes.
 let clefImg;
@@ -281,14 +281,8 @@ function draw() {
   profsRedEllipse.displayEllipse(255, 0, 0, 10, circleSize, circleSize);
   profsRedEllipse.translateEllipse(1, 1);
 
-  //profsRedEllipse.getXPos();
-  //profsRedEllipse.getYPos();
-
   profsBlueSquare.displaySquare(0, 0, 255, 10, squareSize, squareSize);
   profsBlueSquare.translateSquare(1, 1);
-
-  //profsBlueSquare.getXPos();
-  //profsBlueSquare.getYPos();
 
   // Creates a wing flapping effect by incrementing the alpha property.
   translateImg(5, 0, alpha += 25);
