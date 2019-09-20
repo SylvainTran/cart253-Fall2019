@@ -1,4 +1,5 @@
 "use strict";
+
 /**
   Title: Exercise 1 - Movement
   Author: Sylvain Tran - CART 253 - Section A - Student ID: 26651550
