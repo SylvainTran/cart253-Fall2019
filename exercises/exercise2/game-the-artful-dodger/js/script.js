@@ -22,6 +22,7 @@ let avatarVY = 0;
 let enemyX;
 let enemyY;
 let enemySize = 50;
+let enemyAvatar;
 
 // The speed and velocity of our enemy circle
 let enemySpeed = 5;
@@ -29,6 +30,12 @@ let enemyVX = 5;
 
 // How many dodges the player has made
 let dodges = 0;
+let bg;
+
+function preload() {
+  enemyAvatar = loadImage('assets/sadcucumber.jpg');
+  bg = loadImage('assets/classroom.jpg');
+}
 
 // setup()
 //
@@ -126,11 +133,15 @@ function draw() {
   if (enemyX > width) {
     // This means the player dodged so update its dodge statistic
     dodges = dodges + 1;
-    // Tell them how many dodges they have made
-    text(dodges + " DODGES!");
+ 
+    //Increase enemy size
+    enemySize += 20; 
+    console.log("Enemy size = " + enemySize);
+
     // Reset the enemy's position to the left at a random height
     enemyX = 0;
     enemyY = random(0,height);    
+
   }
 
   // Display the number of successful dodges in the console
