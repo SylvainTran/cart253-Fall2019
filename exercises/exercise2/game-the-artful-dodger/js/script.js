@@ -18,23 +18,24 @@ let avatarSpeed = 10;
 let avatarVX = 0;
 let avatarVY = 0;
 
-// The position and size of the enemy circle
-let enemyX;
-let enemyY;
-let enemySize = 50;
-let enemyAvatar;
+// The position and size of the sheep circles
+let sheeps = [];
+let sheepX;
+let sheepY;
+let sheepSize = 50;
+let sheepAvatar;
 
-// The speed and velocity of our enemy circle
-let enemySpeed = 5;
-let enemyVX = 5;
+// The speed and velocity of our sheep circle
+let sheepSpeed = 5;
+let sheepVX = 5;
 
 // How many dodges the player has made
 let dodges = 0;
 let bg;
 
 function preload() {
-  enemyAvatar = loadImage('assets/sadcucumber.jpg');
-  bg = loadImage('assets/classroom.jpg');
+  //sheepAvatar = loadImage('assets/sadcucumber.jpg');
+  bg = loadImage('images/desertbg.jpg');
 }
 
 // setup()
@@ -42,15 +43,15 @@ function preload() {
 // Make the canvas, position the avatar and anemy
 function setup() {
   // Create our playing area
-  createCanvas(500,500);
+  createCanvas(500, 500);
 
   // Put the avatar in the centre
   avatarX = width/2;
   avatarY = height/2;
 
-  // Put the enemy to the left at a random y coordinate within the canvas
-  enemyX = 0;
-  enemyY = random(0,height);
+  // Put the sheep to the left at a random y coordinate within the canvas
+  sheepX = 0;
+  sheepY = random(0,height);
 
   // No stroke so it looks cleaner
   noStroke();
@@ -58,7 +59,7 @@ function setup() {
 
 // draw()
 //
-// Handle moving the avatar and enemy and checking for dodges and
+// Handle moving the avatar and sheep and checking for dodges and
 // game over situations.
 function draw() {
   // A pink background
@@ -67,7 +68,7 @@ function draw() {
   fill(0);
   textFont('Arial');
   textSize(28);
-  text(dodges + " DODGED!", 0, 15);
+  text(dodges + " DODGED!", 0, 25);
 
   // Default the avatar's velocity to 0 in case no key is pressed this frame
   avatarVX = 0;
@@ -79,6 +80,7 @@ function draw() {
   // Left and right
   if (keyIsDown(LEFT_ARROW)) {
     avatarVX = -avatarSpeed;
+
   }
   else if (keyIsDown(RIGHT_ARROW)) {
     avatarVX = avatarSpeed;
@@ -97,20 +99,20 @@ function draw() {
   avatarX = avatarX + avatarVX;
   avatarY = avatarY + avatarVY;
 
-  // The enemy always moves at enemySpeed
-  enemyVX = enemySpeed;
-  // Update the enemy's position based on its velocity
-  enemyX = enemyX + enemyVX;
+  // The sheep always moves at sheepSpeed
+  sheepVX = sheepSpeed;
+  // Update the sheep's position based on its velocity
+  sheepX = sheepX + sheepVX;
 
-  // Check if the enemy and avatar overlap - if they do the player loses
-  // We do this by checking if the distance between the centre of the enemy
+  // Check if the sheep and avatar overlap - if they do the player loses
+  // We do this by checking if the distance between the centre of the sheep
   // and the centre of the avatar is less that their combined radii
-  if (dist(enemyX,enemyY,avatarX,avatarY) < enemySize/2 + avatarSize/2) {
+  if (dist(sheepX,sheepY,avatarX,avatarY) < sheepSize/2 + avatarSize/2) {
     // Tell the player they lost
     console.log("YOU LOSE!");
-    // Reset the enemy's position
-    enemyX = 0;
-    enemyY = random(0,height);
+    // Reset the sheep's position
+    sheepX = 0;
+    sheepY = random(0,height);
     // Reset the avatar's position
     avatarX = width/2;
     avatarY = height/2;
@@ -122,25 +124,25 @@ function draw() {
   if (avatarX < 0 || avatarX > width || avatarY < 0 || avatarY > height) {
     // If they went off the screen they lose in the same way as above.
     console.log("YOU LOSE!");
-    enemyX = 0;
-    enemyY = random(0,height);
+    sheepX = 0;
+    sheepY = random(0,height);
     avatarX = width/2;
     avatarY = height/2;
     dodges = 0;
   }
 
-  // Check if the enemy has moved all the way across the screen
-  if (enemyX > width) {
+  // Check if the sheep has moved all the way across the screen
+  if (sheepX > width) {
     // This means the player dodged so update its dodge statistic
     dodges = dodges + 1;
  
-    //Increase enemy size
-    enemySize += 20; 
-    console.log("Enemy size = " + enemySize);
+    //Increase sheep size
+    sheepSize += 20; 
+    console.log("sheep size = " + sheepSize);
 
-    // Reset the enemy's position to the left at a random height
-    enemyX = 0;
-    enemyY = random(0,height);    
+    // Reset the sheep's position to the left at a random height
+    sheepX = 0;
+    sheepY = random(0,height);    
 
   }
 
@@ -152,9 +154,9 @@ function draw() {
   // Draw the player as a circle
   ellipse(avatarX,avatarY,avatarSize,avatarSize);
 
-  // The enemy is red
+  // The sheep is red
   fill(255,0,0);
-  // Draw the enemy as a circle
-  ellipse(enemyX,enemyY,enemySize,enemySize);
+  // Draw the sheep as a circle
+  ellipse(sheepX,sheepY,sheepSize,sheepSize);
 
 }
