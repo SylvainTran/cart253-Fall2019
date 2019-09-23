@@ -22,9 +22,7 @@ let avatarVY = 0;
 let sheeps = [99];
 let sheepX;
 let sheepY;
-let sheepW = 64;
-let sheepH = 64;
-let sheepSize = 50;
+let sheepSize = 64;
 let sheepAvatar;
 let testSheep1;
 
@@ -100,22 +98,21 @@ class Sheep extends GeometricalFigure{
 
   */
   displaySheep(sheepAvatar, sheepX, width, height){
-    image(sheepAvatar, sheepX, random(0, height), width, height);
+    image(sheepAvatar, sheepX, sheepY, width, height);
   }
 
   /**
     Moves sheep up and to the right.
 
   */
-  translateSheep(valueX, valueY){
+  translateSheep(valueX){
     this.xPos += valueX;
-    this.yPos -= valueY;
-  }
+   }
 }
 
 function preload() {
   sheepAvatar = loadImage('./images/singleSheep.png');
-  bg = loadImage('./images/desertbg.jpg');
+  bg = loadImage('./images/desertbgFull.jpg');
 }
 
 // setup()
@@ -146,11 +143,11 @@ function setup() {
 // game over situations.
 function draw() {
   // A pink background
-  background(255,220,220);
+  background(bg);
 
-  testSheep1 = new Sheep(sheepX, sheepY, sheepW, sheepH);  
-  testSheep1.displaySheep(sheepAvatar, sheepX, sheepW, sheepH);
-  testSheep1.translateSheep(sheepX += 1, 0);
+  testSheep1 = new Sheep(sheepX, sheepY, sheepSize, sheepSize);  
+  testSheep1.displaySheep(sheepAvatar, sheepX, sheepSize, sheepSize);
+  testSheep1.translateSheep(sheepX += 10);
 
   fill(0);
   textFont('Arial');
@@ -235,7 +232,7 @@ function draw() {
     dodges = dodges + 1;
  
     //Increase sheep size
-    sheepSize += 20; 
+    sheepSize += 5; 
     console.log("sheep size = " + sheepSize);
 
     // Reset the sheep's position to the left at a random height
