@@ -18,12 +18,15 @@ let avatarSpeed = 10;
 let avatarVX = 0;
 let avatarVY = 0;
 
-// The position and size of the sheep circles
-let sheeps = [];
+// The position and size of the sheeps
+let sheeps = [99];
 let sheepX;
 let sheepY;
+let sheepW = 64;
+let sheepH = 64;
 let sheepSize = 50;
 let sheepAvatar;
+let testSheep1;
 
 // The speed and velocity of our sheep circle
 let sheepSpeed = 5;
@@ -33,9 +36,86 @@ let sheepVX = 5;
 let dodges = 0;
 let bg;
 
+class GeometricalFigure{
+  // Explicit constructor.
+  constructor(x, y, w, h){
+    this.xPos = x;
+    this.yPos = y;
+    this.shapeWidth = w;
+    this.shapeHeight = h;
+  }
+  // Abstract function to be overriden; should return the type.
+  getType(){
+    console.log("Needs an override");
+  }
+  // Accessors and mutators.
+  getXPos(){
+    return console.log("X Pos of this shape: " + this.xPos);
+  }
+
+  getYPos(){
+    return console.log("Y Pos of this shape: " + this.yPos);
+  }
+
+  setWidth(newWidth){
+    if(newWidth > 0){
+      this.shapeWidth = newWidth;
+    }
+  }
+
+  setHeight(newHeight){
+    if(newHeight > 0){
+      this.shapeHeight = newHeight;
+    }
+  }
+
+  /**
+    Setups starting position for the geometrical shape.
+
+  */
+  setupCoordinates(){
+    // Start the circle off screen to the bottom left.
+    // We divide the size by two because we're drawing from the center.
+    this.xPos = -circleSize / 2;
+    this.yPos = height + circleSize / 2;
+  }
+}
+
+class Sheep extends GeometricalFigure{
+  constructor(x, y, w, h){
+    super(x, y, w, h);
+    console.log("Constructing the sheep. Welcome to mayhem!");
+  }
+
+  /**
+   Returns the name of this shape.
+
+  */
+  getType(){
+    return "Sheep";
+  }
+
+  /**
+    Displays a sheep avatar.
+
+  */
+  displaySheep(sheepAvatar, sheepX, width, height){
+    image(sheepAvatar, sheepX, random(0, height), width, height);
+  }
+
+  /**
+    Moves sheep up and to the right.
+
+  */
+  translateSheep(valueX, valueY){
+    this.xPos += valueX;
+    this.yPos -= valueY;
+  }
+}
+
 function preload() {
-  //sheepAvatar = loadImage('assets/sadcucumber.jpg');
-  bg = loadImage('images/desertbg.jpg');
+  sheepAvatar = loadImage('./images/singleSheep.png');
+  bg = loadImage('./images/desertbg.jpg');
 }
 
 // setup()
@@ -44,14 +124,17 @@ function preload() {
 function setup() {
   // Create our playing area
   createCanvas(500, 500);
-
+  if (sheepAvatar === null) 
+  {
+    alert('no pic found');
+  }
   // Put the avatar in the centre
   avatarX = width/2;
   avatarY = height/2;
 
   // Put the sheep to the left at a random y coordinate within the canvas
   sheepX = 0;
-  sheepY = random(0,height);
+  sheepY = random(0, height);
 
   // No stroke so it looks cleaner
   noStroke();
@@ -64,11 +147,23 @@ function setup() {
 function draw() {
   // A pink background
   background(255,220,220);
-  
+
+  testSheep1 = new Sheep(sheepX, sheepY, sheepW, sheepH);  
+  testSheep1.displaySheep(sheepAvatar, sheepX, sheepW, sheepH);
+  testSheep1.translateSheep(sheepX += 1, 0);
+
   fill(0);
   textFont('Arial');
   textSize(28);
   text(dodges + " DODGED!", 0, 25);
+
+  /* Fills the sheep pen (array)
+  for(let i = 0; i < 99; i++)
+  {
+    //sheeps[i] = createImage(sheepAvatar, sheepX, random(0, height), 75, 75);
+    //console.log("new sheep " + i);
+  }
+  */
 
   // Default the avatar's velocity to 0 in case no key is pressed this frame
   avatarVX = 0;
@@ -102,8 +197,11 @@ function draw() {
   // The sheep always moves at sheepSpeed
   sheepVX = sheepSpeed;
   // Update the sheep's position based on its velocity
-  sheepX = sheepX + sheepVX;
 
+  /*for(sheep in sheeps)  {
+    sheepX = sheepX + sheepVX;
+  }
+  */
   // Check if the sheep and avatar overlap - if they do the player loses
   // We do this by checking if the distance between the centre of the sheep
   // and the centre of the avatar is less that their combined radii
@@ -153,10 +251,4 @@ function draw() {
   fill(0);
   // Draw the player as a circle
   ellipse(avatarX,avatarY,avatarSize,avatarSize);
-
-  // The sheep is red
-  fill(255,0,0);
-  // Draw the sheep as a circle
-  ellipse(sheepX,sheepY,sheepSize,sheepSize);
-
 }
