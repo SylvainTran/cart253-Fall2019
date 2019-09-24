@@ -5,13 +5,18 @@ In this case it's just padding and margin to 0
 so the canvas is flush with the top left corner.
 
 **********************************************/
-
+body{
+  background-color: black;
+}
 h1 {
   text-align: center;
+  color: white;
+  font-family: 'Fredericka the Great', cursive;
 }
 
 #gameMenu button{
   margin-left: 45%;
+  font-family: 'Forum', cursive;
 }
 
 #sketchDiv{

@@ -145,16 +145,34 @@ class Sheep extends GeometricalFigure{
 
   */
   displayRandomName(currentSheepX, currentSheepY){
-  text(this.sheepFirstName + " " + this.sheepLastName, currentSheepX, currentSheepY);
-
-  
+  text(this.sheepFirstName + " " + this.sheepLastName, currentSheepX, currentSheepY);  
  }
+
+  /**
+    Displays a random name for the newly born sheep.
+
+  */
+ displayHistory(parentNode){   
+   let lineSpacing = 15;
+    text(this.sheepEmail, parentNode.x, parentNode.y);
+    text(this.sheepGender, parentNode.x, parentNode.y + lineSpacing );
+    text(this.sheepIPAddress, parentNode.x, parentNode.y + lineSpacing);
+    text(this.sheepDrug, parentNode.x, parentNode.y + lineSpacing);
+    text(this.sheepCompany, parentNode.x, parentNode.y + lineSpacing);
+    text(this.sheepJobTitle, parentNode.x, parentNode.y + lineSpacing);
+    text(this.sheepLanguage, parentNode.x, parentNode.y + lineSpacing);
+    text(this.sheepPhone, parentNode.x, parentNode.y + lineSpacing);
+    text(this.sheepEthnicity, parentNode.x, parentNode.y + lineSpacing);
+    text(this.sheepShirtSize, parentNode.x, parentNode.y + lineSpacing);  
+    text(this.sheepICD10Diag, parentNode.x, parentNode.y + lineSpacing);  
+    text(this.sheepCreditCard, parentNode.x, parentNode.y + lineSpacing); 
+  }
 }
 
 class BadShepherdAvatar extends GeometricalFigure{
   constructor(x, y, w, h){
     super(x, y, w, h);
-    console.log("One more bad shepherd. Woe!");
+    console.log("Woe!");
   }
 
   /**
