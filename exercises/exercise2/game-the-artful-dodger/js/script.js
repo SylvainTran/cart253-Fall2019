@@ -9,9 +9,10 @@ Modified version of <The Artful Dodger>.
 ******************************************************/
 
 // The position and size of our avatar circle
+let shepherdAvatar;
 let avatarX;
 let avatarY;
-let avatarSize = 50;
+let avatarSize = 128;
 
 // The speed and velocity of our avatar circle
 let avatarSpeed = 10;
@@ -22,7 +23,7 @@ let avatarVY = 0;
 let sheeps = [99];
 let sheepX;
 let sheepY;
-let sheepSize = 64;
+let sheepSize = 128;
 let sheepAvatar;
 let testSheep1;
 
@@ -111,6 +112,7 @@ class Sheep extends GeometricalFigure{
 }
 
 function preload() {
+  shepherdAvatar = loadImage('./images/badShepherd.png');
   sheepAvatar = loadImage('./images/singleSheep.png');
   bg = loadImage('./images/desertbgFull.jpg');
 }
@@ -120,11 +122,8 @@ function preload() {
 // Make the canvas, position the avatar and anemy
 function setup() {
   // Create our playing area
-  createCanvas(500, 500);
-  if (sheepAvatar === null) 
-  {
-    alert('no pic found');
-  }
+  createCanvas(1280, 720);
+ 
   // Put the avatar in the centre
   avatarX = width/2;
   avatarY = height/2;
@@ -246,6 +245,7 @@ function draw() {
 
   // The player is black
   fill(0);
-  // Draw the player as a circle
-  ellipse(avatarX,avatarY,avatarSize,avatarSize);
+  // Draws the player as the bad shepherd
+  image(shepherdAvatar, avatarX, avatarY, avatarSize, avatarSize);
+  //ellipse(avatarX,avatarY,avatarSize,avatarSize);
 }
