@@ -28,15 +28,17 @@ let badShepherdVX = 0;
 let badShepherdVY = 0;
 
 // The position and size of the sheeps
-let sheeps = [99];
+//let sheeps = [99];
 let sheepX;
 let sheepY;
 let sheepSize = 128;
 let sheepAvatar;
 let testSheep1;
+let sheepCount = 0;
+const MAX_SHEEP_ALIVE = 1;
 
 // The speed and velocity of our sheep circle
-let sheepSpeed = 5;
+let sheepSpeed = 0.5;
 let sheepVX = 5;
 
 // How many dodges the player has made
@@ -86,27 +88,29 @@ class GeometricalFigure{
 }
 
 class Sheep extends GeometricalFigure{ 
-  constructor(x, y, w, h){
+  constructor(x, y, w, h, sheepFirstName, sheepLastName, sheepEmail, sheepGender, sheepIPAddress, sheepDrug,
+              sheepCompany, sheepJobTitle, sheepLanguage, sheepPhone, sheepUsername, sheepEthnicity, sheepShirtSize, 
+              sheepICD10Diag, sheepAvatar, sheepCreditCard){
     super(x, y, w, h);
     console.log("Constructing the sheep. Baah!");
 
     // The sheep data used for mayhem.
-    this.sheepFirstName;
-    this.sheepLastName;
-    this.sheepEmail;
-    this.sheepGender;
-    this.sheepIPAddress;
-    this.sheepDrug;
-    this.sheepCompany;
-    this.sheepJobTitle;
-    this.sheepLanguage;
-    this.sheepPhone;
-    this.sheepUsername;
-    this.sheepEthnicity;
-    this.sheepShirtSize;
-    this.sheepICD10Diag;
-    this.sheepAvatar; // May not be used for creative issues
-    this.sheepCreditCard;
+    this.sheepFirstName = sheepFirstName;
+    this.sheepLastName = sheepLastName;
+    this.sheepEmail = sheepEmail;
+    this.sheepGender = sheepGender;
+    this.sheepIPAddress = sheepIPAddress;
+    this.sheepDrug = sheepDrug;
+    this.sheepCompany = sheepCompany;
+    this.sheepJobTitle = sheepJobTitle;
+    this.sheepLanguage = sheepLanguage;
+    this.sheepPhone = sheepPhone;
+    this.sheepUsername = sheepUsername;
+    this.sheepEthnicity = sheepEthnicity;
+    this.sheepShirtSize = sheepShirtSize;
+    this.sheepICD10Diag = sheepICD10Diag;
+    this.sheepAvatar = sheepAvatar; // May not be used for creative issues
+    this.sheepCreditCard = sheepCreditCard;
   }
 
   /**
@@ -137,8 +141,8 @@ class Sheep extends GeometricalFigure{
     Displays a random name for the newly born sheep.
 
   */
-  displayRandomName(){
-  console.log("insert random name");
+  displayRandomName(currentSheepX, currentSheepY){
+  text(this.sheepFirstName + " " + this.sheepLastName, currentSheepX, currentSheepY);
 
   
  }
@@ -216,9 +220,10 @@ function setup() {
 function draw() {
 
   backgroundParallax();
-  spawnSheeps();
+  checkConcurrentSheeps();
   displayDodges();
-
+  
+  console.log(sheepCount);
   // Constrains the bad shepherd to half of the screen
   let leftWall = width / 2;
   let rightWall = width;
@@ -232,7 +237,12 @@ function draw() {
   // Move the avatar according to its calculated velocity
   badShepherdX += badShepherdVX;
   badShepherdY += badShepherdVY;
+
+  // Moves the lastly spawned sheep
   sheepVX = sheepSpeed;
+  testSheep1.translateSheep(sheepX += 10 * sheepVX);
+  testSheep1.displaySheep(sheepAvatar, sheepX, sheepSize, sheepSize);
+  testSheep1.displayRandomName(sheepX, sheepY);
 
   checkSheepCollision();
   checkIfAvatarLeftScreen();
@@ -252,27 +262,23 @@ function resetVelocity() {
 }
 
 function spawnSheeps() {
-/*   this.sheepFirstName;
-  this.sheepLastName;
-  this.sheepEmail;
-  this.sheepGender;
-  this.sheepIPAddress;
-  this.sheepDrug;
-  this.sheepCompany;
-  this.sheepJobTitle;
-  this.sheepLanguage;
-  this.sheepPhone;
-  this.sheepUsername;
-  this.sheepEthnicity;
-  this.sheepShirtSize;
-  this.sheepICD10Diag;
-  this.sheepAvatar; // May not be used for creative issues
-  this.sheepCreditCard; */
+/*   for(let i = 0; i < 99; i++){
+    if(sheepData[i].id === randomId)
+    {
+      //alert("Found the sheep called " + sheepData[i].first_name);
+      break;
+    }
+  } */
+  // Generates a random number between 1-100 to get a random row from the JSON file.
+  let randomId = Math.floor(random(1, 100));
+  let currentSheepX = sheepX;
+  let currentSheepY = sheepY;
 
-  testSheep1 = new Sheep(sheepX, sheepY, sheepSize, sheepSize);
-  testSheep1.displaySheep(sheepAvatar, sheepX, sheepSize, sheepSize);
-  testSheep1.translateSheep(sheepX += 10);
-  testSheep1.displayRandomName();
+  testSheep1 = new Sheep(currentSheepX, currentSheepY, sheepSize, sheepSize, sheepData[randomId].first_name, 
+    sheepData[randomId].last_name, sheepData[randomId].email, sheepData[randomId].gender, sheepData[randomId].ip_address,
+    sheepData[randomId].drug_name, sheepData[randomId].fake_company_name, sheepData[randomId].job_title, sheepData[randomId].language,
+    sheepData[randomId].phone, sheepData[randomId].username, sheepData[randomId].ethnicity, sheepData[randomId].shirt_size, sheepData[randomId].icd10_diag,
+    sheepData[randomId].avatar, sheepData[randomId].credit_card);    
 }
 
 function displayDodges() {
@@ -296,6 +302,11 @@ function backgroundParallax() {
   }
 }
 
+function avoidBadShepherd(){
+    // Cause deviation from the bad shepherd
+    sheepX = sheepX - badShepherdX;
+    sheepY = sheepY - badShepherdY;
+}
 /**
   
   Checks if the sheep and avatar overlap - if they do the player loses
@@ -305,7 +316,7 @@ function backgroundParallax() {
 function checkSheepCollision() {
   if (dist(sheepX, sheepY, badShepherdX, badShepherdY) < sheepSize / 2 + badShepherdSize / 2) {
     // Tell the player they lost
-    console.log("YOU LOSE!");
+    console.log("No no no, you preferred safety to herding your sheep.");
     // Reset the sheep's position
     sheepX = 0;
     sheepY = random(0, height);
@@ -334,7 +345,7 @@ function displayShamefulText() {
   textAlign("center", "center");
   // Displays shameful dialogue if the bad shepherd attempts to cross the first half of the screen
   if (badShepherdX === width / 2) {
-    text("Oyaya! Bad doggie come again? I'm outta here! Kekeke.", badShepherdX, badShepherdY);
+    text("Oyaya! Bad doggie come again? I'm outta here!", badShepherdX, badShepherdY);
   }
 }
 
@@ -348,6 +359,8 @@ function checkDodged() {
     // Reset the sheep's position to the left at a random height
     sheepX = 0;
     sheepY = random(0, height);
+    // Consider the sheep as dead
+    sheepCount--;
   }
 }
 
@@ -371,5 +384,15 @@ function handleInputs() {
   }
   else if (keyIsDown(DOWN_ARROW)) {
     badShepherdVY = badShepherdSpeed;
+  }
+}
+
+function checkConcurrentSheeps(){
+  if(sheepCount < MAX_SHEEP_ALIVE)
+  {
+    console.log("Sheep count is 0. Spawning a new sheep.");
+    spawnSheeps();
+    // Increment the number of sheeps alive
+    sheepCount++;
   }
 }
