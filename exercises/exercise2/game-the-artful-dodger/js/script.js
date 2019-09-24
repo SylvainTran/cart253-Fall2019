@@ -16,6 +16,8 @@ p5.disableFriendlyErrors = true; // disables FES for slight optimization
 // Data for the sheep
 let sheepData = {}; // "js/sheepData.json"
 
+let LIVES = 10;
+
 // The position and size of our bad shepherd's avatar
 let shepherdAvatar;
 let badShepherdX;
@@ -32,13 +34,14 @@ let badShepherdVY = 0;
 let sheepX;
 let sheepY;
 let sheepSize = 128;
+let sizeIncrease = 20;
 let sheepAvatar;
 let testSheep1;
 let sheepCount = 0;
 const MAX_SHEEP_ALIVE = 1;
 
 // The speed and velocity of our sheep circle
-let sheepSpeed = 0.5;
+let sheepSpeed = 2.5;
 let sheepVX = 5;
 
 // How many dodges the player has made
@@ -193,8 +196,9 @@ function preload() {
 
 */
 function setup() {
-  // Create our playing area
-  createCanvas(1280, 720);
+  // Create our playing area (inner window's size)
+  let sketchCanvas = createCanvas(windowWidth, windowHeight);
+  sketchCanvas.parent('sketchDiv');      
 
   // A desert background.
   background(bg);
@@ -219,10 +223,13 @@ function setup() {
 */
 function draw() {
 
+  updateGameState();
   backgroundParallax();
   checkConcurrentSheeps();
   displayDodges();
+  displayLives();
   
+  //text(sheepJobTitle, windowWidth, windowHeight);
   console.log(sheepCount);
   // Constrains the bad shepherd to half of the screen
   let leftWall = width / 2;
@@ -243,6 +250,7 @@ function draw() {
   testSheep1.translateSheep(sheepX += 10 * sheepVX);
   testSheep1.displaySheep(sheepAvatar, sheepX, sheepSize, sheepSize);
   testSheep1.displayRandomName(sheepX, sheepY);
+  avoidBadShepherd();
 
   checkSheepCollision();
   checkIfAvatarLeftScreen();
@@ -284,8 +292,15 @@ function spawnSheeps() {
 function displayDodges() {
   fill(0);
   textFont('Arial');
-  textSize(28);
-  text(dodges + " Sheep lost.", width - (width * 0.15), (height * 0.05));
+  textSize(32);
+  text(dodges + " Sheep lost.", windowWidth - (windowWidth * 0.10), (windowHeight * 0.05));
+}
+
+function displayLives() {
+  fill(0);
+  textFont('Arial');
+  textSize(32);
+  text(LIVES + " Lives Left.", windowWidth - (windowWidth * 0.25), (windowHeight * 0.05));
 }
 
 // Moves in parallax left to right.
@@ -303,9 +318,16 @@ function backgroundParallax() {
 }
 
 function avoidBadShepherd(){
-    // Cause deviation from the bad shepherd
-    sheepX = sheepX - badShepherdX;
-    sheepY = sheepY - badShepherdY;
+  let badShepherdVector = createVector(badShepherdX, badShepherdY);
+  let sheepVector = createVector(sheepX, sheepY);
+  console.log("Sheep's position: " + sheepVector);
+  console.log("Bad Shepherd's position: " + badShepherdVector);
+  console.log("Distance between sheep and bad shepherd: " + sheepVector.dist(badShepherdVector).toFixed(2));
+
+  // Cause deviation from the bad shepherd
+    if(sheepVector.dist(badShepherdVector).toFixed(2) <= 100){
+      // Some path algorithm to avoid running into the player's avatar
+    }
 }
 /**
   
@@ -325,6 +347,8 @@ function checkSheepCollision() {
     badShepherdY = height / 2;
     // Reset the dodge counter
     dodges = 0;
+    // Remove a life.
+    LIVES--;
   }
 }
 
@@ -337,6 +361,7 @@ function checkIfAvatarLeftScreen() {
     badShepherdX = width / 2;
     badShepherdY = height / 2;
     dodges = 0;
+    LIVES--;
   }
 }
 
@@ -354,7 +379,7 @@ function checkDodged() {
     // This means the player dodged so update its dodge statistic
     dodges = dodges + 1;
     //Increase sheep size
-    sheepSize += 5;
+    sheepSize += sizeIncrease;
     console.log("sheep size = " + sheepSize);
     // Reset the sheep's position to the left at a random height
     sheepX = 0;
@@ -395,4 +420,22 @@ function checkConcurrentSheeps(){
     // Increment the number of sheeps alive
     sheepCount++;
   }
+}
+
+function updateGameState(){
+  console.log("entering update game state function");
+  if(dodges === 10){
+    noLoop();
+    alert("You've losed at being a bad shepherd, but technically you've also won the dodging game xD.");
+  }
+  else{
+    //redraw();
+  }
+  if(LIVES === 0){
+    alert("You've won at being a bad shepherd, but technically you've also lost the dodging game xD.");
+    //textSize(100);
+    //text("Game Over", width / 1.5, height / 1.5);
+    noLoop();
+  }
+
 }
