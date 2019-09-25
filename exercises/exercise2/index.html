@@ -9,8 +9,6 @@
     <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css?family=Forum&display=swap" rel="stylesheet">
 
-
-
     <!-- Library script(s) -->
     <script src="js/libraries/p5.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -20,22 +18,27 @@
   </head>
 
   <body>
-    <h1>The Bad Shepherd and The Good Shepherd</h1>    
-    <div id="gameMenu">
-      <button onclick="startBadShepherdGame()">Play As The Bad Shepherd</button>
-      <button onclick="startGoodShepherdGame()">Play As The Good Shepherd</button>
+    <!-- Start of the flex box container -->
+    <div class="flex-container">
+      <div class="banner"> <!-- Just the title -->
+        The Bad Shepherd and The Good Shepherd
+      </div>
+      <div class="navMenu"> <!-- The game options -->    
+        <div class="gameMenu">
+          <button onclick="startBadShepherdGame()">Play As The Bad Shepherd</button>
+          <button onclick="startGoodShepherdGame()">Play As The Good Shepherd</button>
+        </div>
+      </div> 
+      <!-- HTML would go here if needed. -->
+      <div id="sketchDiv">
+      </div>  
     </div>
     <script>
-      $(document).ready(function() { 
-              console.log("OK starting game.");
-            }
-      );
+        $(document).ready(function() { 
+                console.log("OK starting game.");
+              }
+        );
     </script>
-    <!-- HTML would go here if needed. -->
-    <div id="sketchDiv">
-      
-    </div>
-
   </body>
 
 </html>

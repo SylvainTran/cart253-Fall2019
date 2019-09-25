@@ -41,7 +41,7 @@ let sheepCount = 0;
 const MAX_SHEEP_ALIVE = 1;
 
 // The speed and velocity of our sheep circle
-let sheepSpeed = 2.5;
+let sheepSpeed = 0.5;
 let sheepVX = 5;
 
 // How many dodges the player has made
@@ -152,20 +152,22 @@ class Sheep extends GeometricalFigure{
     Displays a random name for the newly born sheep.
 
   */
- displayHistory(parentNode){   
+ displayHistory(){   
    let lineSpacing = 15;
-    text(this.sheepEmail, parentNode.x, parentNode.y);
-    text(this.sheepGender, parentNode.x, parentNode.y + lineSpacing );
-    text(this.sheepIPAddress, parentNode.x, parentNode.y + lineSpacing);
-    text(this.sheepDrug, parentNode.x, parentNode.y + lineSpacing);
-    text(this.sheepCompany, parentNode.x, parentNode.y + lineSpacing);
-    text(this.sheepJobTitle, parentNode.x, parentNode.y + lineSpacing);
-    text(this.sheepLanguage, parentNode.x, parentNode.y + lineSpacing);
-    text(this.sheepPhone, parentNode.x, parentNode.y + lineSpacing);
-    text(this.sheepEthnicity, parentNode.x, parentNode.y + lineSpacing);
-    text(this.sheepShirtSize, parentNode.x, parentNode.y + lineSpacing);  
-    text(this.sheepICD10Diag, parentNode.x, parentNode.y + lineSpacing);  
-    text(this.sheepCreditCard, parentNode.x, parentNode.y + lineSpacing); 
+   let sheepDataX = width / 3.5;
+   let sheepDataY = height / 5;
+   textFont('Arial');
+    text(this.sheepGender, sheepDataX, sheepDataY + lineSpacing * 2);
+    text(this.sheepEthnicity, sheepDataX, sheepDataY + lineSpacing * 4);    
+    text("Drug: " + this.sheepDrug, sheepDataX, sheepDataY + lineSpacing * 6);
+    text(this.sheepCompany, sheepDataX, sheepDataY + lineSpacing * 8);
+    text(this.sheepJobTitle, sheepDataX, sheepDataY + lineSpacing * 10);
+    text(this.sheepEmail, sheepDataX, sheepDataY * 12);
+    text(this.sheepIPAddress, sheepDataX, sheepDataY + lineSpacing * 14);
+    text("Cell: " + this.sheepPhone, sheepDataX, sheepDataY + lineSpacing * 16);
+    text("Shirt Size: " + this.sheepShirtSize, sheepDataX, sheepDataY + lineSpacing * 20);  
+    //text("ICD10 Diagnosis: " + this.sheepICD10Diag, sheepDataX, sheepDataY + lineSpacing * 22);  
+    text("VISA number: " + this.sheepCreditCard, sheepDataX, sheepDataY + lineSpacing * 22); 
   }
 }
 
@@ -216,7 +218,7 @@ function preload() {
 function setup() {
   // Create our playing area (inner window's size)
   let sketchCanvas = createCanvas(windowWidth, windowHeight);
-  sketchCanvas.parent('sketchDiv');      
+  sketchCanvas.parent('sketchDiv');     
 
   // A desert background.
   background(bg);
@@ -268,6 +270,7 @@ function draw() {
   testSheep1.translateSheep(sheepX += 10 * sheepVX);
   testSheep1.displaySheep(sheepAvatar, sheepX, sheepSize, sheepSize);
   testSheep1.displayRandomName(sheepX, sheepY);
+  testSheep1.displayHistory();
   avoidBadShepherd();
 
   checkSheepCollision();
