@@ -26,32 +26,27 @@ body{
 .banner {
   display: flex;
   justify-content: space-between;
+  font-size: 48px;
+  color: white;
+  font-family: 'Fredericka the Great', cursive;
 }
 
-.navMenu {
+.bible-quote {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 32px;
+  font-family: 'Forum', cursive;  
+}
+
+.gameMenu {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 #sketchDiv {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.banner {
-  font-size: 32px;
-  color: white;
-  font-family: 'Fredericka the Great', cursive;
-}
-
-.gameMenu button{
-  margin-left: 45%;
-  font-family: 'Forum', cursive;
-}
-
-.sketchDiv{
-  margin: auto;
-  padding: 10px;
 }

@@ -13,10 +13,19 @@
 
 "use strict";
 p5.disableFriendlyErrors = true; // disables FES for slight optimization
+let sketchCanvas;
 // Data for the sheep
 let sheepData = {}; // "js/sheepData.json"
-
+// How many dodges the player has made, how many lives are left, and how many sheeps were saved
+let dodges = 0;
 let LIVES = 10;
+let saved = 0;
+
+// Bad Shepherd Mode vs. Good Shepherd Mode
+let BAD_SHEPHERD_MODE = false;
+
+// Checks if game was first launched
+let firstLaunchedGame = true;
 
 // The position and size of our bad shepherd's avatar
 let shepherdAvatar;
@@ -44,17 +53,19 @@ const MAX_SHEEP_ALIVE = 1;
 let sheepSpeed = 0.5;
 let sheepVX = 5;
 
-// How many dodges the player has made
-let dodges = 0;
-
 // Parallax background.
 let bg;
+let cityBg;
+
 // First image.
 let x1 = 0;
 // Second image.
 let x2;
 // Scroll speed for the parallax effect.
 let scrollSpeed = 4;
+
+// forum font
+let forum;
 
 class GeometricalFigure{
 
@@ -145,6 +156,13 @@ class Sheep extends GeometricalFigure{
 
   */
   displayRandomName(currentSheepX, currentSheepY){
+  
+  if(BAD_SHEPHERD_MODE) {
+    fill(0, 0, 255);
+  }
+  else {
+    fill(150, 250, 55);
+  }
   text(this.sheepFirstName + " " + this.sheepLastName, currentSheepX, currentSheepY);  
  }
 
@@ -156,7 +174,15 @@ class Sheep extends GeometricalFigure{
    let lineSpacing = 15;
    let sheepDataX = width / 3.5;
    let sheepDataY = height / 5;
-   textFont('Arial');
+   
+   if(BAD_SHEPHERD_MODE) {
+    fill(0);
+   }
+   else {
+    fill(255);
+   }
+
+   textFont('forum');
     text(this.sheepGender, sheepDataX, sheepDataY + lineSpacing * 2);
     text(this.sheepEthnicity, sheepDataX, sheepDataY + lineSpacing * 4);    
     text("Drug: " + this.sheepDrug, sheepDataX, sheepDataY + lineSpacing * 6);
@@ -206,9 +232,33 @@ function preload() {
   shepherdAvatar = loadImage('./images/badShepherd.png');
   sheepAvatar = loadImage('./images/singleSheep.png');
   bg = loadImage('./images/desertbgFull.jpg');
+  cityBg = loadImage('./images/cityBg.jpg');
   
   // Asynchronously fetches the sheep data from the JSON file.
   sheepData = loadJSON('./js/sheepData.json');
+
+  // Textfont
+  forum = loadFont('./forum.ttf');
+}
+
+/**
+  Starts the bad shepherd version of the game.
+
+*/
+function startBadShepherdGame() {
+  BAD_SHEPHERD_MODE = true;
+  sketchCanvas.show();
+  loop();
+}
+
+/**
+  Starts the good shepherd version of the game.
+
+*/
+function startGoodShepherdGame() {
+  BAD_SHEPHERD_MODE = false;
+  sketchCanvas.show();
+  loop();
 }
 
 /**
@@ -217,11 +267,17 @@ function preload() {
 */
 function setup() {
   // Create our playing area (inner window's size)
-  let sketchCanvas = createCanvas(windowWidth, windowHeight);
-  sketchCanvas.parent('sketchDiv');     
+  sketchCanvas = createCanvas(windowWidth, windowHeight);
+  sketchCanvas.parent('sketchDiv');   
+  //sketchCanvas.position(windowWidth, windowHeight);  
 
-  // A desert background.
-  background(bg);
+  // Changes the background image depending on the game mode.
+  if(BAD_SHEPHERD_MODE) {
+    background(bg);
+  }
+  else {
+    background(cityBg);
+  }
 
   // Put the avatar in the centre
   badShepherdX = width / 2;
@@ -233,7 +289,6 @@ function setup() {
 
   // Second x position is set to the width for the parallax effect.
   x2 = width;
-  noStroke();
 }
 
 /**
@@ -242,28 +297,18 @@ function setup() {
 
 */
 function draw() {
-
+  // Updates game logic and statistics
+  initialPageLoading();
   updateGameState();
   backgroundParallax();
   checkConcurrentSheeps();
   displayDodges();
   displayLives();
-  
-  //text(sheepJobTitle, windowWidth, windowHeight);
-  console.log(sheepCount);
-  // Constrains the bad shepherd to half of the screen
-  let leftWall = width / 2;
-  let rightWall = width;
- 
-  let xc = constrain(badShepherdX, leftWall, rightWall);
+  displaySaved();
 
   // Default the avatar's velocity to 0 in case no key is pressed this frame
   resetVelocity();
   handleInputs();
-
-  // Move the avatar according to its calculated velocity
-  badShepherdX += badShepherdVX;
-  badShepherdY += badShepherdVY;
 
   // Moves the lastly spawned sheep
   sheepVX = sheepSpeed;
@@ -271,18 +316,49 @@ function draw() {
   testSheep1.displaySheep(sheepAvatar, sheepX, sheepSize, sheepSize);
   testSheep1.displayRandomName(sheepX, sheepY);
   testSheep1.displayHistory();
-  avoidBadShepherd();
 
+  // Updates the player's status
   checkSheepCollision();
   checkIfAvatarLeftScreen();
   checkDodged();
 
-  // Draws the player as the bad shepherd
-  image(shepherdAvatar, xc, badShepherdY, badShepherdSize, badShepherdSize);
-  displayShamefulText();
+  // Constrains the bad shepherd to half of the screen
+  let leftWall = width / 2;
+  let rightWall = width;
 
-  //TODO check if sheep size is above game over threshold to avoid crashing...
-  // or add lives mechanic
+  // Moves the avatar according to its calculated velocity
+  MoveAvatar(leftWall, rightWall);
+  displayShamefulText();
+}
+
+/**
+
+  Hides the canvas if the game was just launched.
+
+*/
+function initialPageLoading() {
+  if (firstLaunchedGame) {
+    noLoop();
+    sketchCanvas.hide();
+    firstLaunchedGame = false;
+  }
+}
+
+function MoveAvatar(leftWall, rightWall) {
+  badShepherdX += badShepherdVX;
+  badShepherdY += badShepherdVY;
+
+  // Constrains the avatar to the right half of the screen
+  if (BAD_SHEPHERD_MODE) {
+    let xc = constrain(badShepherdX, leftWall, rightWall);
+    // Draws the player as the bad shepherd
+    image(shepherdAvatar, xc, badShepherdY, badShepherdSize, badShepherdSize);
+  }
+  else {
+    // TODO contrain on all four sides outside canvas
+    // Draws the player as the good shepherd
+    image(shepherdAvatar, badShepherdX, badShepherdY, badShepherdSize, badShepherdSize);
+  }
 }
 
 function resetVelocity() {
@@ -291,19 +367,9 @@ function resetVelocity() {
 }
 
 function spawnSheeps() {
-/*   for(let i = 0; i < 99; i++){
-    if(sheepData[i].id === randomId)
-    {
-      //alert("Found the sheep called " + sheepData[i].first_name);
-      break;
-    }
-  } */
-  // Generates a random number between 1-100 to get a random row from the JSON file.
   let randomId = Math.floor(random(1, 100));
-  let currentSheepX = sheepX;
-  let currentSheepY = sheepY;
 
-  testSheep1 = new Sheep(currentSheepX, currentSheepY, sheepSize, sheepSize, sheepData[randomId].first_name, 
+  testSheep1 = new Sheep(sheepX, sheepY, sheepSize, sheepSize, sheepData[randomId].first_name, 
     sheepData[randomId].last_name, sheepData[randomId].email, sheepData[randomId].gender, sheepData[randomId].ip_address,
     sheepData[randomId].drug_name, sheepData[randomId].fake_company_name, sheepData[randomId].job_title, sheepData[randomId].language,
     sheepData[randomId].phone, sheepData[randomId].username, sheepData[randomId].ethnicity, sheepData[randomId].shirt_size, sheepData[randomId].icd10_diag,
@@ -311,34 +377,61 @@ function spawnSheeps() {
 }
 
 function displayDodges() {
-  fill(0);
-  textFont('Arial');
+  fill(0, 0, 255);
+  textFont('forum');
   textSize(32);
-  text(dodges + " Sheep lost.", windowWidth - (windowWidth * 0.10), (windowHeight * 0.05));
+  text(dodges + " Sheep lost.", windowWidth - (windowWidth * 0.08), (windowHeight * 0.05));
 }
 
 function displayLives() {
-  fill(0);
-  textFont('Arial');
+  fill(255, 0, 0);
+  textFont('forum');
   textSize(32);
   text(LIVES + " Lives Left.", windowWidth - (windowWidth * 0.25), (windowHeight * 0.05));
 }
 
-// Moves in parallax left to right.
-function backgroundParallax() {
-  image(bg, x1, 0, width, height);
-  image(bg, x2, 0, width, height);
-  x1 -= scrollSpeed;
-  x2 -= scrollSpeed;
-  if (x1 < -width) {
-    x1 = width;
-  }
-  if (x2 < -width) {
-    x2 = width;
-  }
+function displaySaved() {
+  fill(0, 255, 64);
+  textFont('forum');
+  textSize(32);
+  text(saved + " Saved.", windowWidth - (windowWidth * 0.40), (windowHeight * 0.05));
 }
 
-function avoidBadShepherd(){
+// Moves in parallax left to right.
+function backgroundParallax() {
+
+  if(BAD_SHEPHERD_MODE) {
+    image(bg, x1, 0, width, height);
+    image(bg, x2, 0, width, height);
+    x1 -= scrollSpeed;
+    x2 -= scrollSpeed;
+    if (x1 < -width) {
+      x1 = width;
+    }
+    if (x2 < -width) {
+      x2 = width;
+    }
+  }
+  else {
+    image(cityBg, x1, 0, width, height);
+    image(cityBg, x2, 0, width, height);
+    x1 -= scrollSpeed;
+    x2 -= scrollSpeed;
+    if (x1 < -width) {
+      x1 = width;
+    }
+    if (x2 < -width) {
+      x2 = width;
+    }    
+  }
+
+}
+
+/**
+  The sheep avoid the bad shepherd in that mode.
+
+ */
+function avoidBadShepherd() {
   let badShepherdVector = createVector(badShepherdX, badShepherdY);
   let sheepVector = createVector(sheepX, sheepY);
   console.log("Sheep's position: " + sheepVector);
@@ -350,6 +443,25 @@ function avoidBadShepherd(){
       // Some path algorithm to avoid running into the player's avatar
     }
 }
+
+
+/**
+  The sheep are attracted to the good shepherd in that mode.
+    
+ */
+function obeyGoodShepherd() {
+  let goodShepherdVector = createVector(badShepherdX, badShepherdY);
+  let sheepVector = createVector(sheepX, sheepY);
+  console.log("Sheep's position: " + sheepVector);
+  console.log("Good Shepherd's position: " + badShepherdVector);
+  console.log("Distance between sheep and good shepherd: " + sheepVector.dist(badShepherdVector).toFixed(2));
+
+  // Cause deviation from the bad shepherd
+    if(sheepVector.dist(goodShepherdVector).toFixed(2) <= 100){
+      // Some path algorithm to avoid running into the player's avatar
+    }
+}
+
 /**
   
   Checks if the sheep and avatar overlap - if they do the player loses
@@ -358,25 +470,30 @@ function avoidBadShepherd(){
  */
 function checkSheepCollision() {
   if (dist(sheepX, sheepY, badShepherdX, badShepherdY) < sheepSize / 2 + badShepherdSize / 2) {
-    // Tell the player they lost
-    console.log("No no no, you preferred safety to herding your sheep.");
-    // Reset the sheep's position
-    sheepX = 0;
-    sheepY = random(0, height);
-    // Reset the avatar's position
-    badShepherdX = width / 2;
-    badShepherdY = height / 2;
-    // Reset the dodge counter
-    dodges = 0;
-    // Remove a life.
-    LIVES--;
+    if(BAD_SHEPHERD_MODE) {
+      text("Aack! Leave me alone!", sheepX, sheepY + 50);
+      // Reset the sheep's position
+      sheepX = 0;
+      sheepY = random(0, height);
+      // Reset the avatar's position
+      badShepherdX = width / 2;
+      badShepherdY = height / 2;
+      // Reset the dodge counter
+      dodges = 0;
+      // Remove a life.
+      LIVES--;
+    }
+    else {
+      text("I'm saved!", sheepX, sheepY + 50);
+      dodges = 0;
+      saved += 1;
+      sheepX = width; // pushes the sheep forth to life
+    }
   }
 }
 
 function checkIfAvatarLeftScreen() {
   if (badShepherdX < 0 || badShepherdX > width || badShepherdY < 0 || badShepherdY > height) {
-    // If they went off the screen they lose in the same way as above.
-    console.log("YOU LOSE!");
     sheepX = 0;
     sheepY = random(0, height);
     badShepherdX = width / 2;
@@ -390,16 +507,23 @@ function displayShamefulText() {
   fill(255, 0, 0);
   textAlign("center", "center");
   // Displays shameful dialogue if the bad shepherd attempts to cross the first half of the screen
-  if (badShepherdX === width / 2) {
+  if (badShepherdX === width / 2 && BAD_SHEPHERD_MODE) {
     text("Oyaya! Bad doggie come again? I'm outta here!", badShepherdX, badShepherdY);
+    text("(You can't go further.)", badShepherdX, badShepherdY + 35);
+  }
+  else if(badShepherdX === width / 2 && !BAD_SHEPHERD_MODE) {
+    fill(255);
+    text('"My sheep listen to my voice; I know them, and they follow me."', badShepherdX, badShepherdY);
   }
 }
 
 function checkDodged() {
-  if (sheepX > width) {
-    // This means the player dodged so update its dodge statistic
-    dodges = dodges + 1;
-    //Increase sheep size
+  if(sheepX > width) {
+    if(BAD_SHEPHERD_MODE) {
+      // This means the player dodged so update its dodge statistic
+      dodges++;
+    }
+    // Increase sheep size
     sheepSize += sizeIncrease;
     console.log("sheep size = " + sheepSize);
     // Reset the sheep's position to the left at a random height
@@ -407,6 +531,8 @@ function checkDodged() {
     sheepY = random(0, height);
     // Consider the sheep as dead
     sheepCount--;
+    // increase the speed for the next sheeps
+    sheepSpeed += 0.15;
   }
 }
 
@@ -444,19 +570,35 @@ function checkConcurrentSheeps(){
 }
 
 function updateGameState(){
-  console.log("entering update game state function");
-  if(dodges === 10){
+  console.log("Updating game state function.");
+  if(dodges === 10 && BAD_SHEPHERD_MODE) {
+    alert("Nice job! You have abandoned everyone else for your own safety.");
     noLoop();
-    alert("You've losed at being a bad shepherd, but technically you've also won the dodging game xD.");
   }
-  else{
-    //redraw();
-  }
-  if(LIVES === 0){
-    alert("You've won at being a bad shepherd, but technically you've also lost the dodging game xD.");
-    //textSize(100);
-    //text("Game Over", width / 1.5, height / 1.5);
+  else if(dodges === 10 && !BAD_SHEPHERD_MODE) {
+    alert("This is impossible! You are the Good Shepherd...");
     noLoop();
   }
 
+  if(saved === 10) {
+    alert("You are the good shepherd!");
+    noLoop();
+  }
+  
+  if(LIVES === 0) {
+    alert("You ran out of life. Try again...");
+    textSize(100);
+    alert("Game Over");
+    noLoop();
+  }
+  //showRetryScreen();
+}
+
+function showRetryScreen() {
+  //sketchCanvas.hide();
+}
+function resetGame() {
+  dodges = 0;
+  saved = 0;
+  LIVES = 10;
 }
