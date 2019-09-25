@@ -1,11 +1,18 @@
-/*********************************************
+/**
+  Author: Sylvain Tran
+  Date: 25-09-2019
 
-Here is a description of any special CSS used.
-In this case it's just padding and margin to 0
-so the canvas is flush with the top left corner.
+  Goal of program:
+    Styles the website for the game.
+    This will be modified by using more CSS/SASS later.
 
-**********************************************/
-body{
+*/
+
+/**
+  Whole background in black.
+
+*/
+body {
   background-color: black;
 }
 
@@ -20,7 +27,7 @@ body{
 
 /**
   1st level deep flex container: .banner
-  Contains the banner section of the site.
+  Contains the top section of the site (just the game's title).
 
 */
 .banner {
@@ -28,25 +35,39 @@ body{
   justify-content: space-between;
   font-size: 48px;
   color: white;
-  font-family: 'Fredericka the Great', cursive;
+  font-family: 'Fredericka the Great', cursive; /* Custom google font sourced from external url. */
 }
 
+/**
+  Bible quotation at the footer of the website.
+
+*/
 .bible-quote {
   display: flex;
   justify-content: center;
   color: white;
   font-size: 32px;
-  font-family: 'Forum', cursive;  
+  font-family: 'Forum', cursive; /* Custom google font sourced from external url. */
 }
 
+/**
+  Contains the two buttons for playing the game, at the top.
+
+*/
 .gameMenu {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
 }
 
+/**
+  The div that is parent to the p5.js generated canvas.
+  justify-content and align-items center the canvas in the main axes.
+
+*/
 #sketchDiv {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  width: 100%;
 }

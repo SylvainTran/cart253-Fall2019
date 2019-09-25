@@ -23,26 +23,27 @@
     <div class="flex-container">
       <div class="banner"> <!-- Just the title -->
         The Bad Shepherd and The Good Shepherd
-        <span style="font-size: 22px; margin-left: 10px;">...An adult-friendly bible verse game.</span>
+        <span style="font-size: 22px; margin-left: 10px; margin-right: 10px;">...An adult-friendly bible verse game!</span>
       </div>
       <div class="navMenu"> <!-- The game options -->    
         <div class="gameMenu">
           <button onclick="$(document).ready(function() { 
-            console.log('OK starting game.');
+            console.log('Starting the bad shepherd game.');
             startBadShepherdGame()
           })
           ;">Play As The Bad Shepherd</button>
           <button onclick="$(document).ready(function() { 
-            console.log('OK starting game.');
+            console.log('Starting the good shepherd game.');
             startGoodShepherdGame()
           })
           ;">Play As The Good Shepherd</button>
         </div>
-      </div> 
-      <!-- HTML would go here if needed. -->
-      <div id="sketchDiv">
-      </div>  
+      </div>
+    <!-- End of flex-container. --> 
     </div>
+    <!-- p5.js canvas is childed to sketchDiv which uses Flexbox. --> 
+    <div id="sketchDiv">
+    </div>    
     <div class="bible-quote">
         <span style="font-size: 55px; color: purple; margin-right: 15px; margin-top: 15px;">John 10:7-30 (NIV)</span>
         <span style="margin-top: 15px;">

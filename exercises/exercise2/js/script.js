@@ -12,19 +12,23 @@
 */
 
 "use strict";
-p5.disableFriendlyErrors = true; // disables FES for slight optimization
+p5.disableFriendlyErrors = true; // disables FES for slight optimization.
+
+// Global reference to the canvas because it is somehow manipulated in several places.
 let sketchCanvas;
-// Data for the sheep
+
+// Data of the sheeps.
 let sheepData = {}; // "js/sheepData.json"
+
 // How many dodges the player has made, how many lives are left, and how many sheeps were saved
 let dodges = 0;
 let LIVES = 10;
 let saved = 0;
 
-// Bad Shepherd Mode vs. Good Shepherd Mode
+// Bad Shepherd Mode vs. Good Shepherd Mode.
 let BAD_SHEPHERD_MODE = false;
 
-// Checks if game was first launched
+// Checks if game was first launched.
 let firstLaunchedGame = true;
 
 // The position and size of our bad shepherd's avatar
@@ -50,7 +54,7 @@ let sheepCount = 0;
 const MAX_SHEEP_ALIVE = 1;
 
 // The speed and velocity of our sheep circle
-let sheepSpeed = 0.5;
+let sheepSpeed = 0.15;
 let sheepVX = 5;
 
 // Parallax background.
@@ -64,7 +68,7 @@ let x2;
 // Scroll speed for the parallax effect.
 let scrollSpeed = 4;
 
-// forum font
+// Forum font.
 let forum;
 
 class GeometricalFigure{
@@ -173,7 +177,7 @@ class Sheep extends GeometricalFigure{
  displayHistory(){   
    let lineSpacing = 15;
    let sheepDataX = width / 3.5;
-   let sheepDataY = height / 5;
+   let sheepDataY = height / 10;
    
    if(BAD_SHEPHERD_MODE) {
     fill(0);
@@ -182,6 +186,7 @@ class Sheep extends GeometricalFigure{
     fill(255);
    }
 
+   textSize(18);
    textFont('forum');
     text(this.sheepGender, sheepDataX, sheepDataY + lineSpacing * 2);
     text(this.sheepEthnicity, sheepDataX, sheepDataY + lineSpacing * 4);    
@@ -266,10 +271,10 @@ function startGoodShepherdGame() {
 
 */
 function setup() {
-  // Create our playing area (inner window's size)
-  sketchCanvas = createCanvas(windowWidth, windowHeight);
+
+  // Creates our playing area
+  sketchCanvas = createCanvas(600, 600); 
   sketchCanvas.parent('sketchDiv');   
-  //sketchCanvas.position(windowWidth, windowHeight);  
 
   // Changes the background image depending on the game mode.
   if(BAD_SHEPHERD_MODE) {
@@ -380,21 +385,21 @@ function displayDodges() {
   fill(0, 0, 255);
   textFont('forum');
   textSize(32);
-  text(dodges + " Sheep lost.", windowWidth - (windowWidth * 0.08), (windowHeight * 0.05));
+  text(dodges + " Sheep lost.", width - (width * 0.15), (height * 0.05));
 }
 
 function displayLives() {
   fill(255, 0, 0);
   textFont('forum');
   textSize(32);
-  text(LIVES + " Lives Left.", windowWidth - (windowWidth * 0.25), (windowHeight * 0.05));
+  text(LIVES + " Lives Left.", width - (width * 0.45), (height * 0.05));
 }
 
 function displaySaved() {
   fill(0, 255, 64);
   textFont('forum');
   textSize(32);
-  text(saved + " Saved.", windowWidth - (windowWidth * 0.40), (windowHeight * 0.05));
+  text(saved + " Saved.", width - (width * 0.70), (height * 0.05));
 }
 
 // Moves in parallax left to right.
@@ -458,7 +463,7 @@ function obeyGoodShepherd() {
 
   // Cause deviation from the bad shepherd
     if(sheepVector.dist(goodShepherdVector).toFixed(2) <= 100){
-      // Some path algorithm to avoid running into the player's avatar
+      // TODO Some path algorithm to avoid running into the player's avatar
     }
 }
 
