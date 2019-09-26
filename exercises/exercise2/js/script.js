@@ -329,12 +329,8 @@ function draw() {
   checkIfAvatarLeftScreen();
   checkDodged();
 
-  // Constrains the bad shepherd to half of the screen
-  let leftWall = width / 2;
-  let rightWall = width;
-
   // Moves the avatar according to its calculated velocity
-  MoveAvatar(leftWall, rightWall);
+  MoveAvatar();
   displayShamefulText();
   //image(shepherdAvatar, mouseX += badShepherdVX, mouseY += badShepherdVY, badShepherdSize, badShepherdSize);
 }
@@ -352,20 +348,25 @@ function initialPageLoading() {
   }
 }
 
-function MoveAvatar(leftWall, rightWall) {
+function MoveAvatar() {
   shepherdX += shepherdVX;
   shepherdY += shepherdVY;
+  // Constrains the bad shepherd to half of the screen
+  let leftWall = width / 2;
+  let rightWall = width;
+  let topWall = 0;
+  let bottomWall = height;
+  let halfScreenConstrain = constrain(shepherdX, leftWall, rightWall);
+  let leftRightConstrain = constrain(shepherdX, 0, rightWall);
+  let topDownConstrain = constrain(shepherdY, topWall, bottomWall);
 
   // Constrains the avatar to the right half of the screen
   if (BAD_SHEPHERD_MODE) {
-    let xc = constrain(shepherdX, leftWall, rightWall);
-    // Draws the player as the bad shepherd
-    image(shepherdAvatar, xc, shepherdY, shepherdSize, shepherdSize);
+    image(shepherdAvatar, halfScreenConstrain, shepherdY, shepherdSize, shepherdSize);
   }
   else {
     // TODO contrain on all four sides outside canvas
-    // Draws the player as the good shepherd
-    image(shepherdAvatar, shepherdX, shepherdY, shepherdSize, shepherdSize);
+    image(shepherdAvatar, leftRightConstrain, topDownConstrain, shepherdSize, shepherdSize);
   }
 }
 
@@ -627,6 +628,9 @@ function restartGame() {
 */
 function touchStarted() {
   let touchMovement = touches;
+  // Constrains the bad shepherd to half of the screen
+  let leftWall = width / 2;
+  let rightWall = width;
 
   for(touch in touches) {
     console.log(touch.x);
