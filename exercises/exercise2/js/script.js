@@ -105,9 +105,9 @@ class GeometricalFigure{
   }
 }
 
-class Sheep extends GeometricalFigure{ 
+class Sheep extends GeometricalFigure{
   constructor(x, y, w, h, sheepFirstName, sheepLastName, sheepEmail, sheepGender, sheepIPAddress, sheepDrug,
-              sheepCompany, sheepJobTitle, sheepLanguage, sheepPhone, sheepUsername, sheepEthnicity, sheepShirtSize, 
+              sheepCompany, sheepJobTitle, sheepLanguage, sheepPhone, sheepUsername, sheepEthnicity, sheepShirtSize,
               sheepICD10Diag, sheepAvatar, sheepCreditCard){
     super(x, y, w, h);
     console.log("Constructing the sheep. Baah!");
@@ -154,31 +154,31 @@ class Sheep extends GeometricalFigure{
   translateSheep(valueX){
     this.xPos += valueX;
    }
-     
+
   /**
     Displays a random name for the newly born sheep.
 
   */
   displayRandomName(currentSheepX, currentSheepY){
-  
+
   if(BAD_SHEPHERD_MODE) {
     fill(0, 0, 255);
   }
   else {
     fill(150, 250, 55);
   }
-  text(this.sheepFirstName + " " + this.sheepLastName, currentSheepX, currentSheepY);  
+  text(this.sheepFirstName + " " + this.sheepLastName, currentSheepX, currentSheepY);
  }
 
   /**
     Displays a random name for the newly born sheep.
 
   */
- displayHistory(){   
+ displayHistory(){
    let lineSpacing = 15;
    let sheepDataX = width / 3.5;
    let sheepDataY = height / 10;
-   
+
    if(BAD_SHEPHERD_MODE) {
     fill(0);
    }
@@ -189,16 +189,16 @@ class Sheep extends GeometricalFigure{
    textSize(18);
    textFont('forum');
     text(this.sheepGender, sheepDataX, sheepDataY + lineSpacing * 2);
-    text(this.sheepEthnicity, sheepDataX, sheepDataY + lineSpacing * 4);    
+    text(this.sheepEthnicity, sheepDataX, sheepDataY + lineSpacing * 4);
     text("Drug: " + this.sheepDrug, sheepDataX, sheepDataY + lineSpacing * 6);
     text(this.sheepCompany, sheepDataX, sheepDataY + lineSpacing * 8);
     text(this.sheepJobTitle, sheepDataX, sheepDataY + lineSpacing * 10);
     text(this.sheepEmail, sheepDataX, sheepDataY * 12);
     text(this.sheepIPAddress, sheepDataX, sheepDataY + lineSpacing * 14);
     text("Cell: " + this.sheepPhone, sheepDataX, sheepDataY + lineSpacing * 16);
-    text("Shirt Size: " + this.sheepShirtSize, sheepDataX, sheepDataY + lineSpacing * 20);  
-    //text("ICD10 Diagnosis: " + this.sheepICD10Diag, sheepDataX, sheepDataY + lineSpacing * 22);  
-    text("VISA number: " + this.sheepCreditCard, sheepDataX, sheepDataY + lineSpacing * 22); 
+    text("Shirt Size: " + this.sheepShirtSize, sheepDataX, sheepDataY + lineSpacing * 20);
+    //text("ICD10 Diagnosis: " + this.sheepICD10Diag, sheepDataX, sheepDataY + lineSpacing * 22);
+    text("VISA number: " + this.sheepCreditCard, sheepDataX, sheepDataY + lineSpacing * 22);
   }
 }
 
@@ -238,7 +238,7 @@ function preload() {
   sheepAvatar = loadImage('./images/singleSheep.png');
   bg = loadImage('./images/desertbgFull.jpg');
   cityBg = loadImage('./images/cityBg.jpg');
-  
+
   // Asynchronously fetches the sheep data from the JSON file.
   sheepData = loadJSON('./js/sheepData.json');
 
@@ -275,8 +275,8 @@ function startGoodShepherdGame() {
 function setup() {
 
   // Creates our playing area
-  sketchCanvas = createCanvas(600, 600); 
-  sketchCanvas.parent('sketchDiv');   
+  sketchCanvas = createCanvas(600, 600);
+  sketchCanvas.parent('sketchDiv');
 
   // Changes the background image depending on the game mode.
   if(BAD_SHEPHERD_MODE) {
@@ -378,11 +378,11 @@ function resetVelocity() {
 function spawnSheeps() {
   let randomId = Math.floor(random(1, 100));
 
-  testSheep1 = new Sheep(sheepX, sheepY, sheepSize, sheepSize, sheepData[randomId].first_name, 
+  testSheep1 = new Sheep(sheepX, sheepY, sheepSize, sheepSize, sheepData[randomId].first_name,
     sheepData[randomId].last_name, sheepData[randomId].email, sheepData[randomId].gender, sheepData[randomId].ip_address,
     sheepData[randomId].drug_name, sheepData[randomId].fake_company_name, sheepData[randomId].job_title, sheepData[randomId].language,
     sheepData[randomId].phone, sheepData[randomId].username, sheepData[randomId].ethnicity, sheepData[randomId].shirt_size, sheepData[randomId].icd10_diag,
-    sheepData[randomId].avatar, sheepData[randomId].credit_card);    
+    sheepData[randomId].avatar, sheepData[randomId].credit_card);
 }
 
 function displayDodges() {
@@ -431,7 +431,7 @@ function backgroundParallax() {
     }
     if (x2 < -width) {
       x2 = width;
-    }    
+    }
   }
 
 }
@@ -456,7 +456,7 @@ function avoidBadShepherd() {
 
 /**
   The sheep are attracted to the good shepherd in that mode.
-    
+
  */
 function obeyGoodShepherd() {
   let goodShepherdVector = createVector(shepherdX, shepherdY);
@@ -472,10 +472,10 @@ function obeyGoodShepherd() {
 }
 
 /**
-  
+
   Checks if the sheep and avatar overlap - if they do the player loses
   We do this by checking if the distance between the centre of the sheep
-  and the centre of the avatar is less that their combined radii. 
+  and the centre of the avatar is less that their combined radii.
  */
 function checkSheepCollision() {
   if (dist(sheepX, sheepY, shepherdX, shepherdY) < sheepSize / 2 + shepherdSize / 2) {
@@ -553,18 +553,18 @@ function checkDodged() {
 function handleInputs() {
   // Left and right
   if (keyIsDown(LEFT_ARROW)) {
-    shepherdVX = -shepherdSpeed;
+    shepherdVX = -shepherdSpeed * deltaTime;
   }
   else if (keyIsDown(RIGHT_ARROW)) {
-    shepherdVX = shepherdSpeed;
+    shepherdVX = shepherdSpeed * deltaTime;
   }
   // Up and down (separate if-statements so you can move vertically and
   // horizontally at the same time)
   if (keyIsDown(UP_ARROW)) {
-    shepherdVY = -shepherdSpeed;
+    shepherdVY = -shepherdSpeed * deltaTime;
   }
   else if (keyIsDown(DOWN_ARROW)) {
-    shepherdVY = shepherdSpeed;
+    shepherdVY = shepherdSpeed * deltaTime;
   }
 }
 
@@ -593,7 +593,7 @@ function updateGameState(){
     alert("You are the good shepherd!");
     noLoop();
   }
-  
+
   if(LIVES === 0) {
     alert("You ran out of life. Try again...");
     textSize(100);
@@ -610,7 +610,7 @@ function clearCanvas() {
 function restartGame() {
   dodges = 0;
   saved = 0;
-  LIVES = 10;  
+  LIVES = 10;
   shepherdX = width / 2;
   shepherdY = height / 2;
   sheepCount = 0;
@@ -622,7 +622,7 @@ function restartGame() {
 }
 
 /**
-  
+
   Mobile controls. Should be the same as keyboard controls prior.
 
 */
