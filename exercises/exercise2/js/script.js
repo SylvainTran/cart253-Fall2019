@@ -33,14 +33,14 @@ let firstLaunchedGame = true;
 
 // The position and size of our bad shepherd's avatar
 let shepherdAvatar;
-let badShepherdX;
-let badShepherdY;
-let badShepherdSize = 128;
+let shepherdX;
+let shepherdY;
+let shepherdSize = 128;
 
 // The speed and velocity of our bad shepherd's avatar
-let badShepherdSpeed = 10;
-let badShepherdVX = 0;
-let badShepherdVY = 0;
+let shepherdSpeed = 10;
+let shepherdVX = 0;
+let shepherdVY = 0;
 
 // The position and size of the sheeps
 //let sheeps = [99];
@@ -220,8 +220,8 @@ class BadShepherdAvatar extends GeometricalFigure{
     Displays a sheep avatar.
 
   */
-  displayBadShepherdAvatar(badShepherd, sheepX, width, height){
-    image(badShepherd, sheepX, sheepY, width, height);
+  displayBadShepherdAvatar(shepherd, sheepX, width, height){
+    image(shepherd, sheepX, sheepY, width, height);
   }
 
   /**
@@ -287,8 +287,8 @@ function setup() {
   }
 
   // Put the avatar in the centre
-  badShepherdX = width / 2;
-  badShepherdY = height / 2;
+  shepherdX = width / 2;
+  shepherdY = height / 2;
 
   // Put the sheep to the left at a random y coordinate within the canvas
   sheepX = 0;
@@ -353,25 +353,25 @@ function initialPageLoading() {
 }
 
 function MoveAvatar(leftWall, rightWall) {
-  badShepherdX += badShepherdVX;
-  badShepherdY += badShepherdVY;
+  shepherdX += shepherdVX;
+  shepherdY += shepherdVY;
 
   // Constrains the avatar to the right half of the screen
   if (BAD_SHEPHERD_MODE) {
-    let xc = constrain(badShepherdX, leftWall, rightWall);
+    let xc = constrain(shepherdX, leftWall, rightWall);
     // Draws the player as the bad shepherd
-    image(shepherdAvatar, xc, badShepherdY, badShepherdSize, badShepherdSize);
+    image(shepherdAvatar, xc, shepherdY, shepherdSize, shepherdSize);
   }
   else {
     // TODO contrain on all four sides outside canvas
     // Draws the player as the good shepherd
-    image(shepherdAvatar, badShepherdX, badShepherdY, badShepherdSize, badShepherdSize);
+    image(shepherdAvatar, shepherdX, shepherdY, shepherdSize, shepherdSize);
   }
 }
 
 function resetVelocity() {
-  badShepherdVX = 0;
-  badShepherdVY = 0;
+  shepherdVX = 0;
+  shepherdVY = 0;
 }
 
 function spawnSheeps() {
@@ -440,7 +440,7 @@ function backgroundParallax() {
 
  */
 function avoidBadShepherd() {
-  let badShepherdVector = createVector(badShepherdX, badShepherdY);
+  let badShepherdVector = createVector(shepherdX, shepherdY);
   let sheepVector = createVector(sheepX, sheepY);
   console.log("Sheep's position: " + sheepVector);
   console.log("Bad Shepherd's position: " + badShepherdVector);
@@ -458,7 +458,7 @@ function avoidBadShepherd() {
     
  */
 function obeyGoodShepherd() {
-  let goodShepherdVector = createVector(badShepherdX, badShepherdY);
+  let goodShepherdVector = createVector(shepherdX, shepherdY);
   let sheepVector = createVector(sheepX, sheepY);
   console.log("Sheep's position: " + sheepVector);
   console.log("Good Shepherd's position: " + badShepherdVector);
@@ -477,15 +477,15 @@ function obeyGoodShepherd() {
   and the centre of the avatar is less that their combined radii. 
  */
 function checkSheepCollision() {
-  if (dist(sheepX, sheepY, badShepherdX, badShepherdY) < sheepSize / 2 + badShepherdSize / 2) {
+  if (dist(sheepX, sheepY, shepherdX, shepherdY) < sheepSize / 2 + shepherdSize / 2) {
     if(BAD_SHEPHERD_MODE) {
       text("Aack! Leave me alone!", sheepX, sheepY + 50);
       // Reset the sheep's position
       sheepX = 0;
       sheepY = random(0, height);
       // Reset the avatar's position
-      badShepherdX = width / 2;
-      badShepherdY = height / 2;
+      shepherdX = width / 2;
+      shepherdY = height / 2;
       // Reset the dodge counter
       dodges = 0;
       // Remove a life.
@@ -501,11 +501,11 @@ function checkSheepCollision() {
 }
 
 function checkIfAvatarLeftScreen() {
-  if (badShepherdX < 0 || badShepherdX > width || badShepherdY < 0 || badShepherdY > height) {
+  if (shepherdX < 0 || shepherdX > width || shepherdY < 0 || shepherdY > height) {
     sheepX = 0;
     sheepY = random(0, height);
-    badShepherdX = width / 2;
-    badShepherdY = height / 2;
+    shepherdX = width / 2;
+    shepherdY = height / 2;
     dodges = 0;
     LIVES--;
   }
@@ -515,13 +515,13 @@ function displayShamefulText() {
   fill(255, 0, 0);
   textAlign("center", "center");
   // Displays shameful dialogue if the bad shepherd attempts to cross the first half of the screen
-  if (badShepherdX === width / 2 && BAD_SHEPHERD_MODE) {
-    text("Oyaya! Bad doggie come again? I'm outta here!", badShepherdX, badShepherdY);
-    text("(You can't go further.)", badShepherdX, badShepherdY + 35);
+  if (shepherdX === width / 2 && BAD_SHEPHERD_MODE) {
+    text("Oyaya! Bad doggie come again? I'm outta here!", shepherdX, shepherdY);
+    text("(You can't go further.)", shepherdX, shepherdY + 35);
   }
-  else if(badShepherdX === width / 2 && !BAD_SHEPHERD_MODE) {
+  else if(shepherdX === width / 2 && !BAD_SHEPHERD_MODE) {
     fill(255);
-    text('"My sheep listen to my voice; I know them, and they follow me."', badShepherdX, badShepherdY);
+    text('"My sheep listen to my voice; I know them, and they follow me."', shepherdX, shepherdY);
   }
 }
 
@@ -552,18 +552,18 @@ function checkDodged() {
 function handleInputs() {
   // Left and right
   if (keyIsDown(LEFT_ARROW)) {
-    badShepherdVX = -badShepherdSpeed;
+    shepherdVX = -shepherdSpeed;
   }
   else if (keyIsDown(RIGHT_ARROW)) {
-    badShepherdVX = badShepherdSpeed;
+    shepherdVX = shepherdSpeed;
   }
   // Up and down (separate if-statements so you can move vertically and
   // horizontally at the same time)
   if (keyIsDown(UP_ARROW)) {
-    badShepherdVY = -badShepherdSpeed;
+    shepherdVY = -shepherdSpeed;
   }
   else if (keyIsDown(DOWN_ARROW)) {
-    badShepherdVY = badShepherdSpeed;
+    shepherdVY = shepherdSpeed;
   }
 }
 
@@ -610,8 +610,8 @@ function restartGame() {
   dodges = 0;
   saved = 0;
   LIVES = 10;  
-  badShepherdX = width / 2;
-  badShepherdY = height / 2;
+  shepherdX = width / 2;
+  shepherdY = height / 2;
   sheepCount = 0;
   sheepSize = 128;
   sheepSpeed = 0.15;
