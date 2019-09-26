@@ -83,10 +83,6 @@ class GeometricalFigure{
   getType(){
     console.log("Needs an override");
   }
-
-  getType(){
-    console.log("Needs an override");
-  }
   // Accessors and mutators.
   getXPos(){
     return console.log("X Pos of this shape: " + this.xPos);
@@ -210,14 +206,6 @@ class BadShepherdAvatar extends GeometricalFigure{
   constructor(x, y, w, h){
     super(x, y, w, h);
     console.log("Woe!");
-  }
-
-  /**
-   Returns the name of this shape.
-
-  */
-  getType(){
-    return "Bad Shepherd Avatar";
   }
 
   /**
