@@ -78,6 +78,11 @@ class GeometricalFigure{
     this.yPos = y;
     this.shapeWidth = w;
     this.shapeHeight = h;
+    this.type = "GeometricalFigure";
+  }
+
+  get type(){
+    return this.type;
   }
 
   getType(){
@@ -92,13 +97,13 @@ class GeometricalFigure{
     return console.log("Y Pos of this shape: " + this.yPos);
   }
 
-  setWidth(newWidth){
+  set width(newWidth){
     if(newWidth > 0){
       this.shapeWidth = newWidth;
     }
   }
 
-  setHeight(newHeight){
+  set height(newHeight){
     if(newHeight > 0){
       this.shapeHeight = newHeight;
     }
@@ -206,6 +211,15 @@ class BadShepherdAvatar extends GeometricalFigure{
   constructor(x, y, w, h){
     super(x, y, w, h);
     console.log("Woe!");
+    this.type = "BadShepherdAvatar";
+  }
+
+  /**
+   Returns the name of this shape.
+
+  */
+  get type(){
+    return this.type;
   }
 
   /**
@@ -247,50 +261,13 @@ function preload() {
 }
 
 /**
-  Make the canvas, position the avatar and enemy.
-
-*/
-function setup() {
-  // Creates our playing area and parents it within the flexbox in the middle of the screen.
-  sketchCanvas = createCanvas(600, 600); 
-  sketchCanvas.parent('sketchDiv');   
-
-  // Changes the background image depending on the game mode.
-  setBackgroundImage();
-
-  // Put the avatar in the centre
-  shepherdX = width / 2;
-  shepherdY = height / 2;
-
-  // Put the sheep to the left at a random y coordinate within the canvas
-  sheepX = 0;
-  sheepY = random(0, height);
-
-  // Second x position is set to the width for the parallax effect.
-  x2 = width;
-}
-
-/**
   Starts the bad shepherd version of the game.
 
 */
 function startBadShepherdGame() {
-  if (sketchCanvas !== undefined) {
-    BAD_SHEPHERD_MODE = true;
-    sketchCanvas.show();
-    loop();
-  }
-  else {
-    try {
-      sketchCanvas = createCanvas(600, 600);
-      sketchCanvas.parent('sketchDiv');
-      BAD_SHEPHERD_MODE = true;
-      sketchCanvas.show();
-      loop();
-    } catch (error) {
-      console.log("Um...");
-    }
-  }
+  BAD_SHEPHERD_MODE = true;
+  sketchCanvas.show();
+  loop();
 }
 
 /**
@@ -298,11 +275,9 @@ function startBadShepherdGame() {
 
 */
 function startGoodShepherdGame() {
-  if (sketchCanvas !== undefined) {
-    BAD_SHEPHERD_MODE = false;
-    sketchCanvas.show();
-    loop();
-  }
+  BAD_SHEPHERD_MODE = false;
+  sketchCanvas.show();
+  loop();
 }
 
 /**
@@ -612,7 +587,6 @@ function checkConcurrentSheeps(){
     sheepCount++;
   }
 }
-*/
 
 function updateGameState(){
   console.log("Updating game state function.");
