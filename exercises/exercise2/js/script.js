@@ -253,6 +253,7 @@ function preload() {
 function startBadShepherdGame() {
   BAD_SHEPHERD_MODE = true;
   sketchCanvas.show();
+  restartGame();
   loop();
 }
 
@@ -263,6 +264,7 @@ function startBadShepherdGame() {
 function startGoodShepherdGame() {
   BAD_SHEPHERD_MODE = false;
   sketchCanvas.show();
+  restartGame();
   loop();
 }
 
@@ -334,6 +336,7 @@ function draw() {
   // Moves the avatar according to its calculated velocity
   MoveAvatar(leftWall, rightWall);
   displayShamefulText();
+  //image(shepherdAvatar, mouseX += badShepherdVX, mouseY += badShepherdVY, badShepherdSize, badShepherdSize);
 }
 
 /**
@@ -599,11 +602,34 @@ function updateGameState(){
   //showRetryScreen();
 }
 
-function showRetryScreen() {
-  //sketchCanvas.hide();
+function clearCanvas() {
+  clear();
 }
-function resetGame() {
+
+function restartGame() {
   dodges = 0;
   saved = 0;
-  LIVES = 10;
+  LIVES = 10;  
+  badShepherdX = width / 2;
+  badShepherdY = height / 2;
+  sheepCount = 0;
+  sheepSize = 128;
+  sheepSpeed = 0.15;
+  sheepX = 0;
+  sheepY = random(0, height);
+  loop();
+}
+
+/**
+  
+  Mobile controls. Should be the same as keyboard controls prior.
+
+*/
+function touchStarted() {
+  let touchMovement = touches;
+
+  for(touch in touches) {
+    console.log(touch.x);
+    console.log(touch.y);
+  }
 }
