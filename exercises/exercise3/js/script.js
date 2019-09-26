@@ -1,21 +1,28 @@
 "use strict";
-
 /******************************************************************************
-Where's Sausage Dog?
-by Pippin Barr
+Author: Sylvain Tran
+Date: September 26th, 2019
 
-An algorithmic version of a Where's Wally/Waldo searching game where you
-need to click on the sausage dog you're searching for in amongst all
-the visual noise of other animals.
+Goal of program:
+  Modified version of exercise 3.
 
 Animal images from:
 https://creativenerds.co.uk/freebies/80-free-wildlife-icons-the-best-ever-animal-icon-set/
 ******************************************************************************/
+// Canvas parameters
+let innerCanvasWidth;
+let innerCanvasHeight;
+let innerMargins = 150;
 
 // Position and image of the sausage dog we're searching for
 let targetX;
 let targetY;
 let targetImage;
+let targetImageSizeX;
+let targetImageSizeY;
+
+let tx = 0;
+let ty = 0;
 
 // The ten decoy images
 let decoyImage1;
@@ -63,11 +70,20 @@ function setup() {
   background("#ffff00");
   imageMode(CENTER);
 
+  let canvasParameters = [ width, height];
+  let innerCanvasLeft = innerMargins;
+  let innerCanvasRight = width - innerMargins - width / 6;
+  let innerCanvasTop = innerMargins;
+  let innerCanvasBottom = height - innerMargins;
+
+  let innerCanvasWidth = width - innerMargins;
+  let innerCanvasHeight = height - innerMargins;
+
   // Use a for loop to draw as many decoys as we need
   for (let i = 0; i < numDecoys; i++) {
     // Choose a random location on the canvas for this decoy
-    let x = random(0,width);
-    let y = random(0,height);
+    let x = random(innerCanvasLeft, innerCanvasRight);
+    let y = random(innerCanvasTop, innerCanvasBottom);
     // Generate a random number we can use for probability
     let r = random();
     // Use the random number to display one of the ten decoy
@@ -107,11 +123,13 @@ function setup() {
   }
 
   // Once we've displayed all decoys, we choose a random location for the target
-  targetX = random(0,width);
-  targetY = random(0,height);
+  targetX = random(innerCanvasLeft, innerCanvasRight);
+  targetY = random(innerCanvasTop, innerCanvasBottom);
 
   // And draw it (because it's the last thing drawn, it will always be on top)
   image(targetImage,targetX,targetY);
+  tx = random(0, 1000);
+  ty = random(0, 1000);
 }
 
 
@@ -120,6 +138,7 @@ function setup() {
 // Displays the game over screen if the player has won,
 // otherwise nothing (all the gameplay stuff is in mousePressed())
 function draw() {
+  drawGUI();
   if (gameOver) {
     // Prepare our typography
     textFont("Helvetica");
@@ -131,13 +150,59 @@ function draw() {
     // Tell them they won!
     text("YOU WINNED!",width/2,height/2);
 
+    // Perlin noise movement for the DOG
+    let vx = 1;
+    let vy = 1;
+
+    let numberOfTranslations = 20;
+
+    for(let i = 0; i < 20; i++) {
+      if(targetX >= innerCanvasWidth) {
+        targetX -= innerCanvasWidth;
+      }
+      else if(targetX <= innerCanvasWidth) {
+        targetX += innerCanvasWidth;
+      }
+      else if(targetY >= innerCanvasHeight) {
+        targetY -= innerCanvasHeight;
+      }
+      else if(targetY <= innerCanvasHeight) {
+        targetY += innerCanvasHeight;
+      }
+
+      // Makes the dog circle around itself until it spiralls out of the screen.
+
+      let theta = 0;
+      angleMode(RADIANS);
+
+      // make the trajectory of the dog follow a sine function
+      image(targetImage, targetX, targetY, targetImageSizeX, targetImageSizeY);
+
+    }
+
     // Draw a circle around the sausage dog to show where it is (even though
     // they already know because they found it!)
     noFill();
     stroke(random(255));
     strokeWeight(10);
     ellipse(targetX,targetY,targetImage.width,targetImage.height);
+
   }
+}
+
+function drawGUI() {
+  noStroke();
+  fill(45, 255, 100);
+  let guiXPos = width / 1.2;
+  let guiYPos = 0;
+
+  // Draw a background rectangle at the top right of the canvas
+  rect(guiXPos, guiYPos, width / 6, height / 5);
+  image(targetImage, guiXPos += width / 12, guiYPos += height / 10, width / 12, height / 5);
+  fill(255);
+  textSize(32);
+  // Center the text below the picture of the target, centered
+  text("Find me.", guiXPos -= width / 24, guiYPos += height / 11);
 }
 
 // mousePressed()
