@@ -78,11 +78,10 @@ class GeometricalFigure{
     this.yPos = y;
     this.shapeWidth = w;
     this.shapeHeight = h;
-    this.type = "GeometricalFigure";
   }
 
-  get type(){
-    return this.type;
+  getType(){
+    console.log("Needs an override");
   }
 
   getType(){
@@ -97,13 +96,13 @@ class GeometricalFigure{
     return console.log("Y Pos of this shape: " + this.yPos);
   }
 
-  set width(newWidth){
+  setWidth(newWidth){
     if(newWidth > 0){
       this.shapeWidth = newWidth;
     }
   }
 
-  set height(newHeight){
+  setHeight(newHeight){
     if(newHeight > 0){
       this.shapeHeight = newHeight;
     }
@@ -211,15 +210,14 @@ class BadShepherdAvatar extends GeometricalFigure{
   constructor(x, y, w, h){
     super(x, y, w, h);
     console.log("Woe!");
-    this.type = "BadShepherdAvatar";
   }
 
   /**
    Returns the name of this shape.
 
   */
-  get type(){
-    return this.type;
+  getType(){
+    return "Bad Shepherd Avatar";
   }
 
   /**
