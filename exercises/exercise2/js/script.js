@@ -1,13 +1,15 @@
 /**
   Author: Sylvain Tran
-  Date: 19-09-2019
+  Date: 19-09-2019/Last commit to date: 26-09-2019, 9:29 PM.
 
   Goal of Program:
   Modified version of <The Artful Dodger> by Dr. Pippin Bar
-  Cart 253-A-Fall 2019.
+  Cart 253-A-Fall 2019. I wanted to stay true to myself and experiment with
+  this idea, while being fully aware that the game design is totally questionable.
+  How can a Christian video game be good?
 
   Warning:
-  This game was only tested on Chrome and Motorola G Play (mobile).
+  This game was only tested on Firefox and my puny Motorola G Play (mobile).
 
 */
 
@@ -71,6 +73,13 @@ let scrollSpeed = 4;
 // Forum font.
 let forum;
 
+/**
+
+  These classes were copy pasted from exercise 1 with Dr. Pippin's feedback in mind.
+  Question: How to create private fields in Javascript? I looked it up, the # thing is
+  still experimental.
+
+*/
 class GeometricalFigure{
 
   constructor(x, y, w, h){
@@ -80,16 +89,13 @@ class GeometricalFigure{
     this.shapeHeight = h;
   }
 
-  getType(){
-    console.log("Needs an override");
-  }
   // Accessors and mutators.
   getXPos(){
-    return console.log("X Pos of this shape: " + this.xPos);
+    return this.xPos;
   }
 
   getYPos(){
-    return console.log("Y Pos of this shape: " + this.yPos);
+    return this.yPos;
   }
 
   setWidth(newWidth){
@@ -129,14 +135,6 @@ class Sheep extends GeometricalFigure{
     this.sheepICD10Diag = sheepICD10Diag;
     this.sheepAvatar = sheepAvatar; // May not be used for creative issues
     this.sheepCreditCard = sheepCreditCard;
-  }
-
-  /**
-   Returns the name of this shape.
-
-  */
-  getType(){
-    return "Sheep";
   }
 
   /**
@@ -202,7 +200,7 @@ class Sheep extends GeometricalFigure{
   }
 }
 
-class BadShepherdAvatar extends GeometricalFigure{
+class ShepherdAvatar extends GeometricalFigure{
   constructor(x, y, w, h){
     super(x, y, w, h);
     console.log("Woe!");
@@ -220,7 +218,7 @@ class BadShepherdAvatar extends GeometricalFigure{
     Displays a sheep avatar.
 
   */
-  displayBadShepherdAvatar(shepherd, sheepX, width, height){
+  displayShepherdAvatar(shepherd, sheepX, width, height){
     image(shepherd, sheepX, sheepY, width, height);
   }
 
@@ -247,28 +245,6 @@ function preload() {
 }
 
 /**
-  Starts the bad shepherd version of the game.
-
-*/
-function startBadShepherdGame() {
-  BAD_SHEPHERD_MODE = true;
-  sketchCanvas.show();
-  restartGame();
-  loop();
-}
-
-/**
-  Starts the good shepherd version of the game.
-
-*/
-function startGoodShepherdGame() {
-  BAD_SHEPHERD_MODE = false;
-  sketchCanvas.show();
-  restartGame();
-  loop();
-}
-
-/**
   Make the canvas, position the avatar and enemy.
 
 */
@@ -279,12 +255,7 @@ function setup() {
   sketchCanvas.parent('sketchDiv');
 
   // Changes the background image depending on the game mode.
-  if(BAD_SHEPHERD_MODE) {
-    background(bg);
-  }
-  else {
-    background(cityBg);
-  }
+  selectBackground();
 
   // Put the avatar in the centre
   shepherdX = width / 2;
@@ -348,14 +319,54 @@ function initialPageLoading() {
   }
 }
 
+/**
+  Starts the bad shepherd version of the game.
+
+*/
+function startBadShepherdGame() {
+  BAD_SHEPHERD_MODE = true;
+  sketchCanvas.show();
+  restartGame();
+  loop();
+}
+
+/**
+  Starts the good shepherd version of the game.
+
+*/
+function startGoodShepherdGame() {
+  BAD_SHEPHERD_MODE = false;
+  sketchCanvas.show();
+  restartGame();
+  loop();
+}
+
+/**
+  Selects the background according to the game mode.
+
+*/
+function selectBackground() {
+  if (BAD_SHEPHERD_MODE) {
+    background(bg);
+  }
+  else {
+    background(cityBg);
+  }
+}
+
+/**
+
+  Keyboard and Mobile controls. Constrains be to movement depending on the game mode.
+
+*/
 function MoveAvatar() {
   shepherdX += shepherdVX;
   shepherdY += shepherdVY;
-  // Constrains the bad shepherd to half of the screen
+
   let leftWall = width / 2;
-  let rightWall = width - shepherdSize / 2;
+  let rightWall = width - shepherdSize;
   let topWall = 0;
-  let bottomWall = height - shepherdSize / 2;
+  let bottomWall = height - shepherdSize;
 
   let halfScreenConstrain = constrain(shepherdX, leftWall, rightWall);
   let leftRightConstrain = constrain(shepherdX, 0, rightWall);
@@ -363,17 +374,20 @@ function MoveAvatar() {
 
   // Constrains the avatar to the right half of the screen
   if (BAD_SHEPHERD_MODE) {
+    // Mouse and touch inputs
     if(mouseIsPressed) {
       shepherdX = mouseX;
       shepherdY = mouseY;
       let mouseConstrainX = constrain(mouseX, leftWall, rightWall);
       image(shepherdAvatar, mouseConstrainX, mouseY, shepherdSize, shepherdSize);
     }
+    // Keyboard inputs
     else {
       image(shepherdAvatar, halfScreenConstrain, shepherdY, shepherdSize, shepherdSize);
     }
   }
-  else {
+  else { // Constrains the avatar to the canvas' borders
+    // Mouse and touch inputs
     if(mouseIsPressed) {
       shepherdX = mouseX;
       shepherdY = mouseY;
@@ -381,17 +395,28 @@ function MoveAvatar() {
       let mouseConstrainAllY = constrain(mouseY, 0, bottomWall);
       image(shepherdAvatar, mouseConstrainAllX, mouseConstrainAllY, shepherdSize, shepherdSize);
     }
+    // Keyboard inputs
     else {
       image(shepherdAvatar, leftRightConstrain, topDownConstrain, shepherdSize, shepherdSize);
     }
   }
 }
 
+/**
+
+  Resets velocity.
+
+*/
 function resetVelocity() {
   shepherdVX = 0;
   shepherdVY = 0;
 }
 
+/**
+
+  Spawn sheeps with data by random id.
+
+*/
 function spawnSheeps() {
   let randomId = Math.floor(random(1, 100));
 
@@ -402,6 +427,11 @@ function spawnSheeps() {
     sheepData[randomId].avatar, sheepData[randomId].credit_card);
 }
 
+/**
+
+  Display dodges, lives and saved.
+
+*/
 function displayDodges() {
   fill(0, 0, 255);
   textFont('forum');
@@ -423,7 +453,11 @@ function displaySaved() {
   text(saved + " Saved.", width - (width * 0.70), (height * 0.05));
 }
 
-// Moves in parallax left to right.
+/**
+
+  Moves background in parallax.
+
+*/
 function backgroundParallax() {
 
   if(BAD_SHEPHERD_MODE) {
@@ -454,7 +488,9 @@ function backgroundParallax() {
 }
 
 /**
+ 
   The sheep avoid the bad shepherd in that mode.
+  Not implemented yet.
 
  */
 function avoidBadShepherd() {
@@ -472,9 +508,11 @@ function avoidBadShepherd() {
 
 
 /**
-  The sheep are attracted to the good shepherd in that mode.
 
- */
+  The sheep are attracted to the good shepherd in that mode.
+  Not implemented yet.
+
+*/
 function obeyGoodShepherd() {
   let goodShepherdVector = createVector(shepherdX, shepherdY);
   let sheepVector = createVector(sheepX, sheepY);
@@ -493,7 +531,8 @@ function obeyGoodShepherd() {
   Checks if the sheep and avatar overlap - if they do the player loses
   We do this by checking if the distance between the centre of the sheep
   and the centre of the avatar is less that their combined radii.
- */
+ 
+*/
 function checkSheepCollision() {
   if (dist(sheepX, sheepY, shepherdX, shepherdY) < sheepSize / 2 + shepherdSize / 2) {
     if(BAD_SHEPHERD_MODE) {
@@ -511,6 +550,8 @@ function checkSheepCollision() {
     }
     else {
       text("I'm saved!", sheepX, sheepY + 50);
+      shepherdX = width / 2;
+      shepherdY = height / 2;
       dodges = 0;
       saved += 1;
       sheepX = width; // pushes the sheep forth to life
@@ -518,21 +559,34 @@ function checkSheepCollision() {
   }
 }
 
+/**
+
+  Checks if avatar left screen. Removes lives and resets position and dodges if so.
+
+*/
 function checkIfAvatarLeftScreen() {
   if (shepherdX < 0 || shepherdX > width || shepherdY < 0 || shepherdY > height) {
     shepherdX = width / 2;
     shepherdY = height / 2;
-    sheepX = 0;
-    sheepY = random(0, height);
-    dodges = 0;
-    LIVES--;
+    // Only lose lives and reset game if on bad shepherd mode. ...Because...
+    if(BAD_SHEPHERD_MODE){
+      sheepX = 0;
+      sheepY = random(0, height);
+      dodges = 0;
+      LIVES--;
+    }
   }
 }
 
+/**
+
+  Displays shameful dialogue if the shepherd attempts to cross the first half of the screen  
+
+*/
 function displayShamefulText() {
   fill(255, 0, 0);
   textAlign("center", "center");
-  // Displays shameful dialogue if the bad shepherd attempts to cross the first half of the screen
+
   if (shepherdX === width / 2 && BAD_SHEPHERD_MODE) {
     text("Oyaya! Bad doggie come again? I'm outta here!", shepherdX, shepherdY);
     text("(You can't go further.)", shepherdX, shepherdY + 35);
@@ -543,6 +597,12 @@ function displayShamefulText() {
   }
 }
 
+/**
+
+  Checks if the sheep passed to the edge of the screen. If so
+  reset position at random Y and increase size and speed.
+
+*/
 function checkDodged() {
   if(sheepX > width) {
     if(BAD_SHEPHERD_MODE) {
@@ -568,7 +628,6 @@ function checkDodged() {
 
 */
 function handleInputs() {
-  // Left and right
   if (keyIsDown(LEFT_ARROW)) {
     shepherdVX = -shepherdSpeed;
   }
@@ -583,6 +642,12 @@ function handleInputs() {
   }
 }
 
+/**
+
+  Checks if there is more than one sheep alive on the canvas
+  If not, spawn one.
+
+*/
 function checkConcurrentSheeps(){
   if(sheepCount < MAX_SHEEP_ALIVE)
   {
@@ -593,6 +658,11 @@ function checkConcurrentSheeps(){
   }
 }
 
+/**
+
+  Updates game state to know if player has won or lost yet.
+
+*/
 function updateGameState(){
   console.log("Updating game state function.");
   if(dodges === 10 && BAD_SHEPHERD_MODE) {
@@ -615,13 +685,13 @@ function updateGameState(){
     alert("Game Over");
     noLoop();
   }
-  //showRetryScreen();
 }
 
-function clearCanvas() {
-  clear();
-}
+/**
 
+  Restarts the game's statistics and setup positions.
+
+*/
 function restartGame() {
   dodges = 0;
   saved = 0;
@@ -634,25 +704,4 @@ function restartGame() {
   sheepX = 0;
   sheepY = random(0, height);
   loop();
-}
-
-/**
-
-  Mobile controls. Should be the same as keyboard controls prior.
-
-*/
-function mousePressed() {
-  //go to 
-  //console.log(mouseX);
-  //image(shepherdAvatar, )
-}
-
-function touchStarted() {
-  let touchMovement = touches;
-
-
-  for(touch in touches) {
-    console.log(touch.x);
-    console.log(touch.y);
-  }
 }
