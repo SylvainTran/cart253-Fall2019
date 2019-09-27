@@ -353,20 +353,37 @@ function MoveAvatar() {
   shepherdY += shepherdVY;
   // Constrains the bad shepherd to half of the screen
   let leftWall = width / 2;
-  let rightWall = width;
+  let rightWall = width - shepherdSize / 2;
   let topWall = 0;
-  let bottomWall = height;
+  let bottomWall = height - shepherdSize / 2;
+
   let halfScreenConstrain = constrain(shepherdX, leftWall, rightWall);
   let leftRightConstrain = constrain(shepherdX, 0, rightWall);
   let topDownConstrain = constrain(shepherdY, topWall, bottomWall);
 
   // Constrains the avatar to the right half of the screen
   if (BAD_SHEPHERD_MODE) {
-    image(shepherdAvatar, halfScreenConstrain, shepherdY, shepherdSize, shepherdSize);
+    if(mouseIsPressed) {
+      shepherdX = mouseX;
+      shepherdY = mouseY;
+      let mouseConstrainX = constrain(mouseX, leftWall, rightWall);
+      image(shepherdAvatar, mouseConstrainX, mouseY, shepherdSize, shepherdSize);
+    }
+    else {
+      image(shepherdAvatar, halfScreenConstrain, shepherdY, shepherdSize, shepherdSize);
+    }
   }
   else {
-    // TODO contrain on all four sides outside canvas
-    image(shepherdAvatar, leftRightConstrain, topDownConstrain, shepherdSize, shepherdSize);
+    if(mouseIsPressed) {
+      shepherdX = mouseX;
+      shepherdY = mouseY;
+      let mouseConstrainAllX = constrain(mouseX, 0, rightWall);
+      let mouseConstrainAllY = constrain(mouseY, 0, bottomWall);
+      image(shepherdAvatar, mouseConstrainAllX, mouseConstrainAllY, shepherdSize, shepherdSize);
+    }
+    else {
+      image(shepherdAvatar, leftRightConstrain, topDownConstrain, shepherdSize, shepherdSize);
+    }
   }
 }
 
@@ -503,10 +520,10 @@ function checkSheepCollision() {
 
 function checkIfAvatarLeftScreen() {
   if (shepherdX < 0 || shepherdX > width || shepherdY < 0 || shepherdY > height) {
-    sheepX = 0;
-    sheepY = random(0, height);
     shepherdX = width / 2;
     shepherdY = height / 2;
+    sheepX = 0;
+    sheepY = random(0, height);
     dodges = 0;
     LIVES--;
   }
@@ -553,18 +570,16 @@ function checkDodged() {
 function handleInputs() {
   // Left and right
   if (keyIsDown(LEFT_ARROW)) {
-    shepherdVX = -shepherdSpeed * deltaTime;
+    shepherdVX = -shepherdSpeed;
   }
   else if (keyIsDown(RIGHT_ARROW)) {
-    shepherdVX = shepherdSpeed * deltaTime;
+    shepherdVX = shepherdSpeed;
   }
-  // Up and down (separate if-statements so you can move vertically and
-  // horizontally at the same time)
   if (keyIsDown(UP_ARROW)) {
-    shepherdVY = -shepherdSpeed * deltaTime;
+    shepherdVY = -shepherdSpeed;
   }
   else if (keyIsDown(DOWN_ARROW)) {
-    shepherdVY = shepherdSpeed * deltaTime;
+    shepherdVY = shepherdSpeed;
   }
 }
 
@@ -626,11 +641,15 @@ function restartGame() {
   Mobile controls. Should be the same as keyboard controls prior.
 
 */
+function mousePressed() {
+  //go to 
+  //console.log(mouseX);
+  //image(shepherdAvatar, )
+}
+
 function touchStarted() {
   let touchMovement = touches;
-  // Constrains the bad shepherd to half of the screen
-  let leftWall = width / 2;
-  let rightWall = width;
+
 
   for(touch in touches) {
     console.log(touch.x);
