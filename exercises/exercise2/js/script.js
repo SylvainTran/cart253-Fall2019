@@ -174,8 +174,8 @@ class Sheep extends GeometricalFigure{
   */
  displayHistory(){
    let lineSpacing = 15;
-   let sheepDataX = width / 3.5;
-   let sheepDataY = height / 10;
+   let sheepDataX = width / 2;
+   let sheepDataY = height / 3;
 
    if(BAD_SHEPHERD_MODE) {
     fill(0);
@@ -245,13 +245,21 @@ function preload() {
 }
 
 /**
+  Happily resizes the canvas, if the window was resized.
+
+*/
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+/**
   Make the canvas, position the avatar and enemy.
 
 */
 function setup() {
 
   // Creates our playing area
-  sketchCanvas = createCanvas(600, 600);
+  sketchCanvas = createCanvas(windowWidth, windowHeight);
   sketchCanvas.parent('sketchDiv');
 
   // Changes the background image depending on the game mode.
