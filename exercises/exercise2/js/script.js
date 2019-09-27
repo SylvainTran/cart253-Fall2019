@@ -5,7 +5,8 @@
   Goal of Program:
   Modified version of <The Artful Dodger> by Dr. Pippin Bar
   Cart 253-A-Fall 2019. I wanted to stay true to myself and experiment with
-  this idea, while being fully aware that the game design is totally questionable.
+  this idea of using data-oriented text gameplay, 
+  while being fully aware that the game design is totally questionable.
   How can a Christian video game be good?
 
   Warning:
@@ -45,13 +46,15 @@ let shepherdVX = 0;
 let shepherdVY = 0;
 
 // The position and size of the sheeps
-//let sheeps = [99];
 let sheepX;
 let sheepY;
 let sheepSize = 128;
 let sizeIncrease = 20;
 let sheepAvatar;
+// the actual sheep object spawned 
 let testSheep1;
+
+// Number of sheeps on canvas, and max that can be alive
 let sheepCount = 0;
 const MAX_SHEEP_ALIVE = 1;
 
@@ -76,8 +79,8 @@ let forum;
 /**
 
   These classes were copy pasted from exercise 1 with Dr. Pippin's feedback in mind.
-  Question: How to create private fields in Javascript? I looked it up, the # thing is
-  still experimental.
+  Question: How to best create private fields in Javascript? I looked it up, but the # thing is
+  still experimental
 
 */
 class GeometricalFigure{
@@ -169,7 +172,7 @@ class Sheep extends GeometricalFigure{
  }
 
   /**
-    Displays a random name for the newly born sheep.
+    Displays a random history for the newly born sheep.
 
   */
  displayHistory(){
