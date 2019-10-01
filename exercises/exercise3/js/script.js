@@ -10,9 +10,10 @@ Animal images from:
 https://creativenerds.co.uk/freebies/80-free-wildlife-icons-the-best-ever-animal-icon-set/
 ******************************************************************************/
 // Canvas parameters
-let innerCanvasWidth;
-let innerCanvasHeight;
 let innerMargins = 150;
+
+// Spam protection
+let numbersOfClicks = 0;
 
 // Position and image of the sausage dog we're searching for
 let targetX;
@@ -42,6 +43,11 @@ let numDecoys = 100;
 
 // Keep track of whether they've won
 let gameOver = false;
+// Or lost
+let lost = false;
+
+// Time to rescue the dog from the killer. Decreases by level.
+let timer = 5;
 
 // preload()
 //
@@ -61,6 +67,9 @@ function preload() {
   decoyImage10 = loadImage("assets/images/animals-10.png");
 }
 
+function resizeCanvas() {
+  resize(windowWidth, windowHeight);
+}
 // setup()
 //
 // Creates the canvas, sets basic modes, draws correct number
@@ -69,15 +78,18 @@ function setup() {
   createCanvas(windowWidth,windowHeight);
   background("#ffff00");
   imageMode(CENTER);
+  setupDecoys();
+  let innerCanvasWidth = width - innerMargins;
+  let innerCanvasHeight = height - innerMargins;
+}
 
-  let canvasParameters = [ width, height];
+function setupDecoys() {
+  
+  // Setups the inner box
   let innerCanvasLeft = innerMargins;
   let innerCanvasRight = width - innerMargins - width / 6;
   let innerCanvasTop = innerMargins;
   let innerCanvasBottom = height - innerMargins;
-
-  let innerCanvasWidth = width - innerMargins;
-  let innerCanvasHeight = height - innerMargins;
 
   // Use a for loop to draw as many decoys as we need
   for (let i = 0; i < numDecoys; i++) {
@@ -121,72 +133,30 @@ function setup() {
       image(decoyImage10,x,y);
     }
   }
-
+  
   // Once we've displayed all decoys, we choose a random location for the target
   targetX = random(innerCanvasLeft, innerCanvasRight);
   targetY = random(innerCanvasTop, innerCanvasBottom);
 
   // And draw it (because it's the last thing drawn, it will always be on top)
   image(targetImage,targetX,targetY);
+
+  // Perlin noise setups
   tx = random(0, 1000);
   ty = random(0, 1000);
 }
-
-
 // draw()
 //
 // Displays the game over screen if the player has won,
 // otherwise nothing (all the gameplay stuff is in mousePressed())
 function draw() {
+  //gameLost();
   drawGUI();
-  if (gameOver) {
-    // Prepare our typography
-    textFont("Helvetica");
-    textSize(128);
-    textAlign(CENTER,CENTER);
-    noStroke();
-    fill(random(255));
+  spamProtection();
 
-    // Tell them they won!
-    text("YOU WINNED!",width/2,height/2);
-
-    // Perlin noise movement for the DOG
-    let vx = 1;
-    let vy = 1;
-
-    let numberOfTranslations = 20;
-
-    for(let i = 0; i < 20; i++) {
-      if(targetX >= innerCanvasWidth) {
-        targetX -= innerCanvasWidth;
-      }
-      else if(targetX <= innerCanvasWidth) {
-        targetX += innerCanvasWidth;
-      }
-      else if(targetY >= innerCanvasHeight) {
-        targetY -= innerCanvasHeight;
-      }
-      else if(targetY <= innerCanvasHeight) {
-        targetY += innerCanvasHeight;
-      }
-
-      // Makes the dog circle around itself until it spiralls out of the screen.
-
-      let theta = 0;
-      angleMode(RADIANS);
-
-      // make the trajectory of the dog follow a sine function
-      image(targetImage, targetX, targetY, targetImageSizeX, targetImageSizeY);
-
-    }
-
-    // Draw a circle around the sausage dog to show where it is (even though
-    // they already know because they found it!)
-    noFill();
-    stroke(random(255));
-    strokeWeight(10);
-    ellipse(targetX,targetY,targetImage.width,targetImage.height);
-
+  // Todo, add a timer, Plus Doggy Serial Eater theme
+  if (frameCount % 60 == 0 && timer > 0) {
+    timer --;
   }
 }
 
@@ -205,6 +175,106 @@ function drawGUI() {
   text("Find me.", guiXPos -= width / 24, guiYPos += height / 11);
 }
 
+function spamProtection() {
+  if(mouseIsPressed) {
+    numbersOfClicks++;
+    console.log("Number of clicks: " + numbersOfClicks);
+  }
+  if(numbersOfClicks >= 5) {
+    //lost = true;
+    //gameLost();
+  }
+}
+
+/* function gameLost() {
+  if(!lost){
+    return;
+  }
+  else {
+    // Prepare our typography
+    textFont("Helvetica");
+    textSize(128);
+    //textAlign(CENTER,CENTER);
+    noStroke();
+    fill(random(255));
+
+    // Tell them they won!
+    text("YOU LOST!",width/2,height/2);
+    // Reset the number of clicks
+    numbersOfClicks = 0;
+
+    // Reset the timer
+    timer = 5;  
+
+    // Reset game state
+    lost = false;
+  }
+} */
+
+function checkIfGameOver() {
+  if (timer == 0) {
+    lost = true;
+    gameLost();
+  }
+  if (gameOver) {
+    loop();
+    // Prepare our typography
+    textFont("Helvetica");
+    textSize(128);
+    //textAlign(CENTER,CENTER);
+    noStroke();
+    fill(random(255));
+
+    // Tell them they won!
+    text("YOU WINNED!",width/2,height/2);
+    // Reset the number of clicks
+    numbersOfClicks = 0;
+
+    // Reset the timer
+    timer = 5;
+
+    // Draw a circle around the sausage dog to show where it is (even though
+    // they already know because they found it!)
+    noFill();
+    stroke(random(255));
+    strokeWeight(10);
+    ellipse(targetX,targetY,targetImage.width,targetImage.height);
+
+    let innerCanvasWidth = width - innerMargins;
+    let innerCanvasHeight = height - innerMargins;
+    let vx = 1;
+    let vy = 1;
+
+    if(targetX >= innerCanvasWidth) {
+      targetX -= innerCanvasWidth;
+    }
+    else if(targetX <= innerCanvasWidth) {
+      targetX += innerCanvasWidth;
+    }
+    else if(targetY >= innerCanvasHeight) {
+      targetY -= innerCanvasHeight;
+    }
+    else if(targetY <= innerCanvasHeight) {
+      targetY += innerCanvasHeight;
+    }
+
+    let numberOfTranslations = 20;
+
+    for(let i = 0; i < numberOfTranslations; i++) {
+
+        let theta = 0;
+        angleMode(RADIANS);
+        // Move the sausage dog around
+        // Perlin noise movement for the DOG
+        image(targetImage, targetX * noise(tx), targetY * noise(ty), targetImageSizeX, targetImageSizeY);
+      }
+    }
+}
+
+function resetGame() {
+
+  
+}
 // mousePressed()
 //
 // Checks if the player clicked on the target and if so tells them they won
@@ -217,7 +287,9 @@ function mousePressed() {
     // Check if the cursor is also in the y range of the target
     // i.e. check if it's within the top and bottom of the image
     if (mouseY > targetY - targetImage.height/2 && mouseY < targetY + targetImage.height/2) {
+      checkIfGameOver();
       gameOver = true;
+      console.log("Target pressed");
     }
   }
 }
