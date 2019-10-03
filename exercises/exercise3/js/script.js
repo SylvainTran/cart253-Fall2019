@@ -14,6 +14,7 @@ let innerMargins = 150;
 
 // Spam protection
 let numbersOfClicks = 0;
+let maxClicks = 50; // max five clicks allowed at level one.
 
 // Position and image of the sausage dog we're searching for
 let targetX;
@@ -87,7 +88,7 @@ function setup() {
   createCanvas(windowWidth,windowHeight);
   background("#ffff00");
   imageMode(CENTER);
-  setupDecoys();
+  setupDecoys(targetImageSizeX);
   let innerCanvasWidth = width - innerMargins;
   let innerCanvasHeight = height - innerMargins;
 }
@@ -96,7 +97,7 @@ function setup() {
   Setup decoys inside the inner canvas.
 
 */
-function setupDecoys() {
+function setupDecoys(decoySize = targetImageSizeX) {
 
   // Setups the inner box
   let innerCanvasLeft = innerMargins;
@@ -116,34 +117,34 @@ function setupDecoys() {
     // We'll talk more about this nice quality of random soon enough.
     // But basically each "if" and "else if" has a 10% chance of being true
     if (r < 0.1) {
-      image(decoyImage1,x,y);
+      image(decoyImage1,x,y, decoySize);
     }
     else if (r < 0.2) {
-      image(decoyImage2,x,y);
+      image(decoyImage2,x,y, decoySize);
     }
     else if (r < 0.3) {
-      image(decoyImage3,x,y);
+      image(decoyImage3,x,y, decoySize);
     }
     else if (r < 0.4) {
-      image(decoyImage4,x,y);
+      image(decoyImage4,x,y, decoySize);
     }
     else if (r < 0.5) {
-      image(decoyImage5,x,y);
+      image(decoyImage5,x,y, decoySize);
     }
     else if (r < 0.6) {
-      image(decoyImage6,x,y);
+      image(decoyImage6,x,y, decoySize);
     }
     else if (r < 0.7) {
-      image(decoyImage7,x,y);
+      image(decoyImage7,x,y, decoySize);
     }
     else if (r < 0.8) {
-      image(decoyImage8,x,y);
+      image(decoyImage8,x,y, decoySize);
     }
     else if (r < 0.9) {
-      image(decoyImage9,x,y);
+      image(decoyImage9,x,y, decoySize);
     }
     else if (r < 1.0) {
-      image(decoyImage10,x,y);
+      image(decoyImage10,x,y, decoySize);
     }
   }
 
@@ -206,38 +207,12 @@ function drawGUI() {
 function spamProtection() {
   if(mouseIsPressed) {
     numbersOfClicks++;
-    console.log("Number of clicks: " + numbersOfClicks);
   }
-  if(numbersOfClicks >= 5) {
+    console.log("Number of clicks: " + numbersOfClicks);
+  if(numbersOfClicks >= maxClicks) {
     //lost = true;
-    //gameLost();
   }
 }
-
-/* function gameLost() {
-  if(!lost){
-    return;
-  }
-  else {
-    // Prepare our typography
-    textFont("Helvetica");
-    textSize(128);
-    //textAlign(CENTER,CENTER);
-    noStroke();
-    fill(random(255));
-
-    // Tell them they won!
-    text("YOU LOST!",width/2,height/2);
-    // Reset the number of clicks
-    numbersOfClicks = 0;
-
-    // Reset the timer
-    timer = 5;
-
-    // Reset game state
-    lost = false;
-  }
-} */
 
 /**
   Displays win text if the player clicked the sausage dog.
@@ -258,13 +233,24 @@ function displayWinText() {
 
 */
 function checkIfGameOver() {
-  if (timer == 0) {
+  if (timer === 0 || numbersOfClicks >= maxClicks) {
     lost = true;
   }
   if (gameOver) {
+    timer = 5;
+    streakWins++;
     displayWinText();
     displayCircleAroundTarget();
     animateTargetUponWin();
+    increaseDifficulty();
+  }
+  if (lost) {
+    streakWins = 0;
+    background(255);
+    textSize(100);
+    fill(255, 0, 0);
+    text("Get good", width / 3, height / 2);
+    noLoop();
   }
 }
 
@@ -275,6 +261,34 @@ function displayCircleAroundTarget() {
   ellipse(targetX,targetY,targetImage.width,targetImage.height);
 }
 
+function increaseDifficulty() {
+  if(maxClicks == 0) {
+    textSize(100);
+    text("You have now finished this game, go play something else now", width / 3, height / 3);
+  }
+  else {
+    maxClicks--;
+    maxClicks = constrain(maxClicks, 0, 5);
+  }
+
+  switch(streakWins) {
+      case 1:
+        text("Beginner's luck", width / 3, height / 3);
+      case 5:
+        text("Target decimated", width / 3, height / 3);
+      case 10:
+        text("Target obliterated", width / 3, height / 3);
+      case 20:
+        text("Stop playing please", width / 3, height /3);
+      default:
+        text("You're awesome!", width / 3, height / 3);
+  }
+
+  // Random new background color
+  // background(random(0, 255), random(0, 255), random(0, 255));
+  //setupDecoys(targetImageSizeX += 50);
+
+}
 /**
   Moves the target randomly upon having won.
 
@@ -289,44 +303,27 @@ function animateTargetUponWin() {
   let automaticVx = 1;
   let automaticVy = 1;
 
-  // Number of animations to draw
-  let nbAnimations = 2000;
-
   // Loop that animates the dog around randomly
   for(let i = 0; i < gameOver; i++) {
-    automaticVx = random(0, width);
-    automaticVy = random(0, height);
+    automaticVx = random(0, 50);
+    automaticVy = random(0, 50);
 
-    targetX = automaticVx;
-    targetY = automaticVy;
-
-    // Constrains the target image in the inner canvas' region
-
-    if(targetX >= innerCanvasWidth) {
-      targetX -= innerMargins;
-      targetY -= innerMargins;
-    }
-    else if(targetX <= innerCanvasWidth) {
-      targetX += innerMargins;
-      targetY += innerMargins;
-    }
-    else if(targetY >= innerCanvasHeight) {
-      targetY -= innerMargins;
-      targetX -= innerMargins;
-    }
-    else if(targetY <= innerCanvasHeightTop) {
-      targetY += innerMargins;
-      targetX += innerMargins;
-    }
+    targetX += automaticVx;
+    targetY += automaticVy;
 
     // Make the dog bounce if he hits one of the walls
+    if(targetX < 0 || targetX >= innerCanvasWidth) {
+      targetX = -automaticVx;
+    }
+    else if(targetY < 0 || targetY >= innerCanvasWidth) {
+      targetY = -automaticVy;
+    }
 
     // The actual display
     background(0); // redraw the background in black
     textSize(100);
     fill(255, 0, 0);
-    text("I'm bouncing woah!", width / 4, height / 2);
-
+    text("It's raining dogs!", width / 4, height / 2);
     image(targetImage, targetX, targetY, targetImageSizeX, targetImageSizeY);
   }
 }
@@ -338,7 +335,7 @@ function animateTargetUponWin() {
 function resetGame() {
   numbersOfClicks = 0;
   timer = 5;
-  streakWins = 0;
+  setupDecoys(targetImageSizeX);
 }
 // mousePressed()
 //
@@ -352,8 +349,8 @@ function mousePressed() {
     // Check if the cursor is also in the y range of the target
     // i.e. check if it's within the top and bottom of the image
     if (mouseY > targetY - targetImage.height/2 && mouseY < targetY + targetImage.height/2) {
-      checkIfGameOver();
       gameOver = true;
+      checkIfGameOver();
       console.log("Target pressed");
     }
   }
