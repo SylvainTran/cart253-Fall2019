@@ -167,12 +167,12 @@ function drawGUI() {
   let guiYPos = 0;
 
   // Draw a background rectangle at the top right of the canvas
-  rect(guiXPos, guiYPos, width / 6, height / 5);
-  image(targetImage, guiXPos += width / 12, guiYPos += height / 10, width / 12, height / 5);
+  rect(guiXPos, guiYPos, width / 6, height / 4);
+  image(targetImage, guiXPos += width / 12, guiYPos += height / 10, width / 12, targetImageSizeY);
   fill(255);
   textSize(32);
   // Center the text below the picture of the target, centered
-  text("Find me.", guiXPos -= width / 24, guiYPos += height / 11);
+  text("Find me.", guiXPos -= width / 24, guiYPos += height / 8);
 }
 
 function spamProtection() {
@@ -214,7 +214,7 @@ function spamProtection() {
 function checkIfGameOver() {
   if (timer == 0) {
     lost = true;
-    gameLost();
+    //gameLost();
   }
   if (gameOver) {
     loop();
@@ -245,28 +245,37 @@ function checkIfGameOver() {
     let vx = 1;
     let vy = 1;
 
-    if(targetX >= innerCanvasWidth) {
-      targetX -= innerCanvasWidth;
-    }
-    else if(targetX <= innerCanvasWidth) {
-      targetX += innerCanvasWidth;
-    }
-    else if(targetY >= innerCanvasHeight) {
-      targetY -= innerCanvasHeight;
-    }
-    else if(targetY <= innerCanvasHeight) {
-      targetY += innerCanvasHeight;
-    }
-
-    let numberOfTranslations = 20;
+    let numberOfTranslations = 2000;
 
     for(let i = 0; i < numberOfTranslations; i++) {
+      // Move the sausage dog around
+      // Perlin noise movement for the DOG
+      vx *= noise(targetX);
+      vy *= noise(targetY);
 
-        let theta = 0;
-        angleMode(RADIANS);
-        // Move the sausage dog around
-        // Perlin noise movement for the DOG
-        image(targetImage, targetX * noise(tx), targetY * noise(ty), targetImageSizeX, targetImageSizeY);
+      targetX *= vx;
+      targetY *= vy;
+      
+      background("#ffff00");
+      image(targetImage, targetX, targetY, targetImageSizeX, targetImageSizeY);
+        
+      // Make the dog bounce if he hits one of the walls
+      
+      if(targetX >= innerCanvasWidth) {
+        targetX -= innerCanvasWidth;
+      }
+      else if(targetX <= innerCanvasWidth) {
+        targetX += innerCanvasWidth;
+      }
+      else if(targetY >= innerCanvasHeight) {
+        targetY -= innerCanvasHeight;
+      }
+      else if(targetY <= innerCanvasHeight) {
+        targetY += innerCanvasHeight;
+      }
+
+      tx += 0.01;
+      ty += 0.01;
       }
     }
 }
