@@ -2,13 +2,12 @@
 
 /******************************************************
 
-Game - Chaser
-Pippin Barr
+Author: Sylvain Tran
+Date: September 3rd, 2019
 
-A "simple" game of cat and mouse. The player is a circle and can move with keys,
-if they overlap the (randomly moving) prey they "eat it" by sucking out its life
-and adding it to their own. The player "dies" slowly over time so they have to keep
-eating to stay alive.
+Goal of program: Modified version of chaser by Dr. Pippin Bar
+The concept explored in this game is the relation between man and woman
+with the perspective of the Theology of the Body.
 
 Includes: Physics-based movement, keyboard controls, health/stamina,
 random movement, screen wrap.
@@ -44,6 +43,10 @@ let preyMaxHealth = 100;
 // Prey fill color
 let preyFill = 200;
 
+
+let tx = 1;
+let ty = 1;
+
 // Amount of health obtained per frame of "eating" (overlapping) the prey
 let eatHealth = 10;
 // Number of prey eaten during the game (the "score")
@@ -60,6 +63,9 @@ function setup() {
   // We're using simple functions to separate code out
   setupPrey();
   setupPlayer();
+
+  tx = 0.0001
+  ty = 0.0001;
 }
 
 // setupPrey()
@@ -113,25 +119,36 @@ function draw() {
 //
 // Checks arrow keys and adjusts player velocity accordingly
 function handleInput() {
+  let maxBoostedSpeed = playerMaxSpeed * 10;
+
   // Check for horizontal movement
-  if (keyIsDown(LEFT_ARROW)) {
+  if (keyIsDown(LEFT_ARROW) && keyIsDown(SHIFT)) {
+    playerVX = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
+  }
+  else if (keyIsDown(LEFT_ARROW)) {
     playerVX = -playerMaxSpeed;
+  }
+  else if (keyIsDown(RIGHT_ARROW) && keyIsDown(SHIFT)) {
+    playerVX = constrain(playerMaxSpeed, maxBoostedSpeed, maxBoostedSpeed);
   }
   else if (keyIsDown(RIGHT_ARROW)) {
     playerVX = playerMaxSpeed;
   }
-  else {
-    playerVX = 0;
-  }
-
   // Check for vertical movement
-  if (keyIsDown(UP_ARROW)) {
+  else if (keyIsDown(UP_ARROW) && keyIsDown(SHIFT)) {
+    playerVY = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
+  }
+  else if (keyIsDown(UP_ARROW)) {
     playerVY = -playerMaxSpeed;
+  }
+  else if (keyIsDown(DOWN_ARROW) && keyIsDown(SHIFT)) {
+    playerVY = constrain(playerMaxSpeed, maxBoostedSpeed, maxBoostedSpeed);
   }
   else if (keyIsDown(DOWN_ARROW)) {
     playerVY = playerMaxSpeed;
   }
   else {
+    playerVX = 0;
     playerVY = 0;
   }
 }
@@ -215,18 +232,15 @@ function checkEating() {
 //
 // Moves the prey based on random velocity changes
 function movePrey() {
-  // Change the prey's velocity at random intervals
-  // random() will be < 0.05 5% of the time, so the prey
-  // will change direction on 5% of frames
-  if (random() < 0.05) {
-    // Set velocity based on random values to get a new direction
-    // and speed of movement
-    //
-    // Use map() to convert from the 0-1 range of the random() function
-    // to the appropriate range of velocities for the prey
-    preyVX = map(random(), 0, 1, -preyMaxSpeed, preyMaxSpeed);
-    preyVY = map(random(), 0, 1, -preyMaxSpeed, preyMaxSpeed);
-  }
+  // Set velocity based on random values to get a new direction
+  // and speed of movement
+  //
+  // Use map() to convert from the 0-1 range of the random() function
+  // to the appropriate range of velocities for the prey
+
+
+  preyVX = map(noise(tx),0, 1,-preyMaxSpeed, preyMaxSpeed);
+  preyVY = map(noise(ty),0, 1,-preyMaxSpeed, preyMaxSpeed);;
 
   // Update prey position based on velocity
   preyX = preyX + preyVX;
@@ -246,6 +260,11 @@ function movePrey() {
   else if (preyY > height) {
     preyY = preyY - height;
   }
+
+  // Increment the noise values
+  tx += 0.01;
+  ty += 0.01;
+
 }
 
 // drawPrey()
