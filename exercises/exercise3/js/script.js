@@ -283,6 +283,7 @@ function animateTargetUponWin() {
   // Inner canvas settings
   let innerCanvasWidth = width - innerMargins;
   let innerCanvasHeight = height - innerMargins;
+  let innerCanvasHeightTop = innerMargins;
 
   // Velocity parameters
   let automaticVx = 1;
@@ -293,35 +294,39 @@ function animateTargetUponWin() {
 
   // Loop that animates the dog around randomly
   for(let i = 0; i < gameOver; i++) {
-    automaticVx = random(1, 100);
-    automaticVy = random(0, 1);
+    automaticVx = random(0, width);
+    automaticVy = random(0, height);
 
-    targetX = targetX + automaticVx;
-    targetY = targetY + automaticVy;
+    targetX = automaticVx;
+    targetY = automaticVy;
 
     // Constrains the target image in the inner canvas' region
 
     if(targetX >= innerCanvasWidth) {
-      console.log("x Exceeded innerCanvasWidth")
       targetX -= innerMargins;
-    }
-    else if(targetX <= innerCanvasWidth) {
-      console.log("x Exceeded innerCanvasWidth")
-      targetX += innerMargins;
-    }
-    else if(targetY >= innerCanvasHeight) {
-      console.log("x Exceeded innerCanvasWidth")
       targetY -= innerMargins;
     }
-    else if(targetY <= innerCanvasHeight) {
-      console.log("x Exceeded innerCanvasWidth")
+    else if(targetX <= innerCanvasWidth) {
+      targetX += innerMargins;
       targetY += innerMargins;
+    }
+    else if(targetY >= innerCanvasHeight) {
+      targetY -= innerMargins;
+      targetX -= innerMargins;
+    }
+    else if(targetY <= innerCanvasHeightTop) {
+      targetY += innerMargins;
+      targetX += innerMargins;
     }
 
     // Make the dog bounce if he hits one of the walls
 
     // The actual display
-    // background("#ffff00");
+    background(0); // redraw the background in black
+    textSize(100);
+    fill(255, 0, 0);
+    text("I'm bouncing woah!", width / 4, height / 2);
+
     image(targetImage, targetX, targetY, targetImageSizeX, targetImageSizeY);
   }
 }
