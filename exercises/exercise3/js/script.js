@@ -49,6 +49,9 @@ let lost = false;
 // Time to rescue the dog from the killer. Decreases by level.
 let timer = 5;
 
+// Amount of times the player has won without losing (to the timer or having had clicked too many times)
+let streakWins = 0;
+
 // preload()
 //
 // Loads the target and decoy images before the program starts
@@ -67,13 +70,19 @@ function preload() {
   decoyImage10 = loadImage("assets/images/animals-10.png");
 }
 
+/**
+  Resizes to canvas' width and height upon window resize.
+
+*/
 function resizeCanvas() {
   resize(windowWidth, windowHeight);
 }
-// setup()
-//
-// Creates the canvas, sets basic modes, draws correct number
-// of decoys in random positions, then the target
+
+/**
+  Creates the canvas, sets basic modes, draws correct number
+  of decoys in random positions, then the target
+
+*/
 function setup() {
   createCanvas(windowWidth,windowHeight);
   background("#ffff00");
@@ -83,8 +92,12 @@ function setup() {
   let innerCanvasHeight = height - innerMargins;
 }
 
+/**
+  Setup decoys inside the inner canvas.
+
+*/
 function setupDecoys() {
-  
+
   // Setups the inner box
   let innerCanvasLeft = innerMargins;
   let innerCanvasRight = width - innerMargins - width / 6;
@@ -133,7 +146,7 @@ function setupDecoys() {
       image(decoyImage10,x,y);
     }
   }
-  
+
   // Once we've displayed all decoys, we choose a random location for the target
   targetX = random(innerCanvasLeft, innerCanvasRight);
   targetY = random(innerCanvasTop, innerCanvasBottom);
@@ -145,19 +158,34 @@ function setupDecoys() {
   tx = random(0, 1000);
   ty = random(0, 1000);
 }
-// draw()
-//
-// Displays the game over screen if the player has won,
-// otherwise nothing (all the gameplay stuff is in mousePressed())
+
+/**
+  Displays the game over screen if the player has won,
+  otherwise nothing (all the gameplay stuff is in mousePressed())
+
+*/
 function draw() {
   //gameLost();
+  // Draw the canvas
   drawGUI();
+  // Overview of the game:
+
+  // 1. Check if the game is over
+  checkIfGameOver();
+
+  // 2. Game tutorial (expose timer mechanics)
+
+  // 3. Increase difficulty (random images)
+
+  // 4. Reward system (mock)
+
   spamProtection();
 
   // Todo, add a timer, Plus Doggy Serial Eater theme
   if (frameCount % 60 == 0 && timer > 0) {
     timer --;
   }
+
 }
 
 function drawGUI() {
@@ -204,85 +232,102 @@ function spamProtection() {
     numbersOfClicks = 0;
 
     // Reset the timer
-    timer = 5;  
+    timer = 5;
 
     // Reset game state
     lost = false;
   }
 } */
 
+/**
+  Displays win text if the player clicked the sausage dog.
+
+*/
+function displayWinText() {
+  textFont("Helvetica");
+  textSize(128);
+  noStroke();
+  fill(random(255));
+  text("YOU WINNED!",width/2,height/2);
+}
+
+/**
+  Checks if the game is over because the timer clocked out or
+  the player clicked too many times, or if they actually found
+  the dog.
+
+*/
 function checkIfGameOver() {
   if (timer == 0) {
     lost = true;
-    //gameLost();
   }
   if (gameOver) {
-    loop();
-    // Prepare our typography
-    textFont("Helvetica");
-    textSize(128);
-    //textAlign(CENTER,CENTER);
-    noStroke();
-    fill(random(255));
-
-    // Tell them they won!
-    text("YOU WINNED!",width/2,height/2);
-    // Reset the number of clicks
-    numbersOfClicks = 0;
-
-    // Reset the timer
-    timer = 5;
-
-    // Draw a circle around the sausage dog to show where it is (even though
-    // they already know because they found it!)
-    noFill();
-    stroke(random(255));
-    strokeWeight(10);
-    ellipse(targetX,targetY,targetImage.width,targetImage.height);
-
-    let innerCanvasWidth = width - innerMargins;
-    let innerCanvasHeight = height - innerMargins;
-    let vx = 1;
-    let vy = 1;
-
-    let numberOfTranslations = 2000;
-
-    for(let i = 0; i < numberOfTranslations; i++) {
-      // Move the sausage dog around
-      // Perlin noise movement for the DOG
-      vx *= noise(targetX);
-      vy *= noise(targetY);
-
-      targetX *= vx;
-      targetY *= vy;
-      
-      background("#ffff00");
-      image(targetImage, targetX, targetY, targetImageSizeX, targetImageSizeY);
-        
-      // Make the dog bounce if he hits one of the walls
-      
-      if(targetX >= innerCanvasWidth) {
-        targetX -= innerCanvasWidth;
-      }
-      else if(targetX <= innerCanvasWidth) {
-        targetX += innerCanvasWidth;
-      }
-      else if(targetY >= innerCanvasHeight) {
-        targetY -= innerCanvasHeight;
-      }
-      else if(targetY <= innerCanvasHeight) {
-        targetY += innerCanvasHeight;
-      }
-
-      tx += 0.01;
-      ty += 0.01;
-      }
-    }
+    displayWinText();
+    displayCircleAroundTarget();
+    animateTargetUponWin();
+  }
 }
 
-function resetGame() {
+function displayCircleAroundTarget() {
+  noFill();
+  stroke(random(255));
+  strokeWeight(10);
+  ellipse(targetX,targetY,targetImage.width,targetImage.height);
+}
 
-  
+/**
+  Moves the target randomly upon having won.
+
+*/
+function animateTargetUponWin() {
+  // Inner canvas settings
+  let innerCanvasWidth = width - innerMargins;
+  let innerCanvasHeight = height - innerMargins;
+
+  // Velocity parameters
+  let automaticVx = 1;
+  let automaticVy = 1;
+
+  // Number of animations to draw
+  let nbAnimations = 2000;
+
+  // Loop that animates the dog around randomly
+  for(let i = 0; i < nbAnimations; i++) {
+    automaticVx = random(0, 1);
+    automaticVy = random(0, 1);
+
+    targetX = targetX + automaticVx;
+    targetY = targetY + automaticVy;
+
+    // Make the dog bounce if he hits one of the walls
+
+    if(targetX >= innerCanvasWidth) {
+      targetX -= innerCanvasWidth;
+    }
+    else if(targetX <= innerCanvasWidth) {
+      targetX += innerCanvasWidth;
+    }
+    else if(targetY >= innerCanvasHeight) {
+      targetY -= innerCanvasHeight;
+    }
+    else if(targetY <= innerCanvasHeight) {
+      targetY += innerCanvasHeight;
+    }
+
+    // The actual display
+    // background("#ffff00");
+    image(targetImage, targetX, targetY, targetImageSizeX, targetImageSizeY);
+  }
+}
+/**
+  Resets the statistics (number of clicks and timer).
+  Also the number of streak wins.
+
+*/
+function resetGame() {
+  numbersOfClicks = 0;
+  timer = 5;
+  streakWins = 0;
 }
 // mousePressed()
 //
