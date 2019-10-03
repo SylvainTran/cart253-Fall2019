@@ -14,7 +14,7 @@ let innerMargins = 150;
 
 // Spam protection
 let numbersOfClicks = 0;
-let maxClicks = 50; // max five clicks allowed at level one.
+let maxClicks = 5; // max five clicks allowed at level one.
 
 // Position and image of the sausage dog we're searching for
 let targetX;
@@ -214,6 +214,31 @@ function spamProtection() {
   }
 }
 
+/* function gameLost() {
+  if(!lost){
+    return;
+  }
+  else {
+    // Prepare our typography
+    textFont("Helvetica");
+    textSize(128);
+    //textAlign(CENTER,CENTER);
+    noStroke();
+    fill(random(255));
+
+    // Tell them they won!
+    text("YOU LOST!",width/2,height/2);
+    // Reset the number of clicks
+    numbersOfClicks = 0;
+
+    // Reset the timer
+    timer = 5;
+
+    // Reset game state
+    lost = false;
+  }
+} */
+
 /**
   Displays win text if the player clicked the sausage dog.
 
@@ -233,7 +258,7 @@ function displayWinText() {
 
 */
 function checkIfGameOver() {
-  if (timer === 0 || numbersOfClicks >= maxClicks) {
+  if (timer == 0 || numbersOfClicks >= 100) {
     lost = true;
   }
   if (gameOver) {
@@ -243,6 +268,10 @@ function checkIfGameOver() {
     displayCircleAroundTarget();
     animateTargetUponWin();
     increaseDifficulty();
+
+    if (timer == 0) {
+      restartGame();
+    }
   }
   if (lost) {
     streakWins = 0;
@@ -271,6 +300,7 @@ function increaseDifficulty() {
     maxClicks = constrain(maxClicks, 0, 5);
   }
 
+  /*
   switch(streakWins) {
       case 1:
         text("Beginner's luck", width / 3, height / 3);
@@ -283,9 +313,10 @@ function increaseDifficulty() {
       default:
         text("You're awesome!", width / 3, height / 3);
   }
+  */
 
   // Random new background color
-  // background(random(0, 255), random(0, 255), random(0, 255));
+  //background(random(0, 255), random(0, 255), random(0, 255));
   //setupDecoys(targetImageSizeX += 50);
 
 }
@@ -311,7 +342,7 @@ function animateTargetUponWin() {
     targetX += automaticVx;
     targetY += automaticVy;
 
-    // Make the dog bounce if he hits one of the walls
+    // Make the dog appear at the other end of the canvas
     if(targetX < 0 || targetX >= innerCanvasWidth) {
       targetX = -automaticVx;
     }
@@ -324,6 +355,7 @@ function animateTargetUponWin() {
     textSize(100);
     fill(255, 0, 0);
     text("It's raining dogs!", width / 4, height / 2);
+
     image(targetImage, targetX, targetY, targetImageSizeX, targetImageSizeY);
   }
 }
@@ -349,8 +381,8 @@ function mousePressed() {
     // Check if the cursor is also in the y range of the target
     // i.e. check if it's within the top and bottom of the image
     if (mouseY > targetY - targetImage.height/2 && mouseY < targetY + targetImage.height/2) {
-      gameOver = true;
       checkIfGameOver();
+      gameOver = true;
       console.log("Target pressed");
     }
   }
