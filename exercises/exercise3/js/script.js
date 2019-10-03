@@ -4,17 +4,17 @@ Author: Sylvain Tran
 Date: September 26th, 2019
 
 Goal of program:
-  Modified version of exercise 3.
+  Modified version of exercise 3. This time I didn't go all weird I think...
 
 Animal images from:
 https://creativenerds.co.uk/freebies/80-free-wildlife-icons-the-best-ever-animal-icon-set/
 ******************************************************************************/
-// Canvas parameters
+// The inner canvas' margins. Credits to Che Tan who pointed this out.
 let innerMargins = 150;
 
-// Spam protection
+// Click spam protection
 let numbersOfClicks = 0;
-let maxClicks = 5; // max five clicks allowed at level one.
+let maxClicks = 5; // max five clicks allowed at level one
 
 // Position and image of the sausage dog we're searching for
 let targetX;
@@ -22,9 +22,6 @@ let targetY;
 let targetImage;
 let targetImageSizeX;
 let targetImageSizeY;
-
-let tx = 0;
-let ty = 0;
 
 // The ten decoy images
 let decoyImage1;
@@ -44,18 +41,17 @@ let numDecoys = 100;
 
 // Keep track of whether they've won
 let gameOver = false;
+
 // Or lost
 let lost = false;
 
-// Time to rescue the dog from the killer. Decreases by level.
-let timer = 5;
-
-// Amount of times the player has won without losing (to the timer or having had clicked too many times)
+// Amount of times the player has won without losing (without having had clicked too many times)
 let streakWins = 0;
 
-// preload()
-//
-// Loads the target and decoy images before the program starts
+/**
+  Loads the target and decoy images before the program starts
+
+*/
 function preload() {
   targetImage = loadImage("assets/images/animals-target.png");
 
@@ -154,10 +150,6 @@ function setupDecoys(decoySize = targetImageSizeX) {
 
   // And draw it (because it's the last thing drawn, it will always be on top)
   image(targetImage,targetX,targetY);
-
-  // Perlin noise setups
-  tx = random(0, 1000);
-  ty = random(0, 1000);
 }
 
 /**
@@ -174,19 +166,13 @@ function draw() {
   // 1. Check if the game is over
   checkIfGameOver();
 
-  // 2. Game tutorial (expose timer mechanics)
+  // 2. Game tutorial (expose mechanics)
 
   // 3. Increase difficulty (random images)
 
   // 4. Reward system (mock)
 
   spamProtection();
-
-  // Todo, add a timer, Plus Doggy Serial Eater theme
-  if (frameCount % 60 == 0 && timer > 0) {
-    timer --;
-  }
-
 }
 
 function drawGUI() {
@@ -214,31 +200,6 @@ function spamProtection() {
   }
 }
 
-/* function gameLost() {
-  if(!lost){
-    return;
-  }
-  else {
-    // Prepare our typography
-    textFont("Helvetica");
-    textSize(128);
-    //textAlign(CENTER,CENTER);
-    noStroke();
-    fill(random(255));
-
-    // Tell them they won!
-    text("YOU LOST!",width/2,height/2);
-    // Reset the number of clicks
-    numbersOfClicks = 0;
-
-    // Reset the timer
-    timer = 5;
-
-    // Reset game state
-    lost = false;
-  }
-} */
-
 /**
   Displays win text if the player clicked the sausage dog.
 
@@ -252,26 +213,20 @@ function displayWinText() {
 }
 
 /**
-  Checks if the game is over because the timer clocked out or
-  the player clicked too many times, or if they actually found
-  the dog.
+  Checks if the game is over because the player clicked too many times, or if they actually found
+  the target.
 
 */
 function checkIfGameOver() {
-  if (timer == 0 || numbersOfClicks >= 100) {
+  if (numbersOfClicks >= 100) {
     lost = true;
   }
   if (gameOver) {
-    timer = 5;
     streakWins++;
     displayWinText();
     displayCircleAroundTarget();
     animateTargetUponWin();
     increaseDifficulty();
-
-    if (timer == 0) {
-      restartGame();
-    }
   }
   if (lost) {
     streakWins = 0;
@@ -360,14 +315,13 @@ function animateTargetUponWin() {
   }
 }
 /**
-  Resets the statistics (number of clicks and timer).
-  Also the number of streak wins.
+  Resets the statistics (number of clicks).
 
 */
 function resetGame() {
   numbersOfClicks = 0;
-  timer = 5;
   setupDecoys(targetImageSizeX);
+
 }
 // mousePressed()
 //
