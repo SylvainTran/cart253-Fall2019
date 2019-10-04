@@ -108,7 +108,7 @@ function setupDecoys(decoySize, numDecoys) {
   lostGame = false;
   // Set background to a new random color
   background(random(0, 255), random(0, 255), random(0, 255));
-
+  drawGUI();
   // Setups the inner box
   let innerCanvasLeft = innerMargins;
   let innerCanvasRight = width - innerMargins - width / 6;
