@@ -6,13 +6,19 @@ Author: Sylvain Tran
 Date: September 3rd, 2019
 
 Goal of program: Modified version of chaser by Dr. Pippin Bar
-The concept explored in this game is the relation between man and woman
+The concept explored in this game is the original relation between man and woman
 with the perspective of the Theology of the Body.
+
+Twists: You can eat the forbidden fruit.
 
 Includes: Physics-based movement, keyboard controls, health/stamina,
 random movement, screen wrap.
 
 ******************************************************/
+
+// Canvas scenes management
+let startingGame = false; // Intro cinematic canvas screen
+
 
 // Track whether the game is over
 let gameOver = false;
@@ -56,16 +62,9 @@ let preyEaten = 0;
 //
 // Sets up the basic elements of the game
 function setup() {
-  createCanvas(500, 500);
-
-  noStroke();
-
-  // We're using simple functions to separate code out
-  setupPrey();
-  setupPlayer();
-
-  tx = 0.0001
-  ty = 0.0001;
+  // draw the intro cinematic screen to full width and height
+  let introScreen = createCanvas(1000, 1000);
+  introScreen.parent('mainDisplay');
 }
 
 // setupPrey()
@@ -88,14 +87,25 @@ function setupPlayer() {
   playerHealth = playerMaxHealth;
 }
 
-// draw()
-//
-// While the game is active, checks input
-// updates positions of prey and player,
-// checks health (dying), checks eating (overlaps)
-// displays the two agents.
-// When the game is over, shows the game over screen.
+/**
+  Draw the canvas elements.
+
+*/
 function draw() {
+  // clear the remove the canvas when the cinematic is over (player clicked start game)
+  if(startingGame === true) {
+    // Reset the canvas
+    clear();
+    // Create the game's canvas
+    noStroke();
+    setupPrey();
+    setupPlayer();
+
+    tx = 0.0001
+    ty = 0.0001;
+  }
+
+  // Actual gameplay elements
   background(100, 100, 200);
 
   if (!gameOver) {
