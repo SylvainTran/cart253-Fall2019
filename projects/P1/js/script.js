@@ -17,8 +17,8 @@ random movement, screen wrap.
 ******************************************************/
 
 // Canvas scenes management
-let startingGame = false; // Intro cinematic canvas screen
-
+let introScreen;
+let passIntroduction = false; // Pass the intro cinematic canvas screen to the actual game
 
 // Track whether the game is over
 let gameOver = false;
@@ -63,8 +63,12 @@ let preyEaten = 0;
 // Sets up the basic elements of the game
 function setup() {
   // draw the intro cinematic screen to full width and height
-  let introScreen = createCanvas(1000, 1000);
+  introScreen = createCanvas(1000, 1000);
   introScreen.parent('mainDisplay');
+
+  passIntroduction = true;
+  tx = 0.0001
+  ty = 0.0001;
 }
 
 // setupPrey()
@@ -93,16 +97,14 @@ function setupPlayer() {
 */
 function draw() {
   // clear the remove the canvas when the cinematic is over (player clicked start game)
-  if(startingGame === true) {
+  if (passIntroduction === true) {
     // Reset the canvas
     clear();
     // Create the game's canvas
     noStroke();
     setupPrey();
     setupPlayer();
-
-    tx = 0.0001
-    ty = 0.0001;
+    passIntroduction = false;
   }
 
   // Actual gameplay elements
@@ -119,8 +121,7 @@ function draw() {
 
     drawPrey();
     drawPlayer();
-  }
-  else {
+  } else {
     showGameOver();
   }
 }
@@ -134,30 +135,23 @@ function handleInput() {
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW) && keyIsDown(SHIFT)) {
     playerVX = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
-  }
-  else if (keyIsDown(LEFT_ARROW)) {
+  } else if (keyIsDown(LEFT_ARROW)) {
     playerVX = -playerMaxSpeed;
-  }
-  else if (keyIsDown(RIGHT_ARROW) && keyIsDown(SHIFT)) {
+  } else if (keyIsDown(RIGHT_ARROW) && keyIsDown(SHIFT)) {
     playerVX = constrain(playerMaxSpeed, maxBoostedSpeed, maxBoostedSpeed);
-  }
-  else if (keyIsDown(RIGHT_ARROW)) {
+  } else if (keyIsDown(RIGHT_ARROW)) {
     playerVX = playerMaxSpeed;
   }
   // Check for vertical movement
   else if (keyIsDown(UP_ARROW) && keyIsDown(SHIFT)) {
     playerVY = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
-  }
-  else if (keyIsDown(UP_ARROW)) {
+  } else if (keyIsDown(UP_ARROW)) {
     playerVY = -playerMaxSpeed;
-  }
-  else if (keyIsDown(DOWN_ARROW) && keyIsDown(SHIFT)) {
+  } else if (keyIsDown(DOWN_ARROW) && keyIsDown(SHIFT)) {
     playerVY = constrain(playerMaxSpeed, maxBoostedSpeed, maxBoostedSpeed);
-  }
-  else if (keyIsDown(DOWN_ARROW)) {
+  } else if (keyIsDown(DOWN_ARROW)) {
     playerVY = playerMaxSpeed;
-  }
-  else {
+  } else {
     playerVX = 0;
     playerVY = 0;
   }
@@ -176,8 +170,7 @@ function movePlayer() {
   if (playerX < 0) {
     // Off the left side, so add the width to reset to the right
     playerX = playerX + width;
-  }
-  else if (playerX > width) {
+  } else if (playerX > width) {
     // Off the right side, so subtract the width to reset to the left
     playerX = playerX - width;
   }
@@ -185,8 +178,7 @@ function movePlayer() {
   if (playerY < 0) {
     // Off the top, so add the height to reset to the bottom
     playerY = playerY + height;
-  }
-  else if (playerY > height) {
+  } else if (playerY > height) {
     // Off the bottom, so subtract the height to reset to the top
     playerY = playerY - height;
   }
@@ -249,8 +241,8 @@ function movePrey() {
   // to the appropriate range of velocities for the prey
 
 
-  preyVX = map(noise(tx),0, 1,-preyMaxSpeed, preyMaxSpeed);
-  preyVY = map(noise(ty),0, 1,-preyMaxSpeed, preyMaxSpeed);;
+  preyVX = map(noise(tx), 0, 1, -preyMaxSpeed, preyMaxSpeed);
+  preyVY = map(noise(ty), 0, 1, -preyMaxSpeed, preyMaxSpeed);;
 
   // Update prey position based on velocity
   preyX = preyX + preyVX;
@@ -259,15 +251,13 @@ function movePrey() {
   // Screen wrapping
   if (preyX < 0) {
     preyX = preyX + width;
-  }
-  else if (preyX > width) {
+  } else if (preyX > width) {
     preyX = preyX - width;
   }
 
   if (preyY < 0) {
     preyY = preyY + height;
-  }
-  else if (preyY > height) {
+  } else if (preyY > height) {
     preyY = preyY - height;
   }
 
