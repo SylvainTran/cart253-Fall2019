@@ -1,6 +1,6 @@
 "use strict";
 
-/******************************************************
+/**
 
 Author: Sylvain Tran
 Date: September 3rd, 2019
@@ -14,7 +14,7 @@ Twists: You can eat the forbidden fruit.
 Includes: Physics-based movement, keyboard controls, health/stamina,
 random movement, screen wrap.
 
-******************************************************/
+*/
 
 // Canvas scenes management
 let screensQueue;
@@ -28,7 +28,8 @@ let gameOver = false;
 // Screen management related
 let screens;
 
-// Player position, size, velocity
+// Player's chosen gender, position, size, velocity
+let playerGender;
 let playerX;
 let playerY;
 let playerRadius = 25;
@@ -54,7 +55,7 @@ let preyMaxHealth = 100;
 // Prey fill color
 let preyFill = 200;
 
-
+// Perlin noise time values
 let tx = 1;
 let ty = 1;
 
@@ -77,7 +78,7 @@ function setup() {
   screensQueue.enqueue("intro1");
   screensQueue.enqueue("intro2");
   screensQueue.enqueue("intro3");
-  
+
   // Create the game's canvas
   noStroke();
   setupPrey();
@@ -185,11 +186,47 @@ function handleInput() {
 
 }
 
+/**
+  Move to the next screen.
+
+*/
 function nextScreen() {
   clear();
-
   let nextScreen = screensQueue.dequeue();
   currentScreen = nextScreen;
+  goToScreen(currentScreen);
+}
+
+/**
+  Get the current screen -- by creating a new scene with the
+  defined objects in it.
+
+*/
+function goToScreen(screen) {
+  switch(screen) {
+    case "intro1":
+      let intro1BgColor = 255; // White
+      let intro1Actors = {};
+      //let intro1 = new Scene(intro1BgColor,  );
+      //constructor(bgColor, actors, animals, environment, props, maxObjects, cinematic) {
+      break;
+    case "intro2":
+      break;
+    case "intro3":
+      break;
+    case "eden1":
+      break;
+    case "eden2":
+      break;
+    case "eden3":
+      break;
+    case "forbiddenFruitScreen":
+      break;
+    case "playgrounds":
+      break;
+    default:
+      break;
+  }
 }
 
 // movePlayer()
@@ -382,5 +419,33 @@ class Queue {
     else {
       return this.items[0];
     }
+  }
+}
+
+class Scene {
+  constructor(bgColor, actors, animals, environment, props, maxObjects, cinematic) {
+    this.bgColor = bgColor;
+    this.actors = actors;
+    this.animals = animals;
+    this.environment = environment;
+    this.props = props;
+    this.maxObjects = maxObjects;
+    this.cinematic = cinematic;
+  }
+
+  makeScene() {
+
+  }
+
+  initScene() {
+
+  }
+  // TODO look into data-oriented
+
+  generateActors(playerGender, sceneType, forbiddenFruitState) {
+
+    // Spawn the gender that the player has not picked
+    // Checks if the scene type is a cinematic or game scene
+    // Predisposition according to whether the forbidden fruit has been consummed
   }
 }
