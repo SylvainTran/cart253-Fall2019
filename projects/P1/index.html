@@ -6,19 +6,59 @@
 
     <!-- CSS stylesheet(s) -->
     <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Forum&display=swap" rel="stylesheet">
 
     <!-- Library script(s) -->
     <script src="js/libraries/p5.min.js"></script>
     <script src="js/libraries/p5.dom.min.js"></script>
     <script src="js/libraries/p5.sound.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <!-- My script(s) -->
     <script src="js/script.js"></script>
   </head>
 
   <body>
-    <div id="mainDisplay"></div>
-    <!-- HTML would go here if needed. -->
+    <!-- Start of the flex box container -->
+    <div class="flex-container">
+      <div class="banner"> <!-- Just the title -->
+        Garden of Eden: Man and Woman
+        <span style="font-size: 22px; margin-left: 10px; margin-right: 10px;">...The next on stories of the bible. </span>
+      </div>
+      <div class="navMenu"> <!-- The game options -->
+        <div class="gameMenu">
+          <button onclick="$(document).ready(function() {
+            console.log('Starting the Eve game.');
+            createEve()
+          })
+          ;">Play As Adam</button>
+          <button onclick="$(document).ready(function() {
+            console.log('Starting the Adam game.');
+            createAdam()
+          })
+          ;">Play As Eve</button>
+          <button onclick="$(document).ready(function() {
+            console.log('Restarting game.');
+            restartGame();
+          })
+          ;">Restart Game</button>
+        </div>
+      </div>
+    <!-- End of flex-container. -->
+    </div>
+    <!-- p5.js canvas is childed to mainDisplay which uses Flexbox. -->
+    <div id="mainDisplay">
+    </div>
+    <div class="bible-quote">
+        <span style="font-size: 55px; color: purple; margin-right: 15px; margin-top: 15px;">John 1:26-27 (NIV)</span>
+        <span style="margin-top: 15px;">
+          <em>
+              "Then God said, "Let us make mankind in our image, in our likeness, so that they may rule over the fish in the sea              and the birds in the sky, over the livestock and all the wild animals, and over all the creatures that move along the ground.
+              <br><br>
+              So God created mankind in his own image, in the image of God he created them; male and female he created them."
+          </em>
+        </span>
+    </div>
   </body>
-
 </html>
