@@ -17,6 +17,7 @@ random movement, screen wrap.
 ******************************************************/
 
 // Canvas scenes management
+let screensQueue;
 let currentScreen;
 let introScreen;
 let playIntroduction = false; // Pass the intro cinematic canvas screen to the actual game
@@ -69,7 +70,14 @@ function setup() {
   // draw the intro cinematic screen to full width and height
   introScreen = createCanvas(1000, 1000);
   introScreen.parent('mainDisplay');
-  //playingIntroduction = true;
+  screensQueue = new Queue();
+  alert(screensQueue.isFull());
+  alert("Empty? " + screensQueue.isEmpty());
+
+  screensQueue.enqueue("intro1");
+  screensQueue.enqueue("intro2");
+  screensQueue.enqueue("intro3");
+  
   // Create the game's canvas
   noStroke();
   setupPrey();
@@ -105,7 +113,7 @@ function setupPlayer() {
 
 */
 function draw() {
-    handleInput();
+  handleInput();
   // Play the intro
   if (playIntroduction === true) {
     playIntroduction = false;
@@ -113,9 +121,9 @@ function draw() {
     background(0);
     textSize(42);
     fill(255);
-    text("...So God created man in His own image; "+
-    "in the\n" + "image of God He created him; male and female\n" +
-    "He created them. ", 30, height / 2);
+    text("...So God created man in His own image; " +
+      "in the\n" + "image of God He created him; male and female\n" +
+      "He created them. ", 30, height / 2);
     text("Press Enter to continue.", 30, height / 1.2);
   }
 
@@ -137,7 +145,7 @@ function draw() {
 
     drawPrey();
     drawPlayer();
-  } else if (gameOver){
+  } else if (gameOver) {
     showGameOver();
   }
 }
@@ -179,9 +187,9 @@ function handleInput() {
 
 function nextScreen() {
   clear();
-  //let screensQueue;
-  //let nextScreen = screensQueue.pop();
-  //currentScreen = nextScreen;
+
+  let nextScreen = screensQueue.dequeue();
+  currentScreen = nextScreen;
 }
 
 // movePlayer()
@@ -326,37 +334,53 @@ function showGameOver() {
   text(gameOverText, width / 2, height / 2);
 }
 
-class ScreenQueue {
-  // Array is used to implement a Queue
-    constructor(maxItems)
-    {
-        this.items = [];
-        this.maxItems = maxItems;
-    }
-    // Functions to be implemented
+/**
+  Queue data structure for managing screen transitions.
+  ...And other things.
 
-    isEmpty() {
-      this.items.length = 0;
-    }
+*/
+class Queue {
+  constructor(maxItems) {
+    this.items = [];
+    this.maxItems = maxItems;
+  }
 
-    isFull() {
-      if(this.items.length == this.maxItems) {
-        return true;
-      }
-    }
-    // enqueue(item)
-    enqueue(element) {
-      if(isFull) {
-        alert("Full");
-        return;
-      }
-      else {
-        this.items.push(element);
-      }
-    }
+  /**
+      Helper functions to check if the queue is empty or full.
 
-    // dequeue()
-    // front()
-    // isEmpty()
-    // printQueue()
+  */
+  isEmpty() {
+    return this.items.length === 0;
+  }
+
+  isFull() {
+    return this.items.length == this.maxItems;
+  }
+
+  enqueue(element) {
+    if (this.isFull()) {
+      alert("Full");
+      return;
+    } else {
+      this.items.push(element);
+    }
+  }
+
+  dequeue() {
+    if(this.isEmpty()) {
+      return "Queue is empty: underflow.";
+    }
+    else {
+      return this.items.shift();
+    }
+  }
+  // front()
+  front() {
+    if(this.isEmpty()) {
+      return "Queue is empty of elements.";
+    }
+    else {
+      return this.items[0];
+    }
+  }
 }
