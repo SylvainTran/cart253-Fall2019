@@ -17,12 +17,15 @@ random movement, screen wrap.
 ******************************************************/
 
 // Canvas scenes management
+let currentScreen;
 let introScreen;
 let playIntroduction = false; // Pass the intro cinematic canvas screen to the actual game
 let playedIntroduction = false;
-
 // Track whether the game is over
 let gameOver = false;
+
+// Screen management related
+let screens;
 
 // Player position, size, velocity
 let playerX;
@@ -102,16 +105,17 @@ function setupPlayer() {
 
 */
 function draw() {
+    handleInput();
   // Play the intro
   if (playIntroduction === true) {
+    playIntroduction = false;
+    currentScreen = SCREEN.intro1;
     background(0);
     textSize(42);
     fill(255);
     text("...So God created man in His own image; "+
     "in the\n" + "image of God He created him; male and female\n" +
     "He created them. ", 30, height / 2);
-    playIntroduction = false;
-
     text("Press Enter to continue.", 30, height / 1.2);
   }
 
@@ -124,7 +128,6 @@ function draw() {
   if (!gameOver && playedIntroduction === true) {
     // Actual gameplay elements
     background(100, 100, 200);
-    handleInput();
 
     movePlayer();
     movePrey();
@@ -145,6 +148,9 @@ function draw() {
 function handleInput() {
   let maxBoostedSpeed = playerMaxSpeed * 10;
 
+  if (keyIsDown(ENTER)) {
+    nextScreen();
+  }
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW) && keyIsDown(SHIFT)) {
     playerVX = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
@@ -173,7 +179,9 @@ function handleInput() {
 
 function nextScreen() {
   clear();
-
+  //let screensQueue;
+  //let nextScreen = screensQueue.pop();
+  //currentScreen = nextScreen;
 }
 
 // movePlayer()
@@ -316,4 +324,39 @@ function showGameOver() {
   gameOverText = gameOverText + "before you died."
   // Display it in the centre of the screen
   text(gameOverText, width / 2, height / 2);
+}
+
+class ScreenQueue {
+  // Array is used to implement a Queue
+    constructor(maxItems)
+    {
+        this.items = [];
+        this.maxItems = maxItems;
+    }
+    // Functions to be implemented
+
+    isEmpty() {
+      this.items.length = 0;
+    }
+
+    isFull() {
+      if(this.items.length == this.maxItems) {
+        return true;
+      }
+    }
+    // enqueue(item)
+    enqueue(element) {
+      if(isFull) {
+        alert("Full");
+        return;
+      }
+      else {
+        this.items.push(element);
+      }
+    }
+
+    // dequeue()
+    // front()
+    // isEmpty()
+    // printQueue()
 }
