@@ -18,7 +18,8 @@ random movement, screen wrap.
 
 // Canvas scenes management
 let introScreen;
-let passIntroduction = false; // Pass the intro cinematic canvas screen to the actual game
+let playIntroduction = false; // Pass the intro cinematic canvas screen to the actual game
+let playedIntroduction = false;
 
 // Track whether the game is over
 let gameOver = false;
@@ -65,8 +66,13 @@ function setup() {
   // draw the intro cinematic screen to full width and height
   introScreen = createCanvas(1000, 1000);
   introScreen.parent('mainDisplay');
+  //playingIntroduction = true;
+  // Create the game's canvas
+  noStroke();
+  setupPrey();
+  setupPlayer();
 
-  passIntroduction = true;
+  playIntroduction = true;
   tx = 0.0001
   ty = 0.0001;
 }
@@ -96,21 +102,28 @@ function setupPlayer() {
 
 */
 function draw() {
-  // clear the remove the canvas when the cinematic is over (player clicked start game)
-  if (passIntroduction === true) {
-    // Reset the canvas
-    clear();
-    // Create the game's canvas
-    noStroke();
-    setupPrey();
-    setupPlayer();
-    passIntroduction = false;
+  // Play the intro
+  if (playIntroduction === true) {
+    background(0);
+    textSize(42);
+    fill(255);
+    text("...So God created man in His own image; "+
+    "in the\n" + "image of God He created him; male and female\n" +
+    "He created them. ", 30, height / 2);
+    playIntroduction = false;
+
+    text("Press Enter to continue.", 30, height / 1.2);
   }
 
-  // Actual gameplay elements
-  background(100, 100, 200);
+  // start the game after the intro
+  if (playedIntroduction === true) {
+    // Reset the canvas
+    clear();
+  }
 
-  if (!gameOver) {
+  if (!gameOver && playedIntroduction === true) {
+    // Actual gameplay elements
+    background(100, 100, 200);
     handleInput();
 
     movePlayer();
@@ -121,7 +134,7 @@ function draw() {
 
     drawPrey();
     drawPlayer();
-  } else {
+  } else if (gameOver){
     showGameOver();
   }
 }
@@ -155,6 +168,12 @@ function handleInput() {
     playerVX = 0;
     playerVY = 0;
   }
+
+}
+
+function nextScreen() {
+  clear();
+
 }
 
 // movePlayer()
