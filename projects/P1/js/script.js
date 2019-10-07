@@ -17,16 +17,19 @@ random movement, screen wrap.
 */
 
 // Canvas scenes management
-let screensQueue;
-let currentScreen;
-let introScreen;
+let sceneQueue;
+let currentScene;
+let introScene;
 let playIntroduction = false; // Pass the intro cinematic canvas screen to the actual game
-let playedIntroduction = false;
+let playedIntro1 = false;
+let playedIntro2 = false;
+let playedIntro3 = false;
+
 // Track whether the game is over
 let gameOver = false;
 
 // Screen management related
-let screens;
+let scenes;
 
 // Player's chosen gender, position, size, velocity
 let playerGender;
@@ -69,15 +72,15 @@ let preyEaten = 0;
 // Sets up the basic elements of the game
 function setup() {
   // draw the intro cinematic screen to full width and height
-  introScreen = createCanvas(1000, 1000);
-  introScreen.parent('mainDisplay');
-  screensQueue = new Queue();
-  alert(screensQueue.isFull());
-  alert("Empty? " + screensQueue.isEmpty());
+  introScene = createCanvas(1000, 1000);
+  introScene.parent('mainDisplay');
+  sceneQueue = new Queue();
+  //alert(sceneQueue.isFull());
+  //alert("Empty? " + sceneQueue.isEmpty());
 
-  screensQueue.enqueue("intro1");
-  screensQueue.enqueue("intro2");
-  screensQueue.enqueue("intro3");
+  sceneQueue.enqueue("intro1");
+  sceneQueue.enqueue("intro2");
+  sceneQueue.enqueue("intro3");
 
   // Create the game's canvas
   noStroke();
@@ -118,23 +121,12 @@ function draw() {
   // Play the intro
   if (playIntroduction === true) {
     playIntroduction = false;
-    currentScreen = SCREEN.intro1;
-    background(0);
-    textSize(42);
-    fill(255);
-    text("...So God created man in His own image; " +
-      "in the\n" + "image of God He created him; male and female\n" +
-      "He created them. ", 30, height / 2);
-    text("Press Enter to continue.", 30, height / 1.2);
+    console.log("calling nextScene: expecting that it hould be intro1");
+    nextScene();
   }
 
-  // start the game after the intro
-  if (playedIntroduction === true) {
-    // Reset the canvas
-    clear();
-  }
-
-  if (!gameOver && playedIntroduction === true) {
+  // The last intro scene is intro3, so we play the game when it's played
+  if (!gameOver && playedIntro3 === true) {
     // Actual gameplay elements
     background(100, 100, 200);
 
@@ -151,15 +143,28 @@ function draw() {
   }
 }
 
+/**
+  This built-in function ensures that the key pressed boolean is only returned once.
+
+*/
+function keyPressed() {
+  if (keyCode === ENTER) {
+    console.log("Enter pressed... going to the next scene.");
+    clear();
+    nextScene();
+  }
+}
 // handleInput()
 //
 // Checks arrow keys and adjusts player velocity accordingly
 function handleInput() {
   let maxBoostedSpeed = playerMaxSpeed * 10;
 
-  if (keyIsDown(ENTER)) {
-    nextScreen();
-  }
+  // clear the current canvas elements and go to next scene
+  // if (keyIsDown(ENTER)) {
+  //   clear();
+  //   nextScene();
+  // }
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW) && keyIsDown(SHIFT)) {
     playerVX = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
@@ -187,32 +192,51 @@ function handleInput() {
 }
 
 /**
-  Move to the next screen.
+  Move to the next scene.
 
 */
-function nextScreen() {
+function nextScene() {
   clear();
-  let nextScreen = screensQueue.dequeue();
-  currentScreen = nextScreen;
-  goToScreen(currentScreen);
+  let nextScene = sceneQueue.dequeue();
+  currentScene = nextScene;
+  goToScene(currentScene);
 }
 
 /**
   Get the current screen -- by creating a new scene with the
   defined objects in it.
+  // TODO implement scene class later
+  //let intro1BgColor = 255; // White
+  //let intro1Actors = {};
+  //let intro1 = new Scene(intro1BgColor,  );
+  //constructor(bgColor, actors, animals, environment, props, maxObjects, cinematic) {
 
 */
-function goToScreen(screen) {
-  switch(screen) {
+function goToScene(scene) {
+  let textContent;
+
+  switch(scene) {
     case "intro1":
-      let intro1BgColor = 255; // White
-      let intro1Actors = {};
-      //let intro1 = new Scene(intro1BgColor,  );
-      //constructor(bgColor, actors, animals, environment, props, maxObjects, cinematic) {
+      textContent = "...So God created man in His own image; " +
+        "in the\n" + "image of God He created him; male and female\n" +
+        "He created them."
+      //(currentScene, backgroundColor, textSize, textColor, textContent, xPos, yPos, actorsPresent)
+      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false);
+      playedIntro1 = true;
       break;
     case "intro2":
+      textContent = "Everything was fine and dandy...";
+      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false);
+      playedIntro2 = true;
       break;
     case "intro3":
+      textContent = "...Until you came along...";
+      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false);
+      // Call the gameplay scene after 3 seconds to avoid skipping the intro3 scene
+      setTimeout(
+        function() {
+        playedIntro3 = true
+        }, 3000);
       break;
     case "eden1":
       break;
@@ -372,6 +396,24 @@ function showGameOver() {
 }
 
 /**
+  Makes a scene. Simple background colors for now.
+
+*/
+function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xPos, yPos, actorsPresent) {
+    currentScene = currScene;
+    background(backgroundColor);
+    textSize(tSize);
+    fill(textColor);
+    text(textContent, xPos, yPos);
+    // User prompt to navigate to the next scene
+    // If there are actors to spawn in this scene
+    if(actorsPresent) {
+      // spawn actors
+    }
+    text("Press Enter to continue.", 30, height / 1.2);
+}
+
+/**
   Queue data structure for managing screen transitions.
   ...And other things.
 
@@ -447,5 +489,32 @@ class Scene {
     // Spawn the gender that the player has not picked
     // Checks if the scene type is a cinematic or game scene
     // Predisposition according to whether the forbidden fruit has been consummed
+  }
+}
+
+/**
+  Actor class
+
+*/
+class Actor {
+  constructor(actorType, width, height, speed) {
+    this.actorType = actorType;
+    this.width = width;
+    this.height = height;
+    this.speed = speed;
+  }
+
+  makeActor() {
+    // if(this.actorType === "animal") {
+    //
+    // }
+  }
+
+  /**
+    Make a random shape for the animal
+  */
+  makeAnimalTemplate() {
+    rectMode(CENTER);
+    rect(random(0, 100), random(0, 100), random(50, 100), random(50, 100));
   }
 }
