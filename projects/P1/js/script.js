@@ -1,7 +1,7 @@
 "use strict";
 
 /**
-
+*
 Author: Sylvain Tran
 Date: September 3rd, 2019
 
@@ -24,7 +24,7 @@ let playIntroduction = false; // Pass the intro cinematic canvas screen to the a
 let playedIntro1 = false;
 let playedIntro2 = false;
 let playedIntro3 = false;
-let preFallenState = false; // Movement type of adam/eve set to be naturally attracted to each other, before you eat the forbidden fruit
+let prefallenState = false; // Movement type of adam/eve set to be naturally attracted to each other, before you eat the forbidden fruit
 // Track whether the game is over
 let gameOver = false;
 
@@ -88,6 +88,7 @@ function setup() {
   setupPlayer();
 
   playIntroduction = true;
+  prefallenState = true;
   tx = 0.0001
   ty = 0.0001;
 }
@@ -132,7 +133,7 @@ function draw() {
 
     movePlayer();
 
-    if (preFallenState) {
+    if (prefallenState) {
       beAttractedToPlayer();
     } else {
       movePrey();
@@ -290,6 +291,9 @@ function checkEating() {
   let d = dist(playerX, playerY, preyX, preyY);
   // Check if it's an overlap
   if (d < playerRadius + preyRadius) {
+    if(prefallenState) {
+      return; // because they are one flesh already
+    }
     // Increase the player health
     playerHealth = playerHealth + eatHealth;
     // Constrain to the possible range
