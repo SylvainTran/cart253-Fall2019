@@ -131,14 +131,13 @@ function draw() {
   // Play the intro
   if (playIntroduction === true) {
     playIntroduction = false;
-    console.log("calling nextScene: expecting that it hould be intro1");
+    console.log("calling nextScene: expecting that it should be intro1");
     nextScene();
   }
 
   // The last intro scene is intro3, so we play the game when it's played
   if (!gameOver && playedIntro3 === true) {
-    // Actual gameplay elements
-    goToScene("eden1");
+    goToScene(currentScene);
     movePlayer();
 
     if (prefallenState) {
@@ -146,10 +145,9 @@ function draw() {
       addHeartOnCollision();
     } else {
       movePrey();
+      updateHealth();
+      checkEating();
     }
-
-    updateHealth();
-    checkEating();
 
     drawPrey();
     drawPlayer();
@@ -163,10 +161,14 @@ function draw() {
 
 */
 function keyPressed() {
-  if (keyCode === ENTER) {
+  if (keyCode === ENTER && currentScene != "eden1") { // Change scene with Enter if you're still in the intro scenes
     console.log("Enter pressed... going to the next scene.");
     clear();
     nextScene();
+  }
+  if (keyCode === ENTER && currentScene === "eden1") { // In Eden 1, you can make babies if you press space.
+    console.log("Making babies");
+    makeBabies(1);
   }
 }
 // handleInput()
@@ -255,7 +257,8 @@ function goToScene(scene) {
       break;
     case "eden1":
       textContent = "Garden of Eden 1.\n\n \"Be fruitful and increase in number;\nFill the earth and subdue it.\"";
-      makeScene(scene, 0, 42, 255, textContent, 30, height / 7, true, 26);
+      makeScene(scene, 0, 42, 255, textContent, 30, height / 7, false, nbActors);
+      console.log(currentScene);
       break;
     case "eden2":
       break;
@@ -314,8 +317,9 @@ function addHeartOnCollision() {
   let d = dist(playerX, playerY, preyX, preyY);
 
   if (d < playerRadius + preyRadius) {
+    clear();
     push();
-    background(175, 0, 0); // Turn the background into intimate scarlet
+    background(175, 0, 0, 100); // Turn the background into intimate scarlet
     imageMode(CENTER);
     image(heartPic, playerX + playerRadius * random(0, 5), playerY - playerRadius * random(0, 5), 100, 100);
     image(heartPic, playerX - playerRadius * random(0, 5), playerY - playerRadius * random(0, 5), 100, 100);
@@ -327,13 +331,13 @@ function addHeartOnCollision() {
     textSize(38);
     let Mark_10_7 = "Mark 10:7\n\"For this reason a man will leave his father\n and mother and be united to his wife.\""
     text(Mark_10_7, width / 7, height / 7);
-    let theWay;
+    let theSnake;
     let sceneChangeClue;
 
     switch (currentScene) {
       case "eden1":
-        theWay = "\"...This way. Bring her with you.\"";
-        sceneChangeClue = "(Go down.)";
+        theSnake = "\"...This way. Do not bring her with you.\"";
+        sceneChangeClue = "(Get to the bottom by pressing shift to sprint.)";
         break;
       case "eden2":
         break;
@@ -345,7 +349,7 @@ function addHeartOnCollision() {
         break;
     }
 
-    text(theWay, width / 7, height / 1.2);
+    text(theSnake, width / 7, height / 1.2);
     text(sceneChangeClue, width / 7, height / 1.4);
     pop();
   }
@@ -629,5 +633,34 @@ class Actor {
   makeAnimalTemplate() {
     rectMode(CENTER);
     rect(random(0, 100), random(0, 100), random(50, 100), random(50, 100));
+  }
+}
+
+/**
+  This function's name is pretty explicit.
+  It's random based.
+
+*/
+function makeBabies(nbActors) {
+  let actors = {};
+  let lifeStream = new Queue();
+
+  for (let i = 0; i <= nbActors; i++) {
+    let randomPosX = random(0, height);
+    let randomPosY = random(0, width);
+    let randWidth = random(playerRadius, playerRadius * 3);
+    let randHeight = random(playerRadius, playerRadius * 3);
+
+    //spawn each actor
+    fill(random(0, 255), random(0, 255), random(0, 255));
+    //ellipse(playerX, playerY, playerRadius * 2);
+    let newBorn = ellipse(randomPosX, randomPosY, randWidth, randHeight);
+    fill(255);
+    text("I am one", randomPosX, randomPosY, randWidth - randomPosX, randHeight - 30);
+    lifeStream.enqueue(newBorn);
+  }
+
+  while (lifeStream.isEmpty() === false) {
+    lifeStream.dequeue();
   }
 }
