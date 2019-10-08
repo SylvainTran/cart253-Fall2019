@@ -95,6 +95,7 @@ function setup() {
   sceneQueue.enqueue("intro3");
   sceneQueue.enqueue("eden1");
   sceneQueue.enqueue("eden2");
+  sceneQueue.enqueue("eden3");
   console.log("queue length: " + sceneQueue.items.length);
   // Create the game's canvas
   noStroke();
@@ -244,21 +245,21 @@ function goToScene(scene) {
     case "intro1":
       textContent = "\"God created man in His own image; " +
         "in the\n" + "image of God He created him; male and female\n" +
-        "He created them.\n\nGenesis 1:27\""
+        "He created them.\"\n\nGenesis 1:27";
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro1 = true;
       console.log(currentScene);
       break;
     case "intro2":
-      textContent = "\“It is not good for the man to be alone.\n I will make a helper suitable for him.\n\nGenesis 2:18\"";
+      textContent = "\“It is not good for the man to be alone.\n I will make a helper suitable for him.\"\n\nGenesis 2:18";
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro2 = true;
       console.log(currentScene);
       break;
     case "intro3":
-      textContent = "\"Then the Lord God made a woman from the rib\nhe had taken out of the man,\nand he brought her to the man...\n\nGenesis 2:22\"";
+      textContent = "\"Then the Lord God made a woman from the rib\nhe had taken out of the man,\nand he brought her to the man...\"\n\nGenesis 2:22";
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       // Call the gameplay scene after 3 seconds to avoid skipping the intro3 scene
@@ -270,7 +271,7 @@ function goToScene(scene) {
       console.log(currentScene);
       break;
     case "eden1":
-      textContent = "Garden of Eden 1.\n\n\"The man said,\nThis is now bone of my bones and flesh of my flesh;\nshe shall be called  \'woman\' for she was\ntaken out of man.\n\nGenesis 2:23\"";
+      textContent = "Garden of Eden 1.\n\n\"The man said,\nThis is now bone of my bones and flesh of my flesh;\nshe shall be called  \'woman\' for she was\ntaken out of man.\"\n\nGenesis 2:23";
       makeScene(scene, 75, 42, 255, textContent, 30, height / 7, false, nbActors);
       console.log(currentScene);
       break;
@@ -280,7 +281,9 @@ function goToScene(scene) {
       console.log(currentScene);
       break;
     case "eden3":
-      textContent = "\"Adam and his wife were both naked, and they felt no shame.\n\nGenesis 2:25\""
+      textContent = "\"Adam and his wife were both naked, and they felt no shame.\"\n\nGenesis 2:25";
+      makeScene(scene, 95, 42, 255, textContent, 30, height / 7, false, nbActors);
+      console.log(currentScene);
       break;
     case "forbiddenFruitScreen":
       break;
@@ -293,14 +296,28 @@ function goToScene(scene) {
 
 function checkPlayerChangedScene(currentScreen) {
   console.log("Checking if player has changed scene");
-  console.log(playerY);
+  console.log("Player X: " + playerX);
+  console.log("Player Y: " + playerY);
+  console.log("Width: " + width);
+  console.log("Height: " + height);
+
+  let changeSceneThresholdY = 50;
+  let changeSceneThresholdX = 50;
   // depending on the scene, certain screen boundaries are open for going to the next scene
   switch(currentScreen) {
-    // if the player has hit the south wall in the eden1 map
+    // if the player has hit the changeSceneThreshold in the map of eden1
     case "eden1":
-      if(playerY >= height) {
+      console.log("it's eden 1");
+      if(playerY >= height - changeSceneThresholdY) {
         nextScene();
-        alert("Changed scene");
+        console.log("Changed scene");
+      }
+      break;
+      console.log("it's eden 2");
+    case "eden2":
+      if(playerX >= width - changeSceneThresholdX) {
+        nextScene();
+        //alert("Changed scene");
       }
       break;
     default:
@@ -370,12 +387,14 @@ function addHeartOnCollision() {
 
     switch (currentScene) {
       case "eden1":
-        theSnake = "\(You hear a hiss...) \"This way. Do not bring\nthe woman with you.\"";
+        theSnake = "(You hear a hiss...) \"This way. But do not bring\nthe woman with you.\"";
         sceneChangeClue = "(Get to the bottom by pressing shift to sprint.)";
         break;
       case "eden2":
+        theSnake = "Ah, she came anyways?\n Well, what can you do right?\n I guess we can all still be friends.\n";
         break;
       case "eden3":
+        theSnake = "I imagine you don't get to do much all day,\nstuck out like that.\nHey, see that massive coconut over there?\n I hear it melts in your mouth...\nI know you want to eat it too!\nTehee!";
         break;
       case "forbiddenFruitScene":
         break;
@@ -385,8 +404,8 @@ function addHeartOnCollision() {
 
     push();
     textFont(mountainsOfChristmasFont);
-    text(theSnake, width / 7, height / 1.2);
-    text(sceneChangeClue, width / 7, height / 1.4);
+    text(theSnake, width / 7, height / 1.5);
+    text(sceneChangeClue, width / 7, height / 1.2);
     pop();
   }
 }
