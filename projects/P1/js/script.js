@@ -59,7 +59,7 @@ let preyMaxSpeed = 4;
 let preyHealth;
 let preyMaxHealth = 100;
 // Prey fill color
-let preyFill = 200;
+let preyFill = 255;
 
 // Perlin noise time values
 let tx = 1;
@@ -70,9 +70,13 @@ let eatHealth = 10;
 // Number of prey eaten during the game (the "score")
 let preyEaten = 0;
 
+let amaticSCFont;
+let mountainsOfChristmasFont;
 
 function preload() {
   heartPic = loadImage('assets/images/heart.png');
+  amaticSCFont = loadFont('assets/fonts/AmaticSC-Regular.ttf');
+  mountainsOfChristmasFont = loadFont('assets/fonts/MountainsofChristmas-Regular.ttf');
 }
 
 // setup()
@@ -140,6 +144,7 @@ function draw() {
   if (!gameOver && playedIntro3 === true) {
     goToScene(currentScene);
     movePlayer();
+    checkPlayerChangedScene(currentScene); // Forgot to pass a parameter ! Wow.
 
     if (prefallenState) {
       beAttractedToPlayer();
@@ -152,7 +157,6 @@ function draw() {
 
     drawPrey();
     drawPlayer();
-    checkPlayerChangedScene(currentScene); // Forgot to pass a parameter ! Wow.
   } else if (gameOver) {
     showGameOver();
   }
@@ -234,26 +238,27 @@ function nextScene() {
 function goToScene(scene) {
   let textContent;
   let nbActors = 0;
+  textFont(amaticSCFont);
 
   switch (scene) {
     case "intro1":
       textContent = "\"God created man in His own image; " +
         "in the\n" + "image of God He created him; male and female\n" +
-        "He created them.\""
+        "He created them.\n\nGenesis 1:27\""
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro1 = true;
       console.log(currentScene);
       break;
     case "intro2":
-      textContent = "\“It is not good for the man to be alone.\n I will make a helper suitable for him.\"";
+      textContent = "\“It is not good for the man to be alone.\n I will make a helper suitable for him.\n\nGenesis 2:18\"";
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro2 = true;
       console.log(currentScene);
       break;
     case "intro3":
-      textContent = "\"Then the Lord God made a woman from the rib\nhe had taken out of the man,\nand he brought her to the man...\"";
+      textContent = "\"Then the Lord God made a woman from the rib\nhe had taken out of the man,\nand he brought her to the man...\n\nGenesis 2:22\"";
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       // Call the gameplay scene after 3 seconds to avoid skipping the intro3 scene
@@ -265,17 +270,17 @@ function goToScene(scene) {
       console.log(currentScene);
       break;
     case "eden1":
-      textContent = "Garden of Eden 1.\n\n\"The man said,\nThis is now bone of my bones and flesh of my flesh;\nshe shall be called  \'woman\' for she was\ntaken out of man.\"";
-      makeScene(scene, 0, 42, 255, textContent, 30, height / 7, false, nbActors);
+      textContent = "Garden of Eden 1.\n\n\"The man said,\nThis is now bone of my bones and flesh of my flesh;\nshe shall be called  \'woman\' for she was\ntaken out of man.\n\nGenesis 2:23\"";
+      makeScene(scene, 75, 42, 255, textContent, 30, height / 7, false, nbActors);
       console.log(currentScene);
       break;
     case "eden2":
-      textContent = "Garden of Eden 2.\n\n\"You feel observed...\"";
-      makeScene(scene, 0, 42, 255, textContent, 30, height / 7, false, nbActors);
+      textContent = "Garden of Eden 2.";
+      makeScene(scene, 95, 42, 255, textContent, 30, height / 7, false, nbActors);
       console.log(currentScene);
       break;
     case "eden3":
-      textContent = "\"Adam and his wife were both naked, and they felt no shame.\""
+      textContent = "\"Adam and his wife were both naked, and they felt no shame.\n\nGenesis 2:25\""
       break;
     case "forbiddenFruitScreen":
       break;
@@ -288,6 +293,7 @@ function goToScene(scene) {
 
 function checkPlayerChangedScene(currentScreen) {
   console.log("Checking if player has changed scene");
+  console.log(playerY);
   // depending on the scene, certain screen boundaries are open for going to the next scene
   switch(currentScreen) {
     // if the player has hit the south wall in the eden1 map
@@ -356,7 +362,7 @@ function addHeartOnCollision() {
 
     push();
     fill(255);
-    textSize(38);
+    textSize(42);
     //let Mark_10_7 = "Mark 10:7\n\"For this reason a man will leave his father\n and mother and be united to his wife.\""
     //text(Mark_10_7, width / 7, height / 7);
     let theSnake;
@@ -377,6 +383,8 @@ function addHeartOnCollision() {
         break;
     }
 
+    push();
+    textFont(mountainsOfChristmasFont);
     text(theSnake, width / 7, height / 1.2);
     text(sceneChangeClue, width / 7, height / 1.4);
     pop();
