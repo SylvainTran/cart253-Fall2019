@@ -31,6 +31,9 @@ let gameOver = false;
 // Screen management related
 let scenes;
 
+// Heart pic for prefallen state
+let heartPic;
+
 // Player's chosen gender, position, size, velocity
 let playerGender;
 let playerX;
@@ -66,6 +69,11 @@ let ty = 1;
 let eatHealth = 10;
 // Number of prey eaten during the game (the "score")
 let preyEaten = 0;
+
+
+function preload() {
+    heartPic = loadImage('assets/images/heart.png');
+}
 
 // setup()
 //
@@ -135,6 +143,7 @@ function draw() {
 
     if (prefallenState) {
       beAttractedToPlayer();
+      addHeartOnCollision();
     } else {
       movePrey();
     }
@@ -272,7 +281,7 @@ function movePlayer() {
 // Reduce the player's health (happens every frame)
 // Check if the player is dead
 function updateHealth() {
-  if(prefallenState) { // If we are in the prefallen state, we don't lose our vitality
+  if (prefallenState) { // If we are in the prefallen state, we don't lose our vitality
     return;
   }
   // Reduce player health
@@ -286,17 +295,40 @@ function updateHealth() {
   }
 }
 
-// checkEating()
-//
-// Check if the player overlaps the prey and updates health of both
-function checkEating() {
-  // Get distance of player to prey
+
+/**
+  Mirror function of checkEating(). If in prefallenState, uh... add a heart picture above man and woman
+  upon collision. Rated R for red...
+
+*/
+function addHeartOnCollision() {
+  if(!prefallenState) {
+    return;
+  }
   let d = dist(playerX, playerY, preyX, preyY);
-  // Check if it's an overlap
+
   if (d < playerRadius + preyRadius) {
-    if(prefallenState) {
-      return; // because they are one flesh already
-    }
+    push();
+    background(175, 0, 0); // Turn the background into intimate scarlet
+    imageMode(CENTER);
+    image(heartPic, playerX + playerRadius * random(0, 5), playerY - playerRadius * random(0, 5), 100, 100);
+    image(heartPic, playerX - playerRadius * random(0, 5), playerY - playerRadius * random(0, 5), 100, 100);
+    image(heartPic, playerX + playerRadius * random(0, 5), playerY - playerRadius * random(0, 5), 100, 100);
+    pop();
+  }
+}
+
+/**
+  if not in prefallenstate, check if the player overlaps the prey and updates health of both.
+
+*/
+function checkEating() {
+  if (prefallenState) {
+    return; // because they are one flesh already
+  }
+  let d = dist(playerX, playerY, preyX, preyY);
+
+  if (d < playerRadius + preyRadius) {
     // Increase the player health
     playerHealth = playerHealth + eatHealth;
     // Constrain to the possible range
