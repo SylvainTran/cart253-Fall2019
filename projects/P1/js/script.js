@@ -18,7 +18,7 @@ random movement, screen wrap.
 
 // Canvas scenes management
 let sceneQueue;
-let currentScene;
+let currentScene = "intro1"; // By default start at intro1
 let introScene;
 let playIntroduction = false; // Pass the intro cinematic canvas screen to the actual game
 let playedIntro1 = false;
@@ -90,7 +90,8 @@ function setup() {
   sceneQueue.enqueue("intro2");
   sceneQueue.enqueue("intro3");
   sceneQueue.enqueue("eden1");
-
+  sceneQueue.enqueue("eden2");
+  console.log("queue length: " + sceneQueue.items.length);
   // Create the game's canvas
   noStroke();
   setupPrey();
@@ -131,7 +132,7 @@ function draw() {
   // Play the intro
   if (playIntroduction === true) {
     playIntroduction = false;
-    console.log("calling nextScene: expecting that it should be intro1");
+    console.log("Calling nextScene: expecting that it should be intro1");
     nextScene();
   }
 
@@ -151,6 +152,7 @@ function draw() {
 
     drawPrey();
     drawPlayer();
+    checkPlayerChangedScene(currentScene); // Forgot to pass a parameter ! Wow.
   } else if (gameOver) {
     showGameOver();
   }
@@ -162,13 +164,18 @@ function draw() {
 */
 function keyPressed() {
   if (keyCode === ENTER && currentScene != "eden1") { // Change scene with Enter if you're still in the intro scenes
-    console.log("Enter pressed... going to the next scene.");
-    clear();
-    nextScene();
+    if(sceneQueue.isEmpty()) {
+      return;
+    }
+    else {
+      console.log("Enter pressed... going to the next scene.");
+      clear();
+      nextScene();
+    }
   }
   if (keyCode === ENTER && currentScene === "eden1") { // In Eden 1, you can make babies if you press space.
     console.log("Making babies");
-    makeBabies(1);
+    //makeBabies(1);
   }
 }
 // handleInput()
@@ -209,19 +216,19 @@ function handleInput() {
 */
 function nextScene() {
   clear();
-  let nextScene = sceneQueue.dequeue();
-  currentScene = nextScene;
-  goToScene(currentScene);
+  if(sceneQueue.isEmpty()) {
+    return;
+  }
+  else {
+    let nextScene = sceneQueue.dequeue();
+    currentScene = nextScene;
+    goToScene(currentScene);
+  }
 }
 
 /**
   Get the current screen -- by creating a new scene with the
   defined objects in it.
-  // TODO implement scene class later
-  //let intro1BgColor = 255; // White
-  //let intro1Actors = {};
-  //let intro1 = new Scene(intro1BgColor,  );
-  //constructor(bgColor, actors, animals, environment, props, maxObjects, cinematic) {
 
 */
 function goToScene(scene) {
@@ -233,36 +240,42 @@ function goToScene(scene) {
       textContent = "\"God created man in His own image; " +
         "in the\n" + "image of God He created him; male and female\n" +
         "He created them.\""
-      //(currentScene, backgroundColor, textSize, textColor, textContent, xPos, yPos, actorsPresent)
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro1 = true;
+      console.log(currentScene);
       break;
     case "intro2":
-      textContent = "Everything was fine and dandy...";
+      textContent = "\“It is not good for the man to be alone.\n I will make a helper suitable for him.\"";
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro2 = true;
+      console.log(currentScene);
       break;
     case "intro3":
-      textContent = "...Until you came along...";
-      text("Press Enter to continue.", 30, height / 1.2);
+      textContent = "\"Then the Lord God made a woman from the rib\nhe had taken out of the man,\nand he brought her to the man...\"";
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
+      text("Press Enter to continue.", 30, height / 1.2);
       // Call the gameplay scene after 3 seconds to avoid skipping the intro3 scene
       setTimeout(
         function() {
           console.log("Waiting 3 seconds");
           playedIntro3 = true
         }, 3000);
+      console.log(currentScene);
       break;
     case "eden1":
-      textContent = "Garden of Eden 1.\n\n \"Be fruitful and increase in number;\nFill the earth and subdue it.\"";
+      textContent = "Garden of Eden 1.\n\n\"The man said,\nThis is now bone of my bones and flesh of my flesh;\nshe shall be called  \'woman\' for she was\ntaken out of man.\"";
       makeScene(scene, 0, 42, 255, textContent, 30, height / 7, false, nbActors);
       console.log(currentScene);
       break;
     case "eden2":
+      textContent = "Garden of Eden 2.\n\n\"You feel observed...\"";
+      makeScene(scene, 0, 42, 255, textContent, 30, height / 7, false, nbActors);
+      console.log(currentScene);
       break;
     case "eden3":
+      textContent = "\"Adam and his wife were both naked, and they felt no shame.\""
       break;
     case "forbiddenFruitScreen":
       break;
@@ -273,6 +286,21 @@ function goToScene(scene) {
   }
 }
 
+function checkPlayerChangedScene(currentScreen) {
+  console.log("Checking if player has changed scene");
+  // depending on the scene, certain screen boundaries are open for going to the next scene
+  switch(currentScreen) {
+    // if the player has hit the south wall in the eden1 map
+    case "eden1":
+      if(playerY >= height) {
+        nextScene();
+        alert("Changed scene");
+      }
+      break;
+    default:
+      break;
+  }
+}
 // movePlayer()
 //
 // Updates player position based on velocity,
@@ -329,14 +357,14 @@ function addHeartOnCollision() {
     push();
     fill(255);
     textSize(38);
-    let Mark_10_7 = "Mark 10:7\n\"For this reason a man will leave his father\n and mother and be united to his wife.\""
-    text(Mark_10_7, width / 7, height / 7);
+    //let Mark_10_7 = "Mark 10:7\n\"For this reason a man will leave his father\n and mother and be united to his wife.\""
+    //text(Mark_10_7, width / 7, height / 7);
     let theSnake;
     let sceneChangeClue;
 
     switch (currentScene) {
       case "eden1":
-        theSnake = "\"...This way. Do not bring her with you.\"";
+        theSnake = "\(You hear a hiss...) \"This way. Do not bring\nthe woman with you.\"";
         sceneChangeClue = "(Get to the bottom by pressing shift to sprint.)";
         break;
       case "eden2":
@@ -579,6 +607,11 @@ class Queue {
       return this.items[0];
     }
   }
+
+  // peek
+  peek() {
+    return this.items[this.items.length - 1];
+  }
 }
 
 class Scene {
@@ -637,8 +670,8 @@ class Actor {
 }
 
 /**
-  This function's name is pretty explicit.
-  It's random based.
+  Make babies according to the specified amount to output.
+  The location and specifics of each newborn is random based.
 
 */
 function makeBabies(nbActors) {
