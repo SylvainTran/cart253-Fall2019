@@ -24,7 +24,7 @@ let playIntroduction = false; // Pass the intro cinematic canvas screen to the a
 let playedIntro1 = false;
 let playedIntro2 = false;
 let playedIntro3 = false;
-
+let preFallenState = false; // Movement type of adam/eve set to be naturally attracted to each other, before you eat the forbidden fruit
 // Track whether the game is over
 let gameOver = false;
 
@@ -131,7 +131,12 @@ function draw() {
     background(100, 100, 200);
 
     movePlayer();
-    movePrey();
+
+    if (preFallenState) {
+      beAttractedToPlayer();
+    } else {
+      movePrey();
+    }
 
     updateHealth();
     checkEating();
@@ -160,11 +165,6 @@ function keyPressed() {
 function handleInput() {
   let maxBoostedSpeed = playerMaxSpeed * 10;
 
-  // clear the current canvas elements and go to next scene
-  // if (keyIsDown(ENTER)) {
-  //   clear();
-  //   nextScene();
-  // }
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW) && keyIsDown(SHIFT)) {
     playerVX = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
@@ -214,28 +214,29 @@ function nextScene() {
 */
 function goToScene(scene) {
   let textContent;
+  let nbActors = 0;
 
-  switch(scene) {
+  switch (scene) {
     case "intro1":
       textContent = "...So God created man in His own image; " +
         "in the\n" + "image of God He created him; male and female\n" +
         "He created them."
       //(currentScene, backgroundColor, textSize, textColor, textContent, xPos, yPos, actorsPresent)
-      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false);
+      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       playedIntro1 = true;
       break;
     case "intro2":
       textContent = "Everything was fine and dandy...";
-      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false);
+      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       playedIntro2 = true;
       break;
     case "intro3":
       textContent = "...Until you came along...";
-      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false);
+      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       // Call the gameplay scene after 3 seconds to avoid skipping the intro3 scene
       setTimeout(
         function() {
-        playedIntro3 = true
+          playedIntro3 = true
         }, 3000);
       break;
     case "eden1":
@@ -262,22 +263,7 @@ function movePlayer() {
   playerX = playerX + playerVX;
   playerY = playerY + playerVY;
 
-  // Wrap when player goes off the canvas
-  if (playerX < 0) {
-    // Off the left side, so add the width to reset to the right
-    playerX = playerX + width;
-  } else if (playerX > width) {
-    // Off the right side, so subtract the width to reset to the left
-    playerX = playerX - width;
-  }
-
-  if (playerY < 0) {
-    // Off the top, so add the height to reset to the bottom
-    playerY = playerY + height;
-  } else if (playerY > height) {
-    // Off the bottom, so subtract the height to reset to the top
-    playerY = playerY - height;
-  }
+  screenWarping("player");
 }
 
 // updateHealth()
@@ -286,7 +272,7 @@ function movePlayer() {
 // Check if the player is dead
 function updateHealth() {
   // Reduce player health
-  playerHealth = playerHealth - 0.5;
+  //playerHealth = playerHealth - 0.5;
   // Constrain the result to a sensible range
   playerHealth = constrain(playerHealth, 0, playerMaxHealth);
   // Check if the player is dead (0 health)
@@ -326,43 +312,91 @@ function checkEating() {
   }
 }
 
+/**
+  MoveEve or MoveAdam pre-fallen state. Natural attraction to each other,
+  based on the other's position.
+
+*/
+function beAttractedToPlayer() {
+  // calculate something around the player's x, y
+  // get the current distance from the player
+  let playerPosX = playerX;
+  let playerPosY = playerY;
+
+  const minDistance = 20;
+  const maxDistance = minDistance / 2; // don't get closer than half of the min distance
+
+  let currentDistance = dist(playerPosX, preyX, playerPosY, preyY);
+  // while it is greater than half of the distance
+  if (currentDistance >= minDistance) {
+    // Advance to the one-seventh of a distance
+    preyVX = currentDistance / 7;
+    preyVY = currentDistance / 7;
+
+    // Update prey position to go towards the player depending on the distance
+    // relative to the player at each successive call of this function
+    if (preyX < playerX) {
+      preyX += preyVX * 0.10;
+    } else {
+      preyX -= preyVX * 0.10;
+    }
+    if (preyY < playerY) {
+      preyY += preyVY * 0.10;
+    } else {
+      preyY -= preyVY * 0.10;
+    }
+  }
+  // TODO prey backs-up if x,y < maxDistance
+  screenWarping("nonplayer");
+}
+
 // movePrey()
 //
 // Moves the prey based on random velocity changes
 function movePrey() {
-  // Set velocity based on random values to get a new direction
-  // and speed of movement
-  //
-  // Use map() to convert from the 0-1 range of the random() function
-  // to the appropriate range of velocities for the prey
-
-
   preyVX = map(noise(tx), 0, 1, -preyMaxSpeed, preyMaxSpeed);
   preyVY = map(noise(ty), 0, 1, -preyMaxSpeed, preyMaxSpeed);;
+  preyX += preyVX;
+  preyY += preyVY;
 
-  // Update prey position based on velocity
-  preyX = preyX + preyVX;
-  preyY = preyY + preyVY;
+  screenWarping("nonplayer");
 
-  // Screen wrapping
-  if (preyX < 0) {
-    preyX = preyX + width;
-  } else if (preyX > width) {
-    preyX = preyX - width;
-  }
-
-  if (preyY < 0) {
-    preyY = preyY + height;
-  } else if (preyY > height) {
-    preyY = preyY - height;
-  }
-
-  // Increment the noise values
   tx += 0.01;
   ty += 0.01;
-
 }
 
+// Screen warping; according to if it is called for the player or the AI
+function screenWarping(actor) {
+  if (actor === "nonplayer") {
+    if (preyX < 0) {
+      preyX = preyX + width;
+    } else if (preyX > width) {
+      preyX = preyX - width;
+    }
+    if (preyY < 0) {
+      preyY = preyY + height;
+    } else if (preyY > height) {
+      preyY = preyY - height;
+    }
+  } else {
+    // Wrap when player goes off the canvas
+    if (playerX < 0) {
+      // Off the left side, so add the width to reset to the right
+      playerX = playerX + width;
+    } else if (playerX > width) {
+      // Off the right side, so subtract the width to reset to the left
+      playerX = playerX - width;
+    }
+
+    if (playerY < 0) {
+      // Off the top, so add the height to reset to the bottom
+      playerY = playerY + height;
+    } else if (playerY > height) {
+      // Off the bottom, so subtract the height to reset to the top
+      playerY = playerY - height;
+    }
+  }
+}
 // drawPrey()
 //
 // Draw the prey as an ellipse with alpha based on health
@@ -399,18 +433,28 @@ function showGameOver() {
   Makes a scene. Simple background colors for now.
 
 */
-function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xPos, yPos, actorsPresent) {
-    currentScene = currScene;
-    background(backgroundColor);
-    textSize(tSize);
-    fill(textColor);
-    text(textContent, xPos, yPos);
-    // User prompt to navigate to the next scene
-    // If there are actors to spawn in this scene
-    if(actorsPresent) {
-      // spawn actors
+function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xPos, yPos, actorsPresent, nbActors) {
+  currentScene = currScene;
+  background(backgroundColor);
+  textSize(tSize);
+  fill(textColor);
+  text(textContent, xPos, yPos);
+  // User prompt to navigate to the next scene
+  // If there are actors to spawn in this scene
+  if (actorsPresent) {
+    // spawn actors (ellipses for now)
+    let actors = [nbActors];
+    for (let i = 0; i <= nbActors; i++) {
+      let randomPosX;
+      let randomPosY;
+      let randWidth;
+      let randHeight;
+      //spawn each actor
+      ellipse(randomPosX, randomPosY, randWidth, randHeight);
+      text("actor", randomPosX, randomPosY, randWidth, randHeight + 30);
     }
-    text("Press Enter to continue.", 30, height / 1.2);
+  }
+  text("Press Enter to continue.", 30, height / 1.2);
 }
 
 /**
@@ -446,19 +490,17 @@ class Queue {
   }
 
   dequeue() {
-    if(this.isEmpty()) {
+    if (this.isEmpty()) {
       return "Queue is empty: underflow.";
-    }
-    else {
+    } else {
       return this.items.shift();
     }
   }
   // front()
   front() {
-    if(this.isEmpty()) {
+    if (this.isEmpty()) {
       return "Queue is empty of elements.";
-    }
-    else {
+    } else {
       return this.items[0];
     }
   }
