@@ -272,8 +272,11 @@ function movePlayer() {
 // Reduce the player's health (happens every frame)
 // Check if the player is dead
 function updateHealth() {
+  if(prefallenState) { // If we are in the prefallen state, we don't lose our vitality
+    return;
+  }
   // Reduce player health
-  //playerHealth = playerHealth - 0.5;
+  playerHealth = playerHealth - 0.5;
   // Constrain the result to a sensible range
   playerHealth = constrain(playerHealth, 0, playerMaxHealth);
   // Check if the player is dead (0 health)
