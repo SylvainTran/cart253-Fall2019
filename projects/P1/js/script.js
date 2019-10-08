@@ -72,7 +72,7 @@ let preyEaten = 0;
 
 
 function preload() {
-    heartPic = loadImage('assets/images/heart.png');
+  heartPic = loadImage('assets/images/heart.png');
 }
 
 // setup()
@@ -89,6 +89,7 @@ function setup() {
   sceneQueue.enqueue("intro1");
   sceneQueue.enqueue("intro2");
   sceneQueue.enqueue("intro3");
+  sceneQueue.enqueue("eden1");
 
   // Create the game's canvas
   noStroke();
@@ -137,8 +138,7 @@ function draw() {
   // The last intro scene is intro3, so we play the game when it's played
   if (!gameOver && playedIntro3 === true) {
     // Actual gameplay elements
-    background(100, 100, 200);
-
+    goToScene("eden1");
     movePlayer();
 
     if (prefallenState) {
@@ -228,28 +228,34 @@ function goToScene(scene) {
 
   switch (scene) {
     case "intro1":
-      textContent = "...So God created man in His own image; " +
+      textContent = "\"God created man in His own image; " +
         "in the\n" + "image of God He created him; male and female\n" +
-        "He created them."
+        "He created them.\""
       //(currentScene, backgroundColor, textSize, textColor, textContent, xPos, yPos, actorsPresent)
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
+      text("Press Enter to continue.", 30, height / 1.2);
       playedIntro1 = true;
       break;
     case "intro2":
       textContent = "Everything was fine and dandy...";
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
+      text("Press Enter to continue.", 30, height / 1.2);
       playedIntro2 = true;
       break;
     case "intro3":
       textContent = "...Until you came along...";
+      text("Press Enter to continue.", 30, height / 1.2);
       makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
       // Call the gameplay scene after 3 seconds to avoid skipping the intro3 scene
       setTimeout(
         function() {
+          console.log("Waiting 3 seconds");
           playedIntro3 = true
         }, 3000);
       break;
     case "eden1":
+      textContent = "Garden of Eden 1.\n\n \"Be fruitful and increase in number;\nFill the earth and subdue it.\"";
+      makeScene(scene, 0, 42, 255, textContent, 30, height / 7, true, 26);
       break;
     case "eden2":
       break;
@@ -302,7 +308,7 @@ function updateHealth() {
 
 */
 function addHeartOnCollision() {
-  if(!prefallenState) {
+  if (!prefallenState) {
     return;
   }
   let d = dist(playerX, playerY, preyX, preyY);
@@ -314,6 +320,33 @@ function addHeartOnCollision() {
     image(heartPic, playerX + playerRadius * random(0, 5), playerY - playerRadius * random(0, 5), 100, 100);
     image(heartPic, playerX - playerRadius * random(0, 5), playerY - playerRadius * random(0, 5), 100, 100);
     image(heartPic, playerX + playerRadius * random(0, 5), playerY - playerRadius * random(0, 5), 100, 100);
+    pop();
+
+    push();
+    fill(255);
+    textSize(38);
+    let Mark_10_7 = "Mark 10:7\n\"For this reason a man will leave his father\n and mother and be united to his wife.\""
+    text(Mark_10_7, width / 7, height / 7);
+    let theWay;
+    let sceneChangeClue;
+
+    switch (currentScene) {
+      case "eden1":
+        theWay = "\"...This way. Bring her with you.\"";
+        sceneChangeClue = "(Go down.)";
+        break;
+      case "eden2":
+        break;
+      case "eden3":
+        break;
+      case "forbiddenFruitScene":
+        break;
+      default:
+        break;
+    }
+
+    text(theWay, width / 7, height / 1.2);
+    text(sceneChangeClue, width / 7, height / 1.4);
     pop();
   }
 }
@@ -489,11 +522,10 @@ function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xP
       let randWidth;
       let randHeight;
       //spawn each actor
-      ellipse(randomPosX, randomPosY, randWidth, randHeight);
-      text("actor", randomPosX, randomPosY, randWidth, randHeight + 30);
+      //ellipse(randomPosX, randomPosY, randWidth, randHeight);
+      //text("actor", randomPosX, randomPosY, randWidth, randHeight + 30);
     }
   }
-  text("Press Enter to continue.", 30, height / 1.2);
 }
 
 /**
