@@ -15,6 +15,7 @@ Includes: Physics-based movement, keyboard controls, health/stamina,
 random movement, screen wrap.
 
 */
+let debugMode = true;
 // Canvas scenes management
 // Holds the scenes in a queue
 let sceneQueue;
@@ -96,7 +97,9 @@ function setup() {
   sceneQueue.enqueue("eden1");
   sceneQueue.enqueue("eden2");
   sceneQueue.enqueue("eden3");
-  sceneQueue.enqueue("eden4");
+  sceneQueue.enqueue("forbiddenFruitScene");
+  sceneQueue.enqueue("playgrounds1");
+  sceneQueue.enqueue("playgrounds2");
 
   console.log("Scenes in queue: " + sceneQueue.items.length);
   // Create the game's canvas
@@ -291,50 +294,95 @@ function goToScene(scene) {
       makeScene(scene, 145, 42, 255, textContent, 30, height / 7, false, nbActors);
       console.log(currentScene);
       break;
-    case "eden4":
-        textContent = "Garden of Eden 4.";
-        makeScene(scene, 95, 42, 255, textContent, 30, height / 7, true, nbActors);
-        console.log(currentScene);
-        break;
+    case "forbiddenFruitScene":
+      textContent = "The Forbbiden Fruit.";
+      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
+      console.log(currentScene);
+      break;
+    case "playgrounds1":
+      textContent = "Your World 1.";
+      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
+      console.log(currentScene);
+      break;
+    case "playgrounds2":
+      textContent = "Your World 2.";
+      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
+      console.log(currentScene);
+      break;
     default:
       break;
   }
 }
 
-function checkPlayerChangedScene(currentScreen) {
+function sceneExit(direction) {
+  //let directions = { "LEFT", "RIGHT", "TOP", "DOWN" };
+  let currX = playerX;
+  console.log("Change scene tresholdX " + (width - changeSceneThresholdX));
+  console.log("Change scene tresholdY" + (height - changeSceneThresholdY));
+
+  switch (direction) {
+    case "LEFT":
+      if ((playerX - playerRadius) <= (0 + changeSceneThresholdX)) {
+        alert("Going left for real");
+        nextScene();
+      }
+      break;
+    case "RIGHT":
+      if ((playerX + playerRadius) >= (width - changeSceneThresholdX)) {
+        nextScene();
+      }
+      break;
+    case "TOP":
+      if ((playerY + playerRadius) <= (0 + changeSceneThresholdY)) {
+        alert("Going top for real");
+        nextScene();
+      }
+      break;
+    case "DOWN":
+      if ((playerY - playerRadius) >= (height - changeSceneThresholdY)) {
+        alert("Going down for real");
+        nextScene();
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+function checkPlayerChangedScene(currentScene) {
   console.log("Checking if player has changed scene");
   console.log("Player X: " + playerX);
   console.log("Player Y: " + playerY);
   console.log("Width: " + width);
   console.log("Height: " + height);
+  console.log("currentScene: " + currentScene);
 
   // depending on the scene, certain screen boundaries are open for going to the next scene
-  switch (currentScreen) {
-    // TODO random direction screen change each time
-    // if the player has hit the changeSceneThreshold in the map of eden1
+  switch (currentScene) {
     case "eden1":
-      console.log("it's eden 1");
-      if (playerY - playerRadius >= height - changeSceneThresholdY) {
-        nextScene();
-        console.log("Changed scene");
-      }
+      sceneExit("DOWN");
       break;
-      console.log("it's eden 2");
     case "eden2":
-      if (playerX - playerRadius >= width - changeSceneThresholdX) {
-        nextScene();
-      }
+      sceneExit("LEFT");
       break;
     case "eden3":
-      if (playerY + playerRadius <= 0 + changeSceneThresholdY) {
-        nextScene();
-      }
+      sceneExit("TOP");
       break;
-    case "eden4":
-      if (playerX + playerRadius <= 0 + changeSceneThresholdX) {
-        nextScene();
-      }
-      break;
+    // case "forbiddenFruitScene":
+    //   if (prefallenState) { //fallen state starts after player collides with fruit
+    //     nextScene();
+    //   }
+    //   break;
+    // case "playgrounds1": // At this point the scene only progresses when the player dies, to evoke spiritual rebirth. The effect of sin, need to die on the cross etc.
+    //   if (playerHealth === 0) {
+    //     nextScene();
+    //   }
+    //   break;
+    // case "playgrounds2":
+    //   if (playerHealth === 0) {
+    //     nextScene();
+    //   }
+    //   break;
     default:
       break;
   }
@@ -342,13 +390,15 @@ function checkPlayerChangedScene(currentScreen) {
 // movePlayer()
 //
 // Updates player position based on velocity,
-// wraps around the edges.
+// wraps around the edges. if in prefallen state (before eating the forbidden fruit)
 function movePlayer() {
-  // Update position
-  playerX = playerX + playerVX;
-  playerY = playerY + playerVY;
-
   screenWarping("player");
+  //screenBouncing();
+  // Update position
+  playerX += playerVX;
+  playerY += playerVY;
+
+
 }
 
 // updateHealth()
@@ -410,12 +460,14 @@ function addHeartOnCollision() {
         theSnake = "Ah, she came anyways?\n Well, what can you do right?\n I guess we can all still be friends.\n";
         break;
       case "eden3":
-        theSnake = "I imagine you don't get to do much all day,\nstuck out like that.\nHey, see that massive coconut over there?\n I hear it melts in your mouth...\nI know you want to eat it too!\nTehee!";
-        break;
-      case "eden4":
-        theSnake = "Not ashamed? Seriously?\n Aren't you curious as to why Eve\nisn't remotely as hairy as you are?";
+        theSnake = "Not ashamed? Seriously?\n Aren't you curious as to why Eve\nisn't even remotely as hairy as you are?";
         break;
       case "forbiddenFruitScene":
+        theSnake = "I imagine you don't get to do much all day,\nstuck out like that.\nHey, see that massive coconut over there?\n I hear it melts in your mouth...\nI know you want to eat it too!\nTehee!";
+        break;
+      case "playgrounds1":
+        break;
+      case "playgrounds2":
         break;
       default:
         break;
@@ -515,6 +567,19 @@ function movePrey() {
   ty += 0.01;
 }
 
+/**
+  Bounces the player across the edges of the canvas,
+ in prefallen state. To evoke uh... the bounciness... of the h-heart...
+
+*/
+function screenBouncing() {
+  if (playerX - playerRadius <= 0 || playerX + playerRadius >= width) {
+    playerVX = -playerVX;
+  } else if (playerY - playerRadius <= 0 || playerY + playerRadius >= height) {
+    playerVY = -playerVY
+  }
+}
+
 // Screen warping; according to if it is called for the player or the AI
 function screenWarping(actor) {
   if (actor === "nonplayer") { // For the opposite gender and other life forms
@@ -550,15 +615,14 @@ function screenWarping(actor) {
 //
 // Draw the prey as an ellipse with alpha based on health
 function drawPrey() {
-  if(prefallenState){
+  if (prefallenState) {
     // Actor display
     push();
     preyFill = 0;
     fill(preyFill);
     ellipse(preyX, preyY, preyRadius * 2);
     pop();
-  }
-  else {
+  } else {
     fill(preyFill, preyHealth);
     ellipse(preyX, preyY, preyRadius * 2);
   }
