@@ -295,7 +295,7 @@ function goToScene(scene) {
       console.log(currentScene);
       break;
     case "forbiddenFruitScene":
-      textContent = "The Forbbiden Fruit.";
+      textContent = "The Forbbiden Fruit.\n\n\"When the woman saw that the fruit of the tree was good \nfor food and pleasing to the eye, and also desirable\nfor gaining wisdom, she took some and ate it.\nShe also gave some to her husband,\nwho was with her, and he ate it.\"";
       makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
       console.log(currentScene);
       break;
@@ -368,21 +368,21 @@ function checkPlayerChangedScene(currentScene) {
     case "eden3":
       sceneExit("TOP");
       break;
-    // case "forbiddenFruitScene":
-    //   if (prefallenState) { //fallen state starts after player collides with fruit
-    //     nextScene();
-    //   }
-    //   break;
-    // case "playgrounds1": // At this point the scene only progresses when the player dies, to evoke spiritual rebirth. The effect of sin, need to die on the cross etc.
-    //   if (playerHealth === 0) {
-    //     nextScene();
-    //   }
-    //   break;
-    // case "playgrounds2":
-    //   if (playerHealth === 0) {
-    //     nextScene();
-    //   }
-    //   break;
+     case "forbiddenFruitScene":
+       if (!prefallenState) { //fallen state starts after player collides with fruit
+         nextScene();
+       }
+       break;
+     case "playgrounds1": // At this point the scene only progresses when the player dies, to evoke spiritual rebirth. The effect of sin, need to die on the cross etc.
+       if (playerHealth === 0) {
+         nextScene();
+       }
+       break;
+     case "playgrounds2":
+       if (playerHealth === 0) {
+         nextScene();
+       }
+       break;
     default:
       break;
   }
@@ -516,10 +516,13 @@ function checkEating() {
 
 /**
   MoveEve or MoveAdam pre-fallen state. Natural attraction to each other,
-  based on the other's position.
+  based on the other's position. Should be disabled during the forbiddenFruitScene.
 
 */
 function beAttractedToPlayer() {
+  if(currentScene === "forbiddenFruitScene") {
+    return;
+  }
   // calculate something around the player's x, y
   // get the current distance from the player
   let playerPosX = playerX;
@@ -670,14 +673,16 @@ function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xP
   if (actorsPresent) {
     // spawn actors (ellipses for now)
     let actors = [nbActors];
-    for (let i = 0; i <= nbActors; i++) {
-      let randomPosX;
-      let randomPosY;
-      let randWidth;
-      let randHeight;
-      //spawn each actor
-      //ellipse(randomPosX, randomPosY, randWidth, randHeight);
-      //text("actor", randomPosX, randomPosY, randWidth, randHeight + 30);
+    // Take control of Eve and animate her...
+    // Prevent her from being attracted to player
+    // Place Eve at the top center of the Scene
+    preyX = width / 2;
+    // Increment her Y by +1 each call if has not reached center yet
+    if(preyY <= height / 2) {
+      preyY++;
+    }
+    else {
+      preyY = height / 2;
     }
   }
 }
