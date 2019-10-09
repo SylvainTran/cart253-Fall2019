@@ -9,15 +9,16 @@ Goal of program: Modified version of chaser by Dr. Pippin Bar
 The concept explored in this game is the original relation between man and woman
 with the perspective of the Theology of the Body.
 
-Twists: You can eat the forbidden fruit.
+Twists: You can eat the forbidden fruit. Or...
 
 Includes: Physics-based movement, keyboard controls, health/stamina,
 random movement, screen wrap.
 
 */
-
 // Canvas scenes management
+// Holds the scenes in a queue
 let sceneQueue;
+// The current scene that allows us to some logic
 let currentScene = "intro1"; // By default start at intro1
 let introScene;
 let playIntroduction = false; // Pass the intro cinematic canvas screen to the actual game
@@ -30,6 +31,8 @@ let gameOver = false;
 
 // Screen management related
 let scenes;
+let changeSceneThresholdX = 50;
+let changeSceneThresholdY = 50;
 
 // Heart pic for prefallen state
 let heartPic;
@@ -87,16 +90,15 @@ function setup() {
   introScene = createCanvas(1000, 1000);
   introScene.parent('mainDisplay');
   sceneQueue = new Queue();
-  //alert(sceneQueue.isFull());
-  //alert("Empty? " + sceneQueue.isEmpty());
-
   sceneQueue.enqueue("intro1");
   sceneQueue.enqueue("intro2");
   sceneQueue.enqueue("intro3");
   sceneQueue.enqueue("eden1");
   sceneQueue.enqueue("eden2");
   sceneQueue.enqueue("eden3");
-  console.log("queue length: " + sceneQueue.items.length);
+  sceneQueue.enqueue("eden4");
+
+  console.log("Scenes in queue: " + sceneQueue.items.length);
   // Create the game's canvas
   noStroke();
   setupPrey();
@@ -106,6 +108,8 @@ function setup() {
   prefallenState = true;
   tx = 0.0001
   ty = 0.0001;
+
+  //let createHuman = prompt("John 1:26-27: ");
 }
 
 // setupPrey()
@@ -169,10 +173,9 @@ function draw() {
 */
 function keyPressed() {
   if (keyCode === ENTER && currentScene != "eden1") { // Change scene with Enter if you're still in the intro scenes
-    if(sceneQueue.isEmpty()) {
+    if (sceneQueue.isEmpty()) {
       return;
-    }
-    else {
+    } else {
       console.log("Enter pressed... going to the next scene.");
       clear();
       nextScene();
@@ -221,10 +224,9 @@ function handleInput() {
 */
 function nextScene() {
   clear();
-  if(sceneQueue.isEmpty()) {
+  if (sceneQueue.isEmpty()) {
     return;
-  }
-  else {
+  } else {
     let nextScene = sceneQueue.dequeue();
     currentScene = nextScene;
     goToScene(currentScene);
@@ -281,10 +283,15 @@ function goToScene(scene) {
       console.log(currentScene);
       break;
     case "eden3":
-      textContent = "\"Adam and his wife were both naked, and they felt no shame.\"\n\nGenesis 2:25";
+      textContent = "Garden of Eden 3.\n\n\"Adam and his wife were both naked, and they felt no shame.\"\n\nGenesis 2:25";
       makeScene(scene, 95, 42, 255, textContent, 30, height / 7, false, nbActors);
       console.log(currentScene);
       break;
+    case "eden4":
+        textContent = "Garden of Eden 4.";
+        makeScene(scene, 95, 42, 255, textContent, 30, height / 7, true, nbActors);
+        console.log(currentScene);
+        break;
     case "forbiddenFruitScreen":
       break;
     case "playgrounds":
@@ -301,23 +308,30 @@ function checkPlayerChangedScene(currentScreen) {
   console.log("Width: " + width);
   console.log("Height: " + height);
 
-  let changeSceneThresholdY = 50;
-  let changeSceneThresholdX = 50;
   // depending on the scene, certain screen boundaries are open for going to the next scene
-  switch(currentScreen) {
+  switch (currentScreen) {
     // if the player has hit the changeSceneThreshold in the map of eden1
     case "eden1":
       console.log("it's eden 1");
-      if(playerY >= height - changeSceneThresholdY) {
+      if (playerY - playerRadius >= height - changeSceneThresholdY) {
         nextScene();
         console.log("Changed scene");
       }
       break;
       console.log("it's eden 2");
     case "eden2":
-      if(playerX >= width - changeSceneThresholdX) {
+      if (playerX - playerRadius >= width - changeSceneThresholdX) {
         nextScene();
-        //alert("Changed scene");
+      }
+      break;
+    case "eden3":
+      if (playerY + playerRadius <= 0 + changeSceneThresholdY) {
+        nextScene();
+      }
+      break;
+    case "eden4":
+      if (playerX + playerRadius <= 0 + changeSceneThresholdX) {
+        nextScene();
       }
       break;
     default:
@@ -395,6 +409,9 @@ function addHeartOnCollision() {
         break;
       case "eden3":
         theSnake = "I imagine you don't get to do much all day,\nstuck out like that.\nHey, see that massive coconut over there?\n I hear it melts in your mouth...\nI know you want to eat it too!\nTehee!";
+        break;
+      case "eden4":
+        theSnake = "Not ashamed? Seriously?\n Aren't you curious as to why Eve\nisn't remotely as hairy as you are?";
         break;
       case "forbiddenFruitScene":
         break;
@@ -498,33 +515,32 @@ function movePrey() {
 
 // Screen warping; according to if it is called for the player or the AI
 function screenWarping(actor) {
-  if (actor === "nonplayer") {
-    if (preyX < 0) {
+  if (actor === "nonplayer") { // For the opposite gender and other life forms
+    if (preyX <= 0) {
       preyX = preyX + width;
-    } else if (preyX > width) {
+    } else if (preyX >= width) {
       preyX = preyX - width;
     }
-    if (preyY < 0) {
+    if (preyY <= 0) {
       preyY = preyY + height;
-    } else if (preyY > height) {
+    } else if (preyY >= height) {
       preyY = preyY - height;
     }
-  } else {
-    // Wrap when player goes off the canvas
-    if (playerX < 0) {
+  } else { // Wrap when player goes off the canvas
+    if (playerX + playerRadius <= 0 + changeSceneThresholdX) {
       // Off the left side, so add the width to reset to the right
-      playerX = playerX + width;
-    } else if (playerX > width) {
+      playerX += width;
+    } else if (playerX - playerRadius >= width - changeSceneThresholdX) {
       // Off the right side, so subtract the width to reset to the left
-      playerX = playerX - width;
+      playerX -= width;
     }
 
-    if (playerY < 0) {
+    if (playerY + playerRadius <= 0 + changeSceneThresholdY) {
       // Off the top, so add the height to reset to the bottom
-      playerY = playerY + height;
-    } else if (playerY > height) {
+      playerY += height;
+    } else if (playerY - playerRadius >= height - changeSceneThresholdY) {
       // Off the bottom, so subtract the height to reset to the top
-      playerY = playerY - height;
+      playerY -= height;
     }
   }
 }
