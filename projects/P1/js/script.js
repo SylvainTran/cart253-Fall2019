@@ -235,12 +235,16 @@ function nextScene() {
 
 /**
   Get the current screen -- by creating a new scene with the
-  defined objects in it.
+  defined objects in it. Scenes should get increasingly darker
+  as Adam or Eve approaches the forbidden fruit to evoke spiritual
+  depth or darkness.
 
 */
 function goToScene(scene) {
   let textContent;
   let nbActors = 0;
+  let introBgColor = 0;
+  let edenBgColor = 255; //start pure light
   textFont(amaticSCFont);
 
   switch (scene) {
@@ -248,21 +252,21 @@ function goToScene(scene) {
       textContent = "\"God created man in His own image; " +
         "in the\n" + "image of God He created him; male and female\n" +
         "He created them.\"\n\nGenesis 1:27";
-      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
+      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro1 = true;
       console.log(currentScene);
       break;
     case "intro2":
       textContent = "\“It is not good for the man to be alone.\n I will make a helper suitable for him.\"\n\nGenesis 2:18";
-      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
+      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro2 = true;
       console.log(currentScene);
       break;
     case "intro3":
       textContent = "\"Then the Lord God made a woman from the rib\nhe had taken out of the man,\nand he brought her to the man...\"\n\nGenesis 2:22";
-      makeScene(scene, 0, 42, 255, textContent, 30, height / 2, false, nbActors);
+      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       // Call the gameplay scene after 3 seconds to avoid skipping the intro3 scene
       setTimeout(
@@ -274,17 +278,17 @@ function goToScene(scene) {
       break;
     case "eden1":
       textContent = "Garden of Eden 1.\n\n\"The man said,\nThis is now bone of my bones and flesh of my flesh;\nshe shall be called  \'woman\' for she was\ntaken out of man.\"\n\nGenesis 2:23";
-      makeScene(scene, 75, 42, 255, textContent, 30, height / 7, false, nbActors);
+      makeScene(scene, edenBgColor, 42, 0, textContent, 30, height / 7, false, nbActors);
       console.log(currentScene);
       break;
     case "eden2":
       textContent = "Garden of Eden 2.";
-      makeScene(scene, 95, 42, 255, textContent, 30, height / 7, false, nbActors);
+      makeScene(scene, 195, 42, 255, textContent, 30, height / 7, false, nbActors);
       console.log(currentScene);
       break;
     case "eden3":
       textContent = "Garden of Eden 3.\n\n\"Adam and his wife were both naked, and they felt no shame.\"\n\nGenesis 2:25";
-      makeScene(scene, 95, 42, 255, textContent, 30, height / 7, false, nbActors);
+      makeScene(scene, 145, 42, 255, textContent, 30, height / 7, false, nbActors);
       console.log(currentScene);
       break;
     case "eden4":
@@ -292,10 +296,6 @@ function goToScene(scene) {
         makeScene(scene, 95, 42, 255, textContent, 30, height / 7, true, nbActors);
         console.log(currentScene);
         break;
-    case "forbiddenFruitScreen":
-      break;
-    case "playgrounds":
-      break;
     default:
       break;
   }
@@ -310,6 +310,7 @@ function checkPlayerChangedScene(currentScreen) {
 
   // depending on the scene, certain screen boundaries are open for going to the next scene
   switch (currentScreen) {
+    // TODO random direction screen change each time
     // if the player has hit the changeSceneThreshold in the map of eden1
     case "eden1":
       console.log("it's eden 1");
@@ -396,6 +397,7 @@ function addHeartOnCollision() {
     textSize(42);
     //let Mark_10_7 = "Mark 10:7\n\"For this reason a man will leave his father\n and mother and be united to his wife.\""
     //text(Mark_10_7, width / 7, height / 7);
+
     let theSnake;
     let sceneChangeClue;
 
@@ -548,8 +550,18 @@ function screenWarping(actor) {
 //
 // Draw the prey as an ellipse with alpha based on health
 function drawPrey() {
-  fill(preyFill, preyHealth);
-  ellipse(preyX, preyY, preyRadius * 2);
+  if(prefallenState){
+    // Actor display
+    push();
+    preyFill = 0;
+    fill(preyFill);
+    ellipse(preyX, preyY, preyRadius * 2);
+    pop();
+  }
+  else {
+    fill(preyFill, preyHealth);
+    ellipse(preyX, preyY, preyRadius * 2);
+  }
 }
 
 // drawPlayer()
@@ -583,11 +595,14 @@ function showGameOver() {
 function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xPos, yPos, actorsPresent, nbActors) {
   currentScene = currScene;
   background(backgroundColor);
+
+  // Text display
+  push();
   textSize(tSize);
   fill(textColor);
   text(textContent, xPos, yPos);
-  // User prompt to navigate to the next scene
-  // If there are actors to spawn in this scene
+  pop();
+
   if (actorsPresent) {
     // spawn actors (ellipses for now)
     let actors = [nbActors];
