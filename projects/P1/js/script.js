@@ -81,6 +81,15 @@ let mountainsOfChristmasFont;
 let contactSound;
 let backgroundMusic;
 
+// Sprites for Adam and Eve
+let adamIdle;
+let adamLeft;
+let adamRight;
+
+let eveIdle;
+let eveLeft;
+let eveRight;
+
 /**
   Preloads the heart picture, and the custom fonts.
 
@@ -91,6 +100,12 @@ function preload() {
   mountainsOfChristmasFont = loadFont('assets/fonts/MountainsofChristmas-Regular.ttf');
   contactSound = loadSound("assets/sounds/contactSound.wav");
   backgroundMusic = loadSound("assets/sounds/invisible0W31m.mp3");
+  adamIdle = loadImage("assets/images/adamIdle.png");
+  adamLeft = loadImage("assets/images/adamLeft.png");
+  adamRight = loadImage("assets/images/adamRight.png");
+  eveIdle = loadImage("assets/images/eveIdle.png");
+  eveLeft = loadImage("assets/images/eveLeft.png");
+  eveRight = loadImage("assets/images/eveRight.png");
 }
 
 /**
@@ -210,16 +225,20 @@ function keyPressed() {
 */
 function handleInput() {
   let maxBoostedSpeed = playerMaxSpeed * 10;
-
+  imageMode(CENTER);
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW) && keyIsDown(SHIFT)) {
     playerVX = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
+    image(adamLeft, playerX, playerY, playerRadius * 10);
   } else if (keyIsDown(LEFT_ARROW)) {
     playerVX = -playerMaxSpeed;
+    image(adamLeft, playerX, playerY, playerRadius * 5);
   } else if (keyIsDown(RIGHT_ARROW) && keyIsDown(SHIFT)) {
     playerVX = constrain(playerMaxSpeed, maxBoostedSpeed, maxBoostedSpeed);
+    image(adamRight, playerX, playerY, playerRadius * 10);
   } else if (keyIsDown(RIGHT_ARROW)) {
     playerVX = playerMaxSpeed;
+    image(adamRight, playerX, playerY, playerRadius * 5);
   }
   // Check for vertical movement
   else if (keyIsDown(UP_ARROW) && keyIsDown(SHIFT)) {
@@ -648,9 +667,10 @@ function drawPrey() {
   if (prefallenState) {
     // Actor display
     push();
-    preyFill = 0;
-    fill(preyFill);
-    ellipse(preyX, preyY, preyRadius * 2);
+    //preyFill = 0;
+    image(eveIdle, preyX, preyY, preyRadius * 5);
+    //fill(preyFill);
+    //ellipse(preyX, preyY, preyRadius * 2);
     pop();
   } else {
     fill(preyFill, preyHealth);
@@ -663,8 +683,10 @@ function drawPrey() {
 
 */
 function drawPlayer() {
-  fill(playerFill, playerHealth);
-  ellipse(playerX, playerY, playerRadius * 2);
+  //fill(playerFill, playerHealth);
+  //ellipse(playerX, playerY, playerRadius * 2);
+  imageMode(CENTER);
+  image(adamIdle, playerX, playerY, playerRadius * 5);
 }
 
 /**
@@ -799,11 +821,10 @@ class Scene {
   initScene() {
 
   }
-  // TODO look into data-oriented
 
   generateActors(playerGender, sceneType, forbiddenFruitState) {
-
     // Spawn the gender that the player has not picked
+
     // Checks if the scene type is a cinematic or game scene
     // Predisposition according to whether the forbidden fruit has been consummed
   }
