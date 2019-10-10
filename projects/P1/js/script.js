@@ -364,7 +364,7 @@ function sceneExit(direction) {
 }
 
 /**
-  Check if the player changed scenes--if the player has touched
+  Checks if the player changed scenes--if the player has touched
   an edge of the canvas. Starting from the forbiddenFruitScene, the next scene is
   changed depending on player's health. Conceptually, this change is supposed to mean
   something about the decay factor being a perpetual threat in human relationships
@@ -414,8 +414,6 @@ function checkPlayerChangedScene(currentScene) {
 */
 function movePlayer() {
   screenWarping("player");
-  //screenBouncing();
-  // Update position
   playerX += playerVX;
   playerY += playerVY;
 }
@@ -441,8 +439,8 @@ function updateHealth() {
 }
 
 /**
-  Mirror function of checkEating(). If in prefallenState, uh... add a heart picture above man and woman
-  upon collision. Rated R for red...
+  Mirror function of checkEating(). If in prefallenState, play a contact sound, and uh... add a heart picture above man and woman
+  upon collision. Also sets the fallen state to true.
 
 */
 function manageCollisionEvents() {
@@ -453,7 +451,6 @@ function manageCollisionEvents() {
 
   if (d < playerRadius + preyRadius) {
     contactSound.play();
-
     clear();
     push();
     background(175, 0, 0, 100); // Turn the background into intimate scarlet
@@ -578,13 +575,14 @@ function beAttractedToPlayer() {
       preyY -= preyVY * 0.10;
     }
   }
-  // TODO prey backs-up if x,y < maxDistance
   screenWarping("nonplayer");
 }
 
-// movePrey()
-//
-// Moves the prey based on random velocity changes
+
+/**
+  Moves the prey based on random velocity changes
+
+*/
 function movePrey() {
   preyVX = map(noise(tx), 0, 1, -preyMaxSpeed, preyMaxSpeed);
   preyVY = map(noise(ty), 0, 1, -preyMaxSpeed, preyMaxSpeed);;
