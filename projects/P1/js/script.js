@@ -99,7 +99,6 @@ function setup() {
   sceneQueue.enqueue("eden3");
   sceneQueue.enqueue("forbiddenFruitScene");
   sceneQueue.enqueue("playgrounds1");
-  sceneQueue.enqueue("playgrounds2");
 
   console.log("Scenes in queue: " + sceneQueue.items.length);
   // Create the game's canvas
@@ -295,17 +294,12 @@ function goToScene(scene) {
       console.log(currentScene);
       break;
     case "forbiddenFruitScene":
-      textContent = "The Forbbiden Fruit.\n\n\"When the woman saw that the fruit of the tree was good \nfor food and pleasing to the eye, and also desirable\nfor gaining wisdom, she took some and ate it.\nShe also gave some to her husband,\nwho was with her, and he ate it.\"";
+      textContent = "The Forbbiden Fruit.\n\n\"When the woman saw that the fruit of the tree was good \nfor food and pleasing to the eye, and also desirable\nfor gaining wisdom, she took some and ate it.\nShe also gave some to her husband,\nwho was with her, and he ate it.\n\nGenesis 3:6\"";
       makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
       console.log(currentScene);
       break;
     case "playgrounds1":
       textContent = "Your World 1.";
-      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
-      console.log(currentScene);
-      break;
-    case "playgrounds2":
-      textContent = "Your World 2.";
       makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
       console.log(currentScene);
       break;
@@ -378,11 +372,6 @@ function checkPlayerChangedScene(currentScene) {
          nextScene();
        }
        break;
-     case "playgrounds2":
-       if (playerHealth === 0) {
-         nextScene();
-       }
-       break;
     default:
       break;
   }
@@ -397,8 +386,6 @@ function movePlayer() {
   // Update position
   playerX += playerVX;
   playerY += playerVY;
-
-
 }
 
 // updateHealth()
@@ -453,7 +440,7 @@ function addHeartOnCollision() {
 
     switch (currentScene) {
       case "eden1":
-        theSnake = "(You hear a hiss...) \"This way. But do not bring\nthe woman with you.\"";
+        theSnake = "(You hear a hiss...) \"I imagine you don't get to do much all day,\nstuck out like that.\"";
         sceneChangeClue = "(Get to the bottom by pressing shift to sprint.)";
         break;
       case "eden2":
@@ -463,7 +450,7 @@ function addHeartOnCollision() {
         theSnake = "Not ashamed? Seriously?\n Aren't you curious as to why Eve\nisn't even remotely as hairy as you are?";
         break;
       case "forbiddenFruitScene":
-        theSnake = "I imagine you don't get to do much all day,\nstuck out like that.\nHey, see that massive coconut over there?\n I hear it melts in your mouth...\nI know you want to eat it too!\nTehee!";
+        theSnake = "\n I hear it melts in your mouth...\nI know you want to eat it too!\nTehee!";
         break;
       case "playgrounds1":
         break;
@@ -478,6 +465,11 @@ function addHeartOnCollision() {
     text(theSnake, width / 7, height / 1.5);
     text(sceneChangeClue, width / 7, height / 1.2);
     pop();
+
+    // Trigger ate the forbidden fruit
+    if(currentScene === "forbiddenFruitScene") {
+      prefallenState = false;
+    }
   }
 }
 
@@ -670,7 +662,7 @@ function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xP
   text(textContent, xPos, yPos);
   pop();
 
-  if (actorsPresent) {
+  if (actorsPresent && currentScene === "forbiddenFruitScene") {
     // spawn actors (ellipses for now)
     let actors = [nbActors];
     // Take control of Eve and animate her...
@@ -684,6 +676,12 @@ function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xP
     else {
       preyY = height / 2;
     }
+    // Draw the forbidden fruit.
+    push();
+    fill(255, 0, 0);
+    rectMode(CENTER);
+    rect(width / 2, height / 2, 85, 85);
+    pop();
   }
 }
 
