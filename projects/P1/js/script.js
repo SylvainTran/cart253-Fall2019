@@ -169,7 +169,6 @@ function setupPlayer() {
 
 */
 function draw() {
-  handleInput();
   // Play the intro
   if (playIntroduction === true) {
     playIntroduction = false;
@@ -197,6 +196,7 @@ function draw() {
   } else if (gameOver) {
     showGameOver();
   }
+  handleInput();
 }
 
 /**
@@ -250,6 +250,7 @@ function handleInput() {
   } else if (keyIsDown(DOWN_ARROW)) {
     playerVY = playerMaxSpeed;
   } else {
+    image(adamIdle, playerX, playerY, playerRadius * 5);
     playerVX = 0;
     playerVY = 0;
   }
@@ -685,8 +686,6 @@ function drawPrey() {
 function drawPlayer() {
   //fill(playerFill, playerHealth);
   //ellipse(playerX, playerY, playerRadius * 2);
-  imageMode(CENTER);
-  image(adamIdle, playerX, playerY, playerRadius * 5);
 }
 
 /**
