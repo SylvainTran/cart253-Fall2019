@@ -15,7 +15,6 @@ Includes: Physics-based movement, keyboard controls, health/stamina,
 random movement, screen wrap.
 
 */
-let debugMode = true;
 // Canvas scenes management
 // Holds the scenes in a queue
 let sceneQueue;
@@ -27,6 +26,9 @@ let playedIntro1 = false;
 let playedIntro2 = false;
 let playedIntro3 = false;
 let prefallenState = false; // Movement type of adam/eve set to be naturally attracted to each other, before you eat the forbidden fruit
+let playAsAdam = false;
+let playAsEve = false;
+
 // Track whether the game is over
 let gameOver = false;
 
@@ -52,27 +54,27 @@ let playerMaxHealth = 255;
 // Player fill color
 let playerFill = 50;
 
-// Prey position, size, velocity
-let preyX;
-let preyY;
-let preyRadius = 25;
-let preyVX;
-let preyVY;
-let preyMaxSpeed = 4;
-// Prey health
-let preyHealth;
-let preyMaxHealth = 100;
-// Prey fill color
-let preyFill = 255;
+// otherGender position, size, velocity
+let otherGenderX;
+let otherGenderY;
+let otherGenderRadius = 25;
+let otherGenderVX;
+let otherGenderVY;
+let otherGenderMaxSpeed = 4;
+// otherGender health
+let otherGenderHealth;
+let otherGenderMaxHealth = 100;
+// otherGender fill color
+let otherGenderFill = 255;
 
 // Perlin noise time values
 let tx = 1;
 let ty = 1;
 
-// Amount of health obtained per frame of "eating" (overlapping) the prey
+// Amount of health obtained per frame of "eating" (overlapping) the otherGender
 let eatHealth = 10;
-// Number of prey eaten during the game (the "score")
-let preyEaten = 0;
+// Number of otherGender eaten during the game (the "score")
+let otherGenderEaten = 0;
 
 let amaticSCFont;
 let mountainsOfChristmasFont;
@@ -126,10 +128,9 @@ function setup() {
   sceneQueue.enqueue("forbiddenFruitScene");
   sceneQueue.enqueue("playgrounds1");
 
-  //console.log("Scenes in queue: " + sceneQueue.items.length);
   // Create the game's canvas
   noStroke();
-  setupPrey();
+  setupOtherGender();
   setupPlayer();
 
   playIntroduction = true;
@@ -145,8 +146,8 @@ function setup() {
   Play as Adam.
 
 */
-function playAsAdam() {
-
+function bootAdam() {
+  playAsAdam = true;
 
 }
 
@@ -154,22 +155,21 @@ function playAsAdam() {
   Play as Eve.
 
 */
-function playAsEve() {
-
+function bootEve() {
+  playAsEve = true;
 
 }
 
 /**
-  setupPrey()
-  Initialises prey's position, velocity, and health
+  Initialises the other Gender's position, velocity, and health
 
 */
-function setupPrey() {
-  preyX = width / 5;
-  preyY = height / 2;
-  preyVX = -preyMaxSpeed;
-  preyVY = preyMaxSpeed;
-  preyHealth = preyMaxHealth;
+function setupOtherGender() {
+  otherGenderX = width / 5;
+  otherGenderY = height / 2;
+  otherGenderVX = -otherGenderMaxSpeed;
+  otherGenderVY = otherGenderMaxSpeed;
+  otherGenderHealth = otherGenderMaxHealth;
 }
 
 /**
@@ -204,13 +204,12 @@ function draw() {
       beAttractedToPlayer();
       manageCollisionEvents();
     } else {
-      movePrey();
+      moveotherGender();
       updateHealth();
       checkEating();
     }
 
-    drawPrey();
-    drawPlayer();
+    drawOtherGender();
   } else if (gameOver) {
     showGameOver();
   }
@@ -492,9 +491,9 @@ function manageCollisionEvents() {
   if (!prefallenState) {
     return;
   }
-  let d = dist(playerX, playerY, preyX, preyY);
+  let d = dist(playerX, playerY, otherGenderX, otherGenderY);
 
-  if (d < playerRadius + preyRadius) {
+  if (d < playerRadius + otherGenderRadius) {
     contactSound.play();
     clear();
     push();
@@ -510,12 +509,20 @@ function manageCollisionEvents() {
   }
 }
 
+/**
+  Triggers the fallen state if the player is in the forbiddenFruitScene.
+
+*/
 function triggerFallenState() {
   if (currentScene === "forbiddenFruitScene") {
     prefallenState = false;
   }
 }
 
+/**
+  Adds caption as per the current scene.
+
+*/
 function addSceneCaptions() {
   push();
   fill(255);
@@ -545,34 +552,34 @@ function addSceneCaptions() {
 }
 
 /**
-  if not in prefallenstate, check if the player overlaps the prey and updates health of both.
+  if not in prefallenstate, check if the player overlaps the otherGender and updates health of both.
 
 */
 function checkEating() {
   if (prefallenState) {
     return; // because they are one flesh already
   }
-  let d = dist(playerX, playerY, preyX, preyY);
+  let d = dist(playerX, playerY, otherGenderX, otherGenderY);
 
-  if (d < playerRadius + preyRadius) {
+  if (d < playerRadius + otherGenderRadius) {
     // Increase the player health
     playerHealth = playerHealth + eatHealth;
     // Constrain to the possible range
     playerHealth = constrain(playerHealth, 0, playerMaxHealth);
-    // Reduce the prey health
-    preyHealth = preyHealth - eatHealth;
+    // Reduce the otherGender health
+    otherGenderHealth = otherGenderHealth - eatHealth;
     // Constrain to the possible range
-    preyHealth = constrain(preyHealth, 0, preyMaxHealth);
+    otherGenderHealth = constrain(otherGenderHealth, 0, otherGenderMaxHealth);
 
-    // Check if the prey died (health 0)
-    if (preyHealth === 0) {
-      // Move the "new" prey to a random position
-      preyX = random(0, width);
-      preyY = random(0, height);
+    // Check if the otherGender died (health 0)
+    if (otherGenderHealth === 0) {
+      // Move the "new" otherGender to a random position
+      otherGenderX = random(0, width);
+      otherGenderY = random(0, height);
       // Give it full health
-      preyHealth = preyMaxHealth;
-      // Track how many prey were eaten
-      preyEaten = preyEaten + 1;
+      otherGenderHealth = otherGenderMaxHealth;
+      // Track how many otherGender were eaten
+      otherGenderEaten = otherGenderEaten + 1;
     }
   }
 }
@@ -594,24 +601,24 @@ function beAttractedToPlayer() {
   const minDistance = 20;
   const maxDistance = minDistance / 2; // don't get closer than half of the min distance
 
-  let currentDistance = dist(playerPosX, preyX, playerPosY, preyY);
+  let currentDistance = dist(playerPosX, otherGenderX, playerPosY, otherGenderY);
   // while it is greater than half of the distance
   if (currentDistance >= minDistance) {
     // Advance to the one-seventh of a distance
-    preyVX = currentDistance / 7;
-    preyVY = currentDistance / 7;
+    otherGenderVX = currentDistance / 7;
+    otherGenderVY = currentDistance / 7;
 
-    // Update prey position to go towards the player depending on the distance
+    // Update otherGender position to go towards the player depending on the distance
     // relative to the player at each successive call of this function
-    if (preyX < playerX) {
-      preyX += preyVX * 0.10;
+    if (otherGenderX < playerX) {
+      otherGenderX += otherGenderVX * 0.10;
     } else {
-      preyX -= preyVX * 0.10;
+      otherGenderX -= otherGenderVX * 0.10;
     }
-    if (preyY < playerY) {
-      preyY += preyVY * 0.10;
+    if (otherGenderY < playerY) {
+      otherGenderY += otherGenderVY * 0.10;
     } else {
-      preyY -= preyVY * 0.10;
+      otherGenderY -= otherGenderVY * 0.10;
     }
   }
   screenWarping("nonplayer");
@@ -619,14 +626,14 @@ function beAttractedToPlayer() {
 
 
 /**
-  Moves the prey based on random velocity changes
+  Moves the otherGender based on random velocity changes
 
 */
-function movePrey() {
-  preyVX = map(noise(tx), 0, 1, -preyMaxSpeed, preyMaxSpeed);
-  preyVY = map(noise(ty), 0, 1, -preyMaxSpeed, preyMaxSpeed);;
-  preyX += preyVX;
-  preyY += preyVY;
+function moveotherGender() {
+  otherGenderVX = map(noise(tx), 0, 1, -otherGenderMaxSpeed, otherGenderMaxSpeed);
+  otherGenderVY = map(noise(ty), 0, 1, -otherGenderMaxSpeed, otherGenderMaxSpeed);;
+  otherGenderX += otherGenderVX;
+  otherGenderY += otherGenderVY;
 
   screenWarping("nonplayer");
 
@@ -653,15 +660,15 @@ function screenBouncing() {
 */
 function screenWarping(actor) {
   if (actor === "nonplayer") { // For the opposite gender and other life forms
-    if (preyX <= 0) {
-      preyX = preyX + width;
-    } else if (preyX >= width) {
-      preyX = preyX - width;
+    if (otherGenderX <= 0) {
+      otherGenderX = otherGenderX + width;
+    } else if (otherGenderX >= width) {
+      otherGenderX = otherGenderX - width;
     }
-    if (preyY <= 0) {
-      preyY = preyY + height;
-    } else if (preyY >= height) {
-      preyY = preyY - height;
+    if (otherGenderY <= 0) {
+      otherGenderY = otherGenderY + height;
+    } else if (otherGenderY >= height) {
+      otherGenderY = otherGenderY - height;
     }
   } else { // Wrap when player goes off the canvas
     if (playerX + playerRadius <= 0 + changeSceneThresholdX) {
@@ -686,28 +693,19 @@ function screenWarping(actor) {
   Draws the opposite gender.
 
 */
-function drawPrey() {
+function drawOtherGender() {
   if (prefallenState) {
     // Actor display
     push();
-    //preyFill = 0;
-    image(eveIdle, preyX, preyY, preyRadius * 5);
-    //fill(preyFill);
-    //ellipse(preyX, preyY, preyRadius * 2);
+    //otherGenderFill = 0;
+    image(eveIdle, otherGenderX, otherGenderY, otherGenderRadius * 5);
+    //fill(otherGenderFill);
+    //ellipse(otherGenderX, otherGenderY, otherGenderRadius * 2);
     pop();
   } else {
-    fill(preyFill, preyHealth);
-    ellipse(preyX, preyY, preyRadius * 2);
+    fill(otherGenderFill, otherGenderHealth);
+    ellipse(otherGenderX, otherGenderY, otherGenderRadius * 2);
   }
-}
-
-/**
-  Draws the player.
-
-*/
-function drawPlayer() {
-  //fill(playerFill, playerHealth);
-  //ellipse(playerX, playerY, playerRadius * 2);
 }
 
 /**
@@ -722,7 +720,7 @@ function showGameOver() {
   fill(255);
   // Set up the text to display
   let gameOverText = "GAME OVER\n"; // \n means "new line"
-  gameOverText = gameOverText + "You ate " + preyEaten + " prey\n";
+  gameOverText = gameOverText + "You ate " + otherGenderEaten + " otherGender\n";
   gameOverText = gameOverText + "before you died."
   // Display it in the centre of the screen
   text(gameOverText, width / 2, height / 2);
@@ -750,12 +748,12 @@ function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xP
     // Take control of Eve and animate her...
     // Prevent her from being attracted to player
     // Place Eve at the top center of the Scene
-    preyX = width / 2;
+    otherGenderX = width / 2;
     // Increment her Y by +1 each call if has not reached center yet
-    if (preyY <= height / 2) {
-      preyY++;
+    if (otherGenderY <= height / 2) {
+      otherGenderY++;
     } else {
-      preyY = height / 2;
+      otherGenderY = height / 2;
     }
     // Draw the forbidden fruit.
     push();
@@ -824,59 +822,59 @@ class Queue {
   Scene creator class.
 
 */
-class Scene {
-  constructor(bgColor, actors, animals, environment, props, maxObjects, cinematic) {
-    this.bgColor = bgColor;
-    this.actors = actors;
-    this.animals = animals;
-    this.environment = environment;
-    this.props = props;
-    this.maxObjects = maxObjects;
-    this.cinematic = cinematic;
-  }
-
-  makeScene() {
-
-  }
-
-  initScene() {
-
-  }
-
-  generateActors(playerGender, sceneType, forbiddenFruitState) {
-    // Spawn the gender that the player has not picked
-
-    // Checks if the scene type is a cinematic or game scene
-    // Predisposition according to whether the forbidden fruit has been consummed
-  }
-}
-
-/**
-  Actor class
-
-*/
-class Actor {
-  constructor(actorType, width, height, speed) {
-    this.actorType = actorType;
-    this.width = width;
-    this.height = height;
-    this.speed = speed;
-  }
-
-  makeActor() {
-    // if(this.actorType === "animal") {
-    //
-    // }
-  }
-
-  /**
-    Make a random shape for the animal
-  */
-  makeAnimalTemplate() {
-    rectMode(CENTER);
-    rect(random(0, 100), random(0, 100), random(50, 100), random(50, 100));
-  }
-}
+// class Scene {
+//   constructor(bgColor, actors, animals, environment, props, maxObjects, cinematic) {
+//     this.bgColor = bgColor;
+//     this.actors = actors;
+//     this.animals = animals;
+//     this.environment = environment;
+//     this.props = props;
+//     this.maxObjects = maxObjects;
+//     this.cinematic = cinematic;
+//   }
+//
+//   makeScene() {
+//
+//   }
+//
+//   initScene() {
+//
+//   }
+//
+//   generateActors(playerGender, sceneType, forbiddenFruitState) {
+//     // Spawn the gender that the player has not picked
+//
+//     // Checks if the scene type is a cinematic or game scene
+//     // Predisposition according to whether the forbidden fruit has been consummed
+//   }
+// }
+//
+// /**
+//   Actor class
+//
+// */
+// class Actor {
+//   constructor(actorType, width, height, speed) {
+//     this.actorType = actorType;
+//     this.width = width;
+//     this.height = height;
+//     this.speed = speed;
+//   }
+//
+//   makeActor() {
+//     // if(this.actorType === "animal") {
+//     //
+//     // }
+//   }
+//
+//   /**
+//     Make a random shape for the animal
+//   */
+//   makeAnimalTemplate() {
+//     rectMode(CENTER);
+//     rect(random(0, 100), random(0, 100), random(50, 100), random(50, 100));
+//   }
+// }
 
 /**
   Make babies according to the specified amount to output.
