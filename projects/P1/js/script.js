@@ -167,7 +167,7 @@ function draw() {
 
     if (prefallenState) {
       beAttractedToPlayer();
-      addHeartOnCollision();
+      manageCollisionEvents();
     } else {
       movePrey();
       updateHealth();
@@ -314,6 +314,7 @@ function goToScene(scene) {
       break;
     case "playgrounds1":
       textContent = "Your World 1.\n\n\"You will not surely die (...).\nFor God knows that when you eat\nof it your eyes will be opened,\nand you will be like God,\nknowing good and evil.\"\n\nGenesis 3:5";
+      textContent += "\n\n\"Then the eyes of both of them were opened,\nand they realized they were naked;\nso they sewed fig leaves together\nand made coverings for themselves.\"";
       makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
       console.log(currentScene);
       break;
@@ -444,7 +445,7 @@ function updateHealth() {
   upon collision. Rated R for red...
 
 */
-function addHeartOnCollision() {
+function manageCollisionEvents() {
   if (!prefallenState) {
     return;
   }
@@ -462,48 +463,49 @@ function addHeartOnCollision() {
     image(heartPic, playerX + playerRadius * random(0, 5), playerY - playerRadius * random(0, 5), 100, 100);
     pop();
 
-    push();
-    fill(255);
-    textSize(42);
-    //let Mark_10_7 = "Mark 10:7\n\"For this reason a man will leave his father\n and mother and be united to his wife.\""
-    //text(Mark_10_7, width / 7, height / 7);
-
-    let theSnake;
-    let caption;
-
-    switch (currentScene) {
-      case "eden1":
-        theSnake = "(You hear a hiss...) \"I imagine you don't get to do much all day,\nstuck out like that.\"";
-        caption = "(Get to the bottom by pressing shift to sprint.)";
-        break;
-      case "eden2":
-        theSnake = "Ah, she came anyways?\n Well, what can you do right?\n I guess we can all still be friends.\n";
-        break;
-      case "eden3":
-        theSnake = "\"Did God really say,\n\`You must not eat from any tree in the garden\'?\"";
-        break;
-      case "forbiddenFruitScene":
-        break;
-      case "playgrounds1":
-        caption = "\"Then the eyes of both of them were opened, and they realized they were naked; so they sewed fig leaves together and made coverings for themselves.\"";
-        break;
-      case "playgrounds2":
-        break;
-      default:
-        break;
-    }
-
-    push();
-    textFont(mountainsOfChristmasFont);
-    text(theSnake, 50, height / 1.5);
-    text(caption, width / 7, height / 1.2);
-    pop();
-
-    // Trigger ate the forbidden fruit
-    if (currentScene === "forbiddenFruitScene") {
-      prefallenState = false;
-    }
+    addSceneCaptions();
+    triggerFallenState();
   }
+}
+
+function triggerFallenState() {
+  if (currentScene === "forbiddenFruitScene") {
+    prefallenState = false;
+  }
+}
+
+function addSceneCaptions() {
+  push();
+  fill(255);
+  textSize(42);
+
+  let theSnake;
+  let caption;
+
+  switch (currentScene) {
+    case "eden1":
+      theSnake = "(You hear a hiss...) \"I imagine you don't get to do much all day,\nstuck out like that.\"";
+      caption = "(Get to the bottom by pressing shift to sprint.)";
+      break;
+    case "eden2":
+      theSnake = "Ah, she came anyways?\n Well, what can you do right?\n I guess we can all still be friends.\n";
+      break;
+    case "eden3":
+      theSnake = "\"Did God really say,\n\`You must not eat from any tree in the garden\'?\"";
+      break;
+    case "forbiddenFruitScene":
+      break;
+    case "playgrounds1":
+      break;
+    case "playgrounds2":
+      break;
+    default:
+      break;
+  }
+  textFont(mountainsOfChristmasFont);
+  text(theSnake, 50, height / 1.5);
+  text(caption, width / 7, height / 1.2);
+  pop();
 }
 
 /**
