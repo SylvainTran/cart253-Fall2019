@@ -304,7 +304,7 @@ function goToScene(scene) {
       console.log(currentScene);
       break;
     case "forbiddenFruitScene":
-      textContent = "The Forbbiden Fruit.\n\n\"When the woman saw that the fruit of the tree was good \nfor food and pleasing to the eye, and also desirable\nfor gaining wisdom, she took some and ate it.\nShe also gave some to her husband,\nwho was with her, and he ate it.\n\nGenesis 3:6\"";
+      textContent = "The Forbbiden Fruit.\n\n\"When the woman saw that the fruit of the tree was good \nfor food and pleasing to the eye, and also desirable\nfor gaining wisdom, she took some and ate it.\nShe also gave some to her husband,\nwho was with her, and he ate it.\"\n\nGenesis 3:6";
       makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
       console.log(currentScene);
       break;
@@ -332,7 +332,7 @@ function sceneExit(direction) {
   switch (direction) {
     case "LEFT":
       if ((playerX - playerRadius) <= (0 + changeSceneThresholdX)) {
-        alert("Going left for real");
+        //alert("Going left for real");
         nextScene();
       }
       break;
@@ -343,13 +343,13 @@ function sceneExit(direction) {
       break;
     case "TOP":
       if ((playerY + playerRadius) <= (0 + changeSceneThresholdY)) {
-        alert("Going top for real");
+        //alert("Going top for real");
         nextScene();
       }
       break;
     case "DOWN":
       if ((playerY - playerRadius) >= (height - changeSceneThresholdY)) {
-        alert("Going down for real");
+        //alert("Going down for real");
         nextScene();
       }
       break;
@@ -475,10 +475,10 @@ function addHeartOnCollision() {
         theSnake = "Ah, she came anyways?\n Well, what can you do right?\n I guess we can all still be friends.\n";
         break;
       case "eden3":
-        theSnake = "Not ashamed? Seriously?\n Aren't you curious as to why Eve\nisn't even remotely as hairy as you are?";
+        theSnake = "\"Did God really say,\n\`You must not eat from any tree in the garden\'?\"";
         break;
       case "forbiddenFruitScene":
-        theSnake = "\n I hear it melts in your mouth...\nI know you want to eat it too!\nTehee!";
+        theSnake = "\n\"You will not surely die (...).\nFor God knows that when you eat\nof it your eyes will be opened,\nand you will be like God,\nknowing good and evil.\"\n\nGenesis 3:5";
         break;
       case "playgrounds1":
         break;
