@@ -77,6 +77,9 @@ let preyEaten = 0;
 let amaticSCFont;
 let mountainsOfChristmasFont;
 
+// Sounds
+let contactSound;
+
 /**
   Preloads the heart picture, and the custom fonts.
 
@@ -85,6 +88,7 @@ function preload() {
   heartPic = loadImage('assets/images/heart.png');
   amaticSCFont = loadFont('assets/fonts/AmaticSC-Regular.ttf');
   mountainsOfChristmasFont = loadFont('assets/fonts/MountainsofChristmas-Regular.ttf');
+  contactSound = loadSound("assets/sounds/contactSound.wav");
 }
 
 /**
@@ -309,7 +313,7 @@ function goToScene(scene) {
       console.log(currentScene);
       break;
     case "playgrounds1":
-      textContent = "Your World 1.";
+      textContent = "Your World 1.\n\n\"You will not surely die (...).\nFor God knows that when you eat\nof it your eyes will be opened,\nand you will be like God,\nknowing good and evil.\"\n\nGenesis 3:5";
       makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
       console.log(currentScene);
       break;
@@ -435,7 +439,6 @@ function updateHealth() {
   }
 }
 
-
 /**
   Mirror function of checkEating(). If in prefallenState, uh... add a heart picture above man and woman
   upon collision. Rated R for red...
@@ -448,6 +451,8 @@ function addHeartOnCollision() {
   let d = dist(playerX, playerY, preyX, preyY);
 
   if (d < playerRadius + preyRadius) {
+    contactSound.play();
+
     clear();
     push();
     background(175, 0, 0, 100); // Turn the background into intimate scarlet
@@ -464,12 +469,12 @@ function addHeartOnCollision() {
     //text(Mark_10_7, width / 7, height / 7);
 
     let theSnake;
-    let sceneChangeClue;
+    let caption;
 
     switch (currentScene) {
       case "eden1":
         theSnake = "(You hear a hiss...) \"I imagine you don't get to do much all day,\nstuck out like that.\"";
-        sceneChangeClue = "(Get to the bottom by pressing shift to sprint.)";
+        caption = "(Get to the bottom by pressing shift to sprint.)";
         break;
       case "eden2":
         theSnake = "Ah, she came anyways?\n Well, what can you do right?\n I guess we can all still be friends.\n";
@@ -478,9 +483,9 @@ function addHeartOnCollision() {
         theSnake = "\"Did God really say,\n\`You must not eat from any tree in the garden\'?\"";
         break;
       case "forbiddenFruitScene":
-        theSnake = "\n\"You will not surely die (...).\nFor God knows that when you eat\nof it your eyes will be opened,\nand you will be like God,\nknowing good and evil.\"\n\nGenesis 3:5";
         break;
       case "playgrounds1":
+        caption = "\"Then the eyes of both of them were opened, and they realized they were naked; so they sewed fig leaves together and made coverings for themselves.\"";
         break;
       case "playgrounds2":
         break;
@@ -490,8 +495,8 @@ function addHeartOnCollision() {
 
     push();
     textFont(mountainsOfChristmasFont);
-    text(theSnake, width / 7, height / 1.5);
-    text(sceneChangeClue, width / 7, height / 1.2);
+    text(theSnake, 50, height / 1.5);
+    text(caption, width / 7, height / 1.2);
     pop();
 
     // Trigger ate the forbidden fruit
