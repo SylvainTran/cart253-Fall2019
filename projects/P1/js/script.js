@@ -126,7 +126,7 @@ function setup() {
   sceneQueue.enqueue("forbiddenFruitScene");
   sceneQueue.enqueue("playgrounds1");
 
-  console.log("Scenes in queue: " + sceneQueue.items.length);
+  //console.log("Scenes in queue: " + sceneQueue.items.length);
   // Create the game's canvas
   noStroke();
   setupPrey();
@@ -173,7 +173,7 @@ function draw() {
   // Play the intro
   if (playIntroduction === true) {
     playIntroduction = false;
-    console.log("Calling nextScene: expecting that it should be intro1");
+    //console.log("Calling nextScene: expecting that it should be intro1");
     nextScene();
   }
 
@@ -208,13 +208,13 @@ function keyPressed() {
     if (sceneQueue.isEmpty()) {
       return;
     } else {
-      console.log("Enter pressed... going to the next scene.");
+      //console.log("Enter pressed... going to the next scene.");
       clear();
       nextScene();
     }
   }
   if (keyCode === ENTER && currentScene === "eden1") { // In Eden 1, you can make babies if you press space.
-    console.log("Making babies");
+    //console.log("Making babies");
     //makeBabies(1);
   }
 }
@@ -293,14 +293,14 @@ function goToScene(scene) {
       makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro1 = true;
-      console.log(currentScene);
+      //console.log(currentScene);
       break;
     case "intro2":
       textContent = "\“It is not good for the man to be alone.\n I will make a helper suitable for him.\"\n\nGenesis 2:18";
       makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro2 = true;
-      console.log(currentScene);
+      //console.log(currentScene);
       break;
     case "intro3":
       textContent = "\"Then the Lord God made a woman from the rib\nhe had taken out of the man,\nand he brought her to the man...\"\n\nGenesis 2:22";
@@ -309,36 +309,36 @@ function goToScene(scene) {
       // Call the gameplay scene after 3 seconds to avoid skipping the intro3 scene
       setTimeout(
         function() {
-          console.log("Waiting 3 seconds");
+          //console.log("Waiting 3 seconds");
           playedIntro3 = true
         }, 3000);
-      console.log(currentScene);
+      //console.log(currentScene);
       break;
     case "eden1":
       textContent = "Garden of Eden 1.\n\n\"The man said,\nThis is now bone of my bones and flesh of my flesh;\nshe shall be called  \'woman\' for she was\ntaken out of man.\"\n\nGenesis 2:23";
       makeScene(scene, edenBgColor, 42, 0, textContent, 30, height / 7, false, nbActors);
-      console.log(currentScene);
+      //console.log(currentScene);
       break;
     case "eden2":
       textContent = "Garden of Eden 2.";
       makeScene(scene, 195, 42, 255, textContent, 30, height / 7, false, nbActors);
-      console.log(currentScene);
+      //console.log(currentScene);
       break;
     case "eden3":
       textContent = "Garden of Eden 3.\n\n\"Adam and his wife were both naked, and they felt no shame.\"\n\nGenesis 2:25";
       makeScene(scene, 145, 42, 255, textContent, 30, height / 7, false, nbActors);
-      console.log(currentScene);
+      //console.log(currentScene);
       break;
     case "forbiddenFruitScene":
       textContent = "The Forbbiden Fruit.\n\n\"When the woman saw that the fruit of the tree was good \nfor food and pleasing to the eye, and also desirable\nfor gaining wisdom, she took some and ate it.\nShe also gave some to her husband,\nwho was with her, and he ate it.\"\n\nGenesis 3:6";
       makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
-      console.log(currentScene);
+      //console.log(currentScene);
       break;
     case "playgrounds1":
       textContent = "Your World 1.\n\n\"You will not surely die (...).\nFor God knows that when you eat\nof it your eyes will be opened,\nand you will be like God,\nknowing good and evil.\"\n\nGenesis 3:5";
       textContent += "\n\n\"Then the eyes of both of them were opened,\nand they realized they were naked;\nso they sewed fig leaves together\nand made coverings for themselves.\"";
       makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
-      console.log(currentScene);
+      //console.log(currentScene);
       break;
     default:
       break;
@@ -353,8 +353,8 @@ function goToScene(scene) {
 function sceneExit(direction) {
   //let directions = { "LEFT", "RIGHT", "TOP", "DOWN" };
   let currX = playerX;
-  console.log("Change scene tresholdX " + (width - changeSceneThresholdX));
-  console.log("Change scene tresholdY" + (height - changeSceneThresholdY));
+  //console.log("Change scene tresholdX " + (width - changeSceneThresholdX));
+  //console.log("Change scene tresholdY" + (height - changeSceneThresholdY));
 
   switch (direction) {
     case "LEFT":
@@ -394,12 +394,12 @@ function sceneExit(direction) {
 
 */
 function checkPlayerChangedScene(currentScene) {
-  console.log("Checking if player has changed scene");
-  console.log("Player X: " + playerX);
-  console.log("Player Y: " + playerY);
-  console.log("Width: " + width);
-  console.log("Height: " + height);
-  console.log("currentScene: " + currentScene);
+  //console.log("Checking if player has changed scene");
+  //console.log("Player X: " + playerX);
+  //console.log("Player Y: " + playerY);
+  //console.log("Width: " + width);
+  //console.log("Height: " + height);
+  //console.log("currentScene: " + currentScene);
 
   // depending on the scene, certain screen boundaries are open for going to the next scene
   switch (currentScene) {
