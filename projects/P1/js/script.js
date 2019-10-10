@@ -142,6 +142,24 @@ function setup() {
 }
 
 /**
+  Play as Adam.
+
+*/
+function playAsAdam() {
+
+
+}
+
+/**
+  Play as Eve.
+
+*/
+function playAsEve() {
+
+
+}
+
+/**
   setupPrey()
   Initialises prey's position, velocity, and health
 
@@ -243,12 +261,16 @@ function handleInput() {
   // Check for vertical movement
   else if (keyIsDown(UP_ARROW) && keyIsDown(SHIFT)) {
     playerVY = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
+    image(adamIdle, playerX, playerY, playerRadius * 5);
   } else if (keyIsDown(UP_ARROW)) {
     playerVY = -playerMaxSpeed;
+    image(adamIdle, playerX, playerY, playerRadius * 5);
   } else if (keyIsDown(DOWN_ARROW) && keyIsDown(SHIFT)) {
     playerVY = constrain(playerMaxSpeed, maxBoostedSpeed, maxBoostedSpeed);
+    image(adamIdle, playerX, playerY, playerRadius * 5);
   } else if (keyIsDown(DOWN_ARROW)) {
     playerVY = playerMaxSpeed;
+    image(adamIdle, playerX, playerY, playerRadius * 5);
   } else {
     image(adamIdle, playerX, playerY, playerRadius * 5);
     playerVX = 0;
