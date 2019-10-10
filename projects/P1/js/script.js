@@ -631,20 +631,23 @@ function drawPlayer() {
   ellipse(playerX, playerY, playerRadius * 2);
 }
 
-// showGameOver()
-//
-// Display text about the game being over!
+/**
+  Shows the game over screen.
+
+*/
 function showGameOver() {
   // Set up the font
+  push();
   textSize(32);
   textAlign(CENTER, CENTER);
-  fill(0);
+  fill(255);
   // Set up the text to display
   let gameOverText = "GAME OVER\n"; // \n means "new line"
   gameOverText = gameOverText + "You ate " + preyEaten + " prey\n";
   gameOverText = gameOverText + "before you died."
   // Display it in the centre of the screen
   text(gameOverText, width / 2, height / 2);
+  pop();
 }
 
 /**
