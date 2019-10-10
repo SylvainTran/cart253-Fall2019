@@ -79,6 +79,7 @@ let mountainsOfChristmasFont;
 
 // Sounds
 let contactSound;
+let backgroundMusic;
 
 /**
   Preloads the heart picture, and the custom fonts.
@@ -89,6 +90,7 @@ function preload() {
   amaticSCFont = loadFont('assets/fonts/AmaticSC-Regular.ttf');
   mountainsOfChristmasFont = loadFont('assets/fonts/MountainsofChristmas-Regular.ttf');
   contactSound = loadSound("assets/sounds/contactSound.wav");
+  backgroundMusic = loadSound("assets/sounds/invisible0W31m.mp3");
 }
 
 /**
@@ -120,6 +122,7 @@ function setup() {
   tx = 0.0001
   ty = 0.0001;
 
+  backgroundMusic.loop();
   //let createHuman = prompt("John 1:26-27: ");
 }
 
@@ -489,12 +492,6 @@ function addSceneCaptions() {
       break;
     case "eden3":
       theSnake = "\"Did God really say,\n\`You must not eat from any tree in the garden\'?\"";
-      break;
-    case "forbiddenFruitScene":
-      break;
-    case "playgrounds1":
-      break;
-    case "playgrounds2":
       break;
     default:
       break;
