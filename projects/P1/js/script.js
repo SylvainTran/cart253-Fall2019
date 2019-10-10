@@ -77,15 +77,20 @@ let preyEaten = 0;
 let amaticSCFont;
 let mountainsOfChristmasFont;
 
+/**
+  Preloads the heart picture, and the custom fonts.
+
+*/
 function preload() {
   heartPic = loadImage('assets/images/heart.png');
   amaticSCFont = loadFont('assets/fonts/AmaticSC-Regular.ttf');
   mountainsOfChristmasFont = loadFont('assets/fonts/MountainsofChristmas-Regular.ttf');
 }
 
-// setup()
-//
-// Sets up the basic elements of the game
+/**
+  Sets up the basic elements of the game
+
+*/
 function setup() {
   // draw the intro cinematic screen to full width and height
   introScene = createCanvas(1000, 1000);
@@ -114,9 +119,11 @@ function setup() {
   //let createHuman = prompt("John 1:26-27: ");
 }
 
-// setupPrey()
-//
-// Initialises prey's position, velocity, and health
+/**
+  setupPrey()
+  Initialises prey's position, velocity, and health
+
+*/
 function setupPrey() {
   preyX = width / 5;
   preyY = height / 2;
@@ -125,9 +132,10 @@ function setupPrey() {
   preyHealth = preyMaxHealth;
 }
 
-// setupPlayer()
-//
-// Initialises player position and health
+/**
+  Initialises player position and health
+
+*/
 function setupPlayer() {
   playerX = 4 * width / 5;
   playerY = height / 2;
@@ -188,9 +196,11 @@ function keyPressed() {
     //makeBabies(1);
   }
 }
-// handleInput()
-//
-// Checks arrow keys and adjusts player velocity accordingly
+
+/**
+  Checks arrow keys and adjusts player velocity accordingly
+
+*/
 function handleInput() {
   let maxBoostedSpeed = playerMaxSpeed * 10;
 
@@ -308,6 +318,11 @@ function goToScene(scene) {
   }
 }
 
+/**
+  Manages changing scenes depending on defining canvas boundaries according to
+  cardinal directions.
+
+*/
 function sceneExit(direction) {
   //let directions = { "LEFT", "RIGHT", "TOP", "DOWN" };
   let currX = playerX;
@@ -343,6 +358,14 @@ function sceneExit(direction) {
   }
 }
 
+/**
+  Check if the player changed scenes--if the player has touched
+  an edge of the canvas. Starting from the forbiddenFruitScene, the next scene is
+  changed depending on player's health. Conceptually, this change is supposed to mean
+  something about the decay factor being a perpetual threat in human relationships
+  after the fall (lust over love).
+
+*/
 function checkPlayerChangedScene(currentScene) {
   console.log("Checking if player has changed scene");
   console.log("Player X: " + playerX);
@@ -362,24 +385,28 @@ function checkPlayerChangedScene(currentScene) {
     case "eden3":
       sceneExit("TOP");
       break;
-     case "forbiddenFruitScene":
-       if (!prefallenState) { //fallen state starts after player collides with fruit
-         nextScene();
-       }
-       break;
-     case "playgrounds1": // At this point the scene only progresses when the player dies, to evoke spiritual rebirth. The effect of sin, need to die on the cross etc.
-       if (playerHealth === 0) {
-         nextScene();
-       }
-       break;
+    case "forbiddenFruitScene":
+      if (!prefallenState) { //fallen state starts after player collides with fruit
+        nextScene();
+      }
+      break;
+    case "playgrounds1": // At this point the scene only progresses when the player dies, to evoke spiritual rebirth. The effect of sin, need to die on the cross etc.
+      if (playerHealth === 0) {
+        nextScene();
+      }
+      break;
     default:
       break;
   }
 }
-// movePlayer()
-//
-// Updates player position based on velocity,
-// wraps around the edges. if in prefallen state (before eating the forbidden fruit)
+
+/**
+  movePlayer()
+
+  Updates player position based on velocity,
+  wraps around the edges. if in prefallen state (before eating the forbidden fruit)
+
+*/
 function movePlayer() {
   screenWarping("player");
   //screenBouncing();
@@ -388,10 +415,11 @@ function movePlayer() {
   playerY += playerVY;
 }
 
-// updateHealth()
-//
-// Reduce the player's health (happens every frame)
-// Check if the player is dead
+/**
+  Updates the health of the player in the fallen state (after the forbiddenFruitScene,
+  when the forbidden fruit was eaten).
+
+*/
 function updateHealth() {
   if (prefallenState) { // If we are in the prefallen state, we don't lose our vitality
     return;
@@ -467,7 +495,7 @@ function addHeartOnCollision() {
     pop();
 
     // Trigger ate the forbidden fruit
-    if(currentScene === "forbiddenFruitScene") {
+    if (currentScene === "forbiddenFruitScene") {
       prefallenState = false;
     }
   }
@@ -512,7 +540,7 @@ function checkEating() {
 
 */
 function beAttractedToPlayer() {
-  if(currentScene === "forbiddenFruitScene") {
+  if (currentScene === "forbiddenFruitScene") {
     return;
   }
   // calculate something around the player's x, y
@@ -575,7 +603,10 @@ function screenBouncing() {
   }
 }
 
-// Screen warping; according to if it is called for the player or the AI
+/**
+  Screen warping; according to if it is called for the player or the AI
+
+*/
 function screenWarping(actor) {
   if (actor === "nonplayer") { // For the opposite gender and other life forms
     if (preyX <= 0) {
@@ -606,9 +637,11 @@ function screenWarping(actor) {
     }
   }
 }
-// drawPrey()
-//
-// Draw the prey as an ellipse with alpha based on health
+
+/**
+  Draws the opposite gender.
+
+*/
 function drawPrey() {
   if (prefallenState) {
     // Actor display
@@ -623,9 +656,10 @@ function drawPrey() {
   }
 }
 
-// drawPlayer()
-//
-// Draw the player as an ellipse with alpha value based on health
+/**
+  Draws the player.
+
+*/
 function drawPlayer() {
   fill(playerFill, playerHealth);
   ellipse(playerX, playerY, playerRadius * 2);
@@ -673,10 +707,9 @@ function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xP
     // Place Eve at the top center of the Scene
     preyX = width / 2;
     // Increment her Y by +1 each call if has not reached center yet
-    if(preyY <= height / 2) {
+    if (preyY <= height / 2) {
       preyY++;
-    }
-    else {
+    } else {
       preyY = height / 2;
     }
     // Draw the forbidden fruit.
@@ -742,6 +775,10 @@ class Queue {
   }
 }
 
+/**
+  Scene creator class.
+
+*/
 class Scene {
   constructor(bgColor, actors, animals, environment, props, maxObjects, cinematic) {
     this.bgColor = bgColor;
