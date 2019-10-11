@@ -1,20 +1,19 @@
 "use strict";
 
 /**
-*
 Author: Sylvain Tran
 Date: September 3rd, 2019
 
 Goal of program: Modified version of chaser by Dr. Pippin Bar
 The concept explored in this game is the original relation between man and woman
-with the perspective of the Theology of the Body.
+within the theological framework of the acclaimed Theology of the Body by Saint John Paul II.
 
 Twists: You can eat the forbidden fruit. Or...
 
 Includes: Physics-based movement, keyboard controls, health/stamina,
 random movement, screen wrap.
-
 */
+
 // Canvas scenes management
 // Holds the scenes in a queue
 let sceneQueue;
@@ -39,6 +38,9 @@ let changeSceneThresholdY = 50;
 
 // Heart pic for prefallen state
 let heartPic;
+
+// Grass for the grass generator function
+let grass;
 
 // Player's chosen gender, position, size, velocity
 let playerGender;
@@ -97,6 +99,7 @@ let eveRight;
 
 */
 function preload() {
+  grass = loadImage("assets/images/grass.png");
   heartPic = loadImage('assets/images/heart.png');
   amaticSCFont = loadFont('assets/fonts/AmaticSC-Regular.ttf');
   mountainsOfChristmasFont = loadFont('assets/fonts/MountainsofChristmas-Regular.ttf');
@@ -312,21 +315,21 @@ function goToScene(scene) {
       textContent = "\"God created man in His own image; " +
         "in the\n" + "image of God He created him; male and female\n" +
         "He created them.\"\n\nGenesis 1:27";
-      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors);
+      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors, 25);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro1 = true;
       //console.log(currentScene);
       break;
     case "intro2":
       textContent = "\“It is not good for the man to be alone.\n I will make a helper suitable for him.\"\n\nGenesis 2:18";
-      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors);
+      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors, 25);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro2 = true;
       //console.log(currentScene);
       break;
     case "intro3":
       textContent = "\"Then the Lord God made a woman from the rib\nhe had taken out of the man,\nand he brought her to the man...\"\n\nGenesis 2:22";
-      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors);
+      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors, 25);
       text("Press Enter to continue.", 30, height / 1.2);
       // Call the gameplay scene after 3 seconds to avoid skipping the intro3 scene
       setTimeout(
@@ -338,28 +341,28 @@ function goToScene(scene) {
       break;
     case "eden1":
       textContent = "Garden of Eden 1.\n\n\"The man said,\nThis is now bone of my bones and flesh of my flesh;\nshe shall be called  \'woman\' for she was\ntaken out of man.\"\n\nGenesis 2:23";
-      makeScene(scene, edenBgColor, 42, 0, textContent, 30, height / 7, false, nbActors);
+      makeScene(scene, edenBgColor, 42, 0, textContent, 30, height / 7, false, nbActors, 25);
       //console.log(currentScene);
       break;
     case "eden2":
       textContent = "Garden of Eden 2.";
-      makeScene(scene, 195, 42, 255, textContent, 30, height / 7, false, nbActors);
+      makeScene(scene, 195, 42, 255, textContent, 30, height / 7, false, nbActors, 25);
       //console.log(currentScene);
       break;
     case "eden3":
       textContent = "Garden of Eden 3.\n\n\"Adam and his wife were both naked, and they felt no shame.\"\n\nGenesis 2:25";
-      makeScene(scene, 145, 42, 255, textContent, 30, height / 7, false, nbActors);
+      makeScene(scene, 145, 42, 255, textContent, 30, height / 7, false, nbActors, 25);
       //console.log(currentScene);
       break;
     case "forbiddenFruitScene":
       textContent = "The Forbbiden Fruit.\n\n\"When the woman saw that the fruit of the tree was good \nfor food and pleasing to the eye, and also desirable\nfor gaining wisdom, she took some and ate it.\nShe also gave some to her husband,\nwho was with her, and he ate it.\"\n\nGenesis 3:6";
-      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
+      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors, 25);
       //console.log(currentScene);
       break;
     case "playgrounds1":
       textContent = "Your World 1.\n\n\"You will not surely die (...).\nFor God knows that when you eat\nof it your eyes will be opened,\nand you will be like God,\nknowing good and evil.\"\n\nGenesis 3:5";
       textContent += "\n\n\"Then the eyes of both of them were opened,\nand they realized they were naked;\nso they sewed fig leaves together\nand made coverings for themselves.\"";
-      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
+      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors, 25);
       //console.log(currentScene);
       break;
     default:
@@ -731,7 +734,7 @@ function showGameOver() {
   Makes a scene. Simple background colors for now.
 
 */
-function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xPos, yPos, actorsPresent, nbActors) {
+function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xPos, yPos, actorsPresent, nbActors, nbGrassPatches) {
   currentScene = currScene;
   background(backgroundColor);
 
@@ -742,6 +745,8 @@ function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xP
   text(textContent, xPos, yPos);
   pop();
 
+  // Grass generation
+  grassGenerator(nbGrassPatches);
   if (actorsPresent && currentScene === "forbiddenFruitScene") {
     // spawn actors (ellipses for now)
     let actors = [nbActors];
@@ -818,6 +823,28 @@ class Queue {
   }
 }
 
+function grassGenerator() {
+  let grassField = new Queue();
+  const nbGrass = 25;
+
+  for (let i = 0; i <= nbGrass; i++) {
+    let randomPosX = random(0, height);
+    let randomPosY = random(0, width);
+    let randWidth = random(grass.width, grass.width + 3);
+    let randHeight = random(grass.height, grass.height + 3);
+
+    // Spawn each grass
+    imageMode(CENTER);
+    let grassPatch = image(grass, randomPosX, randomPosY, randWidth);
+    fill(255);
+    text("grass", randomPosX, randomPosY, randWidth - randomPosX, randHeight - 30);
+    grassField.enqueue(grassPatch);
+  }
+
+  while (grassField.isEmpty() === false) {
+    grassField.dequeue();
+  }
+}
 /**
   Scene creator class.
 
