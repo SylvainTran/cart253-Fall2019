@@ -223,7 +223,7 @@ function draw() {
       beAttractedToPlayer();
       manageCollisionEvents();
     } else {
-      moveotherGender();
+      moveOtherGender();
       updateHealth();
       checkEating();
     }
@@ -622,7 +622,7 @@ function beAttractedToPlayer() {
   Moves the otherGender based on random velocity changes
 
 */
-function moveotherGender() {
+function moveOtherGender() {
   otherGenderVX = map(noise(tx), 0, 1, -otherGenderMaxSpeed, otherGenderMaxSpeed);
   otherGenderVY = map(noise(ty), 0, 1, -otherGenderMaxSpeed, otherGenderMaxSpeed);;
   otherGenderX += otherGenderVX;
@@ -786,7 +786,7 @@ class Queue {
       return this.items.shift();
     }
   }
-  // front()
+
   front() {
     if (this.isEmpty()) {
       return "Queue is empty of elements.";
@@ -794,6 +794,7 @@ class Queue {
       return this.items[0];
     }
   }
+
   peek() {
     return this.items[this.items.length - 1];
   }
@@ -821,7 +822,6 @@ function resetRandomPositions() {
 
 */
 function grassGenerator() {
-
   let newGrassPatch;
 
   for(let i = 0; i <= MAX_GRASS; i++) {
@@ -868,6 +868,41 @@ class Grass {
       imageMode(CENTER);
       image(grass, this.x, this.y, this.w);
     }
+}
+
+/**
+
+  Restarts the game's statistics and setup positions.
+
+*/
+function restartGame() {
+  clear();
+  sceneQueue = new Queue();
+  sceneQueue.enqueue("intro1");
+  sceneQueue.enqueue("intro2");
+  sceneQueue.enqueue("intro3");
+  sceneQueue.enqueue("eden1");
+  sceneQueue.enqueue("eden2");
+  sceneQueue.enqueue("eden3");
+  sceneQueue.enqueue("forbiddenFruitScene");
+  sceneQueue.enqueue("playgrounds1");
+
+  gameOver = false;
+  prefallenState = true;
+  currentScene = "intro1"; // By default start at intro1
+  playIntroduction = true; // Pass the intro cinematic canvas screen to the actual game
+  playedIntro1 = false;
+  playedIntro2 = false;
+  playedIntro3 = false;
+  playAsAdam = true;
+  playAsEve = false;
+
+  if(backgroundMusic.isLooping()) {
+    backgroundMusic.stop();
+    setTimeout(backgroundMusic.loop(), 3000);
+  }
+  setupPlayer();
+  setupOtherGender();
 }
 
 /**
