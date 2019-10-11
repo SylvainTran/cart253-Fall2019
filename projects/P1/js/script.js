@@ -39,10 +39,22 @@ let changeSceneThresholdY = 50;
 // Heart pic for prefallen state
 let heartPic;
 
+// Forbidden fruit
+let forbiddenFruit;
+
 // Grass for the grass generator function
 let grass;
+const MAX_GRASS = 25;
+// Grow an array of grass
+let grassPatches = [MAX_GRASS];
 
-// Player's chosen gender, position, size, velocity
+// Random positions for the grass
+let randomPosX;
+let randomPosY;
+let randWidth;
+let randHeight;
+
+// Player's chosen gender, position, radii, velocity and max speed
 let playerGender;
 let playerX;
 let playerY;
@@ -50,22 +62,26 @@ let playerRadius = 25;
 let playerVX = 0;
 let playerVY = 0;
 let playerMaxSpeed = 2;
+
 // Player health
 let playerHealth;
 let playerMaxHealth = 255;
+
 // Player fill color
 let playerFill = 50;
 
-// otherGender position, size, velocity
+// otherGender's position, radii, velocity and max speed
 let otherGenderX;
 let otherGenderY;
 let otherGenderRadius = 25;
 let otherGenderVX;
 let otherGenderVY;
 let otherGenderMaxSpeed = 4;
-// otherGender health
+
+// otherGender's health and max health
 let otherGenderHealth;
 let otherGenderMaxHealth = 100;
+
 // otherGender fill color
 let otherGenderFill = 255;
 
@@ -78,6 +94,7 @@ let eatHealth = 10;
 // Number of otherGender eaten during the game (the "score")
 let otherGenderEaten = 0;
 
+// Custom fonts
 let amaticSCFont;
 let mountainsOfChristmasFont;
 
@@ -85,7 +102,7 @@ let mountainsOfChristmasFont;
 let contactSound;
 let backgroundMusic;
 
-// Sprites for Adam and Eve
+// Sprites for Adam and Eve used for animation
 let adamIdle;
 let adamLeft;
 let adamRight;
@@ -111,6 +128,7 @@ function preload() {
   eveIdle = loadImage("assets/images/eveIdle.png");
   eveLeft = loadImage("assets/images/eveLeft.png");
   eveRight = loadImage("assets/images/eveRight.png");
+  forbiddenFruit = loadImage("assets/images/forbiddenFruit.png");
 }
 
 /**
@@ -142,11 +160,10 @@ function setup() {
   ty = 0.0001;
 
   backgroundMusic.loop();
-  //let createHuman = prompt("John 1:26-27: ");
 }
 
 /**
-  Play as Adam.
+  Play as Adam. Being used by default for now.
 
 */
 function bootAdam() {
@@ -155,7 +172,7 @@ function bootAdam() {
 }
 
 /**
-  Play as Eve.
+  Play as Eve. Not implemented yet.
 
 */
 function bootEve() {
@@ -193,15 +210,14 @@ function draw() {
   // Play the intro
   if (playIntroduction === true) {
     playIntroduction = false;
-    //console.log("Calling nextScene: expecting that it should be intro1");
     nextScene();
   }
 
   // The last intro scene is intro3, so we play the game when it's played
   if (!gameOver && playedIntro3 === true) {
-    goToScene(currentScene);
+    goToScene(currentScene); // Regenerate the scene's details
     movePlayer();
-    checkPlayerChangedScene(currentScene); // Forgot to pass a parameter ! Wow.
+    checkPlayerChangedScene(currentScene);
 
     if (prefallenState) {
       beAttractedToPlayer();
@@ -224,7 +240,7 @@ function draw() {
 
 */
 function keyPressed() {
-  if (keyCode === ENTER && currentScene != "eden1") { // Change scene with Enter if you're still in the intro scenes
+  if (keyCode === ENTER && currentScene === "intro1" || currentScene === "intro2" || currentScene === "intro3") { // Change scene with Enter if you're still in the intro scenes
     if (sceneQueue.isEmpty()) {
       return;
     } else {
@@ -232,10 +248,6 @@ function keyPressed() {
       clear();
       nextScene();
     }
-  }
-  if (keyCode === ENTER && currentScene === "eden1") { // In Eden 1, you can make babies if you press space.
-    //console.log("Making babies");
-    //makeBabies(1);
   }
 }
 
@@ -315,21 +327,20 @@ function goToScene(scene) {
       textContent = "\"God created man in His own image; " +
         "in the\n" + "image of God He created him; male and female\n" +
         "He created them.\"\n\nGenesis 1:27";
-      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors, 25);
-      text("Press Enter to continue.", 30, height / 1.2);
+      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors);
       playedIntro1 = true;
-      //console.log(currentScene);
       break;
     case "intro2":
       textContent = "\“It is not good for the man to be alone.\n I will make a helper suitable for him.\"\n\nGenesis 2:18";
-      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors, 25);
+      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors);
+      textSize(42);
       text("Press Enter to continue.", 30, height / 1.2);
       playedIntro2 = true;
-      //console.log(currentScene);
       break;
     case "intro3":
       textContent = "\"Then the Lord God made a woman from the rib\nhe had taken out of the man,\nand he brought her to the man...\"\n\nGenesis 2:22";
-      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors, 25);
+      makeScene(scene, introBgColor, 42, 255, textContent, 30, height / 2, false, nbActors);
+      textSize(42);
       text("Press Enter to continue.", 30, height / 1.2);
       // Call the gameplay scene after 3 seconds to avoid skipping the intro3 scene
       setTimeout(
@@ -337,33 +348,27 @@ function goToScene(scene) {
           //console.log("Waiting 3 seconds");
           playedIntro3 = true
         }, 3000);
-      //console.log(currentScene);
       break;
     case "eden1":
       textContent = "Garden of Eden 1.\n\n\"The man said,\nThis is now bone of my bones and flesh of my flesh;\nshe shall be called  \'woman\' for she was\ntaken out of man.\"\n\nGenesis 2:23";
-      makeScene(scene, edenBgColor, 42, 0, textContent, 30, height / 7, false, nbActors, 25);
-      //console.log(currentScene);
+      makeScene(scene, edenBgColor, 42, 0, textContent, 30, height / 7, false, nbActors);
       break;
     case "eden2":
       textContent = "Garden of Eden 2.";
-      makeScene(scene, 195, 42, 255, textContent, 30, height / 7, false, nbActors, 25);
-      //console.log(currentScene);
+      makeScene(scene, 195, 42, 255, textContent, 30, height / 7, false, nbActors);
       break;
     case "eden3":
       textContent = "Garden of Eden 3.\n\n\"Adam and his wife were both naked, and they felt no shame.\"\n\nGenesis 2:25";
-      makeScene(scene, 145, 42, 255, textContent, 30, height / 7, false, nbActors, 25);
-      //console.log(currentScene);
+      makeScene(scene, 145, 42, 255, textContent, 30, height / 7, false, nbActors);
       break;
     case "forbiddenFruitScene":
       textContent = "The Forbbiden Fruit.\n\n\"When the woman saw that the fruit of the tree was good \nfor food and pleasing to the eye, and also desirable\nfor gaining wisdom, she took some and ate it.\nShe also gave some to her husband,\nwho was with her, and he ate it.\"\n\nGenesis 3:6";
-      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors, 25);
-      //console.log(currentScene);
+      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
       break;
     case "playgrounds1":
-      textContent = "Your World 1.\n\n\"You will not surely die (...).\nFor God knows that when you eat\nof it your eyes will be opened,\nand you will be like God,\nknowing good and evil.\"\n\nGenesis 3:5";
-      textContent += "\n\n\"Then the eyes of both of them were opened,\nand they realized they were naked;\nso they sewed fig leaves together\nand made coverings for themselves.\"";
-      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors, 25);
-      //console.log(currentScene);
+      textContent = "\"You will not surely die (...).\nFor God knows that when you eat\nof it your eyes will be opened,\nand you will be like God,\nknowing good and evil.\"\n\nGenesis 3:5";
+      textContent += "\n\n\"Then the eyes of both of them were opened,\nand they realized they were naked;\nso they sewed fig leaves together\nand made coverings for themselves.\"\n\nGenesis 3:7";
+      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
       break;
     default:
       break;
@@ -376,15 +381,11 @@ function goToScene(scene) {
 
 */
 function sceneExit(direction) {
-  //let directions = { "LEFT", "RIGHT", "TOP", "DOWN" };
   let currX = playerX;
-  //console.log("Change scene tresholdX " + (width - changeSceneThresholdX));
-  //console.log("Change scene tresholdY" + (height - changeSceneThresholdY));
 
   switch (direction) {
     case "LEFT":
       if ((playerX - playerRadius) <= (0 + changeSceneThresholdX)) {
-        //alert("Going left for real");
         nextScene();
       }
       break;
@@ -395,13 +396,11 @@ function sceneExit(direction) {
       break;
     case "TOP":
       if ((playerY + playerRadius) <= (0 + changeSceneThresholdY)) {
-        //alert("Going top for real");
         nextScene();
       }
       break;
     case "DOWN":
       if ((playerY - playerRadius) >= (height - changeSceneThresholdY)) {
-        //alert("Going down for real");
         nextScene();
       }
       break;
@@ -419,13 +418,6 @@ function sceneExit(direction) {
 
 */
 function checkPlayerChangedScene(currentScene) {
-  //console.log("Checking if player has changed scene");
-  //console.log("Player X: " + playerX);
-  //console.log("Player Y: " + playerY);
-  //console.log("Width: " + width);
-  //console.log("Height: " + height);
-  //console.log("currentScene: " + currentScene);
-
   // depending on the scene, certain screen boundaries are open for going to the next scene
   switch (currentScene) {
     case "eden1":
@@ -453,8 +445,6 @@ function checkPlayerChangedScene(currentScene) {
 }
 
 /**
-  movePlayer()
-
   Updates player position based on velocity,
   wraps around the edges. if in prefallen state (before eating the forbidden fruit)
 
@@ -588,7 +578,7 @@ function checkEating() {
 }
 
 /**
-  MoveEve or MoveAdam pre-fallen state. Natural attraction to each other,
+  Move Eve or move Adam pre-fallen state. Natural attraction to each other,
   based on the other's position. Should be disabled during the forbiddenFruitScene.
 
 */
@@ -645,19 +635,6 @@ function moveotherGender() {
 }
 
 /**
-  Bounces the player across the edges of the canvas,
- in prefallen state. To evoke uh... the bounciness... of the h-heart...
-
-*/
-function screenBouncing() {
-  if (playerX - playerRadius <= 0 || playerX + playerRadius >= width) {
-    playerVX = -playerVX;
-  } else if (playerY - playerRadius <= 0 || playerY + playerRadius >= height) {
-    playerVY = -playerVY
-  }
-}
-
-/**
   Screen warping; according to if it is called for the player or the AI
 
 */
@@ -698,16 +675,11 @@ function screenWarping(actor) {
 */
 function drawOtherGender() {
   if (prefallenState) {
-    // Actor display
     push();
-    //otherGenderFill = 0;
     image(eveIdle, otherGenderX, otherGenderY, otherGenderRadius * 5);
-    //fill(otherGenderFill);
-    //ellipse(otherGenderX, otherGenderY, otherGenderRadius * 2);
     pop();
   } else {
-    fill(otherGenderFill, otherGenderHealth);
-    ellipse(otherGenderX, otherGenderY, otherGenderRadius * 2);
+    image(eveIdle, otherGenderX, otherGenderY, otherGenderRadius * 5, otherGenderHealth);
   }
 }
 
@@ -716,16 +688,15 @@ function drawOtherGender() {
 
 */
 function showGameOver() {
-  // Set up the font
   push();
   textSize(32);
   textAlign(CENTER, CENTER);
   fill(255);
-  // Set up the text to display
-  let gameOverText = "GAME OVER\n"; // \n means "new line"
-  gameOverText = gameOverText + "You ate " + otherGenderEaten + " otherGender\n";
+
+  let gameOverText = "GAME OVER\n";
+  gameOverText = gameOverText + "Your lust gave way " + otherGenderEaten + " for Eve'\n";
   gameOverText = gameOverText + "before you died."
-  // Display it in the centre of the screen
+
   text(gameOverText, width / 2, height / 2);
   pop();
 }
@@ -734,7 +705,7 @@ function showGameOver() {
   Makes a scene. Simple background colors for now.
 
 */
-function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xPos, yPos, actorsPresent, nbActors, nbGrassPatches) {
+function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xPos, yPos, actorsPresent, nbActors) {
   currentScene = currScene;
   background(backgroundColor);
 
@@ -745,8 +716,15 @@ function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xP
   text(textContent, xPos, yPos);
   pop();
 
-  // Grass generation
-  grassGenerator(nbGrassPatches);
+  if(currentScene === "intro1" || currentScene === "intro2" || currentScene === "intro3" ) {
+    fill(255);
+    textSize(42);
+    text("Press Enter to continue.", 30, height / 1.2);
+  }
+  // Grass growing -- Not fully implemented yet
+  // grassGenerator();
+
+  // The animation for the forbiddenFruitScene
   if (actorsPresent && currentScene === "forbiddenFruitScene") {
     // spawn actors (ellipses for now)
     let actors = [nbActors];
@@ -763,8 +741,8 @@ function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xP
     // Draw the forbidden fruit.
     push();
     fill(255, 0, 0);
-    rectMode(CENTER);
-    rect(width / 2, height / 2, 85, 85);
+    imageMode(CENTER);
+    image(forbiddenFruit, width / 2, height / 2, 85, 85);
     pop();
   }
 }
@@ -816,36 +794,84 @@ class Queue {
       return this.items[0];
     }
   }
-
-  // peek
   peek() {
     return this.items[this.items.length - 1];
   }
 }
 
-function grassGenerator() {
-  let grassField = new Queue();
-  const nbGrass = 25;
+/**
+  Resets random positions used for generating the herb in the scenes.
 
-  for (let i = 0; i <= nbGrass; i++) {
-    let randomPosX = random(0, height);
-    let randomPosY = random(0, width);
-    let randWidth = random(grass.width, grass.width + 3);
-    let randHeight = random(grass.height, grass.height + 3);
+*/
+let grassClock = setInterval(resetRandomPositions, 5000);
 
-    // Spawn each grass
-    imageMode(CENTER);
-    let grassPatch = image(grass, randomPosX, randomPosY, randWidth);
-    fill(255);
-    text("grass", randomPosX, randomPosY, randWidth - randomPosX, randHeight - 30);
-    grassField.enqueue(grassPatch);
-  }
+function resetRandomPositions() {
+  randomPosX = random(0, height);
+  randomPosY = random(0, width);
+  randWidth = random(grass.width, grass.width + 3);
+  randHeight = random(grass.height, grass.height + 3);
 
-  while (grassField.isEmpty() === false) {
-    grassField.dequeue();
+  for(let i = 0; i <= MAX_GRASS; i++) {
+    grassPatches[i].grow();
   }
 }
+
 /**
+ Spawn and move a new grass sprout every 3 seconds
+
+*/
+function grassGenerator() {
+
+  let newGrassPatch;
+
+  for(let i = 0; i <= MAX_GRASS; i++) {
+    newGrassPatch = new Grass(randomPosX, randomPosY, grass.width);
+    grassPatches[i] = newGrassPatch;
+  }
+
+  // Moves the grass randomly on the x-axis
+  for(let j = 0; j <= MAX_GRASS; j++) {
+    grassPatches[j].decalX(random(0, 1));
+  }
+}
+
+/**
+  The Grass object class.
+
+*/
+class Grass {
+    constructor(x, y, w) {
+      this.x = x;
+      this.y = y;
+      this.w = w;
+    }
+
+    /**
+      Should move left and right every second... Not fully implemented yet.
+
+    */
+    decalX(randomDirection){
+      if(randomDirection == 0) {
+        setTimeout(image(grass, this.x += 50, this.y, this.w), 1000);
+        setTimeout(image(grass, this.x -= 50, this.y, this.w), 1000);
+      } else {
+        setTimeout(image(grass, this.x -= 50, this.y, this.w), 1000);
+        setTimeout(image(grass, this.x += 50, this.y, this.w), 1000);
+      }
+    }
+
+    /**
+      Displays the grass.
+
+    */
+    grow() {
+      imageMode(CENTER);
+      image(grass, this.x, this.y, this.w);
+    }
+}
+
+/**
+  Not implemented yet. For extension...
   Scene creator class.
 
 */
@@ -878,6 +904,7 @@ function grassGenerator() {
 //
 // /**
 //   Actor class
+//   Not implemented yet. For extension...
 //
 // */
 // class Actor {
@@ -903,31 +930,32 @@ function grassGenerator() {
 //   }
 // }
 
-/**
-  Make babies according to the specified amount to output.
-  The location and specifics of each newborn is random based.
-
-*/
-function makeBabies(nbActors) {
-  let actors = {};
-  let lifeStream = new Queue();
-
-  for (let i = 0; i <= nbActors; i++) {
-    let randomPosX = random(0, height);
-    let randomPosY = random(0, width);
-    let randWidth = random(playerRadius, playerRadius * 3);
-    let randHeight = random(playerRadius, playerRadius * 3);
-
-    //spawn each actor
-    fill(random(0, 255), random(0, 255), random(0, 255));
-    //ellipse(playerX, playerY, playerRadius * 2);
-    let newBorn = ellipse(randomPosX, randomPosY, randWidth, randHeight);
-    fill(255);
-    text("I am one", randomPosX, randomPosY, randWidth - randomPosX, randHeight - 30);
-    lifeStream.enqueue(newBorn);
-  }
-
-  while (lifeStream.isEmpty() === false) {
-    lifeStream.dequeue();
-  }
-}
+// /**
+//   Not implemented yet.
+//   Makes babies according to the specified amount to output.
+//   The location and specifics of each newborn is random based.
+//
+// */
+// function makeBabies(nbActors) {
+//   let actors = {};
+//   let lifeStream = new Queue();
+//
+//   for (let i = 0; i <= nbActors; i++) {
+//     let randomPosX = random(0, height);
+//     let randomPosY = random(0, width);
+//     let randWidth = random(playerRadius, playerRadius * 3);
+//     let randHeight = random(playerRadius, playerRadius * 3);
+//
+//     //spawn each actor
+//     fill(random(0, 255), random(0, 255), random(0, 255));
+//     //ellipse(playerX, playerY, playerRadius * 2);
+//     let newBorn = ellipse(randomPosX, randomPosY, randWidth, randHeight);
+//     fill(255);
+//     text("I am one", randomPosX, randomPosY, randWidth - randomPosX, randHeight - 30);
+//     lifeStream.enqueue(newBorn);
+//   }
+//
+//   while (lifeStream.isEmpty() === false) {
+//     lifeStream.dequeue();
+//   }
+// }
