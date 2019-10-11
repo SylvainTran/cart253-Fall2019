@@ -520,6 +520,7 @@ function manageCollisionEvents() {
 
 /**
   Triggers the fallen state if the player is in the forbiddenFruitScene.
+  TODO: Give choice to the player whether to intercept Eve before she eats the forbidden fruit.
 
 */
 function triggerFallenState() {
