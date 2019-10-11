@@ -5,10 +5,11 @@ Author: Sylvain Tran
 Date: September 3rd, 2019
 
 Goal of program: Modified version of chaser by Dr. Pippin Bar
-The concept explored in this game is the original relation between man and woman
-within the theological framework of the acclaimed Theology of the Body by Saint John Paul II.
+The concept explored in this game is both "original solitude" and the original
+relation between man and woman within the theological framework of the acclaimed
+Theology of the Body by Saint John Paul II.
 
-Twists: You can eat the forbidden fruit. Or...
+TODO: narrative redesign, Adam vs. Eve story modes... and a GRASS GENERATOR
 
 Includes: Physics-based movement, keyboard controls, health/stamina,
 random movement, screen wrap.
@@ -148,6 +149,7 @@ function setup() {
   sceneQueue.enqueue("eden3");
   sceneQueue.enqueue("forbiddenFruitScene");
   sceneQueue.enqueue("playgrounds1");
+  sceneQueue.enqueue("playgrounds2");
 
   // Create the game's canvas
   noStroke();
@@ -167,6 +169,7 @@ function setup() {
 
 */
 function bootAdam() {
+  restartGame();
   playAsAdam = true;
 
 }
@@ -176,6 +179,7 @@ function bootAdam() {
 
 */
 function bootEve() {
+  alert("not implemented yet.")
   playAsEve = true;
 
 }
@@ -370,6 +374,10 @@ function goToScene(scene) {
       textContent += "\n\n\"Then the eyes of both of them were opened,\nand they realized they were naked;\nso they sewed fig leaves together\nand made coverings for themselves.\"\n\nGenesis 3:7";
       makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
       break;
+    case "playgrounds2":
+      textContent = "\"Then the man and his wife heard\nthe voice of the LORD God\nwalking in the garden in\nthe breeze of the day, and they\nhid themselves from the\npresence of the LORD God\namong the trees of the garden.\"\n\nGenesis 3:5";
+      textContent += "\n\n\"So the LORD God called out to the man, \“Where are you?\”\n\nGenesis 3:9\n\nTo be continued...";
+      makeScene(scene, 45, 42, 255, textContent, 30, height / 7, true, nbActors);
     default:
       break;
   }
@@ -434,9 +442,12 @@ function checkPlayerChangedScene(currentScene) {
         nextScene();
       }
       break;
-    case "playgrounds1": // At this point the scene only progresses when the player dies, to evoke spiritual rebirth. The effect of sin, need to die on the cross etc.
-      if (playerHealth === 0) {
-        nextScene();
+    case "playgrounds1":
+      sceneExit("RIGHT");
+      break;
+    case "playgrounds2": // At this point the game is over
+      if(otherGenderEaten === 7) {
+        gameOver = true;
       }
       break;
     default:
@@ -446,7 +457,7 @@ function checkPlayerChangedScene(currentScene) {
 
 /**
   Updates player position based on velocity,
-  wraps around the edges. if in prefallen state (before eating the forbidden fruit)
+  wraps around the edges.
 
 */
 function movePlayer() {
@@ -555,23 +566,15 @@ function checkEating() {
   let d = dist(playerX, playerY, otherGenderX, otherGenderY);
 
   if (d < playerRadius + otherGenderRadius) {
-    // Increase the player health
     playerHealth = playerHealth + eatHealth;
-    // Constrain to the possible range
     playerHealth = constrain(playerHealth, 0, playerMaxHealth);
-    // Reduce the otherGender health
     otherGenderHealth = otherGenderHealth - eatHealth;
-    // Constrain to the possible range
     otherGenderHealth = constrain(otherGenderHealth, 0, otherGenderMaxHealth);
 
-    // Check if the otherGender died (health 0)
     if (otherGenderHealth === 0) {
-      // Move the "new" otherGender to a random position
       otherGenderX = random(0, width);
       otherGenderY = random(0, height);
-      // Give it full health
       otherGenderHealth = otherGenderMaxHealth;
-      // Track how many otherGender were eaten
       otherGenderEaten = otherGenderEaten + 1;
     }
   }
@@ -694,7 +697,7 @@ function showGameOver() {
   fill(255);
 
   let gameOverText = "GAME OVER\n";
-  gameOverText = gameOverText + "Your lust gave way " + otherGenderEaten + " for Eve'\n";
+  gameOverText = gameOverText + "Your lust gave way " + otherGenderEaten + " times for Eve'\n";
   gameOverText = gameOverText + "before you died."
 
   text(gameOverText, width / 2, height / 2);
