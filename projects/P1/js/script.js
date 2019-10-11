@@ -2,7 +2,7 @@
 
 /**
 Author: Sylvain Tran
-Date: September 3rd, 2019
+Date: October 11th, 2019
 
 Goal of program: Modified version of chaser by Dr. Pippin Bar
 The concept explored in this game is both "original solitude" and the original
@@ -20,7 +20,7 @@ random movement, screen wrap.
 let sceneQueue;
 // The current scene that allows us to some logic
 let currentScene = "intro1"; // By default start at intro1
-let introScene;
+let sketchCanvas; // the canvas holder
 let playIntroduction = false; // Pass the intro cinematic canvas screen to the actual game
 let playedIntro1 = false;
 let playedIntro2 = false;
@@ -138,8 +138,8 @@ function preload() {
 */
 function setup() {
   // draw the intro cinematic screen to full width and height
-  introScene = createCanvas(1000, 1000);
-  introScene.parent('mainDisplay');
+  sketchCanvas = createCanvas(1000, 1000);
+  sketchCanvas.parent('mainDisplay');
   sceneQueue = new Queue();
   sceneQueue.enqueue("intro1");
   sceneQueue.enqueue("intro2");
@@ -623,6 +623,7 @@ function beAttractedToPlayer() {
 
 /**
   Moves the otherGender based on random velocity changes
+  Perlin noise based for the post-fallen stage of the game.
 
 */
 function moveOtherGender() {
@@ -678,9 +679,7 @@ function screenWarping(actor) {
 */
 function drawOtherGender() {
   if (prefallenState) {
-    push();
     image(eveIdle, otherGenderX, otherGenderY, otherGenderRadius * 5);
-    pop();
   } else {
     image(eveIdle, otherGenderX, otherGenderY, otherGenderRadius * 5, otherGenderHealth);
   }
@@ -697,7 +696,7 @@ function showGameOver() {
   fill(255);
 
   let gameOverText = "GAME OVER\n";
-  gameOverText = gameOverText + "Your lust gave way " + otherGenderEaten + " times for Eve'\n";
+  gameOverText = gameOverText + "Your lust gave way " + otherGenderEaten + " times for Eve\n";
   gameOverText = gameOverText + "before you died."
 
   text(gameOverText, width / 2, height / 2);
@@ -815,8 +814,10 @@ function resetRandomPositions() {
   randWidth = random(grass.width, grass.width + 3);
   randHeight = random(grass.height, grass.height + 3);
 
+
+  //Grow the grass with the new random values.
   for(let i = 0; i <= MAX_GRASS; i++) {
-    grassPatches[i].grow();
+    //grassPatches[i].grow();
   }
 }
 
@@ -827,6 +828,7 @@ function resetRandomPositions() {
 function grassGenerator() {
   let newGrassPatch;
 
+  // Fill a new grass patch with grass
   for(let i = 0; i <= MAX_GRASS; i++) {
     newGrassPatch = new Grass(randomPosX, randomPosY, grass.width);
     grassPatches[i] = newGrassPatch;
