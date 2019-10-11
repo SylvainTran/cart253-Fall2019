@@ -261,7 +261,12 @@ function keyPressed() {
 */
 function handleInput() {
   let maxBoostedSpeed = playerMaxSpeed * 10;
+
   imageMode(CENTER);
+  if(mouseIsPressed) {
+    // TODO add mobile responsiveness
+  }
+
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW) && keyIsDown(SHIFT)) {
     playerVX = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
@@ -420,9 +425,9 @@ function sceneExit(direction) {
 /**
   Checks if the player changed scenes--if the player has touched
   an edge of the canvas. Starting from the forbiddenFruitScene, the next scene is
-  changed depending on player's health. Conceptually, this change is supposed to mean
+  changed depending on player's health. (Being reworked (not the case anymore): Conceptually, this change is supposed to mean
   something about the decay factor being a perpetual threat in human relationships
-  after the fall (lust over love).
+  after the fall (lust over love).)
 
 */
 function checkPlayerChangedScene(currentScene) {
@@ -541,7 +546,7 @@ function addSceneCaptions() {
       caption = "(Get to the bottom by pressing shift to sprint.)";
       break;
     case "eden2":
-      theSnake = "Ah, she came anyways?\n Well, what can you do right?\n I guess we can all still be friends.\n";
+      theSnake = "Ah, she came anyways?\nWell, what can you do right?\nI guess we can all still be friends.\n";
       break;
     case "eden3":
       theSnake = "\"Did God really say,\n\`You must not eat from any tree in the garden\'?\"";
