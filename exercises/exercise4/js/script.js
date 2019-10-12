@@ -134,11 +134,13 @@ function draw() {
     // (Note how we can use a function that returns a truth value
     // inside a conditional!)
     if (ballIsOutOfBounds()) {
-      const LEFT_SIDE = 0;
-      if (ball.x < LEFT_SIDE) {
+      const LEFT_SIDE = 0 + ball.size / 2;
+      const RIGHT_SIDE = width - ball.size / 2;
+
+      if (ball.x <= LEFT_SIDE) {
         scoreLeftPlayer++;
         displayScore("LEFT");
-      } else {
+      } else if (ball.x >= RIGHT_SIDE) {
         scoreRightPlayer++;
         displayScore("RIGHT");
       }
@@ -200,7 +202,7 @@ function updateBall() {
 // Returns true if so, false otherwise
 function ballIsOutOfBounds() {
   // Check for ball going off the sides
-  if (ball.x < 0 || ball.x > width) {
+  if (ball.x < 0 + ball.size / 2 || ball.x > width - ball.size / 2) {
     return true;
   } else {
     return false;
@@ -285,11 +287,12 @@ function resetBall() {
 // displayStartMessage()
 //
 // Shows a message about how to start the game
-function displayStartMessage() {
+function displayStartMessage(newTextColor) {
   push();
+  fill(0, 0, newTextColor);
   textAlign(CENTER, CENTER);
   textSize(32);
-  text("CLICK TO START", width / 2, height / 2);
+  text("CLICK TO START", width / 2, 150);
   pop();
 }
 
@@ -299,7 +302,6 @@ function displayStartMessage() {
 // Which will help us be allowed to play audio in the browser
 function mousePressed() {
   restartGame();
-  //playing = true;
 }
 
 /**
@@ -315,6 +317,7 @@ function displayScore(SIDE) {
   let leftScoreBoxPosX = axisCenter - xFromAxis;
   let scoreBoxPosY = height / 2;
   let rightScoreBoxPosX = axisCenter + xFromAxis;
+  let newTextColor = 255;
 
   // LEFT SIDE
   if (SIDE === "LEFT") {
@@ -330,7 +333,7 @@ function displayScore(SIDE) {
     textAlign(CENTER);
     text(`Score Right:\n${scoreLeftPlayer}`, leftScoreBoxPosX, scoreBoxPosY);
     pop();
-
+    displayStartMessage(newTextColor);
     setTimeout(noLoop(), 3000);
   }
   // RIGHT SIDE
@@ -347,17 +350,15 @@ function displayScore(SIDE) {
     textAlign(CENTER);
     text(`Score Left:\n${scoreRightPlayer}`, rightScoreBoxPosX, scoreBoxPosY);
     pop();
-
+    displayStartMessage(newTextColor);
     setTimeout(noLoop(), 3000);
   }
 }
 
 function restartGame() {
-  background(bgColor);
-  rectMode(CENTER);
-  noStroke();
-  fill(fgColor);
-  setupPaddles();
-  resetBall();
   playing = true;
+  loop();
 }
+
+//TODOS:
+// Fix score not displaying in the first exchanges...
