@@ -29,7 +29,8 @@ let fgColor = 255;
 // Player Score
 let score = {
   left: 0,
-  right: 0
+  right: 0,
+  lastWon: "NEWGAME"
 }
 
 // Mana
@@ -158,13 +159,15 @@ function draw() {
 
       if (ball.x <= LEFT_SIDE) {
         score.left++;
+        score.lastWon = "RIGHT";
         displayScore("LEFT");
+        resetBall(); // Launch towards the side that won.
       } else if (ball.x >= RIGHT_SIDE) {
         score.right++;
+        score.lastWon = "LEFT";
         displayScore("RIGHT");
+        resetBall();
       }
-      // If it went off either side, reset it
-      resetBall();
     }
   } else {
     // Otherwise we display the message to start the game
@@ -299,8 +302,19 @@ function resetBall() {
   // Initialise the ball's position and velocity
   ball.x = width / 2;
   ball.y = height / 2;
-  ball.vx = ball.speed;
-  ball.vy = ball.speed;
+
+  if(score.lastWon === "NEWGAME") {
+    ball.vx = ball.speed;
+    ball.vy = ball.speed;
+  }
+  else if(score.lastWon === "LEFT") {
+    ball.vx = -ball.speed;
+    ball.vy = -ball.speed;
+  }
+  else if(score.lastWon === "RIGHT") {
+    ball.vx = ball.speed;
+    ball.vy = ball.speed;
+  }
 }
 
 // displayStartMessage()
@@ -321,8 +335,15 @@ function displayStartMessage() {
 // Which will help us be allowed to play audio in the browser
 function mousePressed() {
   restartGame();
+  playing = true;
 }
 
+function keyTyped() {
+  if(key === ENTER) {
+    score.lastWon = "NEWGAME";
+    restartGame();
+  }
+}
 /**
   Displays the score.
 
