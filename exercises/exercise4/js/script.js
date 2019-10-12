@@ -26,10 +26,29 @@ let bgColor = 0;
 let fgColor = 255;
 
 // BALL
-// Score
-let scoreLeftPlayer = 0;
-let scoreRightPlayer = 0;
+// Player Score
+let score = {
+  left: 0,
+  right: 0
+}
 
+// Mana
+let mana = {
+  leftSide: 0,
+  rightSide: 0
+}
+
+// Scorebox
+let scoreBox = {
+  scoreBoxSize: 300,
+  scoreBoxHeight: 300,
+  axisCenter: 320,
+  xFromAxis: 100,
+  xLeftBox: 220,
+  yScoreBox: 240,
+  xRightBox: 420,
+  newTextColor: 255
+}
 // A ball object with the properties of
 // position, size, velocity, and speed
 let ball = {
@@ -138,10 +157,10 @@ function draw() {
       const RIGHT_SIDE = width - ball.size / 2;
 
       if (ball.x <= LEFT_SIDE) {
-        scoreLeftPlayer++;
+        score.left++;
         displayScore("LEFT");
       } else if (ball.x >= RIGHT_SIDE) {
-        scoreRightPlayer++;
+        score.right++;
         displayScore("RIGHT");
       }
       // If it went off either side, reset it
@@ -287,9 +306,9 @@ function resetBall() {
 // displayStartMessage()
 //
 // Shows a message about how to start the game
-function displayStartMessage(newTextColor) {
+function displayStartMessage() {
   push();
-  fill(0, 0, newTextColor);
+  fill(0, 0, scoreBox.newTextColor);
   textAlign(CENTER, CENTER);
   textSize(32);
   text("CLICK TO START", width / 2, 150);
@@ -310,30 +329,25 @@ function mousePressed() {
 */
 function displayScore(SIDE) {
   rectMode(CENTER);
-  let scoreBoxSize = 300;
-  let scoreBoxHeight = 300;
-  let axisCenter = width / 2;
-  let xFromAxis = 100;
-  let leftScoreBoxPosX = axisCenter - xFromAxis;
-  let scoreBoxPosY = height / 2;
-  let rightScoreBoxPosX = axisCenter + xFromAxis;
-  let newTextColor = 255;
 
   // LEFT SIDE
   if (SIDE === "LEFT") {
     push();
     background(0, 0, 255);
     fill(255);
-    rect(leftScoreBoxPosX, scoreBoxPosY, scoreBoxSize, scoreBoxHeight);
+    rect(scoreBox.xLeftBox, scoreBox.yScoreBox, scoreBox.scoreBoxSize, scoreBox.scoreBoxHeight);
     pop();
 
     push();
-    fill(0);
+    fill(255);
     textSize(24);
     textAlign(CENTER);
-    text(`Score Right:\n${scoreLeftPlayer}`, leftScoreBoxPosX, scoreBoxPosY);
+    text(`Mana Gauge:\n${score.left}`, scoreBox.xLeftBox, scoreBox.yScoreBox - 200);
     pop();
-    displayStartMessage(newTextColor);
+
+    // Draw one more square in the left player's gauge
+    drawManaGauge("LEFT", 25, scoreBox.xLeftBox, scoreBox.yScoreBox);
+    displayStartMessage();
     setTimeout(noLoop(), 3000);
   }
   // RIGHT SIDE
@@ -341,23 +355,47 @@ function displayScore(SIDE) {
     push();
     background(255, 0, 0);
     fill(255);
-    rect(rightScoreBoxPosX, scoreBoxPosY, scoreBoxSize, scoreBoxHeight);
+    rect(scoreBox.xRightBox, scoreBox.yScoreBox, scoreBox.scoreBoxSize, scoreBox.scoreBoxHeight);
     pop();
-
+    // Draw one more square in the right player's gauge
     push();
     fill(0);
     textSize(24);
     textAlign(CENTER);
-    text(`Score Left:\n${scoreRightPlayer}`, rightScoreBoxPosX, scoreBoxPosY);
+    text(`Mana Gauge:\n${score.right}`, scoreBox.xRightBox, scoreBox.yScoreBox - 200);
     pop();
-    displayStartMessage(newTextColor);
+
+    displayStartMessage(scoreBox.newTextColor);
+    drawManaGauge("RIGHT", 25, scoreBox.xRightBox, scoreBox.yScoreBox);
     setTimeout(noLoop(), 3000);
   }
 }
 
 function restartGame() {
+  resetBall();
   playing = true;
   loop();
+}
+
+/**
+  To display the score as a function of gain in mana.
+
+*/
+function drawManaGauge(side, manaGain) {
+  //clear();
+  //rectMode(CENTER);
+  let leftSideManaPosX = 50;
+  let rightSideManaPosX = width - 50;
+
+  if(side === "LEFT") {
+    mana.leftSide += manaGain;
+    fill(0, 0, 255);
+    rect(scoreBox.xLeftBox, height / 2, mana.leftSide, mana.leftSide);
+  } else if(side === "RIGHT") {
+    mana.rightSide += manaGain;
+    fill(255, 0, 0);
+    rect(scoreBox.xRightBox, height / 2, mana.rightSide, mana.rightSide);
+  }
 }
 
 //TODOS:
