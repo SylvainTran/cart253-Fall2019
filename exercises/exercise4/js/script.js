@@ -13,6 +13,9 @@ Overview of the game:
   E.g., Sniper: Able to hold the ball once it hits the paddle, and release it
   with a power shot.
   - Trying to turn this into another spiritual experience.
+  Art:
+  - 8-bit era floppy-disks DOS boot game.
+  - NES games like Bubble Bobble and Loderunner.
 */
 
 // Whether the game has started
@@ -133,11 +136,9 @@ function draw() {
     if (ballIsOutOfBounds()) {
       const LEFT_SIDE = 0;
       if (ball.x < LEFT_SIDE) {
-        alert("LEFT SIDE LOST");
         scoreLeftPlayer++;
         displayScore("LEFT");
       } else {
-        alert("RIGHT SIDE LOST");
         scoreRightPlayer++;
         displayScore("RIGHT");
       }
@@ -297,7 +298,8 @@ function displayStartMessage() {
 // Here to require a click to start playing the game
 // Which will help us be allowed to play audio in the browser
 function mousePressed() {
-  playing = true;
+  restartGame();
+  //playing = true;
 }
 
 /**
@@ -316,24 +318,46 @@ function displayScore(SIDE) {
 
   // LEFT SIDE
   if (SIDE === "LEFT") {
-    noLoop();
     push();
     background(0, 0, 255);
     fill(255);
     rect(leftScoreBoxPosX, scoreBoxPosY, scoreBoxSize, scoreBoxHeight);
-    textSize(24);
-    text('Score Left: ${scoreLeftPlayer}', scoreBoxPosX, scoreBoxPosY);
     pop();
+
+    push();
+    fill(0);
+    textSize(24);
+    textAlign(CENTER);
+    text(`Score Right:\n${scoreLeftPlayer}`, leftScoreBoxPosX, scoreBoxPosY);
+    pop();
+
+    setTimeout(noLoop(), 3000);
   }
   // RIGHT SIDE
   else {
-    noLoop();
     push();
     background(255, 0, 0);
     fill(255);
     rect(rightScoreBoxPosX, scoreBoxPosY, scoreBoxSize, scoreBoxHeight);
-    textSize(24);
-    text('Score Right: ${scoreRightPlayer}', scoreBoxPosX, scoreBoxPosY);
     pop();
+
+    push();
+    fill(0);
+    textSize(24);
+    textAlign(CENTER);
+    text(`Score Left:\n${scoreRightPlayer}`, rightScoreBoxPosX, scoreBoxPosY);
+    pop();
+
+    setTimeout(noLoop(), 3000);
   }
+}
+
+function restartGame() {
+  background(bgColor);
+  rectMode(CENTER);
+  noStroke();
+  fill(fgColor);
+  setupPaddles();
+  resetBall();
+  playing = true;
 }

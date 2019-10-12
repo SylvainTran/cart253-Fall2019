@@ -113,7 +113,7 @@ let eveLeft;
 let eveRight;
 
 /**
-  Preloads the heart picture, and the custom fonts.
+  Preloads the heart picture, the actor sprites, and the custom fonts.
 
 */
 function preload() {
@@ -304,6 +304,7 @@ function handleInput() {
 
 /**
   Move to the next scene.
+  Based on sceneQueue.
 
 */
 function nextScene() {
@@ -897,6 +898,7 @@ function restartGame() {
   sceneQueue.enqueue("eden3");
   sceneQueue.enqueue("forbiddenFruitScene");
   sceneQueue.enqueue("playgrounds1");
+  sceneQueue.enqueue("playgrounds2");
 
   gameOver = false;
   prefallenState = true;
