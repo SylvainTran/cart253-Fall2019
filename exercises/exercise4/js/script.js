@@ -131,13 +131,20 @@ function draw() {
     // (Note how we can use a function that returns a truth value
     // inside a conditional!)
     if (ballIsOutOfBounds()) {
-      // This is where we would likely count points, depending on which side
-      // the ball went off...
+      const LEFT_SIDE = 0;
+      if (ball.x < LEFT_SIDE) {
+        alert("LEFT SIDE LOST");
+        scoreLeftPlayer++;
+        displayScore("LEFT");
+      } else {
+        alert("RIGHT SIDE LOST");
+        scoreRightPlayer++;
+        displayScore("RIGHT");
+      }
       // If it went off either side, reset it
       resetBall();
     }
-  }
-  else {
+  } else {
     // Otherwise we display the message to start the game
     displayStartMessage();
   }
@@ -163,8 +170,7 @@ function handleInput(paddle) {
   else if (keyIsDown(paddle.downKey)) {
     // Move down
     paddle.vy = paddle.speed;
-  }
-  else {
+  } else {
     // Otherwise stop moving
     paddle.vy = 0;
   }
@@ -195,8 +201,7 @@ function ballIsOutOfBounds() {
   // Check for ball going off the sides
   if (ball.x < 0 || ball.x > width) {
     return true;
-  }
-  else {
+  } else {
     return false;
   }
 }
@@ -293,4 +298,42 @@ function displayStartMessage() {
 // Which will help us be allowed to play audio in the browser
 function mousePressed() {
   playing = true;
+}
+
+/**
+  Displays the score.
+
+*/
+function displayScore(SIDE) {
+  rectMode(CENTER);
+  let scoreBoxSize = 300;
+  let scoreBoxHeight = 300;
+  let axisCenter = width / 2;
+  let xFromAxis = 100;
+  let leftScoreBoxPosX = axisCenter - xFromAxis;
+  let scoreBoxPosY = height / 2;
+  let rightScoreBoxPosX = axisCenter + xFromAxis;
+
+  // LEFT SIDE
+  if (SIDE === "LEFT") {
+    noLoop();
+    push();
+    background(0, 0, 255);
+    fill(255);
+    rect(leftScoreBoxPosX, scoreBoxPosY, scoreBoxSize, scoreBoxHeight);
+    textSize(24);
+    text('Score Left: ${scoreLeftPlayer}', scoreBoxPosX, scoreBoxPosY);
+    pop();
+  }
+  // RIGHT SIDE
+  else {
+    noLoop();
+    push();
+    background(255, 0, 0);
+    fill(255);
+    rect(rightScoreBoxPosX, scoreBoxPosY, scoreBoxSize, scoreBoxHeight);
+    textSize(24);
+    text('Score Right: ${scoreRightPlayer}', scoreBoxPosX, scoreBoxPosY);
+    pop();
+  }
 }
