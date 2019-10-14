@@ -11,12 +11,13 @@ Overview of the game:
   - Controls with W S and up-down arrows.
   - RPG style classes for different playstyles
   E.g., Sniper: Able to hold the ball once it hits the paddle, and release it
-  with a power shot.
+  with a power shot. Brute: Able to smash the fireball.
   - Trying to turn this into another spiritual experience.
   Art:
   - 8-bit era floppy-disks DOS boot game.
   - NES games like Bubble Bobble and Loderunner.
 */
+let scenes;
 
 // Whether the game has started
 let playing = false;
@@ -24,6 +25,19 @@ let playing = false;
 // Game colors (using hexadecimal)
 let bgColor = 0;
 let fgColor = 255;
+
+// Soundtrack
+let epicSong;
+
+// Background picture
+let bgPicture;
+
+// Waves at the bottom
+let wave1;
+let wave2;
+let scrollSpeed = 4;
+let x1 = 0;
+let x2;
 
 // Player Score
 let score = {
@@ -51,6 +65,7 @@ let scoreBox = {
 }
 // A ball object with the properties of
 // position, size, velocity, and speed
+// To replace with fireBall + fire cracking sound effect
 let ball = {
   x: 0,
   y: 0,
@@ -60,7 +75,8 @@ let ball = {
   speed: 7
 }
 
-// PADDLES
+// PADDLES (by class)
+let brutePaddle;
 
 // Basic definition of a left paddle object with its key properties of
 // position, size, velocity, and speed
@@ -98,6 +114,11 @@ let beepSFX;
 // Loads the beep audio for the sound of bouncing
 function preload() {
   beepSFX = new Audio("assets/sounds/beep.wav");
+  epicSong = loadSound("assets/sounds/Joshua Empyre - Epic Orchestra Loop.wav");
+  bgPicture = loadImage("assets/images/Pong Plus_Bg.png");
+  wave1 = loadImage("assets/images/wave1.png");
+  wave2 = loadImage("assets/images/wave2.png");
+  brutePaddle = loadImage("assets/images/Brute Paddle.png");
 }
 
 // setup()
@@ -114,6 +135,13 @@ function setup() {
 
   setupPaddles();
   resetBall();
+
+  //scenes = new Queue();
+  //scenes.enqueue("tutorial");
+  //scenes.enqueue("saveThePrincess");
+  //scenes.enqueue("victory");
+
+  epicSong.loop();
 }
 
 // setupPaddles()
@@ -135,7 +163,12 @@ function setupPaddles() {
 // See how tidy it looks?!
 function draw() {
   // Fill the background
-  background(bgColor);
+  // background(bgColor);
+  image(bgPicture, 0, 0);
+  displayCenterMessage();
+  // Parallaxed water at the bottom
+  parallaxWaves();
+
 
   if (playing) {
     // If the game is in play, we handle input and move the elements around
@@ -264,7 +297,6 @@ function checkBallPaddleCollision(paddle) {
   let paddleLeft = paddle.x - leftPaddle.w / 2;
   let paddleRight = paddle.x + paddle.w / 2;
 
-  // First check the ball is in the vertical range of the paddle
   if (ballBottom > paddleTop && ballTop < paddleBottom) {
     // Then check if it is touching the paddle horizontally
     if (ballLeft < paddleRight && ballRight > paddleLeft) {
@@ -283,7 +315,8 @@ function checkBallPaddleCollision(paddle) {
 // Draws the specified paddle
 function displayPaddle(paddle) {
   // Draw the paddles
-  rect(paddle.x, paddle.y, paddle.w, paddle.h);
+  //rect(paddle.x, paddle.y, paddle.w, paddle.h);
+  image(brutePaddle, paddle.x, paddle.y, paddle.w, paddle.h);
 }
 
 // displayBall()
@@ -334,6 +367,21 @@ function displayStartMessage() {
   pop();
 }
 
+/**
+  Display the messages in the center;
+
+*/
+function displayCenterMessage() {
+  push();
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textSize(32);
+  text("RPG Pong.", width / 2, 75);
+  text("Warrior vs. Wizard\nShowdown", width / 2, 300);
+  // To replace with ${leftPaddleClass} + ${rightPaddleClass}
+  pop();
+}
+
 // mousePressed()
 //
 // Here to require a click to start playing the game
@@ -351,6 +399,10 @@ function keyTyped() {
 }
 /**
   Displays the score.
+  Builds a castle in the middle of the screen from the bottom.
+  Each win nets more resource for the side's winner.
+  When the castle touches y = 0, the dragon sides with the winner
+  and destroys the loser's party.
 
 */
 function displayScore(SIDE) {
@@ -424,5 +476,32 @@ function drawManaGauge(side, manaGain) {
   }
 }
 
+/**
+  Moves the wave pictures at the bottom in parallax.
+  TODO change wave to sea dragon
+
+*/
+function parallaxWaves() {
+  image(wave1, x1, height - wave1.height, wave1.width, wave1.height);
+  image(wave2, x2, 0, height - wave2.height, wave2.width, wave2.height);
+
+  x1 -= scrollSpeed;
+  x2 -= scrollSpeed;
+
+  if (x1 < -width) {
+    x1 = width;
+  }
+  if (x2 < -width) {
+    x2 = width;
+  }
+}
+
+/**
+  Displays tutorial screen at the beginning.
+
+*/
+function displayTutorial() {
+
+}
 //TODOS:
 // Fix score not displaying in the first exchanges...
