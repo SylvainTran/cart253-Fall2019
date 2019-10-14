@@ -25,7 +25,6 @@ let playing = false;
 let bgColor = 0;
 let fgColor = 255;
 
-// BALL
 // Player Score
 let score = {
   left: 0,
@@ -58,7 +57,7 @@ let ball = {
   size: 20,
   vx: 0,
   vy: 0,
-  speed: 5
+  speed: 7
 }
 
 // PADDLES
@@ -303,17 +302,23 @@ function resetBall() {
   ball.x = width / 2;
   ball.y = height / 2;
 
+  // Random VY
+  let randomVY;
+
   if(score.lastWon === "NEWGAME") {
     ball.vx = ball.speed;
     ball.vy = ball.speed;
   }
   else if(score.lastWon === "LEFT") {
     ball.vx = -ball.speed;
-    ball.vy = -ball.speed;
+    randomVY = - ( Math.floor(random(1, ball.speed)) );
+    ball.vy = randomVY;
   }
   else if(score.lastWon === "RIGHT") {
     ball.vx = ball.speed;
-    ball.vy = ball.speed;
+    randomVY = ( Math.floor(random(1, ball.speed)) );
+    //console.log(randomVY);
+    ball.vy = randomVY;
   }
 }
 
