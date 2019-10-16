@@ -10,8 +10,8 @@ Two players playable.
 Overview of the game:
   - Controls with W S and up-down arrows.
   - RPG style classes for different playstyles
-  E.g., Sniper: Able to hold the ball once it hits the paddle, and release it
-  with a power shot. Brute: Able to smash the fireball.
+  E.g., Sniper: Able to hold the fireBall once it hits the paddle, and release it
+  with a power shot. Brute: Able to smash the firefireBall.
   - Trying to turn this into another spiritual experience.
   Art:
   - 8-bit era floppy-disks DOS boot game.
@@ -63,10 +63,10 @@ let scoreBox = {
   xRightBox: 420,
   newTextColor: 255
 }
-// A ball object with the properties of
+// A fireBall object with the properties of
 // position, size, velocity, and speed
 // To replace with fireBall + fire cracking sound effect
-let ball = {
+let fireBall = {
   x: 0,
   y: 0,
   size: 20,
@@ -75,8 +75,10 @@ let ball = {
   speed: 7
 }
 
-// PADDLES (by class)
+// PADDLES (by type)
 let brutePaddle;
+let sniperPaddle;
+let wizardPaddle;
 
 // Basic definition of a left paddle object with its key properties of
 // position, size, velocity, and speed
@@ -88,7 +90,8 @@ let leftPaddle = {
   vy: 0,
   speed: 5,
   upKey: 87,
-  downKey: 83
+  downKey: 83,
+  type: "" // The paddle's type (brute, sniper or wizard)
 }
 
 // RIGHT PADDLE
@@ -103,7 +106,8 @@ let rightPaddle = {
   vy: 0,
   speed: 5,
   upKey: 38,
-  downKey: 40
+  downKey: 40,
+  type: ""
 }
 
 // A variable to hold the beep sound we will play on bouncing
@@ -124,7 +128,7 @@ function preload() {
 // setup()
 //
 // Creates the canvas, sets up the drawing modes,
-// Sets initial values for paddle and ball positions
+// Sets initial values for paddle and fireBall positions
 // and velocities.
 function setup() {
   // Create canvas and set drawing modes
@@ -134,7 +138,7 @@ function setup() {
   fill(fgColor);
 
   setupPaddles();
-  resetBall();
+  resetfireBall();
 
   //scenes = new Queue();
   //scenes.enqueue("tutorial");
@@ -157,13 +161,13 @@ function setupPaddles() {
   rightPaddle.y = height / 2;
 }
 
-// draw()
-//
-// Calls the appropriate functions to run the game
-// See how tidy it looks?!
+/**
+  Draw the canvas elements.
+
+*/
 function draw() {
-  // Fill the background
-  // background(bgColor);
+  // Invoke the story and tutorial
+  // Invoke the choose your paddle type screen.
   image(bgPicture, 0, 0);
   displayCenterMessage();
   // Parallaxed water at the bottom
@@ -176,29 +180,29 @@ function draw() {
     handleInput(rightPaddle);
     updatePaddle(leftPaddle);
     updatePaddle(rightPaddle);
-    updateBall();
+    updatefireBall();
 
-    checkBallWallCollision();
-    checkBallPaddleCollision(leftPaddle);
-    checkBallPaddleCollision(rightPaddle);
+    checkfireBallWallCollision();
+    checkfireBallPaddleCollision(leftPaddle);
+    checkfireBallPaddleCollision(rightPaddle);
 
-    // Check if the ball went out of bounds and respond if so
+    // Check if the fireBall went out of bounds and respond if so
     // (Note how we can use a function that returns a truth value
     // inside a conditional!)
-    if (ballIsOutOfBounds()) {
-      const LEFT_SIDE = 0 + ball.size / 2;
-      const RIGHT_SIDE = width - ball.size / 2;
+    if (fireBallIsOutOfBounds()) {
+      const LEFT_SIDE = 0 + fireBall.size / 2;
+      const RIGHT_SIDE = width - fireBall.size / 2;
 
-      if (ball.x <= LEFT_SIDE) {
+      if (fireBall.x <= LEFT_SIDE) {
         score.left++;
         score.lastWon = "RIGHT";
         displayScore("LEFT");
-        resetBall(); // Launch towards the side that won.
-      } else if (ball.x >= RIGHT_SIDE) {
+        resetfireBall(); // Launch towards the side that won.
+      } else if (fireBall.x >= RIGHT_SIDE) {
         score.right++;
         score.lastWon = "LEFT";
         displayScore("RIGHT");
-        resetBall();
+        resetfireBall();
       }
     }
   } else {
@@ -206,10 +210,10 @@ function draw() {
     displayStartMessage();
   }
 
-  // We always display the paddles and ball so it looks like Pong!
+  // We always display the paddles and fireBall so it looks like Pong!
   displayPaddle(leftPaddle);
   displayPaddle(rightPaddle);
-  displayBall();
+  displayfireBall();
 }
 
 // handleInput()
@@ -217,93 +221,83 @@ function draw() {
 // Checks the mouse and keyboard input to set the velocities of the
 // left and right paddles respectively.
 function handleInput(paddle) {
-  // Move the paddle based on its up and down keys
-  // If the up key is being pressed
   if (keyIsDown(paddle.upKey)) {
-    // Move up
     paddle.vy = -paddle.speed;
   }
-  // Otherwise if the down key is being pressed
   else if (keyIsDown(paddle.downKey)) {
-    // Move down
     paddle.vy = paddle.speed;
   } else {
-    // Otherwise stop moving
     paddle.vy = 0;
   }
 }
 
 // updatePositions()
 //
-// Sets the positions of the paddles and ball based on their velocities
+// Sets the positions of the paddles and fireBall based on their velocities
 function updatePaddle(paddle) {
-  // Update the paddle position based on its velocity
+  // Constrains the paddle within the canvas at paddle height
   paddle.y += paddle.vy;
+  let constrainedY = constrain(paddle.y, 0, height - paddle.h);
+  paddle.y = constrainedY;
 }
 
-// updateBall()
+// updatefireBall()
 //
-// Sets the position of the ball based on its velocity
-function updateBall() {
-  // Update the ball's position based on velocity
-  ball.x += ball.vx;
-  ball.y += ball.vy;
+// Sets the position of the fireBall based on its velocity
+function updatefireBall() {
+  // Update the fireBall's position based on velocity
+  fireBall.x += fireBall.vx;
+  fireBall.y += fireBall.vy;
 }
 
-// ballIsOutOfBounds()
+// fireBallIsOutOfBounds()
 //
-// Checks if the ball has gone off the left or right
+// Checks if the fireBall has gone off the left or right
 // Returns true if so, false otherwise
-function ballIsOutOfBounds() {
-  // Check for ball going off the sides
-  if (ball.x < 0 + ball.size / 2 || ball.x > width - ball.size / 2) {
+function fireBallIsOutOfBounds() {
+  // Check for fireBall going off the sides
+  if (fireBall.x < 0 + fireBall.size / 2 || fireBall.x > width - fireBall.size / 2) {
     return true;
   } else {
     return false;
   }
 }
 
-// checkBallWallCollision()
+// checkfireBallWallCollision()
 //
-// Check if the ball has hit the top or bottom of the canvas
+// Check if the fireBall has hit the top or bottom of the canvas
 // Bounce off if it has by reversing velocity
 // Play a sound
-function checkBallWallCollision() {
+function checkfireBallWallCollision() {
   // Check for collisions with top or bottom...
-  if (ball.y < 0 || ball.y > height) {
+  if (fireBall.y < 0 || fireBall.y > height) {
     // It hit so reverse velocity
-    ball.vy = -ball.vy;
+    fireBall.vy = -fireBall.vy;
     // Play our bouncing sound effect by rewinding and then playing
     beepSFX.currentTime = 0;
     beepSFX.play();
   }
 }
 
-// checkBallPaddleCollision(paddle)
+// checkfireBallPaddleCollision(paddle)
 //
-// Checks for collisions between the ball and the specified paddle
-function checkBallPaddleCollision(paddle) {
+// Checks for collisions between the fireBall and the specified paddle
+function checkfireBallPaddleCollision(paddle) {
   // VARIABLES FOR CHECKING COLLISIONS
 
-  // We will calculate the top, bottom, left, and right of the
-  // paddle and the ball to make our conditionals easier to read...
-  let ballTop = ball.y - ball.size / 2;
-  let ballBottom = ball.y + ball.size / 2;
-  let ballLeft = ball.x - ball.size / 2;
-  let ballRight = ball.x + ball.size / 2;
+  let fireBallTop = fireBall.y - fireBall.size / 2;
+  let fireBallBottom = fireBall.y + fireBall.size / 2;
+  let fireBallLeft = fireBall.x - fireBall.size / 2;
+  let fireBallRight = fireBall.x + fireBall.size / 2;
 
   let paddleTop = paddle.y - paddle.h / 2;
-  let paddleBottom = paddle.y + paddle.h / 2;
+  let paddleBottom = paddle.y + paddle.h;
   let paddleLeft = paddle.x - leftPaddle.w / 2;
   let paddleRight = paddle.x + paddle.w / 2;
 
-  if (ballBottom > paddleTop && ballTop < paddleBottom) {
-    // Then check if it is touching the paddle horizontally
-    if (ballLeft < paddleRight && ballRight > paddleLeft) {
-      // Then the ball is touching the paddle
-      // Reverse its vx so it starts travelling in the opposite direction
-      ball.vx = -ball.vx;
-      // Play our bouncing sound effect by rewinding and then playing
+  if (fireBallBottom >= paddleTop && fireBallTop <= paddleBottom) {
+    if (fireBallLeft <= paddleRight && fireBallRight >= paddleLeft) {
+      fireBall.vx = -fireBall.vx;
       beepSFX.currentTime = 0;
       beepSFX.play();
     }
@@ -319,39 +313,39 @@ function displayPaddle(paddle) {
   image(brutePaddle, paddle.x, paddle.y, paddle.w, paddle.h);
 }
 
-// displayBall()
+// displayfireBall()
 //
-// Draws the ball on screen as a square
-function displayBall() {
-  // Draw the ball
-  rect(ball.x, ball.y, ball.size, ball.size);
+// Draws the fireBall on screen as a square
+function displayfireBall() {
+  // Draw the fireBall
+  rect(fireBall.x, fireBall.y, fireBall.size, fireBall.size);
 }
 
-// resetBall()
+// resetfireBall()
 //
-// Sets the starting position and velocity of the ball
-function resetBall() {
-  // Initialise the ball's position and velocity
-  ball.x = width / 2;
-  ball.y = height / 2;
+// Sets the starting position and velocity of the fireBall
+function resetfireBall() {
+  // Initialise the fireBall's position and velocity
+  fireBall.x = width / 2;
+  fireBall.y = height / 2;
 
   // Random VY
   let randomVY;
 
   if(score.lastWon === "NEWGAME") {
-    ball.vx = ball.speed;
-    ball.vy = ball.speed;
+    fireBall.vx = fireBall.speed;
+    fireBall.vy = fireBall.speed;
   }
   else if(score.lastWon === "LEFT") {
-    ball.vx = -ball.speed;
-    randomVY = - ( Math.floor(random(1, ball.speed)) );
-    ball.vy = randomVY;
+    fireBall.vx = -fireBall.speed;
+    // Map the VY to a random negative range
+    randomVY = Math.floor(map(random(1, fireBall.speed), 1, fireBall.speed, -1, -fireBall.speed));
+    fireBall.vy = randomVY;
   }
   else if(score.lastWon === "RIGHT") {
-    ball.vx = ball.speed;
-    randomVY = ( Math.floor(random(1, ball.speed)) );
-    //console.log(randomVY);
-    ball.vy = randomVY;
+    fireBall.vx = fireBall.speed;
+    randomVY = ( Math.floor(random(1, fireBall.speed)) );
+    fireBall.vy = randomVY;
   }
 }
 
@@ -450,7 +444,7 @@ function displayScore(SIDE) {
 }
 
 function restartGame() {
-  resetBall();
+  resetfireBall();
   playing = true;
   loop();
 }
