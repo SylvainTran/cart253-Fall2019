@@ -17,7 +17,6 @@ Overview of the game:
   - 8-bit era floppy-disks DOS boot game.
   - NES games like Bubble Bobble and Loderunner.
 */
-let scenes;
 
 // Whether the game has started
 let playing = false;
@@ -80,6 +79,35 @@ let brutePaddle;
 let sniperPaddle;
 let wizardPaddle;
 
+// Gold obtained by the player so far
+// let gold;
+// let cashShop;
+
+// The boxes to choose our paddle type: brute, sniper or wizard
+let brutePaddleSelector = {
+  bX: 0,
+  bY: 0,
+  boxSize: 150,
+  overBox: false,
+  locked: false
+}
+
+let sniperPaddleSelector = {
+  bX: 0,
+  bY: 0,
+  boxSize: 150,
+  overBox: false,
+  locked: false
+}
+
+let wizardPaddleSelector = {
+  bX: 0,
+  bY: 0,
+  boxSize: 150,
+  overBox: false,
+  locked: false
+}
+
 // Basic definition of a left paddle object with its key properties of
 // position, size, velocity, and speed
 let leftPaddle = {
@@ -136,18 +164,27 @@ function setup() {
   rectMode(CENTER);
   noStroke();
   fill(fgColor);
-
+  setupPaddleSelectorBoxes();
   setupPaddles();
   resetfireBall();
-
-  //scenes = new Queue();
-  //scenes.enqueue("tutorial");
-  //scenes.enqueue("saveThePrincess");
-  //scenes.enqueue("victory");
 
   epicSong.loop();
 }
 
+/**
+  Set the paddle types selector boxes
+
+*/
+function setupPaddleSelectorBoxes() {
+  brutePaddleSelector.bX = width / 5;
+  brutePaddleSelector.bY = height / 2;
+
+  sniperPaddleSelector.bX = width / 2;
+  sniperPaddleSelector.bY = height / 2;
+
+  wizardPaddleSelector.bX = width / 1.25;
+  wizardPaddleSelector.bY = height / 2;
+}
 // setupPaddles()
 //
 // Sets the starting positions of the two paddles
@@ -166,13 +203,14 @@ function setupPaddles() {
 
 */
 function draw() {
-  // Invoke the story and tutorial
   // Invoke the choose your paddle type screen.
   image(bgPicture, 0, 0);
   displayCenterMessage();
-  // Parallaxed water at the bottom
   parallaxWaves();
-
+  chooseBrutePaddle();
+  chooseSniperPaddle();
+  chooseWizardPaddle();
+  drawPaddleSelectorBoxes();
 
   if (playing) {
     // If the game is in play, we handle input and move the elements around
@@ -381,6 +419,30 @@ function displayCenterMessage() {
 // Here to require a click to start playing the game
 // Which will help us be allowed to play audio in the browser
 function mousePressed() {
+  // Player chooses the brute paddle
+  if (brutePaddleSelector.overBox) {
+    console.log("Choosing the brute paddle");
+    // Erase all the paddle selectors from canvas
+    // Start the game as the class
+
+    brutePaddleSelector.locked = true;
+  } else {
+    brutePaddleSelector.locked = false;
+  }
+  // Player chooses the sniper paddle
+  if (sniperPaddleSelector.overBox) {
+    console.log("Choosing the sniper paddle");
+    sniperPaddleSelector.locked = true;
+  } else {
+    sniperPaddleSelector.locked = false;
+  }
+  // Player chooses the wizard paddle
+  if (wizardPaddleSelector.overBox) {
+    console.log("Choosing the wizard paddle");
+    wizardPaddleSelector.locked = true;
+  } else {
+    wizardPaddleSelector.locked = false;
+  }
   restartGame();
   playing = true;
 }
@@ -461,12 +523,16 @@ function drawManaGauge(side, manaGain) {
 
   if(side === "LEFT") {
     mana.leftSide += manaGain;
+    push();
     fill(0, 0, 255);
     rect(scoreBox.xLeftBox, height / 2, mana.leftSide, mana.leftSide);
+    pop();
   } else if(side === "RIGHT") {
     mana.rightSide += manaGain;
+    push();
     fill(255, 0, 0);
     rect(scoreBox.xRightBox, height / 2, mana.rightSide, mana.rightSide);
+    pop();
   }
 }
 
@@ -491,11 +557,79 @@ function parallaxWaves() {
 }
 
 /**
-  Displays tutorial screen at the beginning.
+  Checks if the mouse if over the brute paddle box selector
+  at the beginning. Allows the player to choose their paddle type
+  on mouse press. Only for player 1 for now...
+  From p5.js reference on mouse functions.
 
 */
-function displayTutorial() {
+function chooseBrutePaddle() {
+  if (
+    mouseX > brutePaddleSelector.bX - brutePaddleSelector.boxSize &&
+    mouseX < brutePaddleSelector.bX + brutePaddleSelector.boxSize &&
+    mouseY > brutePaddleSelector.bY - brutePaddleSelector.boxSize &&
+    mouseY < brutePaddleSelector.bY + brutePaddleSelector.boxSize
+  ) {
+    brutePaddleSelector.overBox = true;
+    if (!brutePaddleSelector.locked) {
+    }
+  } else {
+    brutePaddleSelector.overBox = false;
+  }
+}
 
+/**
+  Checks if the mouse if over the sniper paddle box selector
+  at the beginning. Allows the player to choose their paddle type
+  on mouse press. Only for player 1 for now...
+  From p5.js reference on mouse functions.
+
+*/
+function chooseSniperPaddle() {
+  if (
+    mouseX > sniperPaddleSelector.bX - sniperPaddleSelector.boxSize &&
+    mouseX < sniperPaddleSelector.bX + sniperPaddleSelector.boxSize &&
+    mouseY > sniperPaddleSelector.bY - sniperPaddleSelector.boxSize &&
+    mouseY < sniperPaddleSelector.bY + sniperPaddleSelector.boxSize
+  ) {
+    sniperPaddleSelector.overBox = true;
+    if (!sniperPaddleSelector.locked) {
+    }
+  } else {
+    sniperPaddleSelector.overBox = false;
+  }
+}
+
+/**
+  Checks if the mouse if over the wizard paddle box selector
+  at the beginning. Allows the player to choose their paddle type
+  on mouse press. Only for player 1 for now...
+  From p5.js reference on mouse functions.
+
+*/
+function chooseWizardPaddle() {
+  if (
+    mouseX > wizardPaddleSelector.bX - wizardPaddleSelector.boxSize &&
+    mouseX < wizardPaddleSelector.bX + wizardPaddleSelector.boxSize &&
+    mouseY > wizardPaddleSelector.bY - wizardPaddleSelector.boxSize &&
+    mouseY < wizardPaddleSelector.bY + wizardPaddleSelector.boxSize
+  ) {
+    wizardPaddleSelector.overBox = true;
+    if (!wizardPaddleSelector.locked) {
+    }
+  } else {
+    wizardPaddleSelector.overBox = false;
+  }
+}
+
+/**
+  Draw the paddle selector boxes.
+
+*/
+function drawPaddleSelectorBoxes() {
+  rect(brutePaddleSelector.bX, brutePaddleSelector.bY, brutePaddleSelector.boxSize, brutePaddleSelector.boxSize);
+  rect(sniperPaddleSelector.bX, sniperPaddleSelector.bY, sniperPaddleSelector.boxSize, sniperPaddleSelector.boxSize);
+  rect(wizardPaddleSelector.bX, wizardPaddleSelector.bY, wizardPaddleSelector.boxSize, wizardPaddleSelector.boxSize);
 }
 //TODOS:
 // Fix score not displaying in the first exchanges...
