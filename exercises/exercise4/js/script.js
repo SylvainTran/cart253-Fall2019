@@ -181,14 +181,13 @@ function setup() {
   Key was typed.
 
 */
-function keyTyped() {
-
-  if(key === ENTER && gameState.playerChosePaddle) {
+function keyPressed() {
+  if(keyCode === ENTER && gameState.playerChosePaddle) {
         restartGame();
-        playing = true;
-        alert("Pressed enter");
+        gameState.playing = true;
   }
 }
+
 /**
   Set the paddle types selector boxes
 
@@ -430,7 +429,7 @@ function displayStartMessage() {
   fill(0, 0, scoreBox.newTextColor);
   textAlign(CENTER, CENTER);
   textSize(32);
-  text("CLICK TO START", width / 2, 150);
+  text("CHOOSE YOUR PADDLE\nTHEN PRESS ENTER TO START", width / 2, 150);
   pop();
 }
 
@@ -465,7 +464,6 @@ function mousePressed() {
   if (sniperPaddleSelector.overBox) {
     console.log("Choosing the sniper paddle");
     gameState.playerChosePaddle = true;
-
     sniperPaddleSelector.locked = true;
   } else {
     sniperPaddleSelector.locked = false;
@@ -538,7 +536,7 @@ function displayScore(SIDE) {
 */
 function restartGame() {
   resetfireBall();
-  playing = true;
+  gameState.playing = true;
   loop();
 }
 
