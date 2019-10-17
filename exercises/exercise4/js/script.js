@@ -95,7 +95,7 @@ let brutePaddle = {
   speed: 4, // temp
   upKey: 87,
   downKey: 83,
-  type: "", // The paddle's type (brute, sniper or wizard)
+  type: "BRUTE",
   bounceStrength: bounceStrength.STRONG,
   ability: "SMASH"
 }
@@ -109,7 +109,7 @@ let sniperPaddle = {
   speed: 6,
   upKey: 87,
   downKey: 83,
-  type: "", // The paddle's type (brute, sniper or wizard)
+  type: "SNIPER", // The paddle's type (brute, sniper or wizard)
   bounceStrength: bounceStrength.MEDIUM,
   ability: "SNIPE"
 }
@@ -123,7 +123,7 @@ let wizardPaddle = {
   speed: 3,
   upKey: 87,
   downKey: 83,
-  type: "", // The paddle's type (brute, sniper or wizard)
+  type: "WIZARD", // The paddle's type (brute, sniper or wizard)
   bounceStrength: bounceStrength.LOW,
   ability: "TRICKSHOT"
 }
@@ -227,9 +227,30 @@ function setup() {
 
 */
 function keyPressed() {
-  if(keyCode === ENTER && gameState.playerChosePaddle) {
-        restartGame();
-        gameState.playing = true;
+  if(gameState.playerChosePaddle) {
+    console.log(gameState.chosenLeftPaddle.type);
+    switch(gameState.chosenLeftPaddle.type) {
+      case "BRUTE":
+        if(keyCode === ENTER) {
+            // smash
+            alert("Smash");
+        }
+        break;
+      case "SNIPER":
+        if(keyCode === ENTER) {
+            alert("Snipe");
+          // snipe
+        }
+        break;
+      case "WIZARD":
+        if(keyCode === ENTER) {
+            alert("Trickshot");
+          // trick shot
+        }
+        break;
+      default:
+        break;
+    }
   }
 }
 
@@ -497,11 +518,18 @@ function displayCenterMessage() {
 // Here to require a click to start playing the game
 // Which will help us be allowed to play audio in the browser
 function mousePressed() {
+  if(gameState.playerChosePaddle) {
+      restartGame();
+      gameState.playing = true;
+  }
+
   if (brutePaddleSelector.overBox) {
     console.log("Choosing the brute paddle");
     gameState.playerChosePaddle = true;
     gameState.chosenLeftPaddle = brutePaddle;
+    console.log(gameState.chosenLeftPaddle.type);
     brutePaddleSelector.locked = true;
+    gameState.playing = true;
   } else {
     brutePaddleSelector.locked = false;
   }
@@ -511,6 +539,7 @@ function mousePressed() {
     gameState.playerChosePaddle = true;
     gameState.chosenLeftPaddle = sniperPaddle;
     sniperPaddleSelector.locked = true;
+    gameState.playing = true;
   } else {
     sniperPaddleSelector.locked = false;
   }
@@ -519,8 +548,8 @@ function mousePressed() {
     console.log("Choosing the wizard paddle");
     gameState.playerChosePaddle = true;
     gameState.chosenLeftPaddle = wizardPaddle;
-    alert(gameState.chosenLeftPaddle.bounceStrength);
     wizardPaddleSelector.locked = true;
+    gameState.playing = true;
   } else {
     wizardPaddleSelector.locked = false;
   }
