@@ -23,7 +23,8 @@ Overview of the game:
 
 let gameState = {
   playerChosePaddle: false,
-  playing: false
+  playing: false,
+  chosenLeftPaddle: null,
 }
 
 // Game colors (using hexadecimal)
@@ -79,10 +80,53 @@ let fireBall = {
   speed: 7
 }
 
+let bounceStrength = {
+  STRONG: 10,
+  MEDIUM: 5,
+  LOW: 2
+}
 // PADDLES (by type)
-let brutePaddle;
-let sniperPaddle;
-let wizardPaddle;
+let brutePaddle = {
+  x: 0,
+  y: 0,
+  w: 20,
+  h: 70,
+  vy: 4,
+  speed: 4, // temp
+  upKey: 87,
+  downKey: 83,
+  type: "", // The paddle's type (brute, sniper or wizard)
+  bounceStrength: bounceStrength.STRONG,
+  ability: "SMASH"
+}
+
+let sniperPaddle = {
+  x: 0,
+  y: 0,
+  w: 20,
+  h: 70,
+  vy: 6, // temp
+  speed: 6,
+  upKey: 87,
+  downKey: 83,
+  type: "", // The paddle's type (brute, sniper or wizard)
+  bounceStrength: bounceStrength.MEDIUM,
+  ability: "SNIPE"
+}
+
+let wizardPaddle = {
+  x: 0,
+  y: 0,
+  w: 20,
+  h: 70,
+  vy: 3,
+  speed: 3,
+  upKey: 87,
+  downKey: 83,
+  type: "", // The paddle's type (brute, sniper or wizard)
+  bounceStrength: bounceStrength.LOW,
+  ability: "TRICKSHOT"
+}
 
 // Gold obtained by the player so far
 // let gold;
@@ -115,6 +159,7 @@ let wizardPaddleSelector = {
 
 // Basic definition of a left paddle object with its key properties of
 // position, size, velocity, and speed
+
 let leftPaddle = {
   x: 0,
   y: 0,
@@ -248,14 +293,14 @@ function draw() {
   if (gameState.playerChosePaddle && gameState.playing) {
     // If the game is in play, we handle input and move the elements around
     drawBackground();
-    handleInput(leftPaddle);
+    handleInput(gameState.chosenLeftPaddle);
     handleInput(rightPaddle);
-    updatePaddle(leftPaddle);
+    updatePaddle(gameState.chosenLeftPaddle);
     updatePaddle(rightPaddle);
     updatefireBall();
 
     checkfireBallWallCollision();
-    checkfireBallPaddleCollision(leftPaddle);
+    checkfireBallPaddleCollision(gameState.chosenLeftPaddle);
     checkfireBallPaddleCollision(rightPaddle);
 
     // Check if the fireBall went out of bounds and respond if so
@@ -277,15 +322,14 @@ function draw() {
         resetfireBall();
       }
     }
+    // We display the paddle once we know it has been chosen.
+    displayPaddle(gameState.chosenLeftPaddle);
+    displayPaddle(rightPaddle);
+    displayfireBall();
   } else {
     // Otherwise we display the message to start the game
     displayStartMessage();
   }
-
-  // We always display the paddles and fireBall so it looks like Pong!
-  displayPaddle(leftPaddle);
-  displayPaddle(rightPaddle);
-  displayfireBall();
 }
 
 // handleInput()
@@ -456,6 +500,7 @@ function mousePressed() {
   if (brutePaddleSelector.overBox) {
     console.log("Choosing the brute paddle");
     gameState.playerChosePaddle = true;
+    gameState.chosenLeftPaddle = brutePaddle;
     brutePaddleSelector.locked = true;
   } else {
     brutePaddleSelector.locked = false;
@@ -464,6 +509,7 @@ function mousePressed() {
   if (sniperPaddleSelector.overBox) {
     console.log("Choosing the sniper paddle");
     gameState.playerChosePaddle = true;
+    gameState.chosenLeftPaddle = sniperPaddle;
     sniperPaddleSelector.locked = true;
   } else {
     sniperPaddleSelector.locked = false;
@@ -472,6 +518,8 @@ function mousePressed() {
   if (wizardPaddleSelector.overBox) {
     console.log("Choosing the wizard paddle");
     gameState.playerChosePaddle = true;
+    gameState.chosenLeftPaddle = wizardPaddle;
+    alert(gameState.chosenLeftPaddle.bounceStrength);
     wizardPaddleSelector.locked = true;
   } else {
     wizardPaddleSelector.locked = false;
