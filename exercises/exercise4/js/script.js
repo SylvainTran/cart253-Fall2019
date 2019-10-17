@@ -19,7 +19,12 @@ Overview of the game:
 */
 
 // Whether the game has started
-let playing = false;
+//let playing = false;
+
+let gameState = {
+  playerChosePaddle: false,
+  playing: false
+}
 
 // Game colors (using hexadecimal)
 let bgColor = 0;
@@ -169,8 +174,21 @@ function setup() {
   resetfireBall();
 
   epicSong.loop();
+  drawPaddleSelectorBoxes();
 }
 
+/**
+  Key was typed.
+
+*/
+function keyTyped() {
+
+  if(key === ENTER && gameState.playerChosePaddle) {
+        restartGame();
+        playing = true;
+        alert("Pressed enter");
+  }
+}
 /**
   Set the paddle types selector boxes
 
@@ -199,21 +217,38 @@ function setupPaddles() {
 }
 
 /**
+  Draw the background elements: main bg,
+  the center description RPG Pong, and
+  the parallaxed sea dragon at the bottom.
+
+*/
+function drawBackground() {
+  image(bgPicture, 0, 0);
+  displayCenterMessage();
+  parallaxWaves();
+}
+
+/**
   Draw the canvas elements.
 
 */
 function draw() {
-  // Invoke the choose your paddle type screen.
-  image(bgPicture, 0, 0);
-  displayCenterMessage();
-  parallaxWaves();
-  chooseBrutePaddle();
-  chooseSniperPaddle();
-  chooseWizardPaddle();
-  drawPaddleSelectorBoxes();
 
-  if (playing) {
+  //console.log(gameState.playing);
+  //console.log(gameState.playerChosePaddle);
+
+  if(!gameState.playerChosePaddle && !gameState.playing){
+    // Display the paddle selector boxes
+    drawPaddleSelectorBoxes();
+    // Monitor paddle choice.
+    chooseBrutePaddle();
+    chooseSniperPaddle();
+    chooseWizardPaddle();
+  }
+
+  if (gameState.playerChosePaddle && gameState.playing) {
     // If the game is in play, we handle input and move the elements around
+    drawBackground();
     handleInput(leftPaddle);
     handleInput(rightPaddle);
     updatePaddle(leftPaddle);
@@ -419,12 +454,9 @@ function displayCenterMessage() {
 // Here to require a click to start playing the game
 // Which will help us be allowed to play audio in the browser
 function mousePressed() {
-  // Player chooses the brute paddle
   if (brutePaddleSelector.overBox) {
     console.log("Choosing the brute paddle");
-    // Erase all the paddle selectors from canvas
-    // Start the game as the class
-
+    gameState.playerChosePaddle = true;
     brutePaddleSelector.locked = true;
   } else {
     brutePaddleSelector.locked = false;
@@ -432,6 +464,8 @@ function mousePressed() {
   // Player chooses the sniper paddle
   if (sniperPaddleSelector.overBox) {
     console.log("Choosing the sniper paddle");
+    gameState.playerChosePaddle = true;
+
     sniperPaddleSelector.locked = true;
   } else {
     sniperPaddleSelector.locked = false;
@@ -439,20 +473,13 @@ function mousePressed() {
   // Player chooses the wizard paddle
   if (wizardPaddleSelector.overBox) {
     console.log("Choosing the wizard paddle");
+    gameState.playerChosePaddle = true;
     wizardPaddleSelector.locked = true;
   } else {
     wizardPaddleSelector.locked = false;
   }
-  restartGame();
-  playing = true;
 }
 
-function keyTyped() {
-  if(key === ENTER) {
-    score.lastWon = "NEWGAME";
-    restartGame();
-  }
-}
 /**
   Displays the score.
   Builds a castle in the middle of the screen from the bottom.
@@ -505,6 +532,10 @@ function displayScore(SIDE) {
   }
 }
 
+/**
+  Restart game.
+
+*/
 function restartGame() {
   resetfireBall();
   playing = true;
@@ -627,9 +658,20 @@ function chooseWizardPaddle() {
 
 */
 function drawPaddleSelectorBoxes() {
+  push();
+  fill(0, 255, 0);
   rect(brutePaddleSelector.bX, brutePaddleSelector.bY, brutePaddleSelector.boxSize, brutePaddleSelector.boxSize);
   rect(sniperPaddleSelector.bX, sniperPaddleSelector.bY, sniperPaddleSelector.boxSize, sniperPaddleSelector.boxSize);
   rect(wizardPaddleSelector.bX, wizardPaddleSelector.bY, wizardPaddleSelector.boxSize, wizardPaddleSelector.boxSize);
+  pop();
+
+  push();
+  fill(0);
+  textSize(30);
+  text("Brute", brutePaddleSelector.bX - 50, brutePaddleSelector.bY + 50);
+  text("Sniper", sniperPaddleSelector.bX - 50, sniperPaddleSelector.bY + 50);
+  text("Wizard", wizardPaddleSelector.bX - 50, wizardPaddleSelector.bY + 50);
+  pop();
 }
 //TODOS:
 // Fix score not displaying in the first exchanges...
