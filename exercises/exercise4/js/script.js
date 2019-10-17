@@ -91,13 +91,13 @@ let brutePaddle = {
   y: 0,
   w: 20,
   h: 70,
-  vy: 4,
-  speed: 4, // temp
+  vy: 4, // temp
+  speed: 4,
   upKey: 87,
   downKey: 83,
-  type: "BRUTE",
-  bounceStrength: bounceStrength.STRONG,
-  ability: "SMASH"
+  type: "BRUTE", // The paddle's type (brute, sniper or wizard)
+  bounceStrength: bounceStrength.MEDIUM,
+  ability: "SNIPE"
 }
 
 let sniperPaddle = {
@@ -321,8 +321,13 @@ function draw() {
     updatefireBall();
 
     checkfireBallWallCollision();
-    checkfireBallPaddleCollision(gameState.chosenLeftPaddle);
-    checkfireBallPaddleCollision(rightPaddle);
+    if(gameState.chosenLeftPaddle.type === "SNIPER") {
+      snipe();
+    }
+    else {
+      checkfireBallPaddleCollision(gameState.chosenLeftPaddle);
+      checkfireBallPaddleCollision(rightPaddle);
+    }
 
     // Check if the fireBall went out of bounds and respond if so
     // (Note how we can use a function that returns a truth value
@@ -526,7 +531,9 @@ function mousePressed() {
   if (brutePaddleSelector.overBox) {
     console.log("Choosing the brute paddle");
     gameState.playerChosePaddle = true;
+    console.log(gameState.chosenLeftPaddle);
     gameState.chosenLeftPaddle = brutePaddle;
+    console.log(gameState.chosenLeftPaddle);
     console.log(gameState.chosenLeftPaddle.type);
     brutePaddleSelector.locked = true;
     gameState.playing = true;
@@ -750,3 +757,40 @@ function drawPaddleSelectorBoxes() {
 }
 //TODOS:
 // Fix score not displaying in the first exchanges...
+
+/**
+  Charge shot if the chosen paddle is sniper.
+
+*/
+function snipe() {
+  let fireBallTop = fireBall.y - fireBall.size / 2;
+  let fireBallBottom = fireBall.y + fireBall.size / 2;
+  let fireBallLeft = fireBall.x - fireBall.size / 2;
+  let fireBallRight = fireBall.x + fireBall.size / 2;
+
+  let paddleTop = gameState.chosenLeftPaddle.y - gameState.chosenLeftPaddle.h / 2;
+  let paddleBottom = gameState.chosenLeftPaddle.y + gameState.chosenLeftPaddle.h;
+  let paddleLeft = gameState.chosenLeftPaddle.x - gameState.chosenLeftPaddle.w / 2;
+  let paddleRight = gameState.chosenLeftPaddle.x + gameState.chosenLeftPaddle.w / 2;
+
+  if (fireBallBottom >= paddleTop && fireBallTop <= paddleBottom) {
+    //alert("sticking to the paddle");
+    // Stick to the paddle
+    if (fireBallLeft <= paddleRight && fireBallRight >= paddleLeft) {
+        //alert("sticking to the paddle");
+        fireBall.x = gameState.chosenLeftPaddle.x;
+        fireBall.y = gameState.chosenLeftPaddle.y;
+    }
+      beepSFX.currentTime = 0;
+      beepSFX.play();
+  }
+}
+
+/**
+  Trick shot if the chosen paddle is sniper.
+
+*/
+function trickShot() {
+
+
+}
