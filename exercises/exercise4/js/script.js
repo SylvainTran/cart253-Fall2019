@@ -242,32 +242,32 @@ function setup() {
 
 */
 function keyPressed() {
-  if (gameState.playerChoseLeftPaddle) {
-    switch (gameState.chosenLeftPaddle.type) {
+  if(gameState.playerChoseLeftPaddle) {
+    switch(gameState.chosenLeftPaddle.type) {
       case "SNIPER":
-        if (keyCode === ENTER) {
+        if(keyCode === ENTER) {
           snipe();
         }
         break;
       case "WIZARD":
-        if (keyCode === ENTER) {
-          alert("Trickshot");
+        if(keyCode === ENTER) {
+            alert("Trickshot");
           // trick shot
         }
         break;
       default:
         break;
     }
-  } else if (gameState.playerChoseRightPaddle) {
-    switch (gameState.chosenRightPaddle.type) {
+  } else if(gameState.playerChoseRightPaddle) {
+  switch(gameState.chosenRightPaddle.type) {
       case "SNIPER":
-        if (keyCode === ENTER) {
-          snipe("RIGHT");
+        if(keyCode === ENTER) {
+          snipe();
         }
         break;
       case "WIZARD":
-        if (keyCode === ENTER) {
-          alert("Trickshot");
+        if(keyCode === ENTER) {
+            alert("Trickshot");
           // trick shot
         }
         break;
@@ -322,15 +322,16 @@ function drawBackground() {
 */
 function draw() {
   // While the player has not picked a paddle type for both left and right side, prompt to select them
-  if (!gameState.playerChoseLeftPaddle && !gameState.playerChoseRightPaddle && !gameState.playing) {
+  if(!gameState.playerChoseLeftPaddle && !gameState.playerChoseRightPaddle && !gameState.playing){
     // Display the paddle selector boxes
     drawPaddleSelectorBoxes();
     // Monitor paddle choice.
-    if (!gameState.playerChoseLeftPaddle) { // Left side
+    if(!gameState.playerChoseLeftPaddle) { // Left side
       checkIfMouseOverBruteBox();
       checkIfMouseOverSniperBox();
       checkIfMouseOverWizardBox();
-    } else if (!gameState.playerChoseRightPaddle) { // Right side
+    }
+    else if(!gameState.playerChoseRightPaddle) { // Right side
       checkIfMouseOverBruteBox();
       checkIfMouseOverSniperBox();
       checkIfMouseOverWizardBox();
@@ -348,7 +349,7 @@ function draw() {
 
     checkFireballWallCollision();
     checkfireBallPaddleCollision(gameState.chosenLeftPaddle, "LEFT");
-    checkfireBallPaddleCollision(gameState.chosenRightPaddle, "RIGHT");
+    checkfireBallPaddleCollision(rightPaddle, "RIGHT");
 
     // Check if the fireBall went out of bounds and respond if so
     // (Note how we can use a function that returns a truth value
@@ -388,7 +389,8 @@ function draw() {
 function handleInput(paddle) {
   if (keyIsDown(paddle.upKey)) {
     paddle.vy = -paddle.speed;
-  } else if (keyIsDown(paddle.downKey)) {
+  }
+  else if (keyIsDown(paddle.downKey)) {
     paddle.vy = paddle.speed;
   } else {
     paddle.vy = 0;
@@ -410,8 +412,13 @@ function updatePaddle(paddle) {
 // Sets the position of the fireBall based on its velocity
 function updateFireball() {
   // Update the fireBall's position based on velocity
-  fireBall.x += fireBall.vx;
-  fireBall.y += fireBall.vy;
+  if(gameState.chosenLeftPaddle === "SNIPER") {
+    // Do nothing -- the player will snipe with Enter
+  }
+  else {
+    fireBall.x += fireBall.vx;
+    fireBall.y += fireBall.vy;
+  }
 }
 
 // fireBallIsOutOfBounds()
@@ -462,17 +469,13 @@ function checkfireBallPaddleCollision(paddle, SIDE) {
 
   if (fireBallBottom >= paddleTop && fireBallTop <= paddleBottom) {
     if (fireBallLeft <= paddleRight && fireBallRight >= paddleLeft) {
-      if (gameState.chosenLeftPaddle.type === "SNIPER" && SIDE === "LEFT") {
+      if(gameState.chosenLeftPaddle.type === "SNIPER" && SIDE === "LEFT" ) {
         //if(mana.leftSide >= 10) {
-        fireBall.vx = 0; // Stalls the fireball'x position
-        fireBall.x = gameState.chosenLeftPaddle.x + 50; // offsets to the right a bit
+          fireBall.vx = 0; // Stalls the fireball'x position
+          fireBall.x = gameState.chosenLeftPaddle.x + 50; // offsets to the right a bit
         //}
-      } else if (gameState.chosenRightPaddle.type === "SNIPER" && SIDE === "RIGHT") {
-        if(fireBall.x >= width / 2) {
-          fireBall.vx = 0;
-          fireball.x = gameState.chosenRightPaddle.x - 50;
-        }
-      } else {
+      }
+      else {
         fireBall.vx = -fireBall.vx;
       }
       beepSFX.currentTime = 0;
@@ -513,17 +516,19 @@ function resetFireball() {
   // Random VY
   let randomVY;
 
-  if (score.lastWon === "NEWGAME") {
+  if(score.lastWon === "NEWGAME") {
     fireBall.vx = fireBall.speed;
     fireBall.vy = fireBall.speed;
-  } else if (score.lastWon === "LEFT") {
+  }
+  else if(score.lastWon === "LEFT") {
     fireBall.vx = -fireBall.speed;
     // Map the VY to a random negative range
     randomVY = Math.floor(map(random(1, fireBall.speed), 1, fireBall.speed, -1, -fireBall.speed));
     fireBall.vy = randomVY;
-  } else if (score.lastWon === "RIGHT") {
+  }
+  else if(score.lastWon === "RIGHT") {
     fireBall.vx = fireBall.speed;
-    randomVY = (Math.floor(random(1, fireBall.speed)));
+    randomVY = ( Math.floor(random(1, fireBall.speed)) );
     fireBall.vy = randomVY;
   }
 }
@@ -537,7 +542,7 @@ function displayStartMessage() {
   fill(0, 0, scoreBox.newTextColor);
   textAlign(CENTER, CENTER);
   textSize(32);
-  text("CHOOSE YOUR PADDLES (Left and Right)\nTHEN CLICK AGAIN TO START", width / 2, 150);
+  text("CHOOSE YOUR PADDLE\nTHEN PRESS ENTER TO START", width / 2, 150);
   pop();
 }
 
@@ -562,42 +567,46 @@ function displayCenterMessage(message, message2, textColor) {
 
 */
 function mousePressed() {
-  if (gameState.playerChoseLeftPaddle && gameState.playerChoseRightPaddle) {
-    restartGame();
-    gameState.playing = true;
+  if(gameState.playerChoseLeftPaddle && gameState.playerChoseRightPaddle) {
+      restartGame();
+      gameState.playing = true;
   }
   // Choose paddle type for the left paddle
-  if (!gameState.playerChoseLeftPaddle) {
-    if (brutePaddleSelector.overBox) {
+  if(!gameState.playerChoseLeftPaddle) {
+    if(brutePaddleSelector.overBox) {
       console.log("Choosing the Brute paddle for the left paddle");
       gameState.playerChoseLeftPaddle = true;
       gameState.chosenLeftPaddle = brutePaddle;
       //displayCenterMessage("Choosing the Brute paddle for the left paddle", `${gameState.chosenLeftPaddle.type}`, 0);
-    } else if (sniperPaddleSelector.overBox) {
+    }
+    else if(sniperPaddleSelector.overBox) {
       console.log("Choosing the Sniper paddle for the left paddle");
       gameState.playerChoseLeftPaddle = true;
       gameState.chosenLeftPaddle = sniperPaddle;
       //displayCenterMessage("Choosing the Sniper paddle for the left paddle", `${gameState.chosenLeftPaddle.type}\nClick again to start game.`, 0);
-    } else if (wizardPaddleSelector.overBox) {
+    }
+    else if(wizardPaddleSelector.overBox) {
       console.log("Choosing the wizard paddle for the left paddle");
       gameState.playerChoseLeftPaddle = true;
       gameState.chosenLeftPaddle = wizardPaddle;
       wizardPaddleSelector.locked = true;
       //displayCenterMessage("Choosing the Wizard paddle for the left paddle", `${gameState.chosenLeftPaddle.type}\nClick again to start game.`, 0);
     }
-  } // Choose paddle type for the right paddle
-  else if (!gameState.playerChoseRightPaddle) {
-    if (brutePaddleSelector.overBox) {
+  }  // Choose paddle type for the right paddle
+  else if(!gameState.playerChoseRightPaddle) {
+    if(brutePaddleSelector.overBox) {
       console.log("Choosing the Brute paddle for the right paddle");
       gameState.playerChoseRightPaddle = true;
       gameState.chosenRightPaddle = brutePaddle;
       //displayCenterMessage("Choosing the Brute paddle for the right paddle", `${gameState.chosenRightPaddle.type}\nClick again to start game.`, 0);
-    } else if (sniperPaddleSelector.overBox) {
+    }
+    else if(sniperPaddleSelector.overBox) {
       console.log("Choosing the Sniper paddle for the right paddle");
       gameState.playerChoseRightPaddle = true;
       gameState.chosenRightPaddle = sniperPaddle;
       //displayCenterMessage("Choosing the Sniper paddle for the right paddle", `${gameState.chosenRightPaddle.type}\nClick again to start game.`, 0);
-    } else if (wizardPaddleSelector.overBox) {
+    }
+    else if(wizardPaddleSelector.overBox) {
       console.log("Choosing the wizard paddle for the right paddle");
       gameState.playerChoseRightPaddle = true;
       gameState.chosenRightPaddle = wizardPaddle;
@@ -679,13 +688,13 @@ function drawManaGauge(side, manaGain) {
   let leftSideManaPosX = 50;
   let rightSideManaPosX = width - 50;
 
-  if (side === "LEFT") {
+  if(side === "LEFT") {
     mana.leftSide += manaGain;
     push();
     fill(0, 0, 255);
     rect(scoreBox.xLeftBox, height / 2, mana.leftSide, mana.leftSide);
     pop();
-  } else if (side === "RIGHT") {
+  } else if(side === "RIGHT") {
     mana.rightSide += manaGain;
     push();
     fill(255, 0, 0);
@@ -728,7 +737,8 @@ function checkIfMouseOverBruteBox() {
     mouseY < brutePaddleSelector.bY + brutePaddleSelector.boxSize
   ) {
     brutePaddleSelector.overBox = true;
-    if (!brutePaddleSelector.locked) {}
+    if (!brutePaddleSelector.locked) {
+    }
   } else {
     brutePaddleSelector.overBox = false;
   }
@@ -742,7 +752,6 @@ function checkIfMouseOverBruteBox() {
 
 */
 function checkIfMouseOverSniperBox() {
-  displayCenterMessage("Sniper: Press Enter to snipe.", "\n...Only works for the left side for now...", 0);
   if (
     mouseX > sniperPaddleSelector.bX - sniperPaddleSelector.boxSize &&
     mouseX < sniperPaddleSelector.bX + sniperPaddleSelector.boxSize &&
@@ -750,7 +759,8 @@ function checkIfMouseOverSniperBox() {
     mouseY < sniperPaddleSelector.bY + sniperPaddleSelector.boxSize
   ) {
     sniperPaddleSelector.overBox = true;
-    if (!sniperPaddleSelector.locked) {}
+    if (!sniperPaddleSelector.locked) {
+    }
   } else {
     sniperPaddleSelector.overBox = false;
   }
@@ -771,7 +781,8 @@ function checkIfMouseOverWizardBox() {
     mouseY < wizardPaddleSelector.bY + wizardPaddleSelector.boxSize
   ) {
     wizardPaddleSelector.overBox = true;
-    if (!wizardPaddleSelector.locked) {}
+    if (!wizardPaddleSelector.locked) {
+    }
   } else {
     wizardPaddleSelector.overBox = false;
   }
@@ -806,19 +817,19 @@ function snipe(snipingFrom) {
   // TODO play sniping sound
   // Left side sniper
   //if(snipingFrom === "LEFT") {
-  //if(mana.leftSide >= 0) { // TODO if the sniper has enough mana, snipe
+    //if(mana.leftSide >= 0) { // TODO if the sniper has enough mana, snipe
   fireBall.vx = gameState.chosenLeftPaddle.bounceStrength * gameState.chosenLeftPaddle.vy;
   fireBall.x += fireBall.vx;
-  //mana.leftSide -= 10; // remove some mana
-  //  }
-  //else {
-  //  console.log("Not enough mana.");
+      //mana.leftSide -= 10; // remove some mana
+      //  }
+    //else {
+    //  console.log("Not enough mana.");
+    //}
   //}
-  //}
-  if (snipingFrom === "RIGHT") {
+  if(snipingFrom === "RIGHT") {
     //if(mana.rightSide >= 10) {
-    fireBall.vx = -(gameState.chosenLeftPaddle.bounceStrength * gameState.chosenLeftPaddle.vy);
-    fireBall.x += fireBall.vx;
+      fireBall.vx = - (gameState.chosenLeftPaddle.bounceStrength * gameState.chosenLeftPaddle.vy);
+      fireBall.x += fireBall.vx;
     //  mana.rightSide -= 10; // remove some mana
 
     //else {
