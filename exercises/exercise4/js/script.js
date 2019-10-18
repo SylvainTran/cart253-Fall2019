@@ -9,22 +9,26 @@ Two players playable.
 
 Overview of the game:
   - Controls with W S and up-down arrows.
-  - RPG style classes for different playstyles
-  E.g., Sniper: Able to hold the fireBall once it hits the paddle, and release it
-  with a power shot. Brute: Able to smash the firefireBall.
-  - Trying to turn this into another spiritual experience.
-  Art:
-  - 8-bit era floppy-disks DOS boot game.
-  - NES games like Bubble Bobble and Loderunner.
+  - RPG style classes for different playstyles. All abilities cost mana (-10)
+  which is gained for each exchange that is won (+10).
+
+  Brute: Default pong warrior. No special abilities, just higher bounce strength and average speed.
+  Sniper: Able to stall the fireBall once it hits the paddle, and release it
+  with a power shot. Slightly slower and weaker than brute.
+  Wizard: Able to cast Trick shot (spawn two fire balls with enough mana). Weaker than
+  the brute and sniper, and slower too. (For experienced players?)
+
 */
 
-// Whether the game has started
-//let playing = false;
+/**
+  All the game states.
 
+*/
 let gameState = {
   playerChosePaddle: false,
   playing: false,
   chosenLeftPaddle: null,
+  chosenRightPaddle: null
 }
 
 // Game colors (using hexadecimal)
@@ -36,6 +40,8 @@ let epicSong;
 
 // Background picture
 let bgPicture;
+// Pic of the brute paddle (only one drawn for now, more later)
+let brutePaddlePic;
 
 // Waves at the bottom
 let wave1;
@@ -79,25 +85,30 @@ let fireBall = {
   vy: 0,
   speed: 7
 }
+/**
+  The speed at which the ball will be pushed back
+  once it hits the paddle. Depends on the paddle type.
 
+*/
 let bounceStrength = {
   STRONG: 10,
   MEDIUM: 5,
   LOW: 2
 }
 // PADDLES (by type)
+// The brute paddle is the all-rounder beginner class (higher stats but no special abilities)
 let brutePaddle = {
   x: 0,
   y: 0,
   w: 20,
   h: 70,
-  vy: 4, // temp
+  vy: 4,
   speed: 4,
   upKey: 87,
   downKey: 83,
   type: "BRUTE", // The paddle's type (brute, sniper or wizard)
   bounceStrength: bounceStrength.MEDIUM,
-  ability: "SNIPE"
+  ability: "NONE"
 }
 
 let sniperPaddle = {
@@ -200,7 +211,7 @@ function preload() {
   bgPicture = loadImage("assets/images/Pong Plus_Bg.png");
   wave1 = loadImage("assets/images/wave1.png");
   wave2 = loadImage("assets/images/wave2.png");
-  brutePaddle = loadImage("assets/images/Brute Paddle.png");
+  brutePaddlePic = loadImage("assets/images/Brute Paddle.png"); // only this paddle for now
 }
 
 // setup()
@@ -216,7 +227,7 @@ function setup() {
   fill(fgColor);
   setupPaddleSelectorBoxes();
   setupPaddles();
-  resetfireBall();
+  resetFireball();
 
   epicSong.loop();
   drawPaddleSelectorBoxes();
@@ -224,11 +235,11 @@ function setup() {
 
 /**
   Key was typed.
+  Only implemented for the left side for now
 
 */
 function keyPressed() {
   if(gameState.playerChosePaddle) {
-    console.log(gameState.chosenLeftPaddle.type);
     switch(gameState.chosenLeftPaddle.type) {
       case "BRUTE":
         if(keyCode === ENTER) {
@@ -238,8 +249,7 @@ function keyPressed() {
         break;
       case "SNIPER":
         if(keyCode === ENTER) {
-            alert("Snipe");
-          // snipe
+          snipe();
         }
         break;
       case "WIZARD":
@@ -289,7 +299,7 @@ function setupPaddles() {
 */
 function drawBackground() {
   image(bgPicture, 0, 0);
-  displayCenterMessage();
+  //displayCenterMessage("RPG Pong.", `${gameState.chosenLeftPaddle.type} vs. ${gameState.chosenRightPaddle.type} showdown.`);
   parallaxWaves();
 }
 
@@ -318,16 +328,11 @@ function draw() {
     handleInput(rightPaddle);
     updatePaddle(gameState.chosenLeftPaddle);
     updatePaddle(rightPaddle);
-    updatefireBall();
+    updateFireball();
 
-    checkfireBallWallCollision();
-    if(gameState.chosenLeftPaddle.type === "SNIPER") {
-      snipe();
-    }
-    else {
-      checkfireBallPaddleCollision(gameState.chosenLeftPaddle);
-      checkfireBallPaddleCollision(rightPaddle);
-    }
+    checkFireballWallCollision();
+    checkfireBallPaddleCollision(gameState.chosenLeftPaddle);
+    checkfireBallPaddleCollision(rightPaddle);
 
     // Check if the fireBall went out of bounds and respond if so
     // (Note how we can use a function that returns a truth value
@@ -339,19 +344,21 @@ function draw() {
       if (fireBall.x <= LEFT_SIDE) {
         score.left++;
         score.lastWon = "RIGHT";
+        mana.rightSide += 10; // Add 10 mana for each victory... used to cast abilities
         displayScore("LEFT");
-        resetfireBall(); // Launch towards the side that won.
+        resetFireball(); // Launch towards the side that won.
       } else if (fireBall.x >= RIGHT_SIDE) {
         score.right++;
         score.lastWon = "LEFT";
+        mana.leftSide += 10;
         displayScore("RIGHT");
-        resetfireBall();
+        resetFireball();
       }
     }
     // We display the paddle once we know it has been chosen.
     displayPaddle(gameState.chosenLeftPaddle);
     displayPaddle(rightPaddle);
-    displayfireBall();
+    displayFireball();
   } else {
     // Otherwise we display the message to start the game
     displayStartMessage();
@@ -383,13 +390,18 @@ function updatePaddle(paddle) {
   paddle.y = constrainedY;
 }
 
-// updatefireBall()
+// updateFireball()
 //
 // Sets the position of the fireBall based on its velocity
-function updatefireBall() {
+function updateFireball() {
   // Update the fireBall's position based on velocity
-  fireBall.x += fireBall.vx;
-  fireBall.y += fireBall.vy;
+  if(gameState.chosenLeftPaddle === "SNIPER") {
+    // Do nothing -- the player will snipe with Enter
+  }
+  else {
+    fireBall.x += fireBall.vx;
+    fireBall.y += fireBall.vy;
+  }
 }
 
 // fireBallIsOutOfBounds()
@@ -405,12 +417,12 @@ function fireBallIsOutOfBounds() {
   }
 }
 
-// checkfireBallWallCollision()
+// checkFireballWallCollision()
 //
 // Check if the fireBall has hit the top or bottom of the canvas
 // Bounce off if it has by reversing velocity
 // Play a sound
-function checkfireBallWallCollision() {
+function checkFireballWallCollision() {
   // Check for collisions with top or bottom...
   if (fireBall.y < 0 || fireBall.y > height) {
     // It hit so reverse velocity
@@ -439,7 +451,13 @@ function checkfireBallPaddleCollision(paddle) {
 
   if (fireBallBottom >= paddleTop && fireBallTop <= paddleBottom) {
     if (fireBallLeft <= paddleRight && fireBallRight >= paddleLeft) {
-      fireBall.vx = -fireBall.vx;
+      if(gameState.chosenLeftPaddle.type === "SNIPER") {
+        fireBall.vx = 0; // Stalls the fireball'x position
+        fireBall.x = gameState.chosenLeftPaddle.x + 50; // offsets to the right a bit
+      }
+      else {
+        fireBall.vx = -fireBall.vx;
+      }
       beepSFX.currentTime = 0;
       beepSFX.play();
     }
@@ -452,21 +470,21 @@ function checkfireBallPaddleCollision(paddle) {
 function displayPaddle(paddle) {
   // Draw the paddles
   //rect(paddle.x, paddle.y, paddle.w, paddle.h);
-  image(brutePaddle, paddle.x, paddle.y, paddle.w, paddle.h);
+  image(brutePaddlePic, paddle.x, paddle.y, paddle.w, paddle.h);
 }
 
-// displayfireBall()
+// displayFireball()
 //
 // Draws the fireBall on screen as a square
-function displayfireBall() {
+function displayFireball() {
   // Draw the fireBall
   rect(fireBall.x, fireBall.y, fireBall.size, fireBall.size);
 }
 
-// resetfireBall()
+// resetFireball()
 //
 // Sets the starting position and velocity of the fireBall
-function resetfireBall() {
+function resetFireball() {
   // Initialise the fireBall's position and velocity
   fireBall.x = width / 2;
   fireBall.y = height / 2;
@@ -507,13 +525,13 @@ function displayStartMessage() {
   Display the messages in the center;
 
 */
-function displayCenterMessage() {
+function displayCenterMessage(message, message2) {
   push();
   fill(255);
   textAlign(CENTER, CENTER);
   textSize(32);
-  text("RPG Pong.", width / 2, 75);
-  text("Warrior vs. Wizard\nShowdown", width / 2, 300);
+  text(message, width / 2, 75);
+  text(message2, width / 2, 300);
   // To replace with ${leftPaddleClass} + ${rightPaddleClass}
   pop();
 }
@@ -619,7 +637,7 @@ function displayScore(SIDE) {
 
 */
 function restartGame() {
-  resetfireBall();
+  resetFireball();
   gameState.playing = true;
   loop();
 }
@@ -762,27 +780,25 @@ function drawPaddleSelectorBoxes() {
   Charge shot if the chosen paddle is sniper.
 
 */
-function snipe() {
-  let fireBallTop = fireBall.y - fireBall.size / 2;
-  let fireBallBottom = fireBall.y + fireBall.size / 2;
-  let fireBallLeft = fireBall.x - fireBall.size / 2;
-  let fireBallRight = fireBall.x + fireBall.size / 2;
-
-  let paddleTop = gameState.chosenLeftPaddle.y - gameState.chosenLeftPaddle.h / 2;
-  let paddleBottom = gameState.chosenLeftPaddle.y + gameState.chosenLeftPaddle.h;
-  let paddleLeft = gameState.chosenLeftPaddle.x - gameState.chosenLeftPaddle.w / 2;
-  let paddleRight = gameState.chosenLeftPaddle.x + gameState.chosenLeftPaddle.w / 2;
-
-  if (fireBallBottom >= paddleTop && fireBallTop <= paddleBottom) {
-    //alert("sticking to the paddle");
-    // Stick to the paddle
-    if (fireBallLeft <= paddleRight && fireBallRight >= paddleLeft) {
-        //alert("sticking to the paddle");
-        fireBall.x = gameState.chosenLeftPaddle.x;
-        fireBall.y = gameState.chosenLeftPaddle.y;
+function snipe(snipingFrom) {
+  // TODO play sniping sound
+  // Left side sniper
+  if(snipingFrom === "LEFT") {
+    if(mana.leftSide >= 10) { // if the sniper has enough mana, snipe
+      fireBall.vx = gameState.chosenLeftPaddle.bounceStrength * gameState.chosenLeftPaddle.vy;
+      fireBall.x += fireBall.vx;
+      mana.leftSide -= 10; // remove some mana
     }
-      beepSFX.currentTime = 0;
-      beepSFX.play();
+    else {
+      console.log("Not enough mana.");
+    }
+  }
+  else if(snipingFrom === "RIGHT") {
+    if(mana.rightSide >= 10) {
+      fireBall.vx = gameState.chosenLeftPaddle.bounceStrength * gameState.chosenLeftPaddle.vy;
+      fireBall.x += fireBall.vx;
+      mana.rightSide -= 10; // remove some mana
+    }
   }
 }
 
