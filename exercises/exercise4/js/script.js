@@ -6,7 +6,7 @@ Date: 09-10-2019
 Goal of program:
 RPG Pong. Modified version of Pong by Dr. Pippin Bar.
 
-Work in progress.
+Work in progress. For now uh... only the same classes duel each other...
 
 Overview of the game:
   - Controls with W S and up-down arrows.
@@ -258,6 +258,22 @@ function keyPressed() {
       default:
         break;
     }
+  } else if(gameState.playerChoseRightPaddle) {
+  switch(gameState.chosenRightPaddle.type) {
+      case "SNIPER":
+        if(keyCode === ENTER) {
+          snipe();
+        }
+        break;
+      case "WIZARD":
+        if(keyCode === ENTER) {
+            alert("Trickshot");
+          // trick shot
+        }
+        break;
+      default:
+        break;
+    }
   }
 }
 
@@ -454,10 +470,10 @@ function checkfireBallPaddleCollision(paddle, SIDE) {
   if (fireBallBottom >= paddleTop && fireBallTop <= paddleBottom) {
     if (fireBallLeft <= paddleRight && fireBallRight >= paddleLeft) {
       if(gameState.chosenLeftPaddle.type === "SNIPER" && SIDE === "LEFT" ) {
-        if(mana.leftSide >= 10) {
+        //if(mana.leftSide >= 10) {
           fireBall.vx = 0; // Stalls the fireball'x position
           fireBall.x = gameState.chosenLeftPaddle.x + 50; // offsets to the right a bit
-        }
+        //}
       }
       else {
         fireBall.vx = -fireBall.vx;
@@ -561,25 +577,20 @@ function mousePressed() {
       console.log("Choosing the Brute paddle for the left paddle");
       gameState.playerChoseLeftPaddle = true;
       gameState.chosenLeftPaddle = brutePaddle;
-      displayCenterMessage("Choosing the Brute paddle for the left paddle", `${gameState.chosenLeftPaddle.type}`, 0);
-      brutePaddleSelector.locked = true;
-      brutePaddleSelector.overBox = false;
-      redraw();
+      //displayCenterMessage("Choosing the Brute paddle for the left paddle", `${gameState.chosenLeftPaddle.type}`, 0);
     }
     else if(sniperPaddleSelector.overBox) {
       console.log("Choosing the Sniper paddle for the left paddle");
       gameState.playerChoseLeftPaddle = true;
       gameState.chosenLeftPaddle = sniperPaddle;
-      displayCenterMessage("Choosing the Sniper paddle for the left paddle", `${gameState.chosenLeftPaddle.type}\nClick again to start game.`, 0);
-      return null;
+      //displayCenterMessage("Choosing the Sniper paddle for the left paddle", `${gameState.chosenLeftPaddle.type}\nClick again to start game.`, 0);
     }
     else if(wizardPaddleSelector.overBox) {
       console.log("Choosing the wizard paddle for the left paddle");
       gameState.playerChoseLeftPaddle = true;
       gameState.chosenLeftPaddle = wizardPaddle;
       wizardPaddleSelector.locked = true;
-      displayCenterMessage("Choosing the Wizard paddle for the left paddle", `${gameState.chosenLeftPaddle.type}\nClick again to start game.`, 0);
-      return null;
+      //displayCenterMessage("Choosing the Wizard paddle for the left paddle", `${gameState.chosenLeftPaddle.type}\nClick again to start game.`, 0);
     }
   }  // Choose paddle type for the right paddle
   else if(!gameState.playerChoseRightPaddle) {
@@ -587,20 +598,20 @@ function mousePressed() {
       console.log("Choosing the Brute paddle for the right paddle");
       gameState.playerChoseRightPaddle = true;
       gameState.chosenRightPaddle = brutePaddle;
-      displayCenterMessage("Choosing the Brute paddle for the right paddle", `${gameState.chosenRightPaddle.type}\nClick again to start game.`, 0);
+      //displayCenterMessage("Choosing the Brute paddle for the right paddle", `${gameState.chosenRightPaddle.type}\nClick again to start game.`, 0);
     }
     else if(sniperPaddleSelector.overBox) {
       console.log("Choosing the Sniper paddle for the right paddle");
       gameState.playerChoseRightPaddle = true;
       gameState.chosenRightPaddle = sniperPaddle;
-      displayCenterMessage("Choosing the Sniper paddle for the right paddle", `${gameState.chosenRightPaddle.type}\nClick again to start game.`, 0);
+      //displayCenterMessage("Choosing the Sniper paddle for the right paddle", `${gameState.chosenRightPaddle.type}\nClick again to start game.`, 0);
     }
     else if(wizardPaddleSelector.overBox) {
       console.log("Choosing the wizard paddle for the right paddle");
       gameState.playerChoseRightPaddle = true;
       gameState.chosenRightPaddle = wizardPaddle;
       wizardPaddleSelector.locked = true;
-      displayCenterMessage("Choosing the Wizard paddle for the right paddle", `${gameState.chosenRightPaddle.type}\nClick again to start game.`, 0);
+      //displayCenterMessage("Choosing the Wizard paddle for the right paddle", `${gameState.chosenRightPaddle.type}\nClick again to start game.`, 0);
     }
   }
 }
@@ -693,8 +704,7 @@ function drawManaGauge(side, manaGain) {
 }
 
 /**
-  Moves the wave pictures at the bottom in parallax.
-  TODO change wave to sea dragon
+  Moves the sea dragon/wave pictures at the bottom in parallax.
 
 */
 function parallaxWaves() {
@@ -806,25 +816,25 @@ function drawPaddleSelectorBoxes() {
 function snipe(snipingFrom) {
   // TODO play sniping sound
   // Left side sniper
-  if(snipingFrom === "LEFT") {
-    if(mana.leftSide >= 10) { // if the sniper has enough mana, snipe
-      fireBall.vx = gameState.chosenLeftPaddle.bounceStrength * gameState.chosenLeftPaddle.vy;
+  //if(snipingFrom === "LEFT") {
+    //if(mana.leftSide >= 0) { // TODO if the sniper has enough mana, snipe
+  fireBall.vx = gameState.chosenLeftPaddle.bounceStrength * gameState.chosenLeftPaddle.vy;
+  fireBall.x += fireBall.vx;
+      //mana.leftSide -= 10; // remove some mana
+      //  }
+    //else {
+    //  console.log("Not enough mana.");
+    //}
+  //}
+  if(snipingFrom === "RIGHT") {
+    //if(mana.rightSide >= 10) {
+      fireBall.vx = - (gameState.chosenLeftPaddle.bounceStrength * gameState.chosenLeftPaddle.vy);
       fireBall.x += fireBall.vx;
-      mana.leftSide -= 10; // remove some mana
-    }
-    else {
-      console.log("Not enough mana.");
-    }
-  }
-  else if(snipingFrom === "RIGHT") {
-    if(mana.rightSide >= 10) {
-      fireBall.vx = gameState.chosenLeftPaddle.bounceStrength * gameState.chosenLeftPaddle.vy;
-      fireBall.x += fireBall.vx;
-      mana.rightSide -= 10; // remove some mana
-    }
-    else {
-      console.log("Not enough mana.");
-    }
+    //  mana.rightSide -= 10; // remove some mana
+
+    //else {
+    //  console.log("Not enough mana.");
+    //}
   }
 }
 
@@ -834,6 +844,5 @@ function snipe(snipingFrom) {
 
 */
 function trickShot() {
-
 
 }
