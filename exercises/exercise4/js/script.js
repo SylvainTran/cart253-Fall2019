@@ -542,7 +542,7 @@ function displayStartMessage() {
   fill(0, 0, scoreBox.newTextColor);
   textAlign(CENTER, CENTER);
   textSize(32);
-  text("CHOOSE YOUR PADDLE\nTHEN PRESS ENTER TO START", width / 2, 150);
+  text("CHOOSE YOUR PADDLES (Left and Right)\nTHEN CLICK AGAIN TO START", width / 2, 150);
   pop();
 }
 
@@ -752,6 +752,7 @@ function checkIfMouseOverBruteBox() {
 
 */
 function checkIfMouseOverSniperBox() {
+  displayCenterMessage("Sniper: Press Enter to snipe.", "\nOnly works for the left side for now...", 0);
   if (
     mouseX > sniperPaddleSelector.bX - sniperPaddleSelector.boxSize &&
     mouseX < sniperPaddleSelector.bX + sniperPaddleSelector.boxSize &&
