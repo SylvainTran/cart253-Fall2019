@@ -5,12 +5,11 @@
 // the screen and consume Prey objects to maintain its health.
 
 class Predator {
-
   // constructor
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius) {
+  constructor(x, y, speed, fillColor, radius, inputKeys) {
     // Position
     this.x = x;
     this.y = y;
@@ -27,10 +26,10 @@ class Predator {
     this.fillColor = fillColor;
     this.radius = this.health; // Radius is defined in terms of health
     // Input properties
-    this.upKey = UP_ARROW;
-    this.downKey = DOWN_ARROW;
-    this.leftKey = LEFT_ARROW;
-    this.rightKey = RIGHT_ARROW;
+    this.upKey = inputKeys.UP;
+    this.downKey = inputKeys.DOWN;
+    this.leftKey = inputKeys.LEFT;
+    this.rightKey = inputKeys.RIGHT;
   }
 
   // handleInput
