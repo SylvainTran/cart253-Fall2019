@@ -23,7 +23,8 @@ let playerOneInputs = {
   UP: 87, // W
   DOWN: 83, // A
   LEFT: 65, // S
-  RIGHT: 68 // D
+  RIGHT: 68, // D
+  SPRINT: 81 // Q
 }
 
 /**
@@ -34,7 +35,8 @@ let playerTwoInputs = {
   UP: 73, // I
   DOWN: 75, // K
   LEFT: 74, // J
-  RIGHT: 76 // L
+  RIGHT: 76, // L
+  SPRINT: 85 // U
 };
 
 /**
@@ -45,7 +47,8 @@ let playerThreeInputs = {
   UP: 71, // G
   DOWN: 66, // B
   LEFT: 86, // V
-  RIGHT: 78 // N
+  RIGHT: 78, // N
+  SPRINT: 67 // C
 };
 // setup()
 //

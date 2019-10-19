@@ -30,9 +30,10 @@ class Predator {
     this.downKey = inputKeys.DOWN;
     this.leftKey = inputKeys.LEFT;
     this.rightKey = inputKeys.RIGHT;
-
     // Tracks how many prey the predator has eaten.
     this.eatenPreyAmount = eatenPreyAmount;
+    // Sprint key
+    this.sprintKey = inputKeys.SPRINT;
   }
 
   // handleInput
@@ -40,6 +41,12 @@ class Predator {
   // Checks if an arrow key is pressed and sets the predator's
   // velocity appropriately.
   handleInput() {
+    // If sprinting
+    if (keyIsDown(this.sprintKey)) {
+      console.log("sprinting");
+      this.sprint();
+      return;
+    }
     // Horizontal movement
     if (keyIsDown(this.leftKey)) {
       this.vx = -this.speed;
@@ -76,6 +83,34 @@ class Predator {
     this.health = constrain(this.health, 0, this.maxHealth);
     // Handle wrapping
     this.handleWrapping();
+  }
+
+  /**
+    Handles input for sprinting.
+
+  */
+  sprint() {
+    let boostedSpeed = this.speed * 10;
+    // Horizontal movement
+    if (keyIsDown(this.leftKey)) {
+      this.vx = -boostedSpeed;
+    }
+    else if (keyIsDown(this.rightKey)) {
+      this.vx = boostedSpeed;
+    }
+    else {
+      this.vx = 0;
+    }
+    // Vertical movement
+    if (keyIsDown(this.upKey)) {
+      this.vy = -boostedSpeed;
+    }
+    else if (keyIsDown(this.downKey)) {
+      this.vy = boostedSpeed;
+    }
+    else {
+      this.vy = 0;
+    }
   }
 
   // handleWrapping
