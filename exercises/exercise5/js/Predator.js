@@ -9,7 +9,7 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius, inputKeys, eatenPreyAmount, speedMultiplier) {
+  constructor(x, y, speed, fillColor, radius, inputKeys, eatenPreyAmount, speedMultiplier, type) {
     // Position
     this.x = x;
     this.y = y;
@@ -36,6 +36,7 @@ class Predator {
     this.speedMultiplier = speedMultiplier;
     // Sprint key
     this.sprintKey = inputKeys.SPRINT;
+    this.type = type;
   }
 
   // handleInput
@@ -169,6 +170,18 @@ class Predator {
     fill(this.fillColor);
     this.radius = this.health;
     ellipse(this.x, this.y, this.radius * 2);
+    pop();
+  }
+
+  /**
+    Displays the amount of prey this predator has eaten.
+
+  */
+  displayEatenPrey(x, y) {
+    push();
+    fill(this.fillColor);
+    textSize(32);
+    text(this.type + " ate " + this.eatenPreyAmount + "!", x, y);
     pop();
   }
 }
