@@ -9,7 +9,7 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius, inputKeys, eatenPreyAmount, speedMultiplier, type) {
+  constructor(x, y, speed, fillColor, radius, inputKeys, eatenPreyAmount, speedMultiplier, type, avatarPic) {
     // Position
     this.x = x;
     this.y = y;
@@ -37,6 +37,7 @@ class Predator {
     // Sprint key
     this.sprintKey = inputKeys.SPRINT;
     this.type = type;
+    this.avatarPic = avatarPic;
   }
 
   // handleInput
@@ -165,12 +166,13 @@ class Predator {
   // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
-    push();
-    noStroke();
-    fill(this.fillColor);
-    this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
-    pop();
+    //push();
+    //noStroke();
+    //fill(this.fillColor);
+    //this.radius = this.health;
+    //ellipse(this.x, this.y, this.radius * 2);
+    //pop();
+    image(this.avatarPic, this.x, this.y, 128, 128);
   }
 
   /**

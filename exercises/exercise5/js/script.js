@@ -10,6 +10,11 @@ let tiger;
 let lion;
 let dragon;
 
+// Pics
+let dragonPic;
+let lionPic;
+let tigerPic;
+
 // The three prey
 let antelope;
 let zebra;
@@ -50,6 +55,12 @@ let playerThreeInputs = {
   RIGHT: 78, // N
   SPRINT: 67 // C
 };
+
+function preload() {
+  dragonPic = loadImage("assets/images/dragonPic.png");
+  lionPic = loadImage("assets/images/lion.png");
+  tigerPic = loadImage("assets/images/tiger.png");
+}
 // setup()
 //
 // Sets up a canvas
@@ -60,9 +71,9 @@ function setup() {
   zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
   bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
 
-  dragon = new Predator(100, 100, 20, color(255, 0, 0), 100, playerOneInputs, 0, 10, "Dragon");
-  lion = new Predator(100, 100, 20, color(0, 255, 0), 85, playerTwoInputs, 0, 5, "Lion");
-  tiger = new Predator(100, 100, 5, color(0, 0, 255), 40, playerThreeInputs, 0, 8, "Tiger");
+  dragon = new Predator(100, 100, 20, color(255, 0, 0), 100, playerOneInputs, 0, 10, "Dragon", dragonPic);
+  lion = new Predator(100, 100, 20, color(0, 255, 0), 85, playerTwoInputs, 0, 5, "Lion", lionPic);
+  tiger = new Predator(100, 100, 5, color(0, 0, 255), 40, playerThreeInputs, 0, 8, "Tiger", tigerPic);
 }
 
 // draw()
