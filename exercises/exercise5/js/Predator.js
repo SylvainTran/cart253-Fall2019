@@ -9,7 +9,7 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius, inputKeys) {
+  constructor(x, y, speed, fillColor, radius, inputKeys, eatenPreyAmount) {
     // Position
     this.x = x;
     this.y = y;
@@ -30,6 +30,9 @@ class Predator {
     this.downKey = inputKeys.DOWN;
     this.leftKey = inputKeys.LEFT;
     this.rightKey = inputKeys.RIGHT;
+
+    // Tracks how many prey the predator has eaten.
+    this.eatenPreyAmount = eatenPreyAmount;
   }
 
   // handleInput

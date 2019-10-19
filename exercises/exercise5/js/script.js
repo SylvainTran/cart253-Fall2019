@@ -25,6 +25,7 @@ let playerOneInputs = {
   LEFT: 65, // S
   RIGHT: 68 // D
 }
+
 /**
   Keycodes for player two's up down left right inputs.
 
@@ -56,9 +57,9 @@ function setup() {
   zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
   bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
 
-  dragon = new Predator(100, 100, 20, color(255, 255, 0), 100, playerOneInputs);
-  lion = new Predator(100, 100, 20, color(0, 255, 0), 85, playerTwoInputs);
-  tiger = new Predator(100, 100, 5, color(200, 200, 0), 40, playerThreeInputs);
+  dragon = new Predator(100, 100, 20, color(255, 255, 0), 100, playerOneInputs, 0);
+  lion = new Predator(100, 100, 20, color(0, 255, 0), 85, playerTwoInputs, 0);
+  tiger = new Predator(100, 100, 5, color(200, 200, 0), 40, playerThreeInputs, 0);
 }
 
 // draw()
