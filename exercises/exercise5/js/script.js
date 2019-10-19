@@ -60,9 +60,9 @@ function setup() {
   zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
   bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
 
-  dragon = new Predator(100, 100, 20, color(255, 255, 0), 100, playerOneInputs, 0);
-  lion = new Predator(100, 100, 20, color(0, 255, 0), 85, playerTwoInputs, 0);
-  tiger = new Predator(100, 100, 5, color(200, 200, 0), 40, playerThreeInputs, 0);
+  dragon = new Predator(100, 100, 20, color(255, 255, 0), 100, playerOneInputs, 0, 10);
+  lion = new Predator(100, 100, 20, color(0, 255, 0), 85, playerTwoInputs, 0, 5);
+  tiger = new Predator(100, 100, 5, color(200, 200, 0), 40, playerThreeInputs, 0, 8);
 }
 
 // draw()

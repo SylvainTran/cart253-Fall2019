@@ -9,7 +9,7 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius, inputKeys, eatenPreyAmount) {
+  constructor(x, y, speed, fillColor, radius, inputKeys, eatenPreyAmount, speedMultiplier) {
     // Position
     this.x = x;
     this.y = y;
@@ -32,6 +32,8 @@ class Predator {
     this.rightKey = inputKeys.RIGHT;
     // Tracks how many prey the predator has eaten.
     this.eatenPreyAmount = eatenPreyAmount;
+    // For flexibility among predators' natural sprintingabilities
+    this.speedMultiplier = speedMultiplier;
     // Sprint key
     this.sprintKey = inputKeys.SPRINT;
   }
@@ -90,7 +92,7 @@ class Predator {
 
   */
   sprint() {
-    let boostedSpeed = this.speed * 10;
+    let boostedSpeed = this.speed * this.speedMultiplier;
     // Horizontal movement
     if (keyIsDown(this.leftKey)) {
       this.vx = -boostedSpeed;
