@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="classes">
+  <ClassDiagramComponents>
+    <Class name="Predator" package="" visibility="public" xPosition="28.0" yPosition="299.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Prey" package="" visibility="public" xPosition="344.0" yPosition="299.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="MobileElement" package="" visibility="public" xPosition="186.0" yPosition="165.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Element" package="" visibility="public" xPosition="186.0" yPosition="15.0">
+      <Fields>
+        <Field name="x" type="int" visibility="private"/>
+        <Field name="y" type="int" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <IsRelation name="is" source="Prey" target="MobileElement"/>
+    <IsRelation name="is" source="Predator" target="MobileElement"/>
+    <IsRelation name="is" source="MobileElement" target="Element"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

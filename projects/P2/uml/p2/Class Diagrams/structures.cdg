@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="structures">
+  <ClassDiagramComponents>
+    <Class name="Scene" package="" visibility="public" xPosition="140.0" yPosition="221.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="InputsHandler" package="" visibility="public" xPosition="405.0" yPosition="109.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Enum name="Inputs" package="" visibility="public" xPosition="405.0" yPosition="232.0">
+      <Literals/>
+    </Enum>
+    <Class name="SceneHandler" package="" visibility="public" xPosition="140.0" yPosition="109.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations/>
+</ClassDiagram>

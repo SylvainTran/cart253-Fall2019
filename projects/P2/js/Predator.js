@@ -4,16 +4,9 @@
 // controlled by the arrow keys. It can move around
 // the screen and consume Prey objects to maintain its health.
 
-class Predator {
-
-  // constructor
-  //
-  // Sets the initial values for the Predator's properties
-  // Either sets default values or uses the arguments provided
+class Predator extends MobileElement {
   constructor(x, y, speed, fillColor, radius) {
-    // Position
-    this.x = x;
-    this.y = y;
+    super(x, y);
     // Velocity and speed
     this.vx = 0;
     this.vy = 0;

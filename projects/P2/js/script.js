@@ -1,9 +1,7 @@
-// Predator-Prey Simulation
-// by Pippin Barr
-//
-// Creates a predator and three prey (of different sizes and speeds)
-// The predator chases the prey using the arrow keys and consumes them.
-// The predator loses health over time, so must keep eating to survive.
+/**
+  Garden of Eden: The First Settlements
+
+*/
 
 // Our predator
 let tiger;
@@ -13,6 +11,8 @@ let antelope;
 let zebra;
 let bee;
 
+// The tile map
+let tileMap;
 // setup()
 //
 // Sets up a canvas
@@ -23,6 +23,40 @@ function setup() {
   antelope = new Prey(100, 100, 10, color(255, 100, 10), 50);
   zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
   bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
+}
+
+/**
+  Creates a two-dimensional tile map so to be able
+  to organize the canvas elements and some screen
+  behaviours.
+
+*/
+function createTileMap() {
+  let tileMapSize = 100;
+  tileMap = [tileMapSize];
+
+  // Fill the tileMap array with an array in each of its
+  // elements.
+  for(let k = 0; k <= tileMap.length; k++) {
+    tileMap[k] = [];
+  }
+
+  // Fill each x, y position with a new Space, or a Wall type of static
+  // element.
+  for(let f = 0; f <= tileMap.length; f++) {
+    for(let g = 0; g <= tileMap.length; g++) {
+      // tileMap[f][g] = new Space();
+    }
+  }
+
+  // Just a test to check if we really have something inside the tileMap
+  for(let i = 0; i <= tileMap.length; i++) {
+    for(let j = 0; j <= tileMap.length; j++) {
+      if(j % 2 === 0) {
+          console.log(j);
+      }
+    }
+  }
 }
 
 // draw()

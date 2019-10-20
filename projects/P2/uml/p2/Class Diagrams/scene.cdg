@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="scene">
+  <ClassDiagramComponents>
+    <Class name="StaticElements" package="" visibility="public" xPosition="181.0" yPosition="162.0">
+      <Fields/>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Wall" package="" visibility="public" xPosition="23.0" yPosition="272.0">
+      <Fields>
+        <Field name="wallTypeId" type="Object" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Class name="Space" package="" visibility="public" xPosition="339.0" yPosition="272.0">
+      <Fields>
+        <Field name="spaceTypeId" type="Object" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+    <Enum name="wallTypeId" package="" visibility="public" xPosition="23.0" yPosition="421.0">
+      <Literals>
+        <Literal name="TOP_LEFT"/>
+        <Literal name="TOP_RIGHT"/>
+        <Literal name="BOTTOM_LEFT"/>
+        <Literal name="BOTTOM_RIGHT"/>
+        <Literal name="HORIZONTAL"/>
+        <Literal name="VERTICAL"/>
+      </Literals>
+    </Enum>
+    <Enum name="spaceTypeId" package="" visibility="public" xPosition="339.0" yPosition="421.0">
+      <Literals>
+        <Literal name="EMPTY"/>
+        <Literal name="START"/>
+        <Literal name="BUILD_LOCATION"/>
+        <Literal name="BATTLE_LOCATION"/>
+        <Literal name="CHANGE_SCENE"/>
+      </Literals>
+    </Enum>
+    <Class name="Element" package="" visibility="public" xPosition="181.0" yPosition="6.0">
+      <Fields>
+        <Field name="x" type="int" visibility="private"/>
+        <Field name="y" type="int" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods/>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <IsRelation name="is" source="StaticElements" target="Element"/>
+    <IsRelation name="is" source="Wall" target="StaticElements"/>
+    <IsRelation name="is" source="Space" target="StaticElements"/>
+    <HasRelation name="spaceTypeId" source="Space" target="spaceTypeId" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="wallTypeId" source="Wall" target="wallTypeId" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
