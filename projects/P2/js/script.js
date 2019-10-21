@@ -12,7 +12,7 @@ let zebra;
 let bee;
 
 // The tile map
-let tileMap;
+let tileMap = [];
 // setup()
 //
 // Sets up a canvas
@@ -34,27 +34,19 @@ function setup() {
 
 */
 function createTileMap() {
-  let tileMapSize = 100;
-  tileMap = [tileMapSize];
+  const tileMapSize = 100;
 
   // Fill the tileMap array with an array in each of its
   // elements.
-  for(let k = 0; k <= tileMap.length; k++) {
+  for(let k = 0; k <= tileMapSize; k++) {
     tileMap[k] = [];
-  }
-
-  // Fill each x, y position with a new Empty Space.
-  for(let f = 0; f <= tileMap.length; f++) {
-    for(let g = 0; g <= tileMap.length; g++) {
-      tileMap[f][g] = new Space(f, g, spaceTypeId.EMPTY);
-    }
-  }
-
-  // Just a test to check if we really have something inside the tileMap
-  for(let i = 0; i <= tileMap.length; i++) {
-    for(let j = 0; j <= tileMap.length; j++) {
-        console.log(tileMap[f][g].spacePositionX);
-        console.log(tileMap[f][g].spacePositionY);
+    for(let m = 0; m <= tileMapSize; m++) {
+      // We add empty spaces first
+      let newSpace = new Space(k, m, spaceTypeId.EMPTY);
+      tileMap[k][m] = newSpace;
+      //console.log("Coords X" + tileMap[k][m].spaceTypeId);
+      //console.log("Coords X" + tileMap[k][m].spacePositionX);
+      //console.log("Coords Y" + tileMap[k][m].spacePositionY);
     }
   }
 }
