@@ -23,6 +23,8 @@ function setup() {
   antelope = new Prey(100, 100, 10, color(255, 100, 10), 50);
   zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
   bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
+
+  createTileMap();
 }
 
 /**
@@ -41,20 +43,18 @@ function createTileMap() {
     tileMap[k] = [];
   }
 
-  // Fill each x, y position with a new Space, or a Wall type of static
-  // element.
+  // Fill each x, y position with a new Empty Space.
   for(let f = 0; f <= tileMap.length; f++) {
     for(let g = 0; g <= tileMap.length; g++) {
-      // tileMap[f][g] = new Space();
+      tileMap[f][g] = new Space(f, g, spaceTypeId.EMPTY);
     }
   }
 
   // Just a test to check if we really have something inside the tileMap
   for(let i = 0; i <= tileMap.length; i++) {
     for(let j = 0; j <= tileMap.length; j++) {
-      if(j % 2 === 0) {
-          console.log(j);
-      }
+        console.log(tileMap[f][g].spacePositionX);
+        console.log(tileMap[f][g].spacePositionY);
     }
   }
 }
