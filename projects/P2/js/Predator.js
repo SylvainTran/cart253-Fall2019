@@ -65,6 +65,7 @@ class Predator extends MobileElement {
   move() {
     // Erase the previous display of this predator
     this.clearPreviousDisplayTrail();
+    this.handleWrapping();
     // Update position
     this.x += this.vx;
     this.y += this.vy;
@@ -79,7 +80,7 @@ class Predator extends MobileElement {
     this.health = this.health - this.healthLossPerMove;
     this.health = constrain(this.health, 0, this.maxHealth);
     // Handle wrapping
-    this.handleWrapping();
+    //this.handleWrapping();
   }
 
   // handleWrapping
@@ -87,19 +88,13 @@ class Predator extends MobileElement {
   // Checks if the predator has gone off the canvas and
   // wraps it to the other side if so
   handleWrapping() {
-    // Off the left or right
-    if (this.x < 0) {
-      this.x += width;
+    const innerMargins = 50;
+    const radiusOffset = 1.5;
+    if (this.x - this.radius * radiusOffset < 0 + innerMargins || this.x + this.radius * radiusOffset > width - innerMargins * 2) {
+      this.vx = -this.vx * 10;
     }
-    else if (this.x > width) {
-      this.x -= width;
-    }
-    // Off the top or bottom
-    if (this.y < 0) {
-      this.y += height;
-    }
-    else if (this.y > height) {
-      this.y -= height;
+    if (this.y - this.radius * radiusOffset < 0 + innerMargins || this.y + this.radius * radiusOffset > height - innerMargins) {
+      this.vy = -this.vy * 10;
     }
   }
 

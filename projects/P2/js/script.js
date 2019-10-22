@@ -19,10 +19,10 @@ let tileMap = [];
 // Creates objects for the predator and three prey
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  tiger = new Predator(100, 100, 5, color(200, 200, 0), 40);
-  antelope = new Prey(100, 100, 10, color(255, 100, 10), 50);
-  zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
-  bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
+  tiger = new Predator(width / 2, height / 2, 5, color(200, 200, 0), 40);
+  antelope = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50);
+  zebra = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60);
+  bee = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10);
 
   background(120, 120, 120);
   createEmptyTileMap();

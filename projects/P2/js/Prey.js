@@ -4,16 +4,14 @@
 // on screen based on a noise() function. It can move around
 // the screen and be consumed by Predator objects.
 
-class Prey {
+class Prey extends MobileElement{
 
   // constructor
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
   constructor(x, y, speed, fillColor, radius) {
-    // Position
-    this.x = x;
-    this.y = y;
+    super(x, y);
     // Velocity and speed
     this.vx = 0;
     this.vy = 0;
@@ -46,11 +44,10 @@ class Prey {
 
     // Erase the previous display of this prey
     this.clearPreviousDisplayTrail();
+    this.handleWrapping();
     // Update position
     this.x += this.vx;
     this.y += this.vy;
-    //console.log("Queuing trailX" + this.x);
-    //console.log("Queuing trailY" + this.y);
 
     // Add to a queue structure the history of movements past and future
     // So to be able to keep a track and clear the trails
@@ -59,9 +56,7 @@ class Prey {
 
     // Update time properties
     this.tx += 0.01;
-    this.ty += 0.01;
-    // Handle wrapping
-    this.handleWrapping();
+    this.ty += 0.02;
   }
 
   // handleWrapping
@@ -69,19 +64,13 @@ class Prey {
   // Checks if the prey has gone off the canvas and
   // wraps it to the other side if so
   handleWrapping() {
-    // Off the left or right
-    if (this.x < 0) {
-      this.x += width;
+    const innerMargins = 50;
+    const radiusOffset = 1.5;
+    if (this.x - this.radius * radiusOffset < 0 + innerMargins || this.x + this.radius * radiusOffset > width - innerMargins * 2) {
+      this.vx = -this.vx * 50;
     }
-    else if (this.x > width) {
-      this.x -= width;
-    }
-    // Off the top or bottom
-    if (this.y < 0) {
-      this.y += height;
-    }
-    else if (this.y > height) {
-      this.y -= height;
+    if (this.y - this.radius * radiusOffset < 0 + innerMargins || this.y + this.radius * radiusOffset > height - innerMargins) {
+      this.vy = -this.vy * 50;
     }
   }
 

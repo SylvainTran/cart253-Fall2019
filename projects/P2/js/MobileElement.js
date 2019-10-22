@@ -37,19 +37,20 @@ class MobileElement extends Element {
   // Checks if the prey has gone off the canvas and
   // wraps it to the other side if so
   handleWrapping() {
+    const innerMargins = 50;
     // Off the left or right
-    if (this.x < 0) {
-      this.x += width;
+    if (this.x < 0 + innerMargins) {
+      this.x += width - innerMargins;
     }
-    else if (this.x > width) {
-      this.x -= width;
+    else if (this.x > width - innerMargins) {
+      this.x -= width + innerMargins;
     }
     // Off the top or bottom
-    if (this.y < 0) {
-      this.y += height;
+    if (this.y < 0 + innerMargins) {
+      this.y += height - innerMargins;
     }
-    else if (this.y > height) {
-      this.y -= height;
+    else if (this.y > height - innerMargins) {
+      this.y -= height + innerMargins;
     }
   }
 }

@@ -56,8 +56,8 @@ class Wall extends StaticElement {
   */
   drawWall() {
     push();
-    fill(0);
-    rect(this.x, this.y, 100, 100);
+    fill(120, 120, 120);
+    rect(this.x, this.y, 40, 40);
     pop();
   }
 }
