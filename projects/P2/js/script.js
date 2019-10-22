@@ -61,7 +61,7 @@ function createEmptyTileMap() {
 */
 function createWallElements() {
   const innerMargins = 50;
-  const tileMapWidth = windowWidth - innerMargins;
+  const tileMapWidth = windowWidth;
   const tileMapHeight = windowHeight - innerMargins;
   let newWallElement;
 
@@ -121,9 +121,6 @@ function mousePressed() {
 //
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
-  // Clear the background to black
-
-  // createWallElements();
   // Handle input for the tiger
   tiger.handleInput();
 
