@@ -38,7 +38,7 @@ function setup() {
 
 */
 function createEmptyTileMap() {
-  const tileMapSize = 420;
+  const tileMapSize = windowWidth;
 
   // Fill the tileMap array with an array in each of its
   // elements.
@@ -60,11 +60,13 @@ function createEmptyTileMap() {
 
 */
 function createWallElements() {
-  const tileMapSize = 420;
+  const innerMargins = 50;
+  const tileMapWidth = windowWidth - innerMargins;
+  const tileMapHeight = windowHeight - innerMargins;
   let newWallElement;
 
-  for(let k = 0; k <= tileMapSize; k++) {
-    for(let m = 0; m <= tileMapSize; m++) {
+  for(let k = 0; k <= tileMapWidth - innerMargins; k++) {
+    for(let m = 0; m <= tileMapHeight; m++) {
       // if we are at the borders of the tileMap:
       // xxxxxxxxxxxxxxxxx    <- 0
       // x               x
@@ -91,14 +93,14 @@ function createWallElements() {
         console.log("Wall at X: " + tileMap[k][m].wallPositionX);
         console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
       }
-      else if(m === tileMapSize) {
+      else if(m === tileMapHeight) {
         newWallElement = new Wall(k, m, wallTypeId.BORDER);
         tileMap[k][m] = newWallElement;
         tileMap[k][m].drawWall();
         console.log("Wall at X: " + tileMap[k][m].wallPositionX);
         console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
       }
-      else if(k === tileMapSize) {
+      else if(k === tileMapWidth - innerMargins) {
         newWallElement = new Wall(k, m, wallTypeId.BORDER);
         tileMap[k][m] = newWallElement;
         tileMap[k][m].drawWall();
