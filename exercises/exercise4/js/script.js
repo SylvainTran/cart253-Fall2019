@@ -110,7 +110,7 @@ let brutePaddle = {
   upKey: 87,
   downKey: 83,
   type: "BRUTE", // The paddle's type (brute, sniper or wizard)
-  bounceStrength: bounceStrength.MEDIUM,
+  bounceStrength: bounceStrength.STRONG,
   ability: "NONE"
 }
 
@@ -173,7 +173,6 @@ let wizardPaddleSelector = {
 
 // Basic definition of a left paddle object with its key properties of
 // position, size, velocity, and speed
-
 let leftPaddle = {
   x: 0,
   y: 0,
@@ -205,9 +204,10 @@ let rightPaddle = {
 // A variable to hold the beep sound we will play on bouncing
 let beepSFX;
 
-// preload()
-//
-// Loads the beep audio for the sound of bouncing
+/**
+  Loads the beep audio for the sound of bouncing
+
+*/
 function preload() {
   beepSFX = new Audio("assets/sounds/beep.wav");
   epicSong = loadSound("assets/sounds/Joshua Empyre - Epic Orchestra Loop.wav");
@@ -218,11 +218,12 @@ function preload() {
   fireBall.image = loadImage(fireBall.image);
 }
 
-// setup()
-//
-// Creates the canvas, sets up the drawing modes,
-// Sets initial values for paddle and fireBall positions
-// and velocities.
+/**
+  Creates the canvas, sets up the drawing modes,
+  Sets initial values for paddle and fireBall positions
+  and velocities.
+
+*/
 function setup() {
   // Create canvas and set drawing modes
   createCanvas(640, 480);
