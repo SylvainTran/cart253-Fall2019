@@ -28,7 +28,7 @@ function setup() {
   createEmptyTileMap();
   createWallElements();
 
-  noLoop();
+  //noLoop();
 }
 
 /**
@@ -83,29 +83,29 @@ function createWallElements() {
         newWallElement = new Wall(k, m, wallTypeId.BORDER);
         tileMap[k][m] = newWallElement;
         tileMap[k][m].drawWall();
-        console.log("Wall at X: " + tileMap[k][m].wallPositionX);
-        console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
+        //console.log("Wall at X: " + tileMap[k][m].wallPositionX);
+        //console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
       }
       else if(k === 0) { // Left border
         newWallElement = new Wall(k, m, wallTypeId.BORDER);
         tileMap[k][m] = newWallElement;
         tileMap[k][m].drawWall();
-        console.log("Wall at X: " + tileMap[k][m].wallPositionX);
-        console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
+        //console.log("Wall at X: " + tileMap[k][m].wallPositionX);
+        //console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
       }
       else if(m === tileMapHeight) {
         newWallElement = new Wall(k, m, wallTypeId.BORDER);
         tileMap[k][m] = newWallElement;
         tileMap[k][m].drawWall();
-        console.log("Wall at X: " + tileMap[k][m].wallPositionX);
-        console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
+        //console.log("Wall at X: " + tileMap[k][m].wallPositionX);
+        //console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
       }
       else if(k === tileMapWidth - innerMargins) {
         newWallElement = new Wall(k, m, wallTypeId.BORDER);
         tileMap[k][m] = newWallElement;
         tileMap[k][m].drawWall();
-        console.log("Wall at X: " + tileMap[k][m].wallPositionX);
-        console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
+        //console.log("Wall at X: " + tileMap[k][m].wallPositionX);
+        //console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
       }
     }
   }

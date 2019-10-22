@@ -24,6 +24,10 @@ class Predator extends MobileElement {
     this.downKey = DOWN_ARROW;
     this.leftKey = LEFT_ARROW;
     this.rightKey = RIGHT_ARROW;
+
+    // Movement history inside a queue
+    this.movementQueueX = new Queue(1);
+    this.movementQueueY = new Queue(1);
   }
 
   // handleInput
@@ -59,13 +63,18 @@ class Predator extends MobileElement {
   // Lowers health (as a cost of living)
   // Handles wrapping
   move() {
-    // Add to a queue structure the history of movements past and future
-    // So to be able to keep a track and clear the trails
-
-    
+    // Erase the previous display of this predator
+    this.clearPreviousDisplayTrail();
     // Update position
     this.x += this.vx;
     this.y += this.vy;
+
+    // Add to a queue structure the history of movements past and future
+    // So to be able to keep a track and clear the trails
+    this.movementQueueX.enqueue(this.x);
+    this.movementQueueY.enqueue(this.y);
+    //console.log("Queuing trailX" + this.x);
+    //console.log("Queuing trailY" + this.y);
     // Update health
     this.health = this.health - this.healthLossPerMove;
     this.health = constrain(this.health, 0, this.maxHealth);
@@ -134,8 +143,18 @@ class Predator extends MobileElement {
 
   */
   clearPreviousDisplayTrail() {
+    //console.log("Clearing last trail");
     // dequeue the first element of the position history queue, which
     // represents the last trail left
-
+    let lastPosX = this.movementQueueX.dequeue();
+    let lastPosY = this.movementQueueY.dequeue();
+    //console.log("Clearing last trailX " + lastPosX);
+    //console.log("Clearing last trailY " + lastPosY);
+    // Redraw over it with the same shape and fill color as bg
+    push();
+    noStroke();
+    fill(120, 120, 120);
+    ellipse(lastPosX, lastPosY, this.radius * 2.5);
+    pop();
   }
 }

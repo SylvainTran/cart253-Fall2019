@@ -27,6 +27,12 @@ class Prey {
     // Display properties
     this.fillColor = fillColor;
     this.radius = this.health;
+
+    this.lastPosX = this.x;
+    this.lastPosY = this.y;
+    // Movement history inside a queue
+    this.movementQueueX = new Queue(1);
+    this.movementQueueY = new Queue(1);
   }
 
   // move
@@ -37,9 +43,20 @@ class Prey {
     // Set velocity via noise()
     this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
     this.vy = map(noise(this.ty), 0, 1, -this.speed, this.speed);
+
+    // Erase the previous display of this prey
+    this.clearPreviousDisplayTrail();
     // Update position
     this.x += this.vx;
     this.y += this.vy;
+    //console.log("Queuing trailX" + this.x);
+    //console.log("Queuing trailY" + this.y);
+
+    // Add to a queue structure the history of movements past and future
+    // So to be able to keep a track and clear the trails
+    this.movementQueueX.enqueue(this.x);
+    this.movementQueueY.enqueue(this.y);
+
     // Update time properties
     this.tx += 0.01;
     this.ty += 0.01;
@@ -93,5 +110,25 @@ class Prey {
     this.health = this.maxHealth;
     // Default radius
     this.radius = this.health;
+  }
+
+  /**
+    Clears the previously drawn trail using the tileMap grid.
+
+  */
+  clearPreviousDisplayTrail() {
+    //console.log("Clearing last trail");
+    // dequeue the first element of the position history queue, which
+    // represents the last trail left
+    this.lastPosX = this.movementQueueX.dequeue();
+    this.lastPosY = this.movementQueueY.dequeue();
+    //console.log("Clearing last trailX " + this.lastPosX);
+    //console.log("Clearing last trailY " + this.lastPosY);
+    // Redraw over it with the same shape and fill color as bg
+    push();
+    noStroke();
+    fill(120, 120, 120);
+    ellipse(this.lastPosX, this.lastPosY, this.radius * 2.5);
+    pop();
   }
 }
