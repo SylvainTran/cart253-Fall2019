@@ -16,6 +16,10 @@ I noticed during Exercise 1 that ECMAScript6 (2015+) added some syntatic sugar f
 Bought a new book on Javascript -- Reliable Javascript. Reading Eloquent Javascript too. Feeling more motivated to learn again. Looking forward to apply new techniques and concepts in a bigger project.
 I also noted that I forget to commit after making some changes. Gotta re-learn how to integrate git to my workflow...
 
+Integrating TDD is hard when you ... don't know what you're doing! *Cough*.
+
+Project 2 is being done. Creating a tile map for this one, to organize my canvas better and do more advanced stuff.
+
 ### Javascript Study
 Eloquent JS
 ##
