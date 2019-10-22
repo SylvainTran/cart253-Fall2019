@@ -1,4 +1,5 @@
 /**
+  Continuity from P1: Garden Labyrinth idea
   Garden of Eden: The First Settlements
 
 */
@@ -13,10 +14,11 @@ let bee;
 
 // The tile map
 let tileMap = [];
-// setup()
-//
-// Sets up a canvas
-// Creates objects for the predator and three prey
+
+/**
+  Sets up a canvas and creates objects for the predator and three prey.
+
+*/
 function setup() {
   createCanvas(windowWidth, windowHeight);
   tiger = new Predator(width / 2, height / 2, 5, color(200, 200, 0), 40);
@@ -45,7 +47,7 @@ function createEmptyTileMap() {
   for(let k = 0; k <= tileMapSize; k++) {
     tileMap[k] = [];
     for(let m = 0; m <= tileMapSize; m++) {
-      // We add empty spaces first
+      // We add empty spaces first--TODO don't add where there is going to be walls
       let newSpace = new Space(k, m, spaceTypeId.EMPTY);
       tileMap[k][m] = newSpace;
       //console.log("Coords X" + tileMap[k][m].spaceTypeId);
@@ -117,9 +119,10 @@ function mousePressed() {
     //background(120, 120, 120);
 }
 
-// draw()
-//
-// Handles input, movement, eating, and displaying for the system's objects
+/**
+  Handles input, movement, eating, and displaying for the system's objects.
+
+*/
 function draw() {
   // Handle input for the tiger
   tiger.handleInput();

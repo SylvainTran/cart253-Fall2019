@@ -8,6 +8,7 @@
 class Space extends StaticElement {
   constructor(x, y, spaceTypeId) {
     super(x, y);
+    this.elementType = "SPACE"; // For external objects to check its type
     this.spaceTypeId = spaceTypeId;
   }
 

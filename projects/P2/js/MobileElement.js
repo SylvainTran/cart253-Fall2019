@@ -14,6 +14,14 @@ class MobileElement extends Element {
     this.ty = random(0, 1000); // we use random starting values
   }
 
+  /**
+    Moves the mobile element according to the tile map. This is what all the preys
+    and predators inherit by default.
+
+  */
+
+
+  
   // move
   //
   // Sets velocity based on the noise() function and the Prey's speed
