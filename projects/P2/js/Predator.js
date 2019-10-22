@@ -59,6 +59,10 @@ class Predator extends MobileElement {
   // Lowers health (as a cost of living)
   // Handles wrapping
   move() {
+    // Add to a queue structure the history of movements past and future
+    // So to be able to keep a track and clear the trails
+
+    
     // Update position
     this.x += this.vx;
     this.y += this.vy;
@@ -123,5 +127,15 @@ class Predator extends MobileElement {
     this.radius = this.health;
     ellipse(this.x, this.y, this.radius * 2);
     pop();
+  }
+
+  /**
+    Clears the previously drawn trail using the tileMap grid.
+
+  */
+  clearPreviousDisplayTrail() {
+    // dequeue the first element of the position history queue, which
+    // represents the last trail left
+
   }
 }

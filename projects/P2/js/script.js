@@ -24,17 +24,21 @@ function setup() {
   zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
   bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
 
-  createTileMap();
+  background(120, 120, 120);
+  createEmptyTileMap();
+  createWallElements();
+
+  noLoop();
 }
 
 /**
-  Creates a two-dimensional tile map so to be able
+  Creates a two-dimensional and empty tile map so to be able
   to organize the canvas elements and some screen
   behaviours.
 
 */
-function createTileMap() {
-  const tileMapSize = 100;
+function createEmptyTileMap() {
+  const tileMapSize = 420;
 
   // Fill the tileMap array with an array in each of its
   // elements.
@@ -51,13 +55,73 @@ function createTileMap() {
   }
 }
 
+/**
+  Fills the tiles in the tileMap with Wall static elements to create borders.
+
+*/
+function createWallElements() {
+  const tileMapSize = 420;
+  let newWallElement;
+
+  for(let k = 0; k <= tileMapSize; k++) {
+    for(let m = 0; m <= tileMapSize; m++) {
+      // if we are at the borders of the tileMap:
+      // xxxxxxxxxxxxxxxxx    <- 0
+      // x               x
+      // x               x
+      // xxxxxxxxxxxxxxxxx    <- tileMapSize
+
+      // replace that cell with a Wall Element
+      // if we are at k = 0, tileMapSize (top border)
+      // if we are at k = 0, and m to tileMapSize (left border)
+      // if we are at k to tileMapSize, m = tileMapSize (TODO cut the rest of the m) (lower border)
+      // if we are at k = tileMapSize, m to tileMapSize (right border)
+
+      if(m === 0) { // put a wall over the first row (top border)
+        newWallElement = new Wall(k, m, wallTypeId.BORDER);
+        tileMap[k][m] = newWallElement;
+        tileMap[k][m].drawWall();
+        console.log("Wall at X: " + tileMap[k][m].wallPositionX);
+        console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
+      }
+      else if(k === 0) { // Left border
+        newWallElement = new Wall(k, m, wallTypeId.BORDER);
+        tileMap[k][m] = newWallElement;
+        tileMap[k][m].drawWall();
+        console.log("Wall at X: " + tileMap[k][m].wallPositionX);
+        console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
+      }
+      else if(m === tileMapSize) {
+        newWallElement = new Wall(k, m, wallTypeId.BORDER);
+        tileMap[k][m] = newWallElement;
+        tileMap[k][m].drawWall();
+        console.log("Wall at X: " + tileMap[k][m].wallPositionX);
+        console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
+      }
+      else if(k === tileMapSize) {
+        newWallElement = new Wall(k, m, wallTypeId.BORDER);
+        tileMap[k][m] = newWallElement;
+        tileMap[k][m].drawWall();
+        console.log("Wall at X: " + tileMap[k][m].wallPositionX);
+        console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
+      }
+    }
+  }
+}
+
+function mousePressed() {
+    //alert("Mouse pressed");
+    //redraw();
+    //background(120, 120, 120);
+}
+
 // draw()
 //
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
   // Clear the background to black
-  background(0);
 
+  // createWallElements();
   // Handle input for the tiger
   tiger.handleInput();
 

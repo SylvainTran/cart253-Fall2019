@@ -9,7 +9,6 @@ class Space extends StaticElement {
   constructor(x, y, spaceTypeId) {
     super(x, y);
     this.spaceTypeId = spaceTypeId;
-    //this.spaceArray = [];
   }
 
   /**
