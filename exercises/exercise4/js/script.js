@@ -49,8 +49,8 @@ let brutePaddlePic;
 let wave1;
 let wave2;
 let scrollSpeed = 4;
-let x1 = 0;
-let x2;
+let firstBackgroundPosX = 0;
+let secondBackgroundPosX;
 
 // Player Score
 let score = {
@@ -708,17 +708,17 @@ function drawManaGauge(side, manaGain) {
 
 */
 function parallaxWaves() {
-  image(wave1, x1, height - wave1.height, wave1.width, wave1.height);
-  image(wave2, x2, 0, height - wave2.height, wave2.width, wave2.height);
+  image(wave1, firstBackgroundPosX, height - wave1.height, wave1.width, wave1.height);
+  image(wave2, secondBackgroundPosX, 0, height - wave2.height, wave2.width, wave2.height);
 
-  x1 -= scrollSpeed;
-  x2 -= scrollSpeed;
+  firstBackgroundPosX -= scrollSpeed;
+  secondBackgroundPosX -= scrollSpeed;
 
-  if (x1 < -width) {
-    x1 = width;
+  if (firstBackgroundPosX < -width) {
+    firstBackgroundPosX = width;
   }
-  if (x2 < -width) {
-    x2 = width;
+  if (secondBackgroundPosX < -width) {
+    secondBackgroundPosX = width;
   }
 }
 
