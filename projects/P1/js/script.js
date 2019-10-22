@@ -88,7 +88,7 @@ let otherGenderFill = 255;
 
 // Perlin noise time values
 let tx = 1;
-let ty = 1;
+let ty = 5;
 
 // Amount of health obtained per frame of "eating" (overlapping) the otherGender
 let eatHealth = 10;
@@ -237,6 +237,7 @@ function draw() {
     showGameOver();
   }
   handleInput();
+  handleSprint();
 }
 
 /**
@@ -260,36 +261,19 @@ function keyPressed() {
 
 */
 function handleInput() {
-  let maxBoostedSpeed = playerMaxSpeed * 10;
-
   imageMode(CENTER);
-  if(mouseIsPressed) {
+  if (mouseIsPressed) {
     // TODO add mobile responsiveness
   }
-
   // Check for horizontal movement
-  if (keyIsDown(LEFT_ARROW) && keyIsDown(SHIFT)) {
-    playerVX = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
-    image(adamLeft, playerX, playerY, playerRadius * 10);
-  } else if (keyIsDown(LEFT_ARROW)) {
+  if (keyIsDown(LEFT_ARROW)) {
     playerVX = -playerMaxSpeed;
     image(adamLeft, playerX, playerY, playerRadius * 5);
-  } else if (keyIsDown(RIGHT_ARROW) && keyIsDown(SHIFT)) {
-    playerVX = constrain(playerMaxSpeed, maxBoostedSpeed, maxBoostedSpeed);
-    image(adamRight, playerX, playerY, playerRadius * 10);
   } else if (keyIsDown(RIGHT_ARROW)) {
     playerVX = playerMaxSpeed;
     image(adamRight, playerX, playerY, playerRadius * 5);
-  }
-  // Check for vertical movement
-  else if (keyIsDown(UP_ARROW) && keyIsDown(SHIFT)) {
-    playerVY = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
-    image(adamIdle, playerX, playerY, playerRadius * 5);
   } else if (keyIsDown(UP_ARROW)) {
     playerVY = -playerMaxSpeed;
-    image(adamIdle, playerX, playerY, playerRadius * 5);
-  } else if (keyIsDown(DOWN_ARROW) && keyIsDown(SHIFT)) {
-    playerVY = constrain(playerMaxSpeed, maxBoostedSpeed, maxBoostedSpeed);
     image(adamIdle, playerX, playerY, playerRadius * 5);
   } else if (keyIsDown(DOWN_ARROW)) {
     playerVY = playerMaxSpeed;
@@ -300,6 +284,35 @@ function handleInput() {
     playerVY = 0;
   }
 
+}
+
+
+/**
+  Handles sprinting with the allocated key (SHIFT here) for sprinting.
+  Both horizontal and vertical velocities can be changed (two if-then blocks).
+
+*/
+function handleSprint() {
+  let maxBoostedSpeed = playerMaxSpeed * 10;
+
+  // Check for horizontal movement
+  if (keyIsDown(LEFT_ARROW) && keyIsDown(SHIFT)) {
+    playerVX = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
+    image(adamLeft, playerX, playerY, playerRadius * 10);
+  }
+  else if (keyIsDown(RIGHT_ARROW) && keyIsDown(SHIFT)) {
+    playerVX = constrain(playerMaxSpeed, maxBoostedSpeed, maxBoostedSpeed);
+    image(adamRight, playerX, playerY, playerRadius * 10);
+  }
+  // Check for vertical movement.
+  if (keyIsDown(UP_ARROW) && keyIsDown(SHIFT)) {
+    playerVY = constrain(playerMaxSpeed, -maxBoostedSpeed, -maxBoostedSpeed);
+    image(adamIdle, playerX, playerY, playerRadius * 5);
+  }
+  else if (keyIsDown(DOWN_ARROW) && keyIsDown(SHIFT)) {
+    playerVY = constrain(playerMaxSpeed, maxBoostedSpeed, maxBoostedSpeed);
+    image(adamIdle, playerX, playerY, playerRadius * 5);
+  }
 }
 
 /**
@@ -452,7 +465,7 @@ function checkPlayerChangedScene(currentScene) {
       sceneExit("RIGHT");
       break;
     case "playgrounds2": // At this point the game is over
-      if(otherGenderEaten === 7) {
+      if (otherGenderEaten === 7) {
         gameOver = true;
       }
       break;
@@ -725,7 +738,7 @@ function makeScene(currScene, backgroundColor, tSize, textColor, textContent, xP
   text(textContent, xPos, yPos);
   pop();
 
-  if(currentScene === "intro1" || currentScene === "intro2" || currentScene === "intro3" ) {
+  if (currentScene === "intro1" || currentScene === "intro2" || currentScene === "intro3") {
     fill(255);
     textSize(42);
     text("Press Enter to continue.", 30, height / 1.2);
@@ -775,10 +788,18 @@ class Queue {
     return this.items.length === 0;
   }
 
+  /**
+    Checks if the queue is full.
+
+  */
   isFull() {
     return this.items.length == this.maxItems;
   }
 
+  /**
+    Push a new element in the queue if it isn't full already.
+
+  */
   enqueue(element) {
     if (this.isFull()) {
       alert("Full");
@@ -788,6 +809,10 @@ class Queue {
     }
   }
 
+  /**
+      Remove the first element from the queue if it isn't empty already.
+
+  */
   dequeue() {
     if (this.isEmpty()) {
       return "Queue is empty: underflow.";
@@ -796,6 +821,10 @@ class Queue {
     }
   }
 
+  /**
+    Returns the first element in the queue.
+
+  */
   front() {
     if (this.isEmpty()) {
       return "Queue is empty of elements.";
@@ -804,6 +833,10 @@ class Queue {
     }
   }
 
+  /**
+      Returns the last element in the queue.
+
+  */
   peek() {
     return this.items[this.items.length - 1];
   }
@@ -823,7 +856,7 @@ function resetRandomPositions() {
 
 
   //Grow the grass with the new random values.
-  for(let i = 0; i <= MAX_GRASS; i++) {
+  for (let i = 0; i <= MAX_GRASS; i++) {
     //grassPatches[i].grow();
   }
 }
@@ -836,13 +869,13 @@ function grassGenerator() {
   let newGrassPatch;
 
   // Fill a new grass patch with grass
-  for(let i = 0; i <= MAX_GRASS; i++) {
+  for (let i = 0; i <= MAX_GRASS; i++) {
     newGrassPatch = new Grass(randomPosX, randomPosY, grass.width);
     grassPatches[i] = newGrassPatch;
   }
 
   // Moves the grass randomly on the x-axis
-  for(let j = 0; j <= MAX_GRASS; j++) {
+  for (let j = 0; j <= MAX_GRASS; j++) {
     grassPatches[j].decalX(random(0, 1));
   }
 }
@@ -852,34 +885,34 @@ function grassGenerator() {
 
 */
 class Grass {
-    constructor(x, y, w) {
-      this.x = x;
-      this.y = y;
-      this.w = w;
+  constructor(x, y, w) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+  }
+
+  /**
+    Should move left and right every second... Not fully implemented yet.
+
+  */
+  decalX(randomDirection) {
+    if (randomDirection == 0) {
+      setTimeout(image(grass, this.x += 50, this.y, this.w), 1000);
+      setTimeout(image(grass, this.x -= 50, this.y, this.w), 1000);
+    } else {
+      setTimeout(image(grass, this.x -= 50, this.y, this.w), 1000);
+      setTimeout(image(grass, this.x += 50, this.y, this.w), 1000);
     }
+  }
 
-    /**
-      Should move left and right every second... Not fully implemented yet.
+  /**
+    Displays the grass.
 
-    */
-    decalX(randomDirection){
-      if(randomDirection == 0) {
-        setTimeout(image(grass, this.x += 50, this.y, this.w), 1000);
-        setTimeout(image(grass, this.x -= 50, this.y, this.w), 1000);
-      } else {
-        setTimeout(image(grass, this.x -= 50, this.y, this.w), 1000);
-        setTimeout(image(grass, this.x += 50, this.y, this.w), 1000);
-      }
-    }
-
-    /**
-      Displays the grass.
-
-    */
-    grow() {
-      imageMode(CENTER);
-      image(grass, this.x, this.y, this.w);
-    }
+  */
+  grow() {
+    imageMode(CENTER);
+    image(grass, this.x, this.y, this.w);
+  }
 }
 
 /**
@@ -910,7 +943,7 @@ function restartGame() {
   playAsAdam = true;
   playAsEve = false;
 
-  if(backgroundMusic.isLooping()) {
+  if (backgroundMusic.isLooping()) {
     backgroundMusic.stop();
     setTimeout(backgroundMusic.loop(), 3000);
   }
