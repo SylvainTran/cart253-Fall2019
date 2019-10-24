@@ -6,5 +6,7 @@
 class StaticElement extends Element {
   constructor(x, y) {
     super(x, y);
+    //Recognizable property
+    this.elementType = "staticElement";
   }
 }

@@ -13,15 +13,19 @@ class TileMapExplorer {
 
   /**
     Charts walkable tiles and stores them in an array.
+    // TODO pass tile Map size in a better way
 
   */
-  chartTileMap(tileMap) {
+  chartTileMap(tileMapSize) {
     // iterate through the tileMap, starting at location 0, 0 (top left).
     // chart all the walkable spaces on this map. -> decorator class to do this only?
     for(let k = 0; k <= tileMapSize; k++) {
-      tileMap[k] = [];
+      this.tileMap[k] = [];
       for(let m = 0; m <= tileMapSize; m++) {
-        if(tileMap[k][m].elementType === "SPACE") {
+        //console.log(this.tileMap[k][m].x);
+        //console.log(this.tileMap[k][m].y);
+        if(this.tileMap[k][m].elementType === spaceTypeId.EMPTY) {
+          alert("Static Element");
           // we're on a space element. Is it walkable? Occupied?
         }
         //console.log("Coords X" + tileMap[k][m].spaceTypeId);

@@ -5,7 +5,7 @@
 class Wall extends StaticElement {
   constructor(x, y, wallTypeId) {
     super(x, y);
-    this.elementType = "WALL";
+    this.elementType = wallTypeId.BORDER;
     this.wallTypeId = wallTypeId;
   }
 

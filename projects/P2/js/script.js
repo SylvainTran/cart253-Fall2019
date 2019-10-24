@@ -27,8 +27,17 @@ function setup() {
   bee = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10);
 
   background(120, 120, 120);
-  createEmptyTileMap();
-  createWallElements();
+
+  const tileMapSize = windowWidth;
+  const innerMargins = 50;
+  const tileMapWidth = tileMapSize;
+  const tileMapHeight = windowHeight - innerMargins;
+
+  createEmptyTileMap(tileMapSize);
+  createWallElements(tileMapWidth, tileMapHeight);
+
+  let tileMapExplorer = new TileMapExplorer(tileMap);
+  //tileMapExplorer.chartTileMap(tileMapSize);
 
   //noLoop();
 }
@@ -39,20 +48,18 @@ function setup() {
   behaviours.
 
 */
-function createEmptyTileMap() {
-  const tileMapSize = windowWidth;
-
+function createEmptyTileMap(tileMapSize) {
   // Fill the tileMap array with an array in each of its
   // elements.
   for(let k = 0; k <= tileMapSize; k++) {
     tileMap[k] = [];
     for(let m = 0; m <= tileMapSize; m++) {
       // We add empty spaces first--TODO don't add where there is going to be walls
-      let newSpace = new Space(k, m, spaceTypeId.EMPTY);
+      let newSpace = new Space(k, m);
       tileMap[k][m] = newSpace;
-      //console.log("Coords X" + tileMap[k][m].spaceTypeId);
-      //console.log("Coords X" + tileMap[k][m].spacePositionX);
-      //console.log("Coords Y" + tileMap[k][m].spacePositionY);
+      console.log("Coords X" + tileMap[k][m].spaceTypeId);
+      console.log("Coords X" + tileMap[k][m].spacePositionX);
+      console.log("Coords Y" + tileMap[k][m].spacePositionY);
     }
   }
 }
@@ -61,13 +68,10 @@ function createEmptyTileMap() {
   Fills the tiles in the tileMap with Wall static elements to create borders.
 
 */
-function createWallElements() {
-  const innerMargins = 50;
-  const tileMapWidth = windowWidth;
-  const tileMapHeight = windowHeight - innerMargins;
+function createWallElements(tileMapWidth, tileMapHeight) {
   let newWallElement;
 
-  for(let k = 0; k <= tileMapWidth - innerMargins; k++) {
+  for(let k = 0; k <= tileMapWidth - 50; k++) {
     for(let m = 0; m <= tileMapHeight; m++) {
       // if we are at the borders of the tileMap:
       // xxxxxxxxxxxxxxxxx    <- 0
@@ -102,7 +106,7 @@ function createWallElements() {
         //console.log("Wall at X: " + tileMap[k][m].wallPositionX);
         //console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
       }
-      else if(k === tileMapWidth - innerMargins) {
+      else if(k === tileMapWidth - 50) {
         newWallElement = new Wall(k, m, wallTypeId.BORDER);
         tileMap[k][m] = newWallElement;
         tileMap[k][m].drawWall();

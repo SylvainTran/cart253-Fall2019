@@ -4,12 +4,10 @@
   as a soil spot and checkpoints for settlements' build locations.
 
 */
-
 class Space extends StaticElement {
-  constructor(x, y, spaceTypeId) {
+  constructor(x, y) {
     super(x, y);
-    this.elementType = "SPACE"; // For external objects to check its type
-    this.spaceTypeId = spaceTypeId;
+    this.elementType = spaceTypeId.EMPTY;
   }
 
   /**
