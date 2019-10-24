@@ -7,6 +7,22 @@ class StaticElement extends Element {
   constructor(x, y) {
     super(x, y);
     //Recognizable property
-    this.elementType = "staticElement";
+    this.elementType = spaceTypeId.DEFAULT;
+  }
+
+  /**
+    Returns the position (x) of this space object.
+
+  */
+  get elementPositionX() {
+    return this.x;
+  }
+
+  /**
+    Returns the position (y) of this space object.
+
+  */
+  get elementPositionY() {
+    return this.y;
   }
 }

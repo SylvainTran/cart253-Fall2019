@@ -21,6 +21,7 @@ let tileMap = [];
 */
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  //createCanvas(640, 640);
   tiger = new Predator(width / 2, height / 2, 5, color(200, 200, 0), 40);
   antelope = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50);
   zebra = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60);
@@ -28,16 +29,19 @@ function setup() {
 
   background(120, 120, 120);
 
-  const tileMapSize = windowWidth;
-  const innerMargins = 50;
+  const tileMapSize = 640;
+  //const innerMargins = 50;
   const tileMapWidth = tileMapSize;
-  const tileMapHeight = windowHeight - innerMargins;
+  const tileMapHeight = 640;
 
   createEmptyTileMap(tileMapSize);
   createWallElements(tileMapWidth, tileMapHeight);
 
+  console.log(tileMapSize);
+  console.log(tileMapHeight);
+  console.log(tileMap.length);
   let tileMapExplorer = new TileMapExplorer(tileMap);
-  //tileMapExplorer.chartTileMap(tileMapSize);
+  tileMapExplorer.chartTileMap(tileMapSize);
 
   //noLoop();
 }
@@ -51,15 +55,18 @@ function setup() {
 function createEmptyTileMap(tileMapSize) {
   // Fill the tileMap array with an array in each of its
   // elements.
-  for(let k = 0; k <= tileMapSize; k++) {
+  console.log("Creating an empty tile map. Size = " + tileMapSize);
+  for(let k = 0; k < tileMapSize; k++) {
     tileMap[k] = [];
-    for(let m = 0; m <= tileMapSize; m++) {
+    for(let m = 0; m < tileMapSize; m++) {
       // We add empty spaces first--TODO don't add where there is going to be walls
       let newSpace = new Space(k, m);
       tileMap[k][m] = newSpace;
-      console.log("Coords X" + tileMap[k][m].spaceTypeId);
-      console.log("Coords X" + tileMap[k][m].spacePositionX);
-      console.log("Coords Y" + tileMap[k][m].spacePositionY);
+      //console.log("Coords X" + tileMap[k][m].spacePositionX);
+      //console.log("Coords Y" + tileMap[k][m].spacePositionY);
+      if(k === 639 && m === 639){
+        console.log("End reached: " + k + " " + m);
+      }
     }
   }
 }
@@ -71,8 +78,8 @@ function createEmptyTileMap(tileMapSize) {
 function createWallElements(tileMapWidth, tileMapHeight) {
   let newWallElement;
 
-  for(let k = 0; k <= tileMapWidth - 50; k++) {
-    for(let m = 0; m <= tileMapHeight; m++) {
+  for(let k = 0; k < tileMapWidth; k++) {
+    for(let m = 0; m < tileMapHeight; m++) {
       // if we are at the borders of the tileMap:
       // xxxxxxxxxxxxxxxxx    <- 0
       // x               x
@@ -86,28 +93,28 @@ function createWallElements(tileMapWidth, tileMapHeight) {
       // if we are at k = tileMapSize, m to tileMapSize (right border)
 
       if(m === 0) { // put a wall over the first row (top border)
-        newWallElement = new Wall(k, m, wallTypeId.BORDER);
+        newWallElement = new Wall(k, m);
         tileMap[k][m] = newWallElement;
         tileMap[k][m].drawWall();
-        //console.log("Wall at X: " + tileMap[k][m].wallPositionX);
-        //console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
+        console.log("Wall at X: " + tileMap[k][m].elementPositionX);
+        console.log("Wall at Y: " + tileMap[k][m].elementPositionY);
       }
       else if(k === 0) { // Left border
-        newWallElement = new Wall(k, m, wallTypeId.BORDER);
+        newWallElement = new Wall(k, m);
         tileMap[k][m] = newWallElement;
         tileMap[k][m].drawWall();
         //console.log("Wall at X: " + tileMap[k][m].wallPositionX);
         //console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
       }
-      else if(m === tileMapHeight) {
-        newWallElement = new Wall(k, m, wallTypeId.BORDER);
+      else if(m === tileMapHeight - 1) { // Bottom border
+        newWallElement = new Wall(k, m);
         tileMap[k][m] = newWallElement;
         tileMap[k][m].drawWall();
         //console.log("Wall at X: " + tileMap[k][m].wallPositionX);
         //console.log("Wall at Y: " + tileMap[k][m].wallPositionY);
       }
-      else if(k === tileMapWidth - 50) {
-        newWallElement = new Wall(k, m, wallTypeId.BORDER);
+      else if(k === tileMapWidth - 1) { // Right border
+        newWallElement = new Wall(k, m);
         tileMap[k][m] = newWallElement;
         tileMap[k][m].drawWall();
         //console.log("Wall at X: " + tileMap[k][m].wallPositionX);

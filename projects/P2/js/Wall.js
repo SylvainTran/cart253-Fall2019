@@ -3,52 +3,9 @@
 
 */
 class Wall extends StaticElement {
-  constructor(x, y, wallTypeId) {
+  constructor(x, y) {
     super(x, y);
-    this.elementType = wallTypeId.BORDER;
-    this.wallTypeId = wallTypeId;
-  }
-
-  /**
-    Returns the space type id for this space object.
-
-
-  get wallTypeId() {
-    return this.wallTypeId;
-  }
-  */
-
-  /**
-    Returns the space type id for this space object.
-
-
-  set wallTypeId(wallTypeId) {
-    this.wallTypeId = wallTypeId;
-  }
-  */
-
-  /**
-    Returns the position (x) of this space object.
-
-  */
-  get wallPositionX() {
-    return this.x;
-  }
-
-  /**
-    Returns the position (y) of this space object.
-
-  */
-  get wallPositionY() {
-    return this.y;
-  }
-
-  /**
-    Returns the current array of generated spaces in the world.
-
-  */
-  get wallArray() {
-
+    this.elementType = spaceTypeId.BORDER;
   }
 
   /**
@@ -57,8 +14,9 @@ class Wall extends StaticElement {
   */
   drawWall() {
     push();
-    fill(120, 120, 120);
-    rect(this.x, this.y, 40, 40);
+    rectMode(CENTER);
+    fill(255, 0, 0);
+    rect(this.x, this.y, 20, 20);
     pop();
   }
 }
