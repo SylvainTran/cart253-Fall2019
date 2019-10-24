@@ -14,6 +14,7 @@ let bee;
 
 // The tile map
 let tileMap = [];
+let tileMapExplorer;
 
 /**
   Sets up a canvas and creates objects for the predator and three prey.
@@ -29,10 +30,10 @@ function setup() {
 
   background(120, 120, 120);
 
-  const tileMapSize = 640;
+  const tileMapSize = windowWidth;
   //const innerMargins = 50;
   const tileMapWidth = tileMapSize;
-  const tileMapHeight = 640;
+  const tileMapHeight = windowHeight;
 
   createEmptyTileMap(tileMapSize);
   createWallElements(tileMapWidth, tileMapHeight);
@@ -40,8 +41,8 @@ function setup() {
   console.log(tileMapSize);
   console.log(tileMapHeight);
   console.log(tileMap.length);
-  let tileMapExplorer = new TileMapExplorer(tileMap);
-  tileMapExplorer.chartTileMap(tileMapSize);
+  tileMapExplorer = new TileMapExplorer(tileMap);
+  //tileMapExplorer.chartTileMap(tileMapSize);
 
   //noLoop();
 }
@@ -124,12 +125,23 @@ function createWallElements(tileMapWidth, tileMapHeight) {
   }
 }
 
-function mousePressed() {
-    //alert("Mouse pressed");
-    //redraw();
-    //background(120, 120, 120);
+/**
+  Create a new settlement inside the canvas at mouse position X, Y.
+
+*/
+function createSettlement(tileMapWidth, tileMapHeight) {
+  let newSettlement;
+  newSettlement = new Settlement(mouseX, mouseY);
+  newSettlement.drawSettlement();
 }
 
+function mousePressed() {
+    createSettlement(windowWidth, windowHeight);
+}
+
+function keyPressed() {
+    // Call the predators and preys' tile-based movement (custom keyPressed)
+}
 /**
   Handles input, movement, eating, and displaying for the system's objects.
 
@@ -138,11 +150,16 @@ function draw() {
   // Handle input for the tiger
   tiger.handleInput();
 
-  // Move all the "animals"
+  // Check neighbouring tiles
+  let checkAntelope = antelope.checkNeighbourTiles(tileMapExplorer);
+  let checkZebra = zebra.checkNeighbourTiles(tileMapExplorer);
+  let checkBee = bee.checkNeighbourTiles(tileMapExplorer);
+
+  // Move all the "animals" if the next tiles are ok to move to.
   tiger.move();
-  antelope.move();
-  zebra.move();
-  bee.move();
+  antelope.move(checkAntelope);
+  zebra.move(checkZebra);
+  bee.move(checkBee);
 
   // Handle the tiger eating any of the prey
   tiger.handleEating(antelope);

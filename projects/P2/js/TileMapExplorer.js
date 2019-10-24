@@ -24,10 +24,17 @@ class TileMapExplorer {
       for(let m = 0; m < tileMapSize; m++) {
         if(this.tileMap[k][m].elementType === spaceTypeId.EMPTY) {
           // we're on a space element. Is it walkable? Occupied?
-          // starting at the mobile element's current position x, y, check if the desired movement
+          // Add to the list of empties (walkable)
+          this.walkableTiles.push(this.tileMap[k][m]);
         }
       }
     }
+
+    // test the walkable tiles.
+    for(let i = 0; i <= this.walkableTiles.length; i++) {
+        console.log("Walkable tile: " + this.walkableTiles[i].elementPositionX);
+    }
+    // starting at the mobile element's current position x, y, check if the desired movement
     // starting at the mobile element's current position x, y, check if the desired movement
     // is walkable and un-occupied by something (e.g., a building or another person)
     // the desired movement is always 100px in stride in all four directions (not diagonal) from current position x, y

@@ -37,26 +37,61 @@ class Prey extends MobileElement{
   //
   // Sets velocity based on the noise() function and the Prey's speed
   // Moves based on the resulting velocity and handles wrapping
-  move() {
-    // Set velocity via noise()
-    this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
-    this.vy = map(noise(this.ty), 0, 1, -this.speed, this.speed);
-
+  move(canMove) {
     // Erase the previous display of this prey
     this.clearPreviousDisplayTrail();
-    this.handleWrapping();
-    // Update position
-    this.x += this.vx;
-    this.y += this.vy;
+    //this.handleWrapping();
 
-    // Add to a queue structure the history of movements past and future
-    // So to be able to keep a track and clear the trails
-    this.movementQueueX.enqueue(this.x);
-    this.movementQueueY.enqueue(this.y);
-
-    // Update time properties
+    if(canMove) {
+      // Update position
+      this.x += this.vx;
+      this.y += this.vy;
+      // Add to a queue structure the history of movements past and future
+      // So to be able to keep a track and clear the trails
+      this.movementQueueX.enqueue(this.x);
+      this.movementQueueY.enqueue(this.y);
+    }
+    else {
+      this.handleWrapping();
+      this.x += this.vx;
+      this.y += this.vy;
+      this.movementQueueX.enqueue(this.x);
+      this.movementQueueY.enqueue(this.y);
+    }
     this.tx += 0.01;
     this.ty += 0.02;
+  }
+  
+
+  /**
+    Check if the up, down, left, right tiles around the prey or predator
+    trying to move is moveable to (empty space).
+
+  */
+  checkNeighbourTiles(tileMapExplorer) {
+    //this.movementQueueX()
+    this.vx = floor(map(noise(this.tx), 0, 1, -this.speed, this.speed));
+    this.vy = floor(map(noise(this.ty), 0, 1, -this.speed, this.speed));
+
+    let currentX = this.x;
+    let currentY = this.y;
+
+    let anticipatedX = floor(currentX += this.vx);
+    let anticipatedY = floor(currentY += this.vy);
+
+    let constrainedX = constrain(anticipatedX, 0, 639);
+    let constrainedY = constrain(anticipatedY, 0, 639);
+
+    if(tileMapExplorer.tileMap[constrainedX][constrainedY].elementType === spaceTypeId.EMPTY) {
+      //console.log("Ok moving to empty tile...");
+      return true;
+    }
+    else {
+      //console.log("Not moving there... So it's a wall. Bouncing from there instead.");
+      //console.log(tileMapExplorer.tileMap[constrainedX][constrainedY].elementPositionX);
+      //console.log(tileMapExplorer.tileMap[constrainedX][constrainedY].elementPositionY);
+      return false;
+    }
   }
 
   // handleWrapping
@@ -67,11 +102,21 @@ class Prey extends MobileElement{
     const innerMargins = 50;
     const radiusOffset = 1.5;
     if (this.x - this.radius * radiusOffset < 0 + innerMargins || this.x + this.radius * radiusOffset > width - innerMargins * 2) {
+      console.log("handling non-BORDER wrapping");
       this.vx = -this.vx * 50;
     }
     if (this.y - this.radius * radiusOffset < 0 + innerMargins || this.y + this.radius * radiusOffset > height - innerMargins) {
+      console.log("handling non-BORDER wrapping");
       this.vy = -this.vy * 50;
     }
+    // if (this.x - this.radius * radiusOffset <= 0 || this.x + this.radius * radiusOffset >= 639) {
+    //   //alert("handling BORDER wrapping X");
+    //   this.vx = -this.vx * 50;
+    // }
+    // if (this.y - this.radius * radiusOffset <= 0 || this.y + this.radius * radiusOffset >= 639) {
+    //   //alert("handling BORDER wrapping Y");
+    //   this.vy = -this.vy * 50;
+    // }
   }
 
   // display
