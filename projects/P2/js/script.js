@@ -15,6 +15,7 @@ let bee;
 // The tile map
 let tileMap = [];
 let tileMapExplorer;
+const TILE_SIZE = 100;
 
 /**
   Sets up a canvas and creates objects for the predator and three prey.
@@ -141,6 +142,7 @@ function mousePressed() {
 
 function keyPressed() {
     // Call the predators and preys' tile-based movement (custom keyPressed)
+    tiger.keyPressed(TILE_SIZE);
 }
 /**
   Handles input, movement, eating, and displaying for the system's objects.

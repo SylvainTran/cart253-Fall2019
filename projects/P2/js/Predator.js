@@ -38,21 +38,17 @@ class Predator extends MobileElement {
     // Horizontal movement
     if (keyIsDown(this.leftKey)) {
       this.vx = -this.speed;
-    }
-    else if (keyIsDown(this.rightKey)) {
+    } else if (keyIsDown(this.rightKey)) {
       this.vx = this.speed;
-    }
-    else {
+    } else {
       this.vx = 0;
     }
     // Vertical movement
     if (keyIsDown(this.upKey)) {
       this.vy = -this.speed;
-    }
-    else if (keyIsDown(this.downKey)) {
+    } else if (keyIsDown(this.downKey)) {
       this.vy = this.speed;
-    }
-    else {
+    } else {
       this.vy = 0;
     }
   }
@@ -125,12 +121,8 @@ class Predator extends MobileElement {
   // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
-    push();
-    noStroke();
-    fill(this.fillColor);
     this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
-    pop();
+    image(avatarPic, this.x, this.y, this.radius * 2);
   }
 
   /**
@@ -151,5 +143,25 @@ class Predator extends MobileElement {
     fill(120, 120, 120);
     ellipse(lastPosX, lastPosY, this.radius * 2.5);
     pop();
+  }
+
+  /**
+    Tile-based movement upon keyPressed.
+
+  */
+  keyPressed(TILE_SIZE) {
+    if(keyCode  === LEFT_ARROW) {
+      this.x -= TILE_SIZE;
+    }
+    else if(keyCode === RIGHT_ARROW) {
+      this.x += TILE_SIZE;
+    }
+
+    if(keyCode === UP_ARROW) {
+      this.y -= TILE_SIZE;
+    }
+    else if(keyCode === DOWN_ARROW) {
+      this.y += TILE_SIZE;
+    }
   }
 }

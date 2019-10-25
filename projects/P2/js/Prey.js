@@ -61,7 +61,6 @@ class Prey extends MobileElement{
     this.tx += 0.01;
     this.ty += 0.02;
   }
-  
 
   /**
     Check if the up, down, left, right tiles around the prey or predator
