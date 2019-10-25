@@ -60,7 +60,7 @@ class Prey {
   }
 
   /**
-   Draw the prey as an ellipse on the canvas
+   Draw the prey on the canvas
    with a radius the same size as its current health.
 
    */

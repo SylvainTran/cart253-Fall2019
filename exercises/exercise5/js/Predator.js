@@ -149,7 +149,7 @@ class Predator {
   }
 
   /**
-    Draw the predator as an ellipse on the canvas
+    Draw the predator on the canvas
     with a radius the same size as its current health.
 
   */
