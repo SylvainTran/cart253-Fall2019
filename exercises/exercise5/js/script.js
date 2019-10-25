@@ -1,9 +1,13 @@
-// Predator-Prey Simulation
-// by Pippin Barr
-//
-// Creates a predator and three prey (of different sizes and speeds)
-// The predator chases the prey using the arrow keys and consumes them.
-// The predator loses health over time, so must keep eating to survive.
+/**
+  Author: Sylvain Tran
+
+  Goal of program: Modified version of predator vs. preys by Dr. Pippin Bar.
+  Creates three predators playable by human beings, with different control inputs and sprint buttons.
+  And three prey (of different sizes and speeds).
+  The explicit goal is to eat everything before the finality of the being is at hand,
+  and get the highest score.
+
+*/
 
 // Our predators
 let tiger;
@@ -14,9 +18,10 @@ let dragon;
 let dragonPic;
 let lionPic;
 let tigerPic;
+let preyPic;
 
 // The three prey
-let antelope;
+let cactuar;
 let zebra;
 let bee;
 
@@ -56,34 +61,43 @@ let playerThreeInputs = {
   SPRINT: 67 // C
 };
 
+/**
+  Preloads pictures for preys and predators.
+
+*/
 function preload() {
   dragonPic = loadImage("assets/images/dragonPic.png");
   lionPic = loadImage("assets/images/lion.png");
   tigerPic = loadImage("assets/images/tiger.png");
+  preyPic = loadImage("assets/images/prey.png");
 }
-// setup()
-//
-// Sets up a canvas
-// Creates objects for the predator and three prey
+
+/**
+  Sets up a canvas
+  Creates objects for the three player predators and three preys.
+
+*/
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  antelope = new Prey(100, 100, 10, color(255, 100, 10), 50);
-  zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
-  bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
+  cactuar = new Prey(100, 100, 10, color(255, 100, 10), preyPic, 50);
+  zebra = new Prey(100, 100, 8, color(255, 255, 255), preyPic, 60);
+  bee = new Prey(100, 100, 20, color(255, 255, 0), preyPic, 10);
 
   dragon = new Predator(100, 100, 20, color(255, 0, 0), 100, playerOneInputs, 0, 10, "Dragon", dragonPic);
   lion = new Predator(100, 100, 20, color(0, 255, 0), 85, playerTwoInputs, 0, 5, "Lion", lionPic);
   tiger = new Predator(100, 100, 5, color(0, 0, 255), 40, playerThreeInputs, 0, 8, "Tiger", tigerPic);
 }
 
-// draw()
-//
-// Handles input, movement, eating, and displaying for the system's objects
+
+/**
+  Handles input, movement, eating, and displaying for the system's objects.
+
+*/
 function draw() {
   // Clear the background to black
   background(0);
 
-  // Handle input for the tiger
+  // Handle inputs for the predators
   tiger.handleInput();
   lion.handleInput();
   dragon.handleInput();
@@ -93,20 +107,20 @@ function draw() {
   lion.move();
   dragon.move();
 
-  antelope.move();
+  cactuar.move();
   zebra.move();
   bee.move();
 
-  // Handle the tiger eating any of the prey
-  tiger.handleEating(antelope);
+  // Handle the predators eating any of the prey
+  tiger.handleEating(cactuar);
   tiger.handleEating(zebra);
   tiger.handleEating(bee);
 
-  lion.handleEating(antelope);
+  lion.handleEating(cactuar);
   lion.handleEating(zebra);
   lion.handleEating(bee);
 
-  dragon.handleEating(antelope);
+  dragon.handleEating(cactuar);
   dragon.handleEating(zebra);
   dragon.handleEating(bee);
 
@@ -115,11 +129,12 @@ function draw() {
   lion.display();
   dragon.display();
 
+  cactuar.display();
+  zebra.display();
+  bee.display();
+
+  // Display the scores
   tiger.displayEatenPrey(50, 50);
   lion.displayEatenPrey(250, 50);
   dragon.displayEatenPrey(450, 50);
-
-  antelope.display();
-  zebra.display();
-  bee.display();
 }
