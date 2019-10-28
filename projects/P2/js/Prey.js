@@ -83,16 +83,16 @@ class Prey extends MobileElement{
     let constrainedX = constrain(anticipatedX, 0, 639);
     let constrainedY = constrain(anticipatedY, 0, 639);
 
-    if(tileMapExplorer.tileMap[constrainedX][constrainedY].elementType === spaceTypeId.EMPTY) {
-      //console.log("Ok moving to empty tile...");
-      return true;
-    }
-    else {
+    //if(tileMapExplorer.tileMap[constrainedX][constrainedY].elementType === spaceTypeId.EMPTY) {
+    //  //console.log("Ok moving to empty tile...");
+    //  return true;
+    //}
+    //else {
       //console.log("Not moving there... So it's a wall. Bouncing from there instead.");
       //console.log(tileMapExplorer.tileMap[constrainedX][constrainedY].elementPositionX);
       //console.log(tileMapExplorer.tileMap[constrainedX][constrainedY].elementPositionY);
-      return false;
-    }
+    //  return false;
+    //}
   }
 
   // handleWrapping

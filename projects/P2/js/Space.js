@@ -11,15 +11,17 @@ class Space extends StaticElement {
   }
 
   /**
-    Displays a tile border aroud this space element for style.
+    Displays a tile border around this space element for style,
+    on the gridLayer.
 
   */
-  displayTile() {
-    push();
-    rectMode(CENTER);
-    noFill();
-    strokeWeight(50);
-    rect(this.x, this.y, 20, 20);
-    pop();
+  displayTile(gridLayer, TILE_SIZE) {
+    gridLayer.push();
+    gridLayer.rectMode();
+    gridLayer.fill(0, 120, 255, 15);
+    gridLayer.stroke(255);
+    gridLayer.strokeWeight(5);
+    gridLayer.rect(this.x, this.y, TILE_SIZE, TILE_SIZE);
+    gridLayer.pop();
   }
 }

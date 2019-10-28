@@ -61,7 +61,10 @@ class Predator extends MobileElement {
   // Handles wrapping
   move() {
     // Erase the previous display of this predator
-    this.clearPreviousDisplayTrail();
+    //this.clearPreviousDisplayTrail();
+    this.movementQueueX.dequeue();
+    this.movementQueueY.dequeue();
+
     this.handleWrapping();
     // Update position
     this.x += this.vx;
@@ -74,8 +77,8 @@ class Predator extends MobileElement {
     //console.log("Queuing trailX" + this.x);
     //console.log("Queuing trailY" + this.y);
     // Update health
-    this.health = this.health - this.healthLossPerMove;
-    this.health = constrain(this.health, 0, this.maxHealth);
+    //this.health = this.health - this.healthLossPerMove;
+    //this.health = constrain(this.health, 0, this.maxHealth);
     // Handle wrapping
     //this.handleWrapping();
   }
