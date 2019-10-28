@@ -8,7 +8,7 @@
 let tiger;
 
 // Pics
-let avatarPic;
+let avatarMale;
 
 // The three prey
 let antelope;
@@ -22,7 +22,8 @@ const TILE_MAP_SIZE = 639;
 const TILE_SIZE = 100;
 
 function preload() {
-  avatarPic = loadImage("assets/images/avatarPic.png",);
+  avatarMale = loadImage("assets/images/avatarMale.png");
+  avatarFemale = loadImage("assets/images/avatarFemale.png");
 }
 /**
   Sets up a canvas and creates objects for the predator and three prey.
@@ -31,10 +32,10 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   //createCanvas(640, 640);
-  tiger = new Predator(width / 2, height / 2, 5, color(200, 200, 0), 40, avatarPic);
-  antelope = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50, avatarPic);
-  zebra = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60, avatarPic);
-  bee = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarPic);
+  tiger = new Predator(width / 2, height / 2, 5, color(200, 200, 0), 40, avatarMale);
+  antelope = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50, avatarFemale);
+  zebra = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60, avatarFemale);
+  bee = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
 
   background(120, 120, 120);
 
