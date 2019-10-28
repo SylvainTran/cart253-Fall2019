@@ -6,11 +6,16 @@
 
     <!-- CSS stylesheet(s) -->
     <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Forum&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Mountains+of+Christmas&display=swap" rel="stylesheet">
 
     <!-- Library script(s) -->
     <script src="js/libraries/p5.min.js"></script>
     <script src="js/libraries/p5.sound.min.js"></script>
     <script src="js/libraries/p5.dom.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <!-- My script(s) -->
     <script src="js/Element.js"></script>
@@ -29,9 +34,41 @@
     <script src="js/Queue.js"></script>
     <script src="js/script.js"></script>
   </head>
-
-  <body>
-    <!-- HTML would go here if needed. -->
-  </body>
-
+    <body>
+      <!-- Start of the flex box container -->
+      <div class="flex-container">
+        <div class="banner"> <!-- Just the title -->
+          Garden of Eden: Labyrinths of Eden
+          <span style="font-size: 22px; margin-left: 10px; margin-right: 10px;">...The next on stories of the bible. </span>
+        </div>
+        <div class="navMenu"> <!-- The game options -->
+          <div class="gameMenu">
+            <button onclick="$(document).ready(function() {
+              console.log('Starting the Adam game.');
+              bootAdam()
+            })
+            ;">Play As Adam</button>
+            <button onclick="$(document).ready(function() {
+              console.log('Starting the Eve game.');
+              bootEve()
+            })
+            ;">Play As Eve</button>
+            <button onclick="$(document).ready(function() {
+              console.log('Restarting game.');
+              console.log("Calling restartGame()");
+            })
+            ;">Restart Game</button>
+          </div>
+        </div>
+      <!-- End of flex-container. -->
+      </div>
+      <!-- p5.js canvas is childed to mainDisplay which uses Flexbox. -->
+      <div id="mainDisplay">
+      </div>
+      <div class="bible-quote">
+            <em>
+                <span style="font-family: 'Fredericka the Great', cursive;">Make your journey across the Garden of Eden...<br>Press <span style="color: lime;">Shift</span> to sprint away, and <span style="color: lime;">Left Click</span> to create a Settlement. </span>
+            </em>
+      </div>
+    </body>
 </html>
