@@ -16,7 +16,7 @@ class Settlement extends StaticElement {
     console.log("drawing settlement");
     environmentLayer.push();
     environmentLayer.rectMode(CENTER);
-    environmentLayer.fill(255, 0, 0);
+    environmentLayer.fill(255, 120, 120);
     environmentLayer.rect(this.x, this.y, settlementSize, settlementSize);
     environmentLayer.pop();
   }

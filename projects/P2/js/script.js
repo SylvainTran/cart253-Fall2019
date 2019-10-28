@@ -21,6 +21,7 @@ let gridLayer;
 let environmentLayer;
 let tileMap = [];
 let tileMapExplorer;
+let tileFillColor = [];
 const TILE_MAP_SIZE = 639;
 const TILE_SIZE = TILE_MAP_SIZE / 10;
 
@@ -36,6 +37,7 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
+  tileFillColor.push(color(255, 255, 255)); // White
 
   gridLayer = createGraphics(windowWidth, windowHeight);
   gridLayer.clear();
@@ -78,7 +80,7 @@ function createEmptyTileMap(tileMapSize) {
       // We add empty spaces first--TODO don't add where there is going to be walls
       let newSpace = new Space(k, m);
       tileMap[k][m] = newSpace;
-      tileMap[k][m].displayTile(gridLayer, TILE_SIZE);
+      tileMap[k][m].displayTile(gridLayer, color(0, 120, 255, 15), TILE_SIZE);
       //console.log("Coords X" + tileMap[k][m].spacePositionX);
       //console.log("Coords Y" + tileMap[k][m].spacePositionY);
       if(k === TILE_MAP_SIZE && m === TILE_MAP_SIZE){
@@ -136,6 +138,12 @@ function createSettlement(tileMapWidth, tileMapHeight) {
 
 function mousePressed() {
     createSettlement(windowWidth, windowHeight);
+    // Event listeners for onMouseOver tile map stuff
+    for(let i = 0; i <= TILE_MAP_SIZE / TILE_SIZE; i++) {
+      for(let j = i; j <= TILE_MAP_SIZE / TILE_SIZE; j++) {
+        tileMap[i][j].clicked(gridLayer, tileFillColor, TILE_SIZE);
+      }
+    }
 }
 
 function keyPressed() {
@@ -150,6 +158,7 @@ function keyPressed() {
 function draw() {
   // Main canvas bg
   background(0);
+
   // Handle input for the tiger
   tiger.handleInput();
 
