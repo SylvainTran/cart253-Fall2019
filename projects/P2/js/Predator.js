@@ -5,7 +5,7 @@
 // the screen and consume Prey objects to maintain its health.
 
 class Predator extends MobileElement {
-  constructor(x, y, speed, fillColor, radius) {
+  constructor(x, y, speed, fillColor, radius, avatarPic) {
     super(x, y);
     // Velocity and speed
     this.vx = 0;
@@ -28,6 +28,7 @@ class Predator extends MobileElement {
     // Movement history inside a queue
     this.movementQueueX = new Queue(1);
     this.movementQueueY = new Queue(1);
+    this.avatarPic = avatarPic;
   }
 
   // handleInput
@@ -122,7 +123,7 @@ class Predator extends MobileElement {
   // with a radius the same size as its current health.
   display() {
     this.radius = this.health;
-    image(avatarPic, this.x, this.y, this.radius * 2);
+    image(this.avatarPic, this.x, this.y, this.radius * 2);
   }
 
   /**

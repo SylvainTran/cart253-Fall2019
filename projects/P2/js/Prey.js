@@ -10,7 +10,7 @@ class Prey extends MobileElement{
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius) {
+  constructor(x, y, speed, fillColor, radius, avatarPic) {
     super(x, y);
     // Velocity and speed
     this.vx = 0;
@@ -31,6 +31,8 @@ class Prey extends MobileElement{
     // Movement history inside a queue
     this.movementQueueX = new Queue(1);
     this.movementQueueY = new Queue(1);
+
+    this.avatarPic = avatarPic;
   }
 
   // move
@@ -120,15 +122,11 @@ class Prey extends MobileElement{
 
   // display
   //
-  // Draw the prey as an ellipse on the canvas
+  // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
-    push();
-    noStroke();
-    fill(this.fillColor);
     this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
-    pop();
+    image(this.avatarPic, this.x, this.y, this.radius * 2);
   }
 
   // reset
@@ -161,7 +159,8 @@ class Prey extends MobileElement{
     push();
     noStroke();
     fill(120, 120, 120);
-    ellipse(this.lastPosX, this.lastPosY, this.radius * 2.5);
+    this.radius = this.maxHealth;
+    rect(this.lastPosX, this.lastPosY, this.radius * 10);
     pop();
   }
 }

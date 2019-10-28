@@ -7,6 +7,9 @@
 // Our predator
 let tiger;
 
+// Pics
+let avatarPic;
+
 // The three prey
 let antelope;
 let zebra;
@@ -15,8 +18,12 @@ let bee;
 // The tile map
 let tileMap = [];
 let tileMapExplorer;
+const TILE_MAP_SIZE = 639;
 const TILE_SIZE = 100;
 
+function preload() {
+  avatarPic = loadImage("assets/images/avatarPic.png",);
+}
 /**
   Sets up a canvas and creates objects for the predator and three prey.
 
@@ -24,15 +31,14 @@ const TILE_SIZE = 100;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   //createCanvas(640, 640);
-  tiger = new Predator(width / 2, height / 2, 5, color(200, 200, 0), 40);
-  antelope = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50);
-  zebra = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60);
-  bee = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10);
+  tiger = new Predator(width / 2, height / 2, 5, color(200, 200, 0), 40, avatarPic);
+  antelope = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50, avatarPic);
+  zebra = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60, avatarPic);
+  bee = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarPic);
 
   background(120, 120, 120);
 
   const tileMapSize = windowWidth;
-  //const innerMargins = 50;
   const tileMapWidth = tileMapSize;
   const tileMapHeight = windowHeight;
 
@@ -149,6 +155,7 @@ function keyPressed() {
 
 */
 function draw() {
+  background(120, 120, 120);
   // Handle input for the tiger
   tiger.handleInput();
 
