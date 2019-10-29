@@ -1,6 +1,15 @@
 /**
-  Continuity from P1: Garden Labyrinth idea
-  Garden of Eden: The First Settlements
+  BASAR / FLESH
+
+  Methodology: Goal is to be more explicitly conscious about my design choices.
+
+  29-10-2019  - Programmatic simplicity, style and structure (Cart 253)
+              - Redirection of project 2 towards a more
+                abstract/conceptual approach. (Cart 211)
+              - Emphasis on meta-reflection and visual storytelling. (FFAR 250)
+              - Typographic study. (Cart 214)
+
+              Listening to the Word: Hebraic word for "flesh": Basar (Theology, FFAR 250)
 
 */
 
