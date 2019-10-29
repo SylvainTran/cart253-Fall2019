@@ -13,6 +13,8 @@
 
 */
 
+let mainCanvas;
+
 // Our predator
 let tiger;
 
@@ -31,7 +33,7 @@ let environmentLayer;
 let tileMap = [];
 let tileMapExplorer;
 let tileFillColor = [];
-const TILE_MAP_SIZE = 639;
+const TILE_MAP_SIZE = 1000;
 const TILE_SIZE = TILE_MAP_SIZE / 10;
 
 function preload() {
@@ -44,14 +46,15 @@ function preload() {
 
 */
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  background(0);
+  mainCanvas = createCanvas(TILE_MAP_SIZE, TILE_MAP_SIZE);
+  mainCanvas.parent('mainDisplay');
+
   tileFillColor.push(color(255, 255, 255)); // White
 
-  gridLayer = createGraphics(windowWidth, windowHeight);
+  gridLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
   gridLayer.clear();
 
-  environmentLayer = createGraphics(windowWidth, windowHeight);
+  environmentLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
   environmentLayer.clear();
 
   tiger = new Predator(width / 2, height / 2, 5, color(200, 200, 0), 40, avatarMale);
@@ -59,9 +62,9 @@ function setup() {
   zebra = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60, avatarFemale);
   bee = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
 
-  const tileMapSize = windowWidth;
+  const tileMapSize = TILE_MAP_SIZE;
   const tileMapWidth = tileMapSize;
-  const tileMapHeight = windowHeight;
+  const tileMapHeight = TILE_MAP_SIZE;
 
   createEmptyTileMap(tileMapSize);
 
