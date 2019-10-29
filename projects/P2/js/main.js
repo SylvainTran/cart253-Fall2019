@@ -12,8 +12,10 @@
               Listening to the Word: Hebraic word for "flesh": Basar (Theology, FFAR 250)
 
 */
-
+// The main canvas for actors
 let mainCanvas;
+// Array of scenes
+let sceneTable = [];
 
 // Our predator
 let tiger;
@@ -56,6 +58,20 @@ function setup() {
 
   environmentLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
   environmentLayer.clear();
+
+  sceneQueue = new Queue();
+  sceneQueue.enqueue("intro1");
+  sceneQueue.enqueue("intro2");
+  sceneQueue.enqueue("intro3");
+  sceneQueue.enqueue("eden1");
+  sceneQueue.enqueue("eden2");
+  sceneQueue.enqueue("eden3");
+  sceneQueue.enqueue("forbiddenFruitScene");
+  sceneQueue.enqueue("playgrounds1");
+  sceneQueue.enqueue("playgrounds2");
+
+  playIntroduction = true;
+  prefallenState = true;
 
   tiger = new Predator(width / 2, height / 2, 5, color(200, 200, 0), 40, avatarMale);
   antelope = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50, avatarFemale);

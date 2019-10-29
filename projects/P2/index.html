@@ -12,34 +12,36 @@
     <link href="https://fonts.googleapis.com/css?family=Mountains+of+Christmas&display=swap" rel="stylesheet">
 
     <!-- Library script(s) -->
-    <script src="js/libraries/p5.min.js"></script>
-    <script src="js/libraries/p5.sound.min.js"></script>
-    <script src="js/libraries/p5.dom.min.js"></script>
+    <script src="js/libraring/p5.min.js"></script>
+    <script src="js/libraring/p5.sound.min.js"></script>
+    <script src="js/libraring/p5.dom.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <!-- My script(s) -->
-    <script src="js/Element.js"></script>
-    <script src="js/MobileElement.js"></script>
-      <script src="js/Predator.js"></script>
-      <script src="js/Prey.js"></script>
-
-    <script src="js/StaticElement.js"></script>
-    <script src="js/Space.js"></script>
-    <script src="js/spaceTypeId.js"></script>
-    <script src="js/Wall.js"></script>
-    <script src="js/wallTypeId.js"></script>
-    <script src="js/TileMapExplorer.js"></script>
-    <script src="js/Settlement.js"></script>
-
-    <script src="js/Queue.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/tilemapping/Element.js"></script>
+    <script src="js/tilemapping/MobileElement.js"></script>
+    <script src="js/tilemapping/StaticElement.js"></script>
+    <script src="js/tilemapping/Space.js"></script>
+    <script src="js/tilemapping/spaceTypeId.js"></script>
+    <script src="js/tilemapping/Wall.js"></script>
+    <script src="js/tilemapping/wallTypeId.js"></script>
+    <script src="js/tilemapping/TileMapExplorer.js"></script>
+    <script src="js/sceneHandling/Scene.js"></script>
+    <script src="js/sceneHandling/SceneHandler.js"></script>
+    <script src="js/sceneHandling/SceneTable/SceneTable.js"></script>
+    <script src="js/sceneHandling/TextObject.js"></script>
+    <script src="js/gameplaying/Settlement.js"></script>
+    <script src="js/dataStructuring/Queue.js"></script>
+    <script src="js/acting/Predator.js"></script>
+    <script src="js/acting/Prey.js"></script>
+    <script src="js/main.js"></script>
   </head>
     <body>
       <!-- Start of the flex box container -->
       <div class="flex-container">
         <div class="banner"> <!-- Just the title -->
-          Garden of Eden: Labyrinths of Eden
-          <span style="font-size: 22px; margin-left: 10px; margin-right: 10px;">...The next on stories of the bible. </span>
+          BASAR/FLESH
+          <span style="font-size: 22px; margin-left: 10px; margin-right: 10px;">Meta-Etymology.</span>
         </div>
         <div class="navMenu"> <!-- The game options -->
           <div class="gameMenu">
@@ -66,9 +68,7 @@
       <div id="mainDisplay">
       </div>
       <div class="bible-quote">
-            <em>
-                <span style="font-family: 'Fredericka the Great', cursive;">Make your journey across the Garden of Eden...<br>Press <span style="color: lime;">Shift</span> to sprint away, and <span style="color: lime;">Left Click</span> to create a Settlement. </span>
-            </em>
+          <span style="font-family: 'Fredericka the Great', cursive;">What is the <em>flesh?</em>
       </div>
     </body>
 </html>

@@ -1,0 +1,9 @@
+[
+  {
+    "sceneIndex": 1,
+    "bgColor": "[0, 0, 0]",
+    "textObjectPath": "data/scenes/textObjects/sceneText1.json",
+    "isCinematic": true,
+    "nbActors": 2
+  }
+]
