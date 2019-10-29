@@ -12,12 +12,12 @@ class Settlement extends StaticElement {
     Draws a wall picture at the specified position.
 
   */
-  drawSettlement() {
+  drawSettlement(environmentLayer, settlementSize) {
     console.log("drawing settlement");
-    push();
-    rectMode(CENTER);
-    fill(255, 0, 0);
-    rect(this.x, this.y, 100, 100);
-    pop();
+    environmentLayer.push();
+    environmentLayer.rectMode(CENTER);
+    environmentLayer.fill(0, 255, 0);
+    environmentLayer.rect(this.x, this.y, settlementSize, settlementSize);
+    environmentLayer.pop();
   }
 }
