@@ -22,7 +22,8 @@ class Prey {
     // Velocity and speed
     this.vx = 0;
     this.vy = 0;
-    this.sped = speed;
+//////////////// FIXED #3: Fixed typo in speed variable
+    this.speed = speed;
     // Time properties for noise() function
     this.tx = random(0, 0); // To make x and y noise different
     this.ty = random(0, 0); // we use random starting values
