@@ -52,7 +52,7 @@ class Prey {
     // Handle wrapping
     this.handleWarping();
 
-//////////////// FIXED #4: Added } to close the mover() function. 
+//////////////// FIXED #4: Added } to close the mover() function.
   }
     // handleWrapping
     //

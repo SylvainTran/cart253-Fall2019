@@ -40,7 +40,8 @@ function setup() {
 // Handles input, movement, eating, and displaying for the system's objects
 function draw() {
   // Clear the background to black
-  backgroun(0);
+//////////////// FIXED #4: Added missing 'd' in p5 function 'background([args])'
+  background(0);
 
   // Handle input for the tiger
 
