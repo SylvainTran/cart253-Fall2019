@@ -9,22 +9,17 @@ This is a template. You must fill in the title,
 author, and this description to match your project!
 
 ******************/
-
-// preload()
-//
-// Description of preload
-
-function preload() {
-
-}
-
-
+let genericAnimal;
 // setup()
 //
 // Description of setup
 
 function setup() {
+  createCanvas(windowWidth, windowHeight);
 
+  genericAnimal = new Animal(10);
+  genericAnimal.eat();
+  genericAnimal.sleep();
 }
 
 
