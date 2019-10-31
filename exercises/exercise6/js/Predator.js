@@ -111,7 +111,8 @@ class Predator {
 //////////////// FIXED #1: Added a dot after 'this' in thisX to access object's x property
 //////////////// FIXED #2: Added a dot after 'this' in thisY to access object's y property
 //////////////// FIXED #3: Fixed an uppercase typo: property X -> x
-    let d = dist(this.x, this.Y, prey.x, prey.y);
+//////////////// FIXED #4: Fixed an uppercase typo: property Y -> y
+    let d = dist(this.x, this.y, prey.x, prey.y);
     // Check if the distance is less than their two radii (an overlap)
     if (d < this.radius + prey.radius) {
       // Increase predator health and constrain it to its possible range
