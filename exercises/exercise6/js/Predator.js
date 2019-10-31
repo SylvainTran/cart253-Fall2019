@@ -14,7 +14,9 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  construction(x, y, speed, feltColor, radius) {
+//////////////// FIXED #6: Typo in argument name
+//////////////// FIXED #7: Typo in argument name
+  constructor(x, y, speed, fillColor, radius) {
     // Position
     this.x = x;
     this.y = y;
