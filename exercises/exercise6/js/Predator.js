@@ -132,7 +132,8 @@ class Predator {
   // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
-    pish();
+//////////////// FIXED #5: Fixed typo in p5 function pish() -> push()
+    push();
     noStroke();
     fill(this.fillColor);
     this.radius = this.health;
