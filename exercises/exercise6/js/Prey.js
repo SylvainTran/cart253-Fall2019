@@ -51,7 +51,8 @@ class Prey {
     this.tx += 0.01;
     this.ty += 0.01;
     // Handle wrapping
-    this.handleWarping();
+//////////////// FIXED #6: Fixed typo in handleWrapping function call
+    this.handleWrapping();
 
 //////////////// FIXED #4: Added } to close the mover() function.
   }
