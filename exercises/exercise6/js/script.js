@@ -15,8 +15,7 @@
 let tiger;
 
 // The three prey
-//////////////// FIXED #2: Added 'e' to fix typo in antelop.
-let antelope;
+let antelop;
 let zebra;
 let bee;
 
@@ -25,7 +24,7 @@ let bee;
 // Sets up a canvas
 // Creates objects for the predator and three prey
 
-//////////////// FIXED #1: Added space between function and setup
+//////////////// FIXED : Added space between function and setup
 function setup() {
   createCanvas(windowWidth, windowHeight);
   tiger = new Predator(100, , 100, 5, color(200, 200, 0), 40);
