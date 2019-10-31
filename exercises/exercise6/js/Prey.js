@@ -52,7 +52,8 @@ class Prey {
     // Handle wrapping
     this.handleWarping();
 
-
+//////////////// FIXED #4: Added } to close the mover() function. 
+  }
     // handleWrapping
     //
     // Checks if the prey has gone off the canvas and
