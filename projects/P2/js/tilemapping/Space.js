@@ -17,11 +17,11 @@ class Space extends StaticElement {
   */
   displayTile(gridLayer, fillColor, TILE_SIZE) {
     gridLayer.push();
-    gridLayer.rectMode();
+    gridLayer.rectMode(RADIUS);
     gridLayer.fill(fillColor);
-    gridLayer.stroke(255);
+    gridLayer.stroke(10);
     gridLayer.strokeWeight(5);
-    gridLayer.rect(this.x, this.y, TILE_SIZE, TILE_SIZE);
+    gridLayer.rect(this.x, this.y, TILE_SIZE, TILE_SIZE / 2);
     gridLayer.pop();
   }
 
