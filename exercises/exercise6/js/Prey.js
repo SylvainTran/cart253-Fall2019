@@ -74,7 +74,7 @@ class Prey {
       }
       else if (this.y > height) {
 //////////////// FIXED #7: Corrected typo in variable height. hight -> height
-        this.y -= hight;
+        this.y -= height;
       }
     }
 
