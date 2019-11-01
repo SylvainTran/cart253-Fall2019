@@ -46,6 +46,8 @@ class Prey {
     // Set velocity via noise()
     this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
     this.vy = map(noise(this.ty), 0, 1, -this.speed, this.speed);
+    console.log(this.x);
+    console.log(this.y);
     // Update position
     this.x += this.vx;
     this.y += this.vy;
@@ -64,7 +66,8 @@ class Prey {
     // wraps it to the other side if so
     handleWrapping() {
       // Off the left or right
-      if (this.x > 0) {
+//////////////// FIXED #11: Faulty direction > for leftside wrapping.      
+      if (this.x < 0) {
         this.x += width;
       }
       else if (this.x > width) {
