@@ -24,9 +24,9 @@ let adam;
 let avatarMale;
 
 // The three prey
-let antelope;
-let zebra;
-let bee;
+let person1;
+let person2;
+let person3;
 
 // The tile map
 let actorsLayer;
@@ -38,9 +38,9 @@ let tileFillColor = [];
 const TILE_MAP_SIZE = 1000;
 const TILE_SIZE = TILE_MAP_SIZE / 10;
 
-// Preys array
-let preys = [];
-const numberOfPreys = 10;
+// persons array
+let persons = [];
+const numberOfPersons = 10;
 
 let dosisTTF;
 
@@ -64,19 +64,21 @@ function setup() {
   environmentLayer.clear();
 
   adam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
-  antelope = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50, avatarFemale);
-  zebra = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60, avatarFemale);
-  bee = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
+  person1 = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50, avatarFemale);
+  person2 = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60, avatarFemale);
+  person3 = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
 
   const tileMapSize = TILE_MAP_SIZE;
   const tileMapWidth = tileMapSize;
   const tileMapHeight = TILE_MAP_SIZE;
   createEmptyTileMap(tileMapSize);
   tileMapExplorer = new TileMapExplorer(tileMap);
-  for(let i = 0; i < numberOfPreys; i++) {
+
+  for(let i = 0; i < numberOfPersons; i++) {
     let newPrey = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
-    preys[i] = newPrey;
+    persons[i] = newPrey;
   }
+  
 }
 
 function mousePressed() {
@@ -90,7 +92,7 @@ function mousePressed() {
 }
 
 function keyPressed() {
-    // Call the Humans and preys' tile-based movement (custom keyPressed)
+    // Call the Humans and persons' tile-based movement (custom keyPressed)
     adam.keyPressed(TILE_SIZE);
 }
 
@@ -103,33 +105,31 @@ function draw() {
   background(0);
 
   // Check neighbouring tiles
-  let checkAntelope = antelope.checkNeighbourTiles(tileMapExplorer);
-  let checkZebra = zebra.checkNeighbourTiles(tileMapExplorer);
-  let checkBee = bee.checkNeighbourTiles(tileMapExplorer);
+  let checkperson1 = person1.checkNeighbourTiles(tileMapExplorer);
+  let checkperson2 = person2.checkNeighbourTiles(tileMapExplorer);
+  let checkperson3 = person3.checkNeighbourTiles(tileMapExplorer);
 
   // Move all the "animals" if the next tiles are ok to move to.
-  antelope.move();
-  zebra.move();
-  bee.move();
+  person1.move();
+  person2.move();
+  person3.move();
 
   // Handle the adam eating any of the prey
-  adam.handleEating(antelope);
-  adam.handleEating(zebra);
-  adam.handleEating(bee);
+  adam.handleEating(person1);
+  adam.handleEating(person2);
+  adam.handleEating(person3);
 
   // Displays the tile map
   image(gridLayer, 0, 0);
 
   // Display all the actors
   adam.display();
-  //antelope.display();
-  //zebra.display();
-  //bee.display();
-  for(let j = 0; j < numberOfPreys; j++){
-    let checkMove = preys[j].checkNeighbourTiles(tileMapExplorer);
-    preys[j].move();
-    preys[j].display();
-    adam.handleEating(preys[j]);
+
+  for(let j = 0; j < numberOfPersons; j++){
+    let checkMove = persons[j].checkNeighbourTiles(tileMapExplorer);
+    persons[j].move();
+    persons[j].display();
+    adam.handleEating(persons[j]);
   }
 
   push();
