@@ -9,6 +9,25 @@ class TextObject {
   }
 
   animate() {
+    // for each character in the string, display it then fade out, repeat until
+    // no character is left.
+    let character;
+    let charQueue = new Queue(this.tContent.length);
 
+    // Fill the queue with characters
+    for(let c = 0; c < charQueue.maxItems; c++){
+      let character = tContent[c];
+      charQueue.push(character);
+    }
+
+    for(let i = 0; i < charQueue.maxItems; i++){
+
+    }
+    push();
+      fill(this.tColor);
+      textSize(this.tSize);
+      font(this.tFont);
+      text(charQueue.pop(), this.tPosX, this.tPosY);
+    pop();
   }
 }

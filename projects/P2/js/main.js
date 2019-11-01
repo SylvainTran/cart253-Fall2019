@@ -15,7 +15,9 @@
 // The main canvas for actors
 let mainCanvas;
 // Array of scenes
-let sceneTable = [];
+let sceneTableObj;
+let scenesFilePath;
+let sceneHandler;
 
 // Our predator
 let tiger;
@@ -51,6 +53,21 @@ function setup() {
   mainCanvas = createCanvas(TILE_MAP_SIZE, TILE_MAP_SIZE);
   mainCanvas.parent('mainDisplay');
 
+  let sceneObjects = {
+    mainMenuScene: new MainMenuScene(scenesConfig)
+    //tutorialScene: new TutorialScene()
+  }
+  let currentScene = scenesConfig.mainMenuScene.sceneName;
+
+  console.log(sceneObjects.mainMenuScene.sceneName);
+  console.log(currentScene);
+  // Keeping the data outside of the manipulation on the data
+  sceneHandler = new SceneHandler(sceneObjects, currentScene);
+  sceneHandler.testSceneText();
+
+  // If ready to render the current scene, render it.
+  sceneHandler.process();
+
   tileFillColor.push(color(255, 255, 255)); // White
 
   gridLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
@@ -58,17 +75,6 @@ function setup() {
 
   environmentLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
   environmentLayer.clear();
-
-  sceneQueue = new Queue();
-  sceneQueue.enqueue("intro1");
-  sceneQueue.enqueue("intro2");
-  sceneQueue.enqueue("intro3");
-  sceneQueue.enqueue("eden1");
-  sceneQueue.enqueue("eden2");
-  sceneQueue.enqueue("eden3");
-  sceneQueue.enqueue("forbiddenFruitScene");
-  sceneQueue.enqueue("playgrounds1");
-  sceneQueue.enqueue("playgrounds2");
 
   playIntroduction = true;
   prefallenState = true;
@@ -216,4 +222,34 @@ function draw() {
   bee.display();
 
   image(environmentLayer, 0, 0);
+}
+
+let scenesConfig = {
+  "mainMenuScene": {
+    "sceneIndex": 0,
+    "sceneName": "mainMenuScene",
+    "bgColor": "[0, 0, 0]",
+    "textObjectPath": "data/scenes/textObjects/sceneText1.json",
+    "isCinematic": true,
+    "readyForNextScene": false,
+    "nbActors": 2
+  },
+  "tutorialScene": {
+    "sceneIndex": 1,
+    "sceneName": "Movement Tutorial",
+    "bgColor": "[75, 75, 75]",
+    "textObjectPath": "data/scenes/textObjects/sceneText2.json",
+    "isCinematic": true,
+    "readyForNextScene": false,
+    "nbActors": 2
+  },
+  "Gameplay Tutorial": {
+    "sceneIndex": 2,
+    "sceneName": "Main Gameplay Tutorial",
+    "bgColor": "[150, 150, 150]",
+    "textObjectPath": "data/scenes/textObjects/sceneText3.json",
+    "isCinematic": true,
+    "readyForNextScene": false,
+    "nbActors": 2
+  }
 }
