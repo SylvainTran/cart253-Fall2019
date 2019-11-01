@@ -25,7 +25,8 @@ class Prey {
 //////////////// FIXED #3: Fixed typo in speed variable
     this.speed = speed;
     // Time properties for noise() function
-    this.tx = random(0, 0); // To make x and y noise different
+//////////////// FIXED #9: Faulty max value in tx = random(). random(0, 0) -> random(0, 1000)    
+    this.tx = random(0, 1000); // To make x and y noise different
     this.ty = random(0, 0); // we use random starting values
     // Health properties
     this.maxHealth = radius;
@@ -87,7 +88,7 @@ class Prey {
       noStroke();
       fill(this.fillColor);
       this.radius = this.health;
-//////////////// FIXED #8: this.radius * "two" -> this.radius * 2      
+//////////////// FIXED #8: this.radius * "two" -> this.radius * 2
       ellipse(this.x, this.y, this.radius * 2);
       pop();
     }
