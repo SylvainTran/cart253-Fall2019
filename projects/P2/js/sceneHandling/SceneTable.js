@@ -7,7 +7,7 @@ class SceneTable {
     this.filePath = filePath; //the scenesData.json to be loaded.
     this.sceneTable = {};
   }
-
+  
   get sceneTable() {
     return this.sceneTable;
   }

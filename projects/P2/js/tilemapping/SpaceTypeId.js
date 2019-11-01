@@ -1,3 +1,7 @@
+/**
+  The types of space tiles.
+
+*/
 let spaceTypeId = {
   EMPTY: 1, // Can walk on this tile
   START: 2,

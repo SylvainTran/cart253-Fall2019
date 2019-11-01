@@ -19,13 +19,6 @@ class MobileElement extends Element {
     and predators inherit by default.
 
   */
-
-
-  
-  // move
-  //
-  // Sets velocity based on the noise() function and the Prey's speed
-  // Moves based on the resulting velocity and handles wrapping
   move() {
     // Set velocity via noise()
     this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
@@ -40,10 +33,11 @@ class MobileElement extends Element {
     this.handleWrapping();
   }
 
-  // handleWrapping
-  //
-  // Checks if the prey has gone off the canvas and
-  // wraps it to the other side if so
+  /**
+    Checks if the prey has gone off the canvas and
+    wraps it to the other side if so
+
+   */
   handleWrapping() {
     const innerMargins = 50;
     // Off the left or right

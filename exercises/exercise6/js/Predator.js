@@ -4,9 +4,22 @@
 // controlled by the arrow keys. It can move around
 // the screen and consume Prey objects to maintain its health.
 
-class Predator extends MobileElement {
-  constructor(x, y, speed, fillColor, radius, avatarPic) {
-    super(x, y);
+/////////////////////
+// ~10 ERRORS IN HERE
+/////////////////////
+
+class Predator {
+
+  // constructor
+  //
+  // Sets the initial values for the Predator's properties
+  // Either sets default values or uses the arguments provided
+//////////////// FIXED #6: Typo in argument name (feltColor)
+//////////////// FIXED #7: Typo in constructor syntax
+  constructor(x, y, speed, fillColor, radius) {
+    // Position
+    this.x = x;
+    this.y = y;
     // Velocity and speed
     this.vx = 0;
     this.vy = 0;
@@ -18,17 +31,14 @@ class Predator extends MobileElement {
     this.healthGainPerEat = 1;
     // Display properties
     this.fillColor = fillColor;
+//////////////// FIXED #10: Typo in variable radius. radios -> radius
     this.radius = this.health; // Radius is defined in terms of health
     // Input properties
+//////////////// FIXED #11: Typo in variable upKey. appKey -> upKey
     this.upKey = UP_ARROW;
     this.downKey = DOWN_ARROW;
     this.leftKey = LEFT_ARROW;
     this.rightKey = RIGHT_ARROW;
-
-    // Movement history inside a queue
-    this.movementQueueX = new Queue(1);
-    this.movementQueueY = new Queue(1);
-    this.avatarPic = avatarPic;
   }
 
   // handleInput
@@ -39,17 +49,22 @@ class Predator extends MobileElement {
     // Horizontal movement
     if (keyIsDown(this.leftKey)) {
       this.vx = -this.speed;
-    } else if (keyIsDown(this.rightKey)) {
+    }
+    else if (keyIsDown(this.rightKey)) {
       this.vx = this.speed;
-    } else {
+    }
+    else {
       this.vx = 0;
     }
     // Vertical movement
     if (keyIsDown(this.upKey)) {
       this.vy = -this.speed;
-    } else if (keyIsDown(this.downKey)) {
+    }
+//////////////// FIXED #9: Typo in function keyIsDown call.
+    else if (keyIsDown(this.downKey)) {
       this.vy = this.speed;
-    } else {
+    }
+    else {
       this.vy = 0;
     }
   }
@@ -60,27 +75,16 @@ class Predator extends MobileElement {
   // Lowers health (as a cost of living)
   // Handles wrapping
   move() {
-    // Erase the previous display of this predator
-    //this.clearPreviousDisplayTrail();
-    this.movementQueueX.dequeue();
-    this.movementQueueY.dequeue();
-
-    this.handleWrapping();
     // Update position
+//////////////// FIXED #13: this.x = this.vx was putting the x position at 0 initially.
     this.x += this.vx;
+//////////////// FIXED #14: this.y = this.vy was putting the y position at 0 initially.
     this.y += this.vy;
-
-    // Add to a queue structure the history of movements past and future
-    // So to be able to keep a track and clear the trails
-    this.movementQueueX.enqueue(this.x);
-    this.movementQueueY.enqueue(this.y);
-    //console.log("Queuing trailX" + this.x);
-    //console.log("Queuing trailY" + this.y);
     // Update health
-    //this.health = this.health - this.healthLossPerMove;
-    //this.health = constrain(this.health, 0, this.maxHealth);
+    this.health = this.health - this.healthLossPerMove;
+    this.health = constrain(this.health, 0, this.maxHealth);
     // Handle wrapping
-    //this.handleWrapping();
+    this.handleWrapping();
   }
 
   // handleWrapping
@@ -88,13 +92,19 @@ class Predator extends MobileElement {
   // Checks if the predator has gone off the canvas and
   // wraps it to the other side if so
   handleWrapping() {
-    const innerMargins = 50;
-    const radiusOffset = 1.5;
-    if (this.x - this.radius * radiusOffset < 0 + innerMargins || this.x + this.radius * radiusOffset > width - innerMargins * 2) {
-      this.vx = -this.vx * 10;
+    // Off the left or right
+    if (this.x < 0) {
+      this.x += width;
     }
-    if (this.y - this.radius * radiusOffset < 0 + innerMargins || this.y + this.radius * radiusOffset > height - innerMargins) {
-      this.vy = -this.vy * 10;
+    else if (this.x > width) {
+      this.x -= width;
+    }
+    // Off the top or bottom
+    if (this.y < 0) {
+      this.y += height;
+    }
+    else if (this.y > height) {
+      this.y -= height;
     }
   }
 
@@ -105,6 +115,10 @@ class Predator extends MobileElement {
   // the predator's. If the prey dies, it gets reset.
   handleEating(prey) {
     // Calculate distance from this predator to the prey
+//////////////// FIXED #1: Added a dot after 'this' in thisX to access object's x property
+//////////////// FIXED #2: Added a dot after 'this' in thisY to access object's y property
+//////////////// FIXED #3: Fixed an uppercase typo: property X -> x
+//////////////// FIXED #4: Fixed an uppercase typo: property Y -> y
     let d = dist(this.x, this.y, prey.x, prey.y);
     // Check if the distance is less than their two radii (an overlap)
     if (d < this.radius + prey.radius) {
@@ -115,6 +129,7 @@ class Predator extends MobileElement {
       prey.health -= this.healthGainPerEat;
       // Check if the prey died and reset it if so
       if (prey.health < 0) {
+//////////////// FIXED #15: Typo in reset(). rest -> reset
         prey.reset();
       }
     }
@@ -125,47 +140,13 @@ class Predator extends MobileElement {
   // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
-    this.radius = this.health;
-    image(this.avatarPic, this.x, this.y, this.radius * 2);
-  }
-
-  /**
-    Clears the previously drawn trail using the tileMap grid.
-
-  */
-  clearPreviousDisplayTrail() {
-    //console.log("Clearing last trail");
-    // dequeue the first element of the position history queue, which
-    // represents the last trail left
-    let lastPosX = this.movementQueueX.dequeue();
-    let lastPosY = this.movementQueueY.dequeue();
-    //console.log("Clearing last trailX " + lastPosX);
-    //console.log("Clearing last trailY " + lastPosY);
-    // Redraw over it with the same shape and fill color as bg
+//////////////// FIXED #5: Fixed typo in p5 function pish() -> push()
     push();
     noStroke();
-    fill(120, 120, 120);
-    ellipse(lastPosX, lastPosY, this.radius * 2.5);
+    fill(this.fillColor);
+    this.radius = this.health;
+    ellipse(this.x, this.y, this.radius * 2);
+//////////////// FIXED #8: Fixed typo in p5 function pip() -> pop()
     pop();
-  }
-
-  /**
-    Tile-based movement upon keyPressed.
-
-  */
-  keyPressed(TILE_SIZE) {
-    if(keyCode  === LEFT_ARROW) {
-      this.x -= TILE_SIZE;
-    }
-    else if(keyCode === RIGHT_ARROW) {
-      this.x += TILE_SIZE;
-    }
-
-    if(keyCode === UP_ARROW) {
-      this.y -= TILE_SIZE;
-    }
-    else if(keyCode === DOWN_ARROW) {
-      this.y += TILE_SIZE;
-    }
   }
 }

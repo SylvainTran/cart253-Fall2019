@@ -1,3 +1,7 @@
+/**
+  The base type of scene to be inherited.
+
+*/
 class Scene {
   constructor(sceneIndex, bgColor, textObject, actorsPresent, isCinematic, nbActors){
     this.sceneIndex = sceneIndex;
@@ -20,6 +24,10 @@ class Scene {
     pop();
   }
 
+  /**
+    Makes a cinematic scene. To be specialized in inherited classes.
+
+  */
   makeCinematicScene() {
   }
 

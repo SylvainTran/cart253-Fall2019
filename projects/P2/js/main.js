@@ -19,16 +19,16 @@ let sceneTableObj;
 let scenesFilePath;
 let sceneHandler;
 
-// Our predator
-let tiger;
+// Our first human
+let adam;
 
 // Pics
 let avatarMale;
 
 // The three prey
-let antelope;
-let zebra;
-let bee;
+let person1;
+let person2;
+let person3;
 
 // The tile map
 let actorsLayer;
@@ -40,13 +40,20 @@ let tileFillColor = [];
 const TILE_MAP_SIZE = 1000;
 const TILE_SIZE = TILE_MAP_SIZE / 10;
 
+// persons array
+let persons = [];
+const numberOfPersons = 10;
+
+let dosisTTF;
+
 function preload() {
   avatarMale = loadImage("assets/images/avatarMale.png");
   avatarFemale = loadImage("assets/images/avatarFemale.png");
+  dosisTTF = loadFont("assets/fonts/dosis.ttf");
 }
 
 /**
-  Sets up a canvas and creates objects for the predator and three prey.
+  Sets up a canvas and creates objects for the Human and three prey.
 
 */
 function setup() {
@@ -69,33 +76,96 @@ function setup() {
   sceneHandler.process();
 
   tileFillColor.push(color(255, 255, 255)); // White
-
   gridLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
   gridLayer.clear();
-
   environmentLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
   environmentLayer.clear();
 
-  playIntroduction = true;
-  prefallenState = true;
-
-  tiger = new Predator(width / 2, height / 2, 5, color(200, 200, 0), 40, avatarMale);
-  antelope = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50, avatarFemale);
-  zebra = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60, avatarFemale);
-  bee = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
+  adam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
+  person1 = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50, avatarFemale);
+  person2 = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60, avatarFemale);
+  person3 = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
 
   const tileMapSize = TILE_MAP_SIZE;
   const tileMapWidth = tileMapSize;
   const tileMapHeight = TILE_MAP_SIZE;
-
   createEmptyTileMap(tileMapSize);
-
-  console.log(tileMapSize);
-  console.log(tileMapHeight);
-  console.log(tileMap.length);
-
   tileMapExplorer = new TileMapExplorer(tileMap);
-  frameRate(30); // to see the tile-based movement
+
+  for(let i = 0; i < numberOfPersons; i++) {
+    let newPrey = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
+    persons[i] = newPrey;
+  }
+  
+}
+
+function mousePressed() {
+    createSettlement(windowWidth, windowHeight);
+    // Event listeners for onMouseOver tile map stuff
+    for(let i = 0; i <= TILE_MAP_SIZE / TILE_SIZE; i++) {
+      for(let j = i; j <= TILE_MAP_SIZE / TILE_SIZE; j++) {
+        tileMap[i][j].clicked(gridLayer, tileFillColor, TILE_SIZE);
+      }
+    }
+}
+
+function keyPressed() {
+    // Call the Humans and persons' tile-based movement (custom keyPressed)
+    adam.keyPressed(TILE_SIZE);
+}
+
+/**
+  Handles input, movement, eating, and displaying for the system's objects.
+
+*/
+function draw() {
+  // Main canvas bg
+  background(0);
+
+  // Check neighbouring tiles
+  let checkperson1 = person1.checkNeighbourTiles(tileMapExplorer);
+  let checkperson2 = person2.checkNeighbourTiles(tileMapExplorer);
+  let checkperson3 = person3.checkNeighbourTiles(tileMapExplorer);
+
+  // Move all the "animals" if the next tiles are ok to move to.
+  person1.move();
+  person2.move();
+  person3.move();
+
+  // Handle the adam eating any of the prey
+  adam.handleEating(person1);
+  adam.handleEating(person2);
+  adam.handleEating(person3);
+
+  // Displays the tile map
+  image(gridLayer, 0, 0);
+
+  // Display all the actors
+  adam.display();
+
+  for(let j = 0; j < numberOfPersons; j++){
+    let checkMove = persons[j].checkNeighbourTiles(tileMapExplorer);
+    persons[j].move();
+    persons[j].display();
+    adam.handleEating(persons[j]);
+  }
+
+  push();
+  fill(255);
+  textSize(60);
+  textFont(dosisTTF);
+  text("BASAR/FLESH\n\n\"Let us start.\"\n\"Perhaps later.\"", width / 2, height / 3);
+  text("Please turn on your sound.\n", width / 10, height / 1.2);
+  pop();
+
+  push();
+  fill(255, 0, 0);
+  textSize(30);
+  textFont(dosisTTF);
+  text("(Be advised that this game may be shocking.)", width / 10, height / 1.1);
+  pop();
+  // The environment layer createGraphics
+  image(environmentLayer, 0, 0);
 }
 
 /**
@@ -115,11 +185,6 @@ function createEmptyTileMap(tileMapSize) {
       let newSpace = new Space(k, m);
       tileMap[k][m] = newSpace;
       tileMap[k][m].displayTile(gridLayer, color(0, 120, 255, 15), TILE_SIZE);
-      //console.log("Coords X" + tileMap[k][m].spacePositionX);
-      //console.log("Coords Y" + tileMap[k][m].spacePositionY);
-      if(k === TILE_MAP_SIZE && m === TILE_MAP_SIZE){
-        console.log("End reached: " + k + " " + m);
-      }
     }
   }
 }
@@ -168,60 +233,6 @@ function createSettlement(tileMapWidth, tileMapHeight) {
   newSettlement = new Settlement(mouseX, mouseY);
   //newSettlement = new Settlement(gridConstrainedX, gridConstrainedY);
   newSettlement.drawSettlement(environmentLayer, TILE_SIZE);
-}
-
-function mousePressed() {
-    createSettlement(windowWidth, windowHeight);
-    // Event listeners for onMouseOver tile map stuff
-    for(let i = 0; i <= TILE_MAP_SIZE / TILE_SIZE; i++) {
-      for(let j = i; j <= TILE_MAP_SIZE / TILE_SIZE; j++) {
-        tileMap[i][j].clicked(gridLayer, tileFillColor, TILE_SIZE);
-      }
-    }
-}
-
-function keyPressed() {
-    // Call the predators and preys' tile-based movement (custom keyPressed)
-    tiger.keyPressed(TILE_SIZE);
-}
-
-/**
-  Handles input, movement, eating, and displaying for the system's objects.
-
-*/
-function draw() {
-  // Main canvas bg
-  background(0);
-
-  // Handle input for the tiger
-  tiger.handleInput();
-
-  // Check neighbouring tiles
-  let checkAntelope = antelope.checkNeighbourTiles(tileMapExplorer);
-  let checkZebra = zebra.checkNeighbourTiles(tileMapExplorer);
-  let checkBee = bee.checkNeighbourTiles(tileMapExplorer);
-
-  // Move all the "animals" if the next tiles are ok to move to.
-  tiger.move();
-  antelope.move(checkAntelope);
-  zebra.move(checkZebra);
-  bee.move(checkBee);
-
-  // Handle the tiger eating any of the prey
-  tiger.handleEating(antelope);
-  tiger.handleEating(zebra);
-  tiger.handleEating(bee);
-
-  // Displays the tile map
-  image(gridLayer, 0, 0);
-
-  // Display all the "animals"
-  tiger.display();
-  antelope.display();
-  zebra.display();
-  bee.display();
-
-  image(environmentLayer, 0, 0);
 }
 
 let scenesConfig = {
