@@ -44,7 +44,8 @@ function draw() {
   background(0);
 
   // Handle input for the tiger
-
+  //////////////// FIXED #8: Added missing input call.
+  tiger.handleInput();
   // Move all the "animals"
   tiger.move();
   antelope.move();
