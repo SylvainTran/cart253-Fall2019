@@ -66,7 +66,7 @@ class Prey {
     // wraps it to the other side if so
     handleWrapping() {
       // Off the left or right
-//////////////// FIXED #11: Faulty direction > for leftside wrapping.      
+//////////////// FIXED #11: Faulty direction > for leftside wrapping.
       if (this.x < 0) {
         this.x += width;
       }

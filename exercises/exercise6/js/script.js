@@ -26,13 +26,14 @@ let bee;
 // Creates objects for the predator and three prey
 
 //////////////// FIXED #1: Added space between function and setup
+//////////////// FIXED #12: Corrected biased starting positions for the preys.
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  tiger = new Predator(width/2, 100, 5, color(200, 200, 0), 40);
+  tiger = new Predator(random(0, width), random(0, height), 5, color(200, 200, 0), 40);
   //////////////// FIXED #3: Removed extra empty second parameter in tiger malloc
-  antelope = new Prey(100, 100, 10, color(255, 100, 10), 50);
+  antelope = new Prey(random(0, width), random(0, height), 10, color(255, 100, 10), 50);
 //////////////// FIXED #9: Missing speed parameter.
-  zebra = new Prey(100, 8, 10, color(255, 255, 255), 60);
+  zebra = new Prey(random(0, width), random(0, height), 10, color(255, 255, 255), 60);
 //////////////// FIXED #11: Biased starting position on predator.
   bee = new Prey(random(0, width), random(0, height), 20, color(255, 255, 0), 10);
 }
