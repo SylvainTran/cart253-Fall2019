@@ -59,6 +59,7 @@ function draw() {
   tiger.display();
 //////////////// FIXED #5: Added missing 'e' in variable. antelop -> antelope
   antelope.display();
-  zebra.disploy();
+//////////////// FIXED #6: Corrected typo in display() call. disploy -> display
+  zebra.display();
   b.display();
 }
