@@ -17,10 +17,18 @@ class Queue {
     return this.items.length === 0;
   }
 
+  /**
+      Checks if the queue is full by comparing the item length with the max length.
+
+  */
   isFull() {
-    return this.items.length == this.maxItems;
+    return this.items.length === this.maxItems;
   }
 
+  /**
+    Adds an element in the queue if it isn't full.
+
+  */
   enqueue(element) {
     if (this.isFull()) {
       alert("Full");
@@ -30,6 +38,10 @@ class Queue {
     }
   }
 
+  /**
+    Removes an element from the queue if it isn't empty.
+
+  */
   dequeue() {
     if (this.isEmpty()) {
       return "Queue is empty: underflow.";
@@ -38,6 +50,10 @@ class Queue {
     }
   }
 
+  /**
+    Checks the first item in the queue if it isn't empty.
+
+  */
   front() {
     if (this.isEmpty()) {
       return "Queue is empty of elements.";
@@ -46,6 +62,10 @@ class Queue {
     }
   }
 
+  /**
+    Checks the last item of the queue.
+
+  */
   peek() {
     return this.items[this.items.length - 1];
   }

@@ -8,12 +8,18 @@ class SceneTable {
     this.sceneTable = [];
   }
 
-  // Load the scene data from the JSON file
+  /**
+    Load the scene data from the JSON file.
+
+  */
   loadScenes() {
     this.sceneTable = loadJSON(this.filePath);
   }
 
-  // Gets the scene array.
+  /**
+    Gets the scene array.
+
+  */
   get sceneTable() {
     return this.sceneTable;
   }

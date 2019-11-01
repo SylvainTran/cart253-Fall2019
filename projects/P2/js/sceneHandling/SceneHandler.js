@@ -1,3 +1,8 @@
+/**
+  Allows us to handle timing related code for scenes and keeping track
+  of the overall process of the game.
+
+*/
 class SceneHandler {
 
   constructor(sceneTable) {
@@ -13,7 +18,7 @@ class SceneHandler {
     let nextScene = sceneQueue.dequeue();
     currentScene = nextScene;
     goToScene(currentScene);
-}
+  }
     this.sceneTable.sceneIndex
   }
 

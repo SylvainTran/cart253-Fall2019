@@ -1,3 +1,7 @@
+/**
+  The types of walls.
+
+*/
 let wallTypeId = {
   BORDER: 1,
   NEXT_MAP_LEFT: 2,

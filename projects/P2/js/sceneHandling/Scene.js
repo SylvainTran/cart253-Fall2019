@@ -1,3 +1,7 @@
+/**
+  The base type of scene to be inherited.
+
+*/
 class Scene {
   // Constructed from the SceneTable data.
   constructor(sceneIndex, bgColor, textObject, actorsPresent, nbActors){
@@ -24,6 +28,10 @@ class Scene {
 
   }
 
+  /**
+    Makes a cinematic scene. To be specialized in inherited classes.
+
+  */
   makeCinematicScene() {
     if (currentScene === "intro1" || currentScene === "intro2" || currentScene === "intro3") {
       fill(255);
