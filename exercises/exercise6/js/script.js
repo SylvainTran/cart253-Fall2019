@@ -51,6 +51,8 @@ function draw() {
   tiger.move();
   antelope.move();
   zebra.move();
+//////////////// FIXED #10: Added missing bee move() call.
+  bee.move();
 
   // Handle the tiger eating any of the prey
   tiger.handleEating(antelope);
