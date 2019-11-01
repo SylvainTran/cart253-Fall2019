@@ -61,5 +61,6 @@ function draw() {
   antelope.display();
 //////////////// FIXED #6: Corrected typo in display() call. disploy -> display
   zebra.display();
-  b.display();
+//////////////// FIXED #7: Corrected typo in bee instance. b -> bee
+  bee.display();
 }
