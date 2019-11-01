@@ -141,6 +141,6 @@ class Predator {
     this.radius = this.health;
     ellipse(this.x, this.y, this.radius * 2);
 //////////////// FIXED #8: Fixed typo in p5 function pip() -> pop()
-    pip();
+    pop();
   }
 }

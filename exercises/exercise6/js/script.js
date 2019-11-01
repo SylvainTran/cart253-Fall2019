@@ -57,7 +57,8 @@ function draw() {
 
   // Display all the "animals"
   tiger.display();
-  antelop.display();
+//////////////// FIXED #5: Added missing 'e' in variable. antelop -> antelope
+  antelope.display();
   zebra.disploy();
   b.display();
 }
