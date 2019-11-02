@@ -15,6 +15,17 @@ class SceneHandler {
     this.sceneObjects[this.currentSceneName].bootScene();
   }
 
+  /**
+    Checks what's going on within the scenes.
+
+  */
+  assessSituation(situation) {
+    if(situation === "Starting Game") {
+      console.log(situation);
+
+    }
+  }
+
   trackProcessedScenes() {
 
   }

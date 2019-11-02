@@ -91,11 +91,7 @@ function mousePressed() {
   switch(sceneHandler.currentSceneName) {
     case "mainMenuScene":
       let situation = sceneObjects.mainMenuScene.mousePressed();
-      sceneHandler.assessSituation();
-      if(situation === "Starting Game") {
-        console.log(situation);
-
-      }
+      sceneHandler.assessSituation(situation);
       break;
     default:
       break;
