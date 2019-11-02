@@ -70,6 +70,7 @@ function setup() {
   environmentLayer.clear();
   sceneObjects = {
     "mainMenuScene": new MainMenuScene(sceneData0),
+    "introduction": new IntroductionScene(sceneData1)
   }
   // Keeping the data outside of the manipulation on the data
   sceneHandler = new SceneHandler(sceneObjects, sceneConfig);
@@ -90,9 +91,10 @@ function mousePressed() {
   switch(sceneHandler.currentSceneName) {
     case "mainMenuScene":
       let situation = sceneObjects.mainMenuScene.mousePressed();
+      sceneHandler.assessSituation();
       if(situation === "Starting Game") {
         console.log(situation);
-        
+
       }
       break;
     default:
