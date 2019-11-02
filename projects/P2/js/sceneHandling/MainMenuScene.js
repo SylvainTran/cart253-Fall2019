@@ -3,9 +3,8 @@
 
 */
 class MainMenuScene extends Scene {
-  constructor(sceneIndex, bgColor, textObject, actorsPresent, isCinematic, nbActors, scenesConfig){
-    super(sceneIndex, bgColor, textObject, actorsPresent, isCinematic, nbActors);
-    this.scenesConfig = scenesConfig;
+  constructor(sceneData){
+    super(sceneData);
   }
 
 
@@ -15,20 +14,7 @@ class MainMenuScene extends Scene {
   */
   bootScene() {
     displayMainMenu();
-    displayText();
-  }
-
-  /**
-    Displays the text
-
-  */
-  displayText() {
-    let textObject = loadJSON(this.textObject.textObjectPath);
-    push();
-    textSize(this.textObject.tSize);
-    fill(this.textObject.textColor);
-    text(this.textObject.textContent, this.textObject.tPosX, this.textObject.tPosY);
-    pop();
+    displayCaptions();
   }
 
   /**
@@ -36,6 +22,18 @@ class MainMenuScene extends Scene {
 
   */
   displayMainMenu() {
-    background(this.bgColor);
+    background(this.sceneData.bgColor);
+  }
+
+  /**
+    Displays the text
+
+  */
+  displayCaptions() {
+    push();
+    textSize(this.sceneData.tSize);
+    fill(this.sceneData.textColor);
+    text(this.sceneData.narration, this.sceneData.tPosX, this.sceneData.tPosY);
+    pop();
   }
 }

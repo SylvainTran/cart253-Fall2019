@@ -1,0 +1,30 @@
+{
+  "mainMenuScene": {
+    "sceneIndex": 0,
+    "sceneName": "Main Menu",
+    "textObjectPath": "data/scenes/sceneData/sceneData0.json",
+    "readyForNextScene": false,
+    "currentScene": false
+  },
+  "introduction": {
+    "sceneIndex": 1,
+    "sceneName": "Introduction",
+    "textObjectPath": "data/scenes/sceneData/sceneData1.json",
+    "readyForNextScene": false,
+    "currentScene": false
+  },
+  "tutorialScene": {
+    "sceneIndex": 2,
+    "sceneName": "Movement Tutorial",
+    "textObjectPath": "data/scenes/sceneData/sceneData2.json",
+    "readyForNextScene": false,
+    "currentScene": false
+  },
+  "gameplayTutorial": {
+    "sceneIndex": 3,
+    "sceneName": "Main Gameplay Tutorial",
+    "textObjectPath": "data/scenes/sceneData/sceneData3.json",
+    "readyForNextScene": false,
+    "currentScene": false
+  }
+}

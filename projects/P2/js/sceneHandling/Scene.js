@@ -3,12 +3,23 @@
 
 */
 class Scene {
-  constructor(sceneIndex, bgColor, textObject, actorsPresent, isCinematic, nbActors){
-    this.sceneIndex = sceneIndex;
-    this.bgColor = bgColor;
-    this.textObject = textObject;
-    this.isCinematic = isCinematic;
-    this.nbActors = nbActors;
+  constructor(sceneData){
+    this.sceneData = sceneData; // A reference to the original scene data file.
+    // Making sure all extended Scenes get are initialized with these properties.
+    this.sceneIndex = sceneData.sceneIndex;
+    this.sceneName = sceneData.sceneName;
+    this.bgColor = sceneData.bgColor;
+    this.isCinematic = sceneData.isCinematic;
+    this.nbActors = sceneData.nbActors;
+    this.tSize = sceneData.tSize;
+    this.textColor = sceneData.textColor;
+    this.tPosX = sceneData.tPosX;
+    this.tPosY = sceneData.tPosY;
+    this.narration = sceneData.narration;
+    this.dialogue = sceneData.dialogue;
+    this.subtitles = sceneData.subtitles;
+    this.translation = sceneData.translation;
+    this.references = sceneData.references;
   }
 
   /**

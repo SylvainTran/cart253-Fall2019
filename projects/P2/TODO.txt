@@ -1,0 +1,5 @@
+pass it to a MainMenuScene
+render that scene successfully
+
+Make the UI on a separate layer
+Make it work and start the appropriate scene

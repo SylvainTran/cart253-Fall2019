@@ -1,0 +1,16 @@
+{
+  "sceneIndex": 0,
+  "sceneName": "Main Menu",
+  "bgColor": [0, 0, 0],
+  "isCinematic": true,
+  "nbActors": 2,
+  "tSize": 60,
+  "textColor": 255,
+  "tPosX": 500,
+  "tPosY": 333,
+  "narration": ["BASAR/FLESH\n\n\"Let us start.\"\n\"Perhaps later.\""],
+  "dialogue": "",
+  "subtitles": "",
+  "translation": ["FR", "ENG"],
+  "references": ""
+}
