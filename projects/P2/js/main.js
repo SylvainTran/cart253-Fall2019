@@ -94,9 +94,14 @@ function setup() {
 
 */
 function mousePressed() {
+  let situation;
   switch(sceneHandler.currentSceneName) {
     case "mainMenuScene":
-      let situation = sceneObjects.mainMenuScene.mousePressed();
+      situation = sceneObjects.mainMenuScene.mousePressed();
+      sceneHandler.assessSituation(situation);
+      break;
+    case "introduction":
+      situation = sceneObjects.introduction.mousePressed();
       sceneHandler.assessSituation(situation);
       break;
     default:

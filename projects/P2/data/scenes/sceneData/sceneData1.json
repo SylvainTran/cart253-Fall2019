@@ -12,6 +12,10 @@
   "dialogue": ["The human soul.", "The human body.", "Show me both."],
   "dialoguePosX": 0,
   "dialoguePosY": 600,
+  "dialogueChoice1PosY": 630,
+  "dialogueChoice2PosY": 0,
+  "dialogueChoice3PosY": 0,
+  "dialogueTSize": 30,
   "subtitles": "This game was created for reflection.",
   "translation": ["FR", "ENG"],
   "references": "www.biblestudytools.com/dictionary/flesh/"

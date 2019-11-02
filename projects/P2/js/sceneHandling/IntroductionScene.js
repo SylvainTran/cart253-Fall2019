@@ -8,8 +8,6 @@ class IntroductionScene extends Scene {
     this.jitteringAdam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
   }
-
-
   /**
     Updates the scene.
 
@@ -18,7 +16,6 @@ class IntroductionScene extends Scene {
     this.displayCinematic();
     this.displayCaptions();
   }
-
   /**
     Creates a little cinematic scene.
 
@@ -28,7 +25,6 @@ class IntroductionScene extends Scene {
     this.jitteringAdam.jitterAnimation();
     this.jitteringAdam.display();
   }
-
   /**
     Takes an array of strings and calculate the average length of all the entries.
 
@@ -48,7 +44,7 @@ class IntroductionScene extends Scene {
       numberOfChars = 0; // reset
     }
     averageLengthPerWord = totalLength / text.length;
-    textLineWidth = averageLengthPerWord * (this.sceneData.tSize - 30);
+    textLineWidth = averageLengthPerWord * (this.sceneData.tSize - 30); // TODO remove hardcoded values
     return textLineWidth;
   }
   /**
@@ -57,13 +53,12 @@ class IntroductionScene extends Scene {
   */
   displayCaptions() {
     const narrationLineSpacing = 200;
-    const adjustedDialogueSize = this.sceneData.tSize - 30;
-    const dialogueLineSpacing = adjustedDialogueSize + 30;
+    const dialogueLineSpacing = this.sceneData.tSize;
     let narrationPosY = this.sceneData.narrationPosY;
     let dialoguePosY = this.sceneData.dialoguePosY;
     // The semi-transparent bg behind the dialogue choices
-    let dialogueBg = this.sceneData.dialoguePosY - adjustedDialogueSize;
-    const dialogueBgSize = adjustedDialogueSize + 10;
+    let dialogueBg = this.sceneData.dialoguePosY - this.sceneData.dialogueTSize;
+    const dialogueBgSize = this.sceneData.dialogueTSize + 10;
     for(let i = 0; i < this.sceneData.narration.length; i++) {
       // Adds incremented line spacing
       narrationPosY += narrationLineSpacing;
@@ -76,7 +71,7 @@ class IntroductionScene extends Scene {
     for(let k = 0; k < this.sceneData.dialogue.length; k++) {
       dialogueBg += dialogueLineSpacing;
       push();
-      fill(20, 255, 60, 30);
+      fill(20, 255, 60, 30); // TODO remove hardcoded values
       rect(this.sceneData.dialoguePosX, dialogueBg, this.dialogueAverageTextWidth, dialogueBgSize);
       pop();
     }
@@ -84,40 +79,29 @@ class IntroductionScene extends Scene {
       dialoguePosY += dialogueLineSpacing;
       push();
       fill(this.sceneData.textColor);
-      textSize(adjustedDialogueSize);
+      textSize(this.sceneData.dialogueTSize);
       text(this.sceneData.dialogue[j], this.sceneData.dialoguePosX, dialoguePosY);
       pop();
     }
 
   }
-
   /**
     Uses the position of the displayed narration and the size of the font to calculate
     the positions of the buttons that handle start or exit game behaviours.
 
   */
   mousePressed() {
-    const adjustedStartButtonY = this.sceneData.startButtonPosY - this.sceneData.tSize;
-    const adjustedExitButtonY = this.sceneData.exitButtonPosY - this.sceneData.tSize;
-    const startButtonWidth = 300;
-    const exitButtonWidth = 325;
+    console.log("Intro mouse pressed");
+    console.log("Pos Y" + mouseY);
     // A string variable that is used to assign specific scene handling in the sceneHandler.js
     let situation;
     // The start button
     if(
-      mouseX >= this.sceneData.startButtonPosX && mouseX <= this.sceneData.startButtonPosX + startButtonWidth
-      && mouseY >= adjustedStartButtonY && mouseY <= adjustedStartButtonY + this.sceneData.tSize
+      mouseX >= this.sceneData.dialoguePosX && mouseX <= this.sceneData.dialoguePosX + this.dialogueAverageTextWidth
+      && mouseY >= this.sceneData.dialogueChoice1PosY && mouseY <= this.sceneData.dialogueChoice1PosY + this.sceneData.dialogueTSize + 10 // TODO Remove hardcoded values
     ) {
-      console.log("Clicking above the Start button.");
-      situation = "Starting Game";
-    }
-    // The exit button
-    if(
-      mouseX >= this.sceneData.exitButtonPosX && mouseX <= this.sceneData.exitButtonPosX + exitButtonWidth
-      && mouseY >= adjustedExitButtonY && mouseY <= adjustedExitButtonY + this.sceneData.tSize
-    ) {
-      console.log("Clicking above the Exit button.");
-      situation = "Exiting Game";
+      console.log("Clicking above The human soul.");
+      situation = "Human Soul";
     }
     return situation;
   }
