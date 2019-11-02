@@ -1,11 +1,11 @@
 /**
-  Main Menu scene. Start game or exit game.
+  MovementTutorial scene. Teaches how to move, and explores the concept of the body.
 
 */
-class IntroductionScene extends Scene {
+class MovementTutorialScene extends Scene {
   constructor(sceneData){
     super(sceneData);
-    this.jitteringAdam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
+    this.movingAdam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
   }
   /**
@@ -22,14 +22,14 @@ class IntroductionScene extends Scene {
   */
   displayCinematic() {
     background(this.sceneData.bgColor); // Black
-    this.jitteringAdam.jitterAnimation();
-    this.jitteringAdam.display();
+    this.movingAdam .display();
   }
   /**
     Displays the text.
 
   */
   displayCaptions() {
+    console.log("displaying captions for movement tutorial");
     const narrationLineSpacing = 200;
     const dialogueLineSpacing = this.sceneData.tSize;
     let narrationPosY = this.sceneData.narrationPosY;
@@ -61,7 +61,6 @@ class IntroductionScene extends Scene {
       text(this.sceneData.dialogue[j], this.sceneData.dialoguePosX, dialoguePosY);
       pop();
     }
-
   }
   /**
     Uses the position of the displayed narration and the size of the font to calculate
@@ -69,18 +68,13 @@ class IntroductionScene extends Scene {
 
   */
   mousePressed() {
-    console.log("Intro mouse pressed");
-    console.log("Pos Y" + mouseY);
-    // A string variable that is used to assign specific scene handling in the sceneHandler.js
-    let situation;
-    // The start button
-    if(
-      mouseX >= this.sceneData.dialoguePosX && mouseX <= this.sceneData.dialoguePosX + this.dialogueAverageTextWidth
-      && mouseY >= this.sceneData.dialogueChoice1PosY && mouseY <= this.sceneData.dialogueChoice1PosY + this.sceneData.dialogueTSize + 10 // TODO Remove hardcoded values
-    ) {
-      console.log("Clicking above The human body.");
-      situation = "Human Body";
-    }
-    return situation;
+
+  }
+  /**
+    Handles keyboard inputs.
+
+  */
+  keyPressed(TILE_SIZE){
+    this.movingAdam.keyPressed(TILE_SIZE);
   }
 }

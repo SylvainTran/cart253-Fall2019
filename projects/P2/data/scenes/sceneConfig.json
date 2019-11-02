@@ -13,7 +13,7 @@
     "readyForNextScene": false,
     "currentScene": false
   },
-  "tutorialScene": {
+  "movementTutorial": {
     "sceneIndex": 2,
     "sceneName": "movementTutorial",
     "textObjectPath": "data/scenes/sceneData/sceneData2.json",

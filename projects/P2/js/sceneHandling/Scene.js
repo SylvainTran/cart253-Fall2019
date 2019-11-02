@@ -45,4 +45,26 @@ class Scene {
   render() {
     //enact();
   }
+  /**
+    Takes an array of strings and calculate the average length of all the entries.
+
+  */
+  textLineWidth(text) {
+    let averageLengthPerWord = 0;
+    let numberOfChars = 0;
+    let totalLength = 0;
+    let textLineWidth = 0;
+    for(let i = 0; i < text.length; i++) {
+      let word = text[i];
+      for(let j = 0; j < word.length; j++) {
+        // Count each letter char of the word
+        numberOfChars++;
+      }
+      totalLength += numberOfChars; // increment
+      numberOfChars = 0; // reset
+    }
+    averageLengthPerWord = totalLength / text.length;
+    textLineWidth = averageLengthPerWord * (this.sceneData.tSize - 30); // TODO remove hardcoded values
+    return textLineWidth;
+  }
 }

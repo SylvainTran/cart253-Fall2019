@@ -70,7 +70,8 @@ function setup() {
   environmentLayer.clear();
   sceneObjects = {
     "mainMenuScene": new MainMenuScene(sceneData0),
-    "introduction": new IntroductionScene(sceneData1)
+    "introduction": new IntroductionScene(sceneData1),
+    "movementTutorial": new MovementTutorialScene(sceneData2)
   }
   // Keeping the data separated from the manipulation on the data.
   // All data is encapsulated in the sceneConfig and sceneData files.
@@ -107,7 +108,7 @@ function mousePressed() {
     default:
       break;
   }
-    createSettlement(windowWidth, windowHeight);
+    //createSettlement(windowWidth, windowHeight);
     // Event listeners for onMouseOver tile map stuff
     for(let i = 0; i <= TILE_MAP_SIZE / TILE_SIZE; i++) {
       for(let j = i; j <= TILE_MAP_SIZE / TILE_SIZE; j++) {
@@ -119,6 +120,14 @@ function mousePressed() {
 function keyPressed() {
     // Call the Humans and persons' tile-based movement (custom keyPressed)
     adam.keyPressed(TILE_SIZE);
+    let situation;
+    switch(sceneHandler.currentSceneName) {
+      case "movementTutorial":
+        situation = sceneObjects.movementTutorial.keyPressed(TILE_SIZE);
+        break;
+      default:
+        break;
+    }
 }
 
 /**

@@ -32,10 +32,11 @@ class SceneHandler {
 
   */
   process() {
+    this.trackProcessedScenes();
     // Boots the current scene's update functions, by referring to its name.
     this.sceneObjects[this.currentSceneName].updateScene();
     // Updates the sceneWasChanged flag gating (to prevent discrepancy between mousePressed() and process()
-    if(this.sceneWasChanged === false) {
+    if(this.sceneWasChanged === true) {
       this.sceneConfig[this.currentSceneName].readyForNextScene = true;
     }
     else {
@@ -50,22 +51,30 @@ class SceneHandler {
 
   */
   assessSituation(situation) {
-    if(situation === "Starting Game") {
-      console.log(situation);
-      // Flags that we just changed scene
-      this.sceneWasChanged = true;
-      // The following line tells us which is the new scene
-      this.goingToScene = "introduction";
-      if(this.sceneConfig[this.currentSceneName].readyForNextScene) {
-        this.trackProcessedScenes();
-        this.changeScene();
-        console.log(this.currentSceneName);
-        console.log(this.sceneConfig[this.currentSceneName].currentScene);
-      }
+    switch(situation) {
+      case "Starting Game":
+        console.log(situation);
+        // Flags that we just changed scene
+        this.sceneWasChanged = true;
+        // The following line tells us which is the new scene
+        this.goingToScene = "introduction";
+        break;
+      case "Exiting Game":
+        console.log("Exiting game.");
+        document.write("Bye! Live your day as if it were the last. Take care of yourself, your loved ones, and your enemies as well. Enjoy your life with gratitude and there won't be any regrets :-). God loves you more than you think!");
+        break;
+      case "Human Body":
+        this.sceneWasChanged = true;
+        console.log("Situation set to human body");
+        this.goingToScene = "movementTutorial";
+        break;
+      default:
+        break;
     }
-    if (situation === "Exiting Game") {
-      console.log("Exiting game.");
-      document.write("Bye! Live your day as if it were the last. Take care of yourself, your loved ones, and your enemies as well. Enjoy your life with gratitude and there won't be any regrets :-). God loves you more than you think!");
+    if(this.sceneConfig[this.currentSceneName].readyForNextScene) {
+      this.changeScene();
+      console.log(this.currentSceneName);
+      console.log(this.sceneConfig[this.currentSceneName].currentScene);
     }
   }
 
@@ -78,11 +87,15 @@ class SceneHandler {
     // Should keep up to date the currentScene information
     if(this.sceneWasChanged) {
       // Update the processing and current scenes queues
-      this.processingQueue.dequeue();
-      this.previousGameScene = this.currentSceneQueue.dequeue();
       // Updates the previous game scene name so to be able to update its properties
       this.sceneConfig[this.previousGameScene].currentScene = false;
       this.sceneConfig[this.previousGameScene].readyForNextScene = false;
+    }
+    if(!this.processingQueue.isEmpty()) {
+      this.processingQueue.dequeue();
+    }
+    if(!this.currentSceneQueue.isEmpty()) {
+      this.previousGameScene = this.currentSceneQueue.dequeue();
     }
   }
 

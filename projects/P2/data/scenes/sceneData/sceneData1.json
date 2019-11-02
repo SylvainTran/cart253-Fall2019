@@ -9,7 +9,7 @@
   "narrationPosX": 0,
   "narrationPosY": 100,
   "narration": ["BASAR is the Hebrew word for Flesh.\nIt occurs 266 times in the Old Testament.", "It is used interchangeably with \"soul\"\nand \"body\"."],
-  "dialogue": ["The human soul.", "The human body.", "Show me both."],
+  "dialogue": ["The human body.", "The human soul.", "Show me both."],
   "dialoguePosX": 0,
   "dialoguePosY": 600,
   "dialogueChoice1PosY": 630,
