@@ -50,13 +50,18 @@ class MainMenuScene extends Scene {
   }
 
   /**
-    Displays the text.
+    Uses the position of the displayed narration and the size of the font to calculate
+    the positions of the buttons that handle start or exit game behaviours.
 
   */
   mousePressed() {
     const adjustedStartButtonY = this.sceneData.startButtonPosY - this.sceneData.tSize;
+    const adjustedExitButtonY = this.sceneData.exitButtonPosY - this.sceneData.tSize;
     const startButtonWidth = 300;
+    const exitButtonWidth = 325;
+    // A string variable that is used to assign specific scene handling in the sceneHandler.js
     let situation;
+    // The start button
     if(
       mouseX >= this.sceneData.startButtonPosX && mouseX <= this.sceneData.startButtonPosX + startButtonWidth
       && mouseY >= adjustedStartButtonY && mouseY <= adjustedStartButtonY + this.sceneData.tSize
@@ -64,7 +69,14 @@ class MainMenuScene extends Scene {
       console.log("Clicking above the Start button.");
       situation = "Starting Game";
     }
-
+    // The exit button
+    if(
+      mouseX >= this.sceneData.exitButtonPosX && mouseX <= this.sceneData.exitButtonPosX + exitButtonWidth
+      && mouseY >= adjustedExitButtonY && mouseY <= adjustedExitButtonY + this.sceneData.tSize
+    ) {
+      console.log("Clicking above the Exit button.");
+      situation = "Exiting Game";
+    }
     return situation;
   }
 }

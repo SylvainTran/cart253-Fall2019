@@ -87,6 +87,11 @@ function setup() {
   }
 }
 
+/**
+  Accesses the sceneHandler object's currentSceneName to gate
+  which mouse event (situation) to handle.
+
+*/
 function mousePressed() {
   switch(sceneHandler.currentSceneName) {
     case "mainMenuScene":

@@ -63,6 +63,10 @@ class SceneHandler {
         console.log(this.sceneConfig[this.currentSceneName].currentScene);
       }
     }
+    if (situation === "Exiting Game") {
+      console.log("Exiting game.");
+      document.write("Bye! Live your day as if it were the last. Take care of yourself, your loved ones, and your enemies as well. Enjoy your life with gratitude and there won't be any regrets :-). God loves you more than you think!");
+    }
   }
 
   /**
