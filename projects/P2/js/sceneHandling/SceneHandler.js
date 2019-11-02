@@ -32,8 +32,8 @@ class SceneHandler {
 
   */
   process() {
-    // Boots the current scene by referring to its name.
-    this.sceneObjects[this.currentSceneName].bootScene();
+    // Boots the current scene's update functions, by referring to its name.
+    this.sceneObjects[this.currentSceneName].updateScene();
     // Updates the sceneWasChanged flag gating (to prevent discrepancy between mousePressed() and process()
     if(this.sceneWasChanged === false) {
       this.sceneConfig[this.currentSceneName].readyForNextScene = true;
@@ -92,7 +92,7 @@ class SceneHandler {
     // Updates the current scene queue
     this.currentSceneQueue.enqueue(this.goingToScene);
     // Go to the next scene by using its name
-    this.sceneObjects[this.goingToScene].bootScene();
+    this.sceneObjects[this.goingToScene].updateScene();
     // Update the currentSceneName property for the scene we are transitioning to
     this.currentSceneName = this.goingToScene;
     // Update the scene config file

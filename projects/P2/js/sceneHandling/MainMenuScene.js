@@ -9,10 +9,10 @@ class MainMenuScene extends Scene {
 
 
   /**
-    Boots the scene.
+    Updates the scene.
 
   */
-  bootScene() {
+  updateScene() {
     this.displayMainMenu();
     this.displayCaptions();
   }

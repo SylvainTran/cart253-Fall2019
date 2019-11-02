@@ -72,7 +72,8 @@ function setup() {
     "mainMenuScene": new MainMenuScene(sceneData0),
     "introduction": new IntroductionScene(sceneData1)
   }
-  // Keeping the data outside of the manipulation on the data
+  // Keeping the data separated from the manipulation on the data.
+  // All data is encapsulated in the sceneConfig and sceneData files.
   sceneHandler = new SceneHandler(sceneObjects, sceneConfig);
   tileFillColor.push(color(255, 255, 255)); // White
   adam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
