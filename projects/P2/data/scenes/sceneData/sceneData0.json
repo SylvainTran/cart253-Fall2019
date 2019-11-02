@@ -8,7 +8,6 @@
   "textColor": 255,
   "narrationPosX": 500,
   "narrationPosY": 333,
-  "tFontPath": "assets\/fonts\/dosis.ttf",
   "narration": ["BASAR/FLESH"],
   "startButton": "\"Let us start.\"",
   "startButtonPosX": 500,
