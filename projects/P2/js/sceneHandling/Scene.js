@@ -13,8 +13,8 @@ class Scene {
     this.nbActors = sceneData.nbActors;
     this.tSize = sceneData.tSize;
     this.textColor = sceneData.textColor;
-    this.tPosX = sceneData.tPosX;
-    this.tPosY = sceneData.tPosY;
+    this.narrationPosX = sceneData.narrationPosX;
+    this.narrationPosY = sceneData.narrationPosY;
     this.narration = sceneData.narration;
     this.dialogue = sceneData.dialogue;
     this.subtitles = sceneData.subtitles;

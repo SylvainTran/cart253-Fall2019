@@ -14,38 +14,34 @@
 */
 // The main canvas for actors
 let mainCanvas;
-// Array of scenes
-let sceneTableObj;
-let scenesFilePath;
+// Scene related variables
 let sceneHandler;
 let sceneConfig;
+let sceneObjects;
 let sceneData0, sceneData1, sceneData2, sceneData3;
-
 // Our first human
 let adam;
-
 // Pics
 let avatarMale;
-
 // The three prey
 let person1;
 let person2;
 let person3;
-
-// The tile map
+// The canvas layers for each display category
+let uiLayer;
 let actorsLayer;
 let gridLayer;
 let environmentLayer;
+// The tile map
 let tileMap = [];
 let tileMapExplorer;
 let tileFillColor = [];
 const TILE_MAP_SIZE = 1000;
 const TILE_SIZE = TILE_MAP_SIZE / 10;
-
-// persons array
+// The persons array
 let persons = [];
 const numberOfPersons = 10;
-
+// The font
 let dosisTTF;
 
 function preload() {
@@ -66,50 +62,47 @@ function preload() {
 function setup() {
   mainCanvas = createCanvas(TILE_MAP_SIZE, TILE_MAP_SIZE);
   mainCanvas.parent('mainDisplay');
-
-  let sceneObjects = {
-    mainMenuScene: new MainMenuScene(sceneData0)
-  }
-  let currentScene = sceneConfig.mainMenuScene.sceneName;
-
-  // Keeping the data outside of the manipulation on the data
-  sceneHandler = new SceneHandler(sceneObjects, currentScene);
-  sceneObjects.mainMenuScene.displayCaptions();
-
-  // If ready to render the current scene, render it.
-  //sceneHandler.process();
-
-  tileFillColor.push(color(255, 255, 255)); // White
+  uiLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
+  uiLayer.clear();
   gridLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
   gridLayer.clear();
   environmentLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
   environmentLayer.clear();
-
+  sceneObjects = {
+    "mainMenuScene": new MainMenuScene(sceneData0),
+  }
+  // Keeping the data outside of the manipulation on the data
+  sceneHandler = new SceneHandler(sceneObjects, sceneConfig);
+  tileFillColor.push(color(255, 255, 255)); // White
   adam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
-  person1 = new Prey(width / 2, height / 2, 10, color(255, 100, 10), 50, avatarFemale);
-  person2 = new Prey(width / 2, height / 2, 8, color(255, 255, 255), 60, avatarFemale);
-  person3 = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
-
   const tileMapSize = TILE_MAP_SIZE;
   const tileMapWidth = tileMapSize;
-  const tileMapHeight = TILE_MAP_SIZE;
-
+  const tileMapHeight = tileMapSize;
   createEmptyTileMap(tileMapSize);
   tileMapExplorer = new TileMapExplorer(tileMap);
-
   for(let i = 0; i < numberOfPersons; i++) {
-    let newPrey = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
-    persons[i] = newPrey;
+    let newPerson = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
+    persons[i] = newPerson;
   }
-
 }
 
 function mousePressed() {
+  switch(sceneHandler.currentSceneName) {
+    case "mainMenuScene":
+      let situation = sceneObjects.mainMenuScene.mousePressed();
+      if(situation === "Starting Game") {
+        console.log(situation);
+        
+      }
+      break;
+    default:
+      break;
+  }
     createSettlement(windowWidth, windowHeight);
     // Event listeners for onMouseOver tile map stuff
     for(let i = 0; i <= TILE_MAP_SIZE / TILE_SIZE; i++) {
       for(let j = i; j <= TILE_MAP_SIZE / TILE_SIZE; j++) {
-        tileMap[i][j].clicked(gridLayer, tileFillColor, TILE_SIZE);
+        //tileMap[i][j].clicked(gridLayer, tileFillColor, TILE_SIZE);
       }
     }
 }
@@ -125,50 +118,24 @@ function keyPressed() {
 */
 function draw() {
   // Main canvas bg
-  background(0);
-
-  // Check neighbouring tiles
-  let checkperson1 = person1.checkNeighbourTiles(tileMapExplorer);
-  let checkperson2 = person2.checkNeighbourTiles(tileMapExplorer);
-  let checkperson3 = person3.checkNeighbourTiles(tileMapExplorer);
-
-  // Move all the "animals" if the next tiles are ok to move to.
-  person1.move();
-  person2.move();
-  person3.move();
-
-  // Handle the adam eating any of the prey
-  adam.handleEating(person1);
-  adam.handleEating(person2);
-  adam.handleEating(person3);
-
+  mainCanvas.background(0);
+  textFont(dosisTTF);
   // Displays the tile map
   image(gridLayer, 0, 0);
-
   // Display all the actors
   adam.display();
-
   for(let j = 0; j < numberOfPersons; j++){
+    // Check neighbouring tiles
     let checkMove = persons[j].checkNeighbourTiles(tileMapExplorer);
     persons[j].move();
     persons[j].display();
     adam.handleEating(persons[j]);
   }
+  // If ready to render the current scene, render it.
+  sceneHandler.process();
 
-  push();
-  fill(255);
-  textSize(60);
-  textFont(dosisTTF);
-  text("BASAR/FLESH\n\n\"Let us start.\"\n\"Perhaps later.\"", width / 2, height / 3);
-  text("Please turn on your sound.\n", width / 10, height / 1.2);
-  pop();
-
-  push();
-  fill(255, 0, 0);
-  textSize(30);
-  textFont(dosisTTF);
-  text("(Be advised that this game may be shocking.)", width / 10, height / 1.1);
-  pop();
+  // The UI layer display
+  // image(uiLayer, 0, 0);
   // The environment layer createGraphics
   image(environmentLayer, 0, 0);
 }

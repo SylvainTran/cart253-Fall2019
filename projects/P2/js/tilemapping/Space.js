@@ -30,6 +30,6 @@ class Space extends StaticElement {
 
   */
   clicked() {
-
+    console.log("Someone clicked this tile.");
   }
 }

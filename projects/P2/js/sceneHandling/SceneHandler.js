@@ -4,21 +4,23 @@
 
 */
 class SceneHandler {
-  // Internal "private" property. Game starts at 0 by default, which is also narratively also the main menu
-
-  constructor(currentScene, sceneObjects) {
-    this.currentScene = currentScene;
+  constructor(sceneObjects, sceneConfig) {
     this.sceneObjects = sceneObjects;
+    // Start at the main menu
+    this.currentSceneName = sceneConfig.mainMenuScene.sceneName;
   }
 
+  // A simple hash table that boots the current SceneObject as defined by its name in the scene config
   process() {
-    let currentSc = this.currentScene;
-    let sceneObjs = this.sceneObjects;
-    sceneObjs.currentSc.bootScene();
+    this.sceneObjects[this.currentSceneName].bootScene();
   }
 
-  testSceneText(){
-    console.log(this.currentSceneIndex);
+  trackProcessedScenes() {
+
+  }
+
+  nextScene(){
+    // Go to the next scene by its index
   }
 
 //   checkPlayerReadyForNextScene(currentSceneIndex) {
@@ -51,18 +53,7 @@ class SceneHandler {
 //     }
 //   }
 //
-//   nextScene(){
-//     // Go to the next scene by its index
-//     if (sceneTable.isEmpty()) {
-//       return;
-//     } else {
-//     let nextScene = sceneQueue.dequeue();
-//     currentScene = nextScene;
-//     goToScene(currentScene);
-// }
-//     this.sceneTable.sceneIndex
-//   }
-//
+
 //   previousScene(){
 //
 //   }
