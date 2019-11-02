@@ -5,72 +5,93 @@
 */
 class SceneHandler {
   constructor(sceneObjects, sceneConfig) {
+    // Scene data: the objects and the config file
     this.sceneObjects = sceneObjects;
-    // Start at the main menu
+    this.sceneConfig = sceneConfig;
+    // Start at the main menu. This property is used to know which is the current scene
     this.currentSceneName = sceneConfig.mainMenuScene.sceneName;
+    // A string property that keeps the name of the previous game scene (non-menu type)
+    this.previousGameScene = "";
+    // Property that shields us from the discrepancy between mousePressed() events and process() calls
+    this.sceneWasChanged = false;
+    // The property that tells us which scene where change to
+    this.goingToScene = "";
+    // Scene management structures: maxScenes = 2 allows us to have two scenes at the same time (the previous scene history + the current game scene
+    // or the current game scene + a game menu)
+    this.maxScenes = 2;
+    this.processingQueue = new Queue(this.maxScenes); // Will allow for defensive gating logic later
+    this.currentSceneQueue = new Queue(this.maxScenes);
+    // Updates the current scene queue initially
+    this.currentSceneQueue.enqueue(this.currentSceneName);
   }
 
-  // A simple hash table that boots the current SceneObject as defined by its name in the scene config
+  /**
+    A series of simple hash tables. Boots the current SceneObject as defined by its name in the scene config
+    Checks if the scene was changed too for an updates flag (to prevent non-scene changes to trigger a next scene).
+    This function is only concerned with the current scene's properties and ignores other scenes.
+
+  */
   process() {
+    // Boots the current scene by referring to its name.
     this.sceneObjects[this.currentSceneName].bootScene();
+    // Updates the sceneWasChanged flag gating (to prevent discrepancy between mousePressed() and process()
+    if(this.sceneWasChanged === false) {
+      this.sceneConfig[this.currentSceneName].readyForNextScene = true;
+    }
+    else {
+      this.sceneConfig[this.currentSceneName].readyForNextScene = false;
+    }
   }
 
   /**
     Checks what's going on within the scenes.
+    The sceneWasChanged property is only set to true if this event
+    occurred in a change scene type of event.
 
   */
   assessSituation(situation) {
     if(situation === "Starting Game") {
       console.log(situation);
-
+      // Flags that we just changed scene
+      this.sceneWasChanged = true;
+      // The following line tells us which is the new scene
+      this.goingToScene = "introduction";
+      if(this.sceneConfig[this.currentSceneName].readyForNextScene) {
+        this.trackProcessedScenes();
+        this.changeScene();
+        console.log(this.currentSceneName);
+        console.log(this.sceneConfig[this.currentSceneName].currentScene);
+      }
     }
   }
 
+  /**
+    This function deals with the previous and processing scenes in the queue
+    to update their flag parameters (currentScene)
+
+  */
   trackProcessedScenes() {
-
+    // Should keep up to date the currentScene information
+    if(this.sceneWasChanged) {
+      // Update the processing and current scenes queues
+      this.processingQueue.dequeue();
+      this.previousGameScene = this.currentSceneQueue.dequeue();
+      // Updates the previous game scene name so to be able to update its properties
+      this.sceneConfig[this.previousGameScene].currentScene = false;
+      this.sceneConfig[this.previousGameScene].readyForNextScene = false;
+    }
   }
 
-  nextScene(){
-    // Go to the next scene by its index
+  changeScene(){
+    // Adds the new scene to the queue of scenes to be processed
+    this.processingQueue.enqueue(this.goingToScene);
+    // Updates the current scene queue
+    this.currentSceneQueue.enqueue(this.goingToScene);
+    // Go to the next scene by using its name
+    this.sceneObjects[this.goingToScene].bootScene();
+    // Update the currentSceneName property for the scene we are transitioning to
+    this.currentSceneName = this.goingToScene;
+    // Update the scene config file
+    this.sceneConfig[this.currentSceneName].currentScene = true;
   }
-
-//   checkPlayerReadyForNextScene(currentSceneIndex) {
-//     // depending on the scene, certain screen boundaries are open for going to the next scene
-//     switch (currentScene) {
-//       case "eden1":
-//         sceneExit("DOWN");
-//         break;
-//       case "eden2":
-//         sceneExit("LEFT");
-//         break;
-//       case "eden3":
-//         sceneExit("TOP");
-//         break;
-//       case "forbiddenFruitScene":
-//         if (!prefallenState) { //fallen state starts after player collides with fruit
-//           nextScene();
-//         }
-//         break;
-//       case "playgrounds1":
-//         sceneExit("RIGHT");
-//         break;
-//       case "playgrounds2": // At this point the game is over
-//         if (otherGenderEaten === 7) {
-//           gameOver = true;
-//         }
-//         break;
-//       default:
-//         break;
-//     }
-//   }
-//
-
-//   previousScene(){
-//
-//   }
-//
-//   resetGame(){
-//
-//   }
-
 }
