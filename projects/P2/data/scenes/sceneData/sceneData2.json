@@ -9,7 +9,7 @@
   "narrationPosX": 0,
   "narrationPosY": 100,
   "narration": ["What do you think? You have a body.\nMove around now. See how it feels."],
-  "dialogue": ["Use Arrow Keys to move.", "I don't know how to move my body."],
+  "dialogue": ["Use Arrow Keys to move.", "Go to the right side of the screen to continue."],
   "dialoguePosX": 0,
   "dialoguePosY": 600,
   "dialogueChoice1PosY": 630,

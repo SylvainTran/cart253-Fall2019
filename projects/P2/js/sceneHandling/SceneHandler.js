@@ -79,6 +79,26 @@ class SceneHandler {
       console.log(this.sceneConfig[this.currentSceneName].currentScene);
     }
   }
+  /**
+    Checks what's going on within the scenes.
+    The sceneWasChanged property is only set to true if this event
+    occurred in a change scene type of event.
+
+  */
+  handleSceneKeyEvent(sceneKeyPressEvent) {
+    // sceneKeyPressEvent is already garanteed to be non-null
+    switch(sceneKeyPressEvent) {
+      case "exitedSuccessfully":
+        this.sceneWasChanged = true;
+        this.goingToScene = "gameplayTutorial";
+        break;
+      default:
+        break;
+    }
+    if(this.sceneConfig[this.currentSceneName].readyForNextScene) {
+      this.changeScene();
+    }
+  }
 
   /**
     This function deals with the previous and processing scenes in the queue

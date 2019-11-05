@@ -99,18 +99,23 @@ function setup() {
 
 */
 function mousePressed() {
-  let sceneMouseEvent;
+  let sceneMouseEvent = null;
   switch(sceneHandler.currentSceneName) {
     case "mainMenuScene":
       sceneMouseEvent = sceneObjects.mainMenuScene.mousePressed();
-      sceneHandler.handleSceneMouseEvent(sceneMouseEvent);
       break;
     case "introduction":
       sceneMouseEvent = sceneObjects.introduction.mousePressed();
-      sceneHandler.handleSceneMouseEvent(sceneMouseEvent);
       break;
+    case "movementTutorial":
+        sceneMouseEvent = sceneObjects.movementTutorial.mousePressed();
+        break;
     default:
       break;
+  }
+  // If we actually got an event or if it stayed null.
+  if(sceneMouseEvent !== null) {
+    sceneHandler.handleSceneMouseEvent(sceneMouseEvent);
   }
     //createSettlement(windowWidth, windowHeight);
     // Event listeners for onMouseOver tile map stuff
@@ -123,14 +128,19 @@ function mousePressed() {
 
 function keyPressed() {
     // Call the Humans and persons' tile-based movement (custom keyPressed)
+    // Main menu keyPressed ? TODO refactor
     adam.keyPressed(TILE_SIZE);
-    let sceneKeyEvent;
+    let sceneKeyPressEvent = null;
     switch(sceneHandler.currentSceneName) {
       case "movementTutorial":
-        sceneKeyEvent = sceneObjects.movementTutorial.keyPressed(TILE_SIZE);
+        sceneKeyPressEvent = sceneObjects.movementTutorial.keyPressed(TILE_SIZE);
         break;
       default:
         break;
+    }
+    // If we actually got an event or if it stayed null
+    if(sceneKeyPressEvent !== null) {
+      sceneHandler.handleSceneKeyEvent(sceneKeyPressEvent);
     }
 }
 

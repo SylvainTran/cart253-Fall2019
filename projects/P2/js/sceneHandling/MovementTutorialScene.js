@@ -68,13 +68,30 @@ class MovementTutorialScene extends Scene {
 
   */
   mousePressed() {
-
+    // No mouse events in this scene
+    return null;
   }
   /**
     Handles keyboard inputs.
 
   */
   keyPressed(TILE_SIZE){
+    let sceneKeyPressEvent = this.checkIfExited();
     this.movingAdam.keyPressed(TILE_SIZE);
+    return sceneKeyPressEvent;
+  }
+  /**
+    Check if the player successfully left the screen on the right side.
+    Returns null if not.
+
+  */
+  checkIfExited() {
+    let adjustedAvatarWidth = this.movingAdam.avatarPic.width;
+    if(this.movingAdam.x + adjustedAvatarWidth / 2 >= width) {
+      return "exitedSuccessfully";
+    }
+    else {
+      return null;
+    }
   }
 }

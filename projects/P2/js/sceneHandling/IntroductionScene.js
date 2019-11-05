@@ -71,8 +71,9 @@ class IntroductionScene extends Scene {
   mousePressed() {
     console.log("Intro mouse pressed");
     console.log("Pos Y" + mouseY);
-    // A string variable that is used to assign specific scene handling in the sceneHandler.js
-    let sceneMouseEvent;
+    // A string variable that is used to assign specific scene handling in the sceneHandler.js. Returns null
+    // if nothing happened.
+    let sceneMouseEvent = null;
     // The start button
     if(
       mouseX >= this.sceneData.dialoguePosX && mouseX <= this.sceneData.dialoguePosX + this.dialogueAverageTextWidth
