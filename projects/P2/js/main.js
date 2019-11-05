@@ -84,7 +84,7 @@ function setup() {
   //const tileMapHeight = tileMapSize;
   tileMapExplorer = new TileMapExplorer(tileMap);
   tileMapFactory = new TileMapFactory(tileMapSize, tileMapExplorer);
-  tileMapFactory.createEmptyTileMap(tileMapSize);
+  tileMapFactory.createEmptyTileMap(gridLayer, tileMapSize);
   // Actor generation (temporary)
   for(let i = 0; i < numberOfPersons; i++) {
     let newPerson = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);

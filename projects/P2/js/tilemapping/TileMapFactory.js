@@ -14,7 +14,7 @@ class TileMapFactory {
     behaviours.
 
   */
-  createEmptyTileMap(tileMapSize) {
+  createEmptyTileMap(gridLayer, tileMapSize) {
     // Fill the tileMap array with an array in each of its
     // elements.
     console.log("Creating an empty tile map. Size = " + tileMapSize);
