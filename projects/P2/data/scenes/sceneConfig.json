@@ -3,7 +3,7 @@
     "sceneIndex": 0,
     "sceneName": "mainMenuScene",
     "textObjectPath": "data/scenes/sceneData/sceneData0.json",
-    "readyForNextScene": false,
+    "readyForNextScene": true,
     "currentScene": false
   },
   "introduction": {

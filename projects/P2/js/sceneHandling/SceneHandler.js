@@ -10,18 +10,19 @@ class SceneHandler {
     this.sceneConfig = sceneConfig;
     // Start at the main menu. This property is used to know which is the current scene
     this.currentSceneName = sceneConfig.mainMenuScene.sceneName;
-    // A string property that keeps the name of the previous game scene (non-menu type)
-    this.previousGameScene = "";
-    // Property that shields us from the discrepancy between mousePressed() events and process() calls
-    this.sceneWasChanged = false;
-    // The property that tells us which scene where change to
-    this.goingToScene = "";
+    // A string property that keeps the name of the previous game scene (non in-game menu type)
+    this.previousGameScene = "mainMenuScene";
+    // Starts at true for the main scene. Property that shields us from the discrepancy between mousePressed() events and process() calls
+    this.sceneWasChanged = true;
+    // The property that tells us which scene where change to. Start at the main menu.
+    this.goingToScene = "mainMenuScene";
     // Scene management structures: maxScenes = 2 allows us to have two scenes at the same time (the previous scene history + the current game scene
     // or the current game scene + a game menu)
     this.maxScenes = 2;
-    this.processingQueue = new Queue(this.maxScenes); // Will allow for defensive gating logic later
+    this.processingQueue = new Queue(this.maxScenes); // Will allow for defensive coding later
     this.currentSceneQueue = new Queue(this.maxScenes);
-    // Updates the current scene queue initially
+    // Updates the current scene queue initially to mainMenuScene
+    this.processingQueue.enqueue(this.currentSceneName);
     this.currentSceneQueue.enqueue(this.currentSceneName);
   }
 
@@ -58,6 +59,7 @@ class SceneHandler {
         this.sceneWasChanged = true;
         // The following line tells us which is the new scene
         this.goingToScene = "introduction";
+        console.log(this.sceneConfig[this.currentSceneName].readyForNextScene);
         break;
       case "Exiting Game":
         console.log("Exiting game.");
@@ -81,29 +83,25 @@ class SceneHandler {
   /**
     This function deals with the previous and processing scenes in the queue
     to update their flag parameters (currentScene)
+    Updates the processing and current scenes queues
+    Updates the previous game scene name so to be able to update its properties
 
   */
   trackProcessedScenes() {
     // Should keep up to date the currentScene information
-    if(this.sceneWasChanged) {
-      // Update the processing and current scenes queues
-      // Updates the previous game scene name so to be able to update its properties
-      this.sceneConfig[this.previousGameScene].currentScene = false;
-      this.sceneConfig[this.previousGameScene].readyForNextScene = false;
-    }
-    if(!this.processingQueue.isEmpty()) {
-      this.processingQueue.dequeue();
-    }
-    if(!this.currentSceneQueue.isEmpty()) {
-      this.previousGameScene = this.currentSceneQueue.dequeue();
-    }
+    console.log("Current game scene name: " + this.sceneConfig[this.currentSceneName].sceneName);
+    console.log("Previous game scene name: " + this.previousGameScene);
+    this.sceneConfig[this.previousGameScene].currentScene = false;
+    this.sceneConfig[this.previousGameScene].readyForNextScene = false;
   }
 
-  changeScene(){
-    // Adds the new scene to the queue of scenes to be processed
-    this.processingQueue.enqueue(this.goingToScene);
+  changeScene() {
+    // Updates the previous game scene property by using the last scene in the queue
+    this.previousGameScene = this.currentSceneQueue.dequeue();
     // Updates the current scene queue
     this.currentSceneQueue.enqueue(this.goingToScene);
+    // Adds the new scene to the queue of scenes that are processing
+    this.processingQueue = this.currentSceneQueue.front();
     // Go to the next scene by using its name
     this.sceneObjects[this.goingToScene].updateScene();
     // Update the currentSceneName property for the scene we are transitioning to
