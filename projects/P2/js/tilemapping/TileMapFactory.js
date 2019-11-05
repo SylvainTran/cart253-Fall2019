@@ -5,7 +5,7 @@
 class TileMapFactory {
   constructor(tileMapSize, tileMapExplorer) {
     this.tileMapWidth = tileMapSize;
-    thils.tileMapHeight = tileMapHeight;
+    this.tileMapHeight = tileMapSize;
     this.tileMapExplorer = tileMapExplorer; // TODO refactor out in a handler class?
   }
   /**

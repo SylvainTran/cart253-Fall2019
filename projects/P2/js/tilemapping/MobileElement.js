@@ -55,4 +55,31 @@ class MobileElement extends Element {
       this.y -= height + innerMargins;
     }
   }
+  /**
+    Jittering animation for some scenes like the introduction scene.
+    Works for all mobile elements.
+
+  */
+  jitterAnimation() {
+    const animationsCount = 100;
+    const frameSkip = 2;
+    for(let i = 0; i <= animationsCount; i++) {
+      if(frameCount % frameSkip) {
+        this.x += random(-1, 1);
+        this.y += random(-1, 1);
+      }
+    }
+    this.handleWrapping();
+  }
+  /**
+    Staying still animation for some scenes like the introduction scene.
+    Works for all mobile elements.
+
+  */
+  stayingStillAnimation() {
+    this.x = random(0, width);
+    this.y = random(0, height);
+      // TODO display a circle sine function instead
+    this.handleWrapping();
+  }
 }

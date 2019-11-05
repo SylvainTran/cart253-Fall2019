@@ -108,20 +108,4 @@ class Human extends MobileElement {
     }
     pop();
   }
-
-  /**
-    Jittering animation for some scenes like the introduction scene.
-
-  */
-  jitterAnimation() {
-    const animationsCount = 100;
-    const frameSkip = 2;
-    for(let i = 0; i <= animationsCount; i++) {
-      if(frameCount % frameSkip) {
-        this.x += random(-1, 1);
-        this.y += random(-1, 1);
-      }
-    }
-    this.handleWrapping();
-  }
 }

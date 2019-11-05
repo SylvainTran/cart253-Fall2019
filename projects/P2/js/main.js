@@ -72,7 +72,8 @@ function setup() {
   sceneObjects = {
     "mainMenuScene": new MainMenuScene(sceneData0),
     "introduction": new IntroductionScene(sceneData1),
-    "movementTutorial": new MovementTutorialScene(sceneData2)
+    "movementTutorial": new MovementTutorialScene(sceneData2),
+    "gameplayTutorial": new GameplayTutorialScene(sceneData3)
   }
   // Keeping the data separated from the manipulation on the data.
   // All data is encapsulated in the sceneConfig and sceneData files.

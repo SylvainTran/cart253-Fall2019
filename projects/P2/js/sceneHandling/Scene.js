@@ -39,9 +39,13 @@ class Scene {
     Makes a cinematic scene. To be specialized in inherited classes.
 
   */
-  makeCinematicScene() {
+  displayCinematic() {
+    console.log("Displaying cinematic scene.");
   }
 
+  displayCaptions() {
+    console.log("Displaying captions.");
+  }
   render() {
     //enact();
   }

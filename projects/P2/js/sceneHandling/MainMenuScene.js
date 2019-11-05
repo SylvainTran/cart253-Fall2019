@@ -60,14 +60,14 @@ class MainMenuScene extends Scene {
     const startButtonWidth = 300;
     const exitButtonWidth = 325;
     // A string variable that is used to assign specific scene handling in the sceneHandler.js
-    let situation;
+    let sceneMouseEvent;
     // The start button
     if(
       mouseX >= this.sceneData.startButtonPosX && mouseX <= this.sceneData.startButtonPosX + startButtonWidth
       && mouseY >= adjustedStartButtonY && mouseY <= adjustedStartButtonY + this.sceneData.tSize
     ) {
       console.log("Clicking above the Start button.");
-      situation = "Starting Game";
+      sceneMouseEvent = "Starting Game";
     }
     // The exit button
     if(
@@ -75,8 +75,8 @@ class MainMenuScene extends Scene {
       && mouseY >= adjustedExitButtonY && mouseY <= adjustedExitButtonY + this.sceneData.tSize
     ) {
       console.log("Clicking above the Exit button.");
-      situation = "Exiting Game";
+      sceneMouseEvent = "Exiting Game";
     }
-    return situation;
+    return sceneMouseEvent;
   }
 }
