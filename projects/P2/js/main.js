@@ -32,8 +32,9 @@ let uiLayer;
 let actorsLayer;
 let gridLayer;
 let environmentLayer;
-// The tile map
+// The tile map -- TODO setup in a json config file
 let tileMap = [];
+let tileMapFactory;
 let tileMapExplorer;
 let tileFillColor = [];
 const TILE_MAP_SIZE = 1000;
@@ -79,10 +80,12 @@ function setup() {
   tileFillColor.push(color(255, 255, 255)); // White
   adam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
   const tileMapSize = TILE_MAP_SIZE;
-  const tileMapWidth = tileMapSize;
-  const tileMapHeight = tileMapSize;
-  createEmptyTileMap(tileMapSize);
+  //const tileMapWidth = tileMapSize;
+  //const tileMapHeight = tileMapSize;
   tileMapExplorer = new TileMapExplorer(tileMap);
+  tileMapFactory = new TileMapFactory(tileMapSize, tileMapExplorer);
+  tileMapFactory.createEmptyTileMap(tileMapSize);
+  // Actor generation (temporary)
   for(let i = 0; i < numberOfPersons; i++) {
     let newPerson = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
     persons[i] = newPerson;
@@ -95,15 +98,15 @@ function setup() {
 
 */
 function mousePressed() {
-  let situation;
+  let sceneMouseEvent;
   switch(sceneHandler.currentSceneName) {
     case "mainMenuScene":
-      situation = sceneObjects.mainMenuScene.mousePressed();
-      sceneHandler.assessSituation(situation);
+      sceneMouseEvent = sceneObjects.mainMenuScene.mousePressed();
+      sceneHandler.handleSceneMouseEvent(sceneMouseEvent);
       break;
     case "introduction":
-      situation = sceneObjects.introduction.mousePressed();
-      sceneHandler.assessSituation(situation);
+      sceneMouseEvent = sceneObjects.introduction.mousePressed();
+      sceneHandler.handleSceneMouseEvent(sceneMouseEvent);
       break;
     default:
       break;
@@ -120,10 +123,10 @@ function mousePressed() {
 function keyPressed() {
     // Call the Humans and persons' tile-based movement (custom keyPressed)
     adam.keyPressed(TILE_SIZE);
-    let situation;
+    let sceneKeyEvent;
     switch(sceneHandler.currentSceneName) {
       case "movementTutorial":
-        situation = sceneObjects.movementTutorial.keyPressed(TILE_SIZE);
+        sceneKeyEvent = sceneObjects.movementTutorial.keyPressed(TILE_SIZE);
         break;
       default:
         break;
@@ -156,71 +159,4 @@ function draw() {
   // image(uiLayer, 0, 0);
   // The environment layer createGraphics
   image(environmentLayer, 0, 0);
-}
-
-/**
-  Creates a two-dimensional and empty tile map so to be able
-  to organize the canvas elements and some screen
-  behaviours.
-
-*/
-function createEmptyTileMap(tileMapSize) {
-  // Fill the tileMap array with an array in each of its
-  // elements.
-  console.log("Creating an empty tile map. Size = " + tileMapSize);
-  for(let k = 0; k < tileMapSize; k+= TILE_SIZE) {
-    tileMap[k] = [];
-    for(let m = 0; m < tileMapSize; m+= TILE_SIZE) {
-      // We add empty spaces first--TODO don't add where there is going to be walls
-      let newSpace = new Space(k, m);
-      tileMap[k][m] = newSpace;
-      tileMap[k][m].displayTile(gridLayer, color(0, 120, 255, 15), TILE_SIZE);
-    }
-  }
-}
-
-/**
-  Fills the tiles in the tileMap with Wall static elements to create borders.
-  TDDO to be implemented in an interactive way instead.
-
-*/
-function createWallElements(tileMapWidth, tileMapHeight) {
-  let newWallElement;
-
-  for(let k = 0; k < tileMapWidth; k++) {
-    for(let m = 0; m < tileMapHeight; m++) {
-
-    }
-  }
-}
-
-/**
-  Snaps mousePosX on the gridmap.
-
-*/
-function gridSnapX(mouseX, mouseY) {
-  let gridSnappedValue;
-
-  return gridSnappedValue;
-}
-
-/**
-  Snaps mousePosY on the gridmap.
-
-*/
-function gridSnapY() {
-
-}
-
-/**
-  Create a new settlement inside the canvas at mouse position X, Y.
-
-*/
-function createSettlement(tileMapWidth, tileMapHeight) {
-  let newSettlement;
-  //let gridConstrainedX = gridSnapX(mouseX, mouseY);
-  //let gridConstrainedY = gridSnapY(mouseX, mouseY);
-  newSettlement = new Settlement(mouseX, mouseY);
-  //newSettlement = new Settlement(gridConstrainedX, gridConstrainedY);
-  newSettlement.drawSettlement(environmentLayer, TILE_SIZE);
 }

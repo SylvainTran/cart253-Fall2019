@@ -50,10 +50,10 @@ class SceneHandler {
     occurred in a change scene type of event.
 
   */
-  assessSituation(situation) {
-    switch(situation) {
+  handleSceneMouseEvent(sceneMouseEvent) {
+    switch(sceneMouseEvent) {
       case "Starting Game":
-        console.log(situation);
+        console.log(sceneMouseEvent);
         // Flags that we just changed scene
         this.sceneWasChanged = true;
         // The following line tells us which is the new scene
@@ -65,7 +65,7 @@ class SceneHandler {
         break;
       case "Human Body":
         this.sceneWasChanged = true;
-        console.log("Situation set to human body");
+        console.log("sceneMouseEvent over Human body");
         this.goingToScene = "movementTutorial";
         break;
       default:
