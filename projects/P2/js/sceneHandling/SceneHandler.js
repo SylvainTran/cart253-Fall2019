@@ -109,8 +109,8 @@ class SceneHandler {
   */
   trackProcessedScenes() {
     // Should keep up to date the currentScene information
-    console.log("Current game scene name: " + this.sceneConfig[this.currentSceneName].sceneName);
-    console.log("Previous game scene name: " + this.previousGameScene);
+    //console.log("Current game scene name: " + this.sceneConfig[this.currentSceneName].sceneName);
+    //console.log("Previous game scene name: " + this.previousGameScene);
     this.sceneConfig[this.previousGameScene].currentScene = false;
     this.sceneConfig[this.previousGameScene].readyForNextScene = false;
   }

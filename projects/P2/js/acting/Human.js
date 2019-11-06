@@ -14,8 +14,6 @@ class Human extends MobileElement {
     // Health properties
     this.maxHealth = radius;
     this.health = this.maxHealth;
-    this.healthLossPerMove = 0.1;
-    this.healthGainPerEat = 1;
     // Display properties
     this.fillColor = fillColor;
     this.radius = this.health; // Radius is defined in terms of health
@@ -51,19 +49,18 @@ class Human extends MobileElement {
   }
 
   /**
-    Draw the Human as an ellipse on the canvas
-    with a radius the same size as its current health.
+    Draw the Human as per the avatarPic's width and height which in turn
+    are redefined by the maxHealth.
 
   */
   display() {
-    this.avatarPic.width = this.health;
-    this.avatarPic.height = this.health;
+    this.avatarPic.width = this.maxHealth;
+    this.avatarPic.height = this.maxHealth;
     push();
     imageMode(CENTER);
     image(this.avatarPic, this.x, this.y, this.avatarPic.width * 20, this.avatarPic.height * 20);
     pop();
   }
-
   /**
     Tile-based movement upon keyPressed.
 

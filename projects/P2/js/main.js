@@ -41,7 +41,8 @@ const TILE_MAP_SIZE = 1000;
 const TILE_SIZE = TILE_MAP_SIZE / 10;
 // The persons array
 let persons = [];
-const numberOfPersons = 10;
+const numberOfActors = 10;
+let actorFactory;
 // The font
 let dosisTTF;
 
@@ -69,26 +70,27 @@ function setup() {
   gridLayer.clear();
   environmentLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
   environmentLayer.clear();
+  actorFactory = new ActorFactory(numberOfActors, avatarMale, avatarFemale);
+  const tileMapSize = TILE_MAP_SIZE;
+  //const tileMapWidth = tileMapSize;
+  //const tileMapHeight = tileMapSize;
+  tileMapExplorer = new TileMapExplorer(tileMap);
   sceneObjects = {
     "mainMenuScene": new MainMenuScene(sceneData0),
     "introduction": new IntroductionScene(sceneData1),
     "movementTutorial": new MovementTutorialScene(sceneData2),
-    "gameplayTutorial": new GameplayTutorialScene(sceneData3)
+    "gameplayTutorial": new GameplayTutorialScene(sceneData3, actorFactory, tileMapExplorer)
   }
   // Keeping the data separated from the manipulation on the data.
   // All data is encapsulated in the sceneConfig and sceneData files.
   sceneHandler = new SceneHandler(sceneObjects, sceneConfig);
   tileFillColor.push(color(255, 255, 255)); // White
   adam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
-  const tileMapSize = TILE_MAP_SIZE;
-  //const tileMapWidth = tileMapSize;
-  //const tileMapHeight = tileMapSize;
-  tileMapExplorer = new TileMapExplorer(tileMap);
   tileMapFactory = new TileMapFactory(tileMapSize, tileMapExplorer);
   tileMapFactory.createEmptyTileMap(gridLayer, tileMapSize);
   // Actor generation (temporary)
-  for(let i = 0; i < numberOfPersons; i++) {
-    let newPerson = new Prey(width / 2, height / 2, 20, color(255, 255, 0), 10, avatarFemale);
+  for(let i = 0; i < numberOfActors; i++) {
+    let newPerson = new Prey(random(0, width), random(0, height), 20, color(255, 255, 0), 10, avatarFemale);
     persons[i] = newPerson;
   }
 }
@@ -135,6 +137,9 @@ function keyPressed() {
       case "movementTutorial":
         sceneKeyPressEvent = sceneObjects.movementTutorial.keyPressed(TILE_SIZE);
         break;
+      case "gameplayTutorial":
+        sceneKeyPressEvent = sceneObjects.gameplayTutorial.keyPressed(TILE_SIZE);
+        break;
       default:
         break;
     }
@@ -156,7 +161,7 @@ function draw() {
   image(gridLayer, 0, 0);
   // Display all the actors
   adam.display();
-  for(let j = 0; j < numberOfPersons; j++){
+  for(let j = 0; j < numberOfActors; j++){
     // Check neighbouring tiles
     let checkMove = persons[j].checkNeighbourTiles(tileMapExplorer);
     persons[j].move();
