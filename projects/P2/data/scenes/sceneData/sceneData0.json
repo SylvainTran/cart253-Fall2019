@@ -9,15 +9,14 @@
   "narrationPosX": 500,
   "narrationPosY": 333,
   "narration": ["BASAR/FLESH"],
-  "startButton": "\"I'm ready.\"",
-  "startButtonPosX": 500,
+  "startButton": "\"Wait--what's going on? Where am I?\"",
+  "startButtonPosX": 100,
   "startButtonPosY": 453,
-  "exitButton": "\"Exit.\"",
-  "exitButtonPosX": 500,
+  "exitButton": "\"Pinch yourself really hard.\"",
+  "exitButtonPosX": 100,
   "exitButtonPosY": 633,
   "dialogue" : "",
   "subtitles": "",
   "translation": ["FR", "ENG"],
-  "references": "",
-  "playerSize": 64
+  "references": ""
 }

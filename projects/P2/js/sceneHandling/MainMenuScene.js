@@ -57,7 +57,7 @@ class MainMenuScene extends Scene {
   mousePressed() {
     const adjustedStartButtonY = this.sceneData.startButtonPosY - this.sceneData.tSize;
     const adjustedExitButtonY = this.sceneData.exitButtonPosY - this.sceneData.tSize;
-    const startButtonWidth = 300;
+    const startButtonWidth = 825;
     const exitButtonWidth = 325;
     // A string variable that is used to assign specific scene handling in the sceneHandler.js. Null by default
     let sceneMouseEvent = null;

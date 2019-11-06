@@ -2,7 +2,7 @@
   MovementTutorial scene. Teaches how to move, and explores the concept of the body.
 
 */
-class GameplayTutorialScene extends Scene {
+class ZombieAttack extends Scene {
   constructor(sceneData, actorFactory, tileMapExplorer){
     super(sceneData);
     this.strugglingAdam = new Survivor(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
@@ -53,7 +53,7 @@ class GameplayTutorialScene extends Scene {
     if(this.actorArray.length > 0) {
       for(let i = 0; i < this.actorArray.length; i++) {
         let checkMove = this.actorArray[i].checkNeighbourTiles(this.tileMapExplorer);
-        this.actorArray[i].move(checkMove);
+        this.actorArray[i].seekPlayer(this.strugglingAdam);
         this.actorArray[i].displayZombieMode();
       }
     }
@@ -64,7 +64,7 @@ class GameplayTutorialScene extends Scene {
   */
   displayCinematic() {
     background(this.sceneData.bgColor); // Black
-    this.strugglingAdam.display(this.sceneData.playerSize);
+    this.strugglingAdam.displaySurvivalMode();
   }
   /**
     Displays the text.
@@ -123,7 +123,7 @@ class GameplayTutorialScene extends Scene {
     return sceneKeyPressEvent;
   }
   /**
-    Checks if the player successfully complained 266 times over.
+    Checks if the player successfully complained 266 times over again.
 
   */
   countDodges() {

@@ -8,8 +8,8 @@
   "textColor": 255,
   "narrationPosX": 0,
   "narrationPosY": 100,
-  "narration": ["BASAR is the Hebrew word for Flesh.\nIt occurs 266 times in the Old Testament.", "It is used interchangeably with \"soul\"\nand \"body\"."],
-  "dialogue": ["The human body.", "The human soul.", "Show me both."],
+  "narration": ["BASAR is the Hebrew word for Flesh.\nIt occurs 266 times in the Old Testament.", "266 zombies are now going to appear."],
+  "dialogue": ["Excuse me ma'am... am I in some kind of weird video game?", "I was literally born for this. Wait what?", "Do I have a weapon?"],
   "dialoguePosX": 0,
   "dialoguePosY": 600,
   "dialogueChoice1PosY": 630,
@@ -18,6 +18,5 @@
   "dialogueTSize": 30,
   "subtitles": "This game was created for reflection.",
   "translation": ["FR", "ENG"],
-  "references": "www.biblestudytools.com/dictionary/flesh/",
-  "playerSize": 64  
+  "references": "www.biblestudytools.com/dictionary/flesh/"
 }

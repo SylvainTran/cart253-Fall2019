@@ -36,6 +36,7 @@ class Survivor extends Human {
 
   */
   displaySurvivalMode() {
+    this.radius = this.health * 10;
     push();
     imageMode(CENTER);
     image(this.avatarPic, this.x, this.y, this.radius, this.radius);
@@ -48,18 +49,23 @@ class Survivor extends Human {
   keyPressed(TILE_SIZE) {
     if(keyCode === LEFT_ARROW) {
       this.vx = -TILE_SIZE;
+      this.health -= this.healthLossPerMove;
     }
     else if(keyCode === RIGHT_ARROW) {
       this.vx = TILE_SIZE;
+      this.health -= this.healthLossPerMove;
     }
     else {
       this.vx = 0;
+      this.health -= this.healthLossPerMove;
     }
     if(keyCode === UP_ARROW) {
       this.vy = -TILE_SIZE;
+      this.health -= this.healthLossPerMove;
     }
     else if(keyCode === DOWN_ARROW) {
       this.vy = TILE_SIZE;
+      this.health -= this.healthLossPerMove;
     }
     else {
       this.vy = 0;
@@ -67,5 +73,51 @@ class Survivor extends Human {
     this.x += this.vx;
     this.y += this.vy;
     this.handleWrapping();
+  }
+
+  /**
+    Vocalize your suffering by displaying captions above your head.
+
+  */
+  protestOutloud(sceneData, timesComplained) {
+    if(keyCode === ENTER) {
+      if(timesComplained <= 30) {
+        push();
+        fill(sceneData.textColor);
+        textSize(sceneData.tSize);
+        text(sceneData.subtitles[0], this.x - this.avatarPic.width, this.y - this.avatarPic.height - this.radius);
+        pop();
+      }
+      else if(timesComplained <= 60) {
+        push();
+        fill(sceneData.textColor2);
+        textSize(sceneData.tSize * 1.2);
+        text(sceneData.subtitles[1], this.x - this.avatarPic.width, this.y - this.avatarPic.height - this.radius);
+        pop();
+      }
+      else if(timesComplained <= 120) {
+        push();
+        fill(sceneData.textColor3);
+        textSize(sceneData.tSize * 1.4);
+        text(sceneData.subtitles[2], this.x - this.avatarPic.width, this.y - this.avatarPic.height - this.radius);
+        pop();
+      }
+      else if(timesComplained <= 180) {
+        push();
+        fill(sceneData.textColor4);
+        textSize(sceneData.tSize * 1.6);
+        text(sceneData.subtitles[3], this.x - this.avatarPic.width, this.y - this.avatarPic.height - this.radius);
+        pop();
+      }
+      else if(timesComplained <= 266) {
+        push();
+        fill(sceneData.textColor4);
+        textSize(sceneData.tSize * 2);
+        text(sceneData.subtitles[4], this.x - this.avatarPic.width, this.y - this.avatarPic.height - this.radius);
+        pop();
+      }
+      timesComplained+= 100;
+    }
+    return timesComplained;
   }
 }

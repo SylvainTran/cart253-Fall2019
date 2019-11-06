@@ -63,7 +63,7 @@ class SceneHandler {
         break;
       case "Exiting Game":
         console.log("Exiting game.");
-        document.write("Bye! Live your day as if it were the last. Take care of yourself, your loved ones, and your enemies as well. Enjoy your life with gratitude and there won't be any regrets :-). God loves you more than you think!");
+        document.write("You wake up screaming. Game Over.");
         break;
       case "Human Body":
         this.sceneWasChanged = true;
@@ -91,6 +91,10 @@ class SceneHandler {
       case "exitedSuccessfully":
         this.sceneWasChanged = true;
         this.goingToScene = "gameplayTutorial";
+        break;
+      case "successfullyComplained":
+        this.sceneWasChanged = true;
+        this.goingToScene = "zombieAttack";
         break;
       default:
         break;

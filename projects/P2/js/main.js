@@ -2,14 +2,8 @@
   BASAR / FLESH
 
   Methodology: Goal is to be more explicitly conscious about my design choices.
-
-  29-10-2019  - Programmatic simplicity, style and structure (Cart 253)
-              - Redirection of project 2 towards a more
-                abstract/conceptual approach. (Cart 211)
-              - Emphasis on meta-reflection and visual storytelling. (FFAR 250)
-              - Typographic study. (Cart 214)
-
-              Listening to the Word: Hebraic word for "flesh": Basar (Theology, FFAR 250)
+  Listening to the Word: Hebraic word for "flesh": Basar
+  Explore more basic mechanics.
 
 */
 // The main canvas for actors
@@ -18,7 +12,7 @@ let mainCanvas;
 let sceneHandler;
 let sceneConfig;
 let sceneObjects;
-let sceneData0, sceneData1, sceneData2, sceneData3;
+let sceneData0, sceneData1, sceneData2, sceneData3, sceneData4;
 // Our first human
 let adam;
 // Pics
@@ -52,6 +46,7 @@ function preload() {
   sceneData1 = loadJSON("data/scenes/sceneData/sceneData1.json");
   sceneData2 = loadJSON("data/scenes/sceneData/sceneData2.json");
   sceneData3 = loadJSON("data/scenes/sceneData/sceneData3.json");
+  sceneData4 = loadJSON("data/scenes/sceneData/sceneData4.json");
   avatarMale = loadImage("assets/images/avatarMale.png");
   avatarFemale = loadImage("assets/images/avatarFemale.png");
   dosisTTF = loadFont("assets/fonts/dosis.ttf");
@@ -79,7 +74,8 @@ function setup() {
     "mainMenuScene": new MainMenuScene(sceneData0),
     "introduction": new IntroductionScene(sceneData1),
     "movementTutorial": new MovementTutorialScene(sceneData2),
-    "gameplayTutorial": new GameplayTutorialScene(sceneData3, actorFactory, tileMapExplorer)
+    "gameplayTutorial": new GameplayTutorialScene(sceneData3, actorFactory, tileMapExplorer),
+    "zombieAttack": new ZombieAttack(sceneData4, actorFactory, tileMapExplorer),
   }
   // Keeping the data separated from the manipulation on the data.
   // All data is encapsulated in the sceneConfig and sceneData files.
@@ -139,6 +135,9 @@ function keyPressed() {
         break;
       case "gameplayTutorial":
         sceneKeyPressEvent = sceneObjects.gameplayTutorial.keyPressed(TILE_SIZE);
+        break;
+      case "zombieAttack":
+        sceneKeyPressEvent = sceneObjects.zombieAttack.keyPressed(TILE_SIZE);
         break;
       default:
         break;
