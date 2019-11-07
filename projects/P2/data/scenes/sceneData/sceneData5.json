@@ -1,6 +1,6 @@
 {
-  "sceneIndex": 4,
-  "sceneName": "Zombie Attack",
+  "sceneIndex": 5,
+  "sceneName": "Spiritual Desert",
   "bgColor": [0, 0, 0],
   "isCinematic": true,
   "nbActors": 2,
@@ -12,15 +12,15 @@
   "textColor5": [0, 255, 0],
   "narrationPosX": 0,
   "narrationPosY": 100,
-  "narration": ["Hear that? They're coming for you!", "(She casts a squatting spell on you.)", "Brb, needz to pee."],
-  "dialogue": ["Wait a minute--she needs to pee? Does that mean she's", "a living being too? And that she's out there somewhere?", "I need to investigate."],
+  "narration": ["Where are you?"],
+  "dialogue": [""],
   "dialoguePosX": 0,
   "dialoguePosY": 750,
   "dialogueChoice1PosY": 873,
   "dialogueChoice2PosY": 813,
   "dialogueChoice3PosY": 0,
   "dialogueTSize": 30,
-  "subtitles": ["No... This is too much...", "I am doomed."],
+  "subtitles": [""],
   "translation": ["FR", "ENG"],
   "references": ""
 }

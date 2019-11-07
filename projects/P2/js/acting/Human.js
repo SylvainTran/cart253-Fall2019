@@ -54,8 +54,8 @@ class Human extends MobileElement {
 
   */
   display() {
-    this.avatarPic.width = this.maxHealth;
-    this.avatarPic.height = this.maxHealth;
+    this.avatarPic.width = this.health;
+    this.avatarPic.height = this.health;
     push();
     imageMode(CENTER);
     image(this.avatarPic, this.x, this.y, this.avatarPic.width * 20, this.avatarPic.height * 20);

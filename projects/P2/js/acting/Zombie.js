@@ -7,6 +7,8 @@
 class Zombie extends Prey {
   constructor(x, y, speed, fillColor, radius, avatarPic) {
     super(x, y, speed, fillColor, radius, avatarPic);
+    this.healthGainPerEat = 1;
+    this.attackValue = 0.05;
   }
 
   /**
@@ -19,28 +21,38 @@ class Zombie extends Prey {
     let playerPosY = player.y;
     const minDistance = 20;
     const maxDistance = minDistance * 2;
-    const zombieStepFactor = 0.10;
+    const zombieStepFactor = 0.05;
 
     let currentDistance = dist(playerPosX, this.x, playerPosY, this.y);
     if (currentDistance >= minDistance) {
-      // Advance to the one-seventh of a distance
-      this.vx = currentDistance / 7;
-      this.vy = currentDistance / 7;
+      // Change the velocity to the one-seventh of a distance
+      this.vx = currentDistance / 7 * this.speed * zombieStepFactor;
+      this.vy = currentDistance / 7 * this.speed * zombieStepFactor;
 
       // Update otherGender position to go towards the player depending on the distance
       // relative to the player at each successive call of this function
       if (this.x < playerPosX) {
-        this.x += this.vx * zombieStepFactor;
+        this.x += this.vx;
       } else {
-        this.x -= this.vx * zombieStepFactor;
+        this.x -= this.vx;
       }
       if (this.y < playerPosY) {
-        this.y += this.vy * zombieStepFactor;
+        this.y += this.vy;
       } else {
-        this.y -= this.vy * zombieStepFactor;
+        this.y -= this.vy;
       }
     }
     this.handleWrapping();
+  }
+
+  /**
+    Damages the player when they overlap.
+
+  */
+  damagePlayer(player) {
+    if(player.health > 0) {
+      player.health -= this.attackValue;
+    }
   }
   /**
     Draw the prey as per the provided avatar pic and radius as per health.

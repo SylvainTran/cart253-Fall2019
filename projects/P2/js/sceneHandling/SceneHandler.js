@@ -25,7 +25,6 @@ class SceneHandler {
     this.processingQueue.enqueue(this.currentSceneName);
     this.currentSceneQueue.enqueue(this.currentSceneName);
   }
-
   /**
     A series of simple hash tables. Boots the current SceneObject as defined by its name in the scene config
     Checks if the scene was changed too for an updates flag (to prevent non-scene changes to trigger a next scene).
@@ -95,6 +94,10 @@ class SceneHandler {
       case "successfullyComplained":
         this.sceneWasChanged = true;
         this.goingToScene = "zombieAttack";
+        break;
+      case "playerIsDead":
+        this.sceneWasChanged = true;
+        this.goingToScene = "spiritualDesert";
         break;
       default:
         break;

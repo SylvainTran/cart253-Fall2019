@@ -33,5 +33,12 @@
     "textObjectPath": "data/scenes/sceneData/sceneData4.json",
     "readyForNextScene": false,
     "currentScene": false
+  },
+  "spiritualDesert": {
+    "sceneIndex": 5,
+    "sceneName": "spiritualDesert",
+    "textObjectPath": "data/scenes/sceneData/sceneData5.json",
+    "readyForNextScene": false,
+    "currentScene": false
   }
 }

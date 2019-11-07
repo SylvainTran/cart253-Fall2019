@@ -1,8 +1,8 @@
 /**
-  MovementTutorial scene. Teaches how to move, and explores the concept of the body.
+  Spiritual Desert scene. Explores spirituality in the vastness of the cosmos.
 
 */
-class ZombieAttack extends Scene {
+class SpiritualDesert extends Scene {
   constructor(sceneData, actorFactory, tileMapExplorer){
     super(sceneData);
     this.strugglingAdam = new Survivor(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
@@ -11,20 +11,15 @@ class ZombieAttack extends Scene {
     this.actorArray = []; // Empty on start
     this.tileMapExplorer = tileMapExplorer;
     this.timesComplained = 0; // Times player has complained so far
-    this.playerIsDead = false;
   }
   /**
     Updates the scene.
 
   */
   updateScene() {
-    this.playerIsDead = this.strugglingAdam.checkHealth();
-    this.strugglingAdam.protestOutloud(this.sceneData, this.timesComplained);
     this.displayCinematic();
     this.displayCaptions();
-    this.fillActorArray();
-    this.updateActors();
-    this.enactActing();
+    this.strugglingAdam.protestOutloud(this.sceneData, this.timesComplained);
   }
   /**
     Fills the actor array with zombies by calling the actor factory if it's not full.
@@ -32,7 +27,7 @@ class ZombieAttack extends Scene {
   */
   fillActorArray() {
     if(this.actorArray.length < this.actorFactory.numberOfActors) {
-      this.actorArray = this.actorFactory.generateActors("Zombie", this.actorArray);
+      this.actorArray = this.actorFactory.generateActors("Snowflakes", this.actorArray);
       console.log(this.actorArray);
     }
   }
@@ -55,9 +50,8 @@ class ZombieAttack extends Scene {
     if(this.actorArray.length > 0) {
       for(let i = 0; i < this.actorArray.length; i++) {
         let checkMove = this.actorArray[i].checkNeighbourTiles(this.tileMapExplorer);
-        this.actorArray[i].seekPlayer(this.strugglingAdam);
-        this.actorArray[i].damagePlayer(this.strugglingAdam);
-        this.actorArray[i].displayZombieMode();
+        this.actorArray[i].move(checkMove);
+        this.actorArray[i].display();
       }
     }
   }
@@ -122,16 +116,16 @@ class ZombieAttack extends Scene {
     let sceneKeyPressEvent = null;
     this.strugglingAdam.keyPressed(TILE_SIZE);
     this.timesComplained = this.strugglingAdam.protestOutloud(this.sceneData, this.timesComplained);
-    sceneKeyPressEvent = this.sendPlayerStatus();
+    sceneKeyPressEvent = this.countDodges();
     return sceneKeyPressEvent;
   }
   /**
-    Checks if the player is dead and returns the result to the scene handler.
+    Checks if the player successfully complained 266 times over again.
 
   */
-  sendPlayerStatus() {
-    if(this.playerIsDead) {
-      return "playerIsDead";
+  countDodges() {
+    if(this.timesComplained >= 266) {
+        return "successfullyComplained";
     }
     else {
       return null;

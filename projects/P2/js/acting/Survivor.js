@@ -6,7 +6,7 @@
 class Survivor extends Human {
   constructor(x, y, speed, fillColor, radius, avatarPic, vx, vy, maxHealth, health, healthLossPerMove, healthGainPerEat) {
     super(x, y, speed, fillColor, radius, avatarPic, vx, vy, maxHealth, health);
-    this.healthLossPerMove = 0.1;
+    this.healthLossPerMove = 0.05;
     this.healthGainPerEat = 1;
   }
   /**
@@ -32,7 +32,22 @@ class Survivor extends Human {
     }
   }
   /**
+    Constrains the health to 0 to maxHealth.
+
+  */
+  checkHealth() {
+    this.health = constrain(this.health, 0, this.maxHealth);
+    if(this.health <= 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  /**
     Draws the Human with a radius the same size as its current health.
+    Currently magnified display using the health as a base to
+    initially create a shrinking effect.
 
   */
   displaySurvivalMode() {
@@ -73,6 +88,7 @@ class Survivor extends Human {
     this.x += this.vx;
     this.y += this.vy;
     this.handleWrapping();
+    console.log("New health: " + this.health);
   }
 
   /**

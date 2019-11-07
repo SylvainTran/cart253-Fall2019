@@ -12,7 +12,7 @@ let mainCanvas;
 let sceneHandler;
 let sceneConfig;
 let sceneObjects;
-let sceneData0, sceneData1, sceneData2, sceneData3, sceneData4;
+let sceneData0, sceneData1, sceneData2, sceneData3, sceneData4, sceneData5;
 // Our first human
 let adam;
 // Pics
@@ -47,6 +47,7 @@ function preload() {
   sceneData2 = loadJSON("data/scenes/sceneData/sceneData2.json");
   sceneData3 = loadJSON("data/scenes/sceneData/sceneData3.json");
   sceneData4 = loadJSON("data/scenes/sceneData/sceneData4.json");
+  sceneData5 = loadJSON("data/scenes/sceneData/sceneData5.json");
   avatarMale = loadImage("assets/images/avatarMale.png");
   avatarFemale = loadImage("assets/images/avatarFemale.png");
   dosisTTF = loadFont("assets/fonts/dosis.ttf");
@@ -76,6 +77,7 @@ function setup() {
     "movementTutorial": new MovementTutorialScene(sceneData2),
     "gameplayTutorial": new GameplayTutorialScene(sceneData3, actorFactory, tileMapExplorer),
     "zombieAttack": new ZombieAttack(sceneData4, actorFactory, tileMapExplorer),
+    "spiritualDesert": new SpiritualDesert(sceneData5, actorFactory, tileMapExplorer)
   }
   // Keeping the data separated from the manipulation on the data.
   // All data is encapsulated in the sceneConfig and sceneData files.
@@ -107,6 +109,9 @@ function mousePressed() {
       break;
     case "movementTutorial":
         sceneMouseEvent = sceneObjects.movementTutorial.mousePressed();
+        break;
+    case "spiritualDesert":
+        sceneMouseEvent = sceneObjects.spiritualDesert.mousePressed();
         break;
     default:
       break;

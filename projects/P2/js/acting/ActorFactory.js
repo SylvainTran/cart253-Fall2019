@@ -21,7 +21,7 @@ class ActorFactory {
         } else {
           randomAvatar = this.avatarMale;
         }
-        let newActor = new Zombie(random(0, width), random(0, height), 0.5, color(255, 255, 0), 10, randomAvatar);
+        let newActor = new Zombie(random(0, width), random(0, height), 0.15, color(255, 255, 0), 10, randomAvatar);
         actorArray[i] = newActor;
       }
     }
