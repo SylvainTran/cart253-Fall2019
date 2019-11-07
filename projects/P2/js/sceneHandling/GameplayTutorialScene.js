@@ -119,14 +119,14 @@ class GameplayTutorialScene extends Scene {
     let sceneKeyPressEvent = null;
     this.strugglingAdam.keyPressed(TILE_SIZE);
     this.timesComplained = this.strugglingAdam.protestOutloud(this.sceneData, this.timesComplained);
-    sceneKeyPressEvent = this.countDodges();
+    sceneKeyPressEvent = this.countComplaints();
     return sceneKeyPressEvent;
   }
   /**
     Checks if the player successfully complained 266 times over.
 
   */
-  countDodges() {
+  countComplaints() {
     if(this.timesComplained >= 266) {
         return "successfullyComplained";
     }
