@@ -8,7 +8,8 @@ class Zombie extends Prey {
   constructor(x, y, speed, fillColor, radius, avatarPic) {
     super(x, y, speed, fillColor, radius, avatarPic);
     this.healthGainPerEat = 1;
-    this.attackValue = 0.05;
+    //this.attackValue = 0.05;
+    this.attackValue = 100;
   }
 
   /**

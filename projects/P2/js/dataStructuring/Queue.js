@@ -31,9 +31,10 @@ class Queue {
   */
   enqueue(element) {
     if (this.isFull()) {
-      alert("Full");
+      console.log("Full");
       return;
     } else {
+      console.log("Pushing a: " + element);
       this.items.push(element);
     }
   }

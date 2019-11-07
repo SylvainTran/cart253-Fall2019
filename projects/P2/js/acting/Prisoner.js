@@ -3,58 +3,20 @@
   controlled by the arrow keys. It can move around and loses health if he does.
 
 */
-class Survivor extends Human {
-  constructor(x, y, speed, fillColor, radius, avatarPic, vx, vy, maxHealth, health, healthLossPerMove, healthGainPerEat) {
+class Prisoner extends Human {
+  constructor(x, y, speed, fillColor, radius, avatarPic, vx, vy, maxHealth, health) {
     super(x, y, speed, fillColor, radius, avatarPic, vx, vy, maxHealth, health);
-    this.healthLossPerMove = 0.05;
-    this.healthGainPerEat = 1;
+    this.movementCombination = new Queue(4);
   }
   /**
-    Takes a zombie object as an argument and checks if the survivor decides to cook it.
-    (while it overlaps it and press shift) If so, reduces the prey's health and increases
-    the Human's. If the prey dies, it gets reset.
+    Displays the key pressed. For the combination puzzle in the SpiritualDesert scene.
 
   */
-  handleEating(prey) {
-    // Calculate distance from this Human to the prey
-    let d = dist(this.x, this.y, prey.x, prey.y);
-    // Check if the distance is less than their two radii (an overlap)
-    if (d < this.radius + prey.radius) {
-      // Increase Human health and constrain it to its possible range
-      this.health += this.healthGainPerEat;
-      this.health = constrain(this.health, 0, this.maxHealth);
-      // Decrease prey health by the same amount
-      prey.health -= this.healthGainPerEat;
-      // Check if the prey died and reset it if so
-      if (prey.health < 0) {
-        prey.reset();
-      }
-    }
-  }
-  /**
-    Constrains the health to 0 to maxHealth.
-
-  */
-  checkHealth() {
-    this.health = constrain(this.health, 0, this.maxHealth);
-    if(this.health <= 0) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-  /**
-    Draws the Human with a radius the same size as its current health.
-    Currently magnified display using the health as a base to
-    initially create a shrinking effect.
-
-  */
-  displaySurvivalMode() {
-    this.radius = this.health * 10;
+  displayKeyPressed() {
     push();
-    imageMode(CENTER);
-    image(this.avatarPic, this.x, this.y, this.radius, this.radius);
+    fill(255);
+    textSize(42);
+    text(key, width / 2, height / 3); // Display last key pressed.
     pop();
   }
   /**
@@ -64,18 +26,29 @@ class Survivor extends Human {
   keyPressed(TILE_SIZE) {
     if(keyCode === LEFT_ARROW) {
       this.vx = -TILE_SIZE;
+      this.movementCombination.enqueue("left");
+      console.log("left");
     }
     else if(keyCode === RIGHT_ARROW) {
       this.vx = TILE_SIZE;
+      this.timesMovedRight++;
+      this.movementCombination.enqueue("right");
+      console.log("right");
     }
     else {
       this.vx = 0;
     }
     if(keyCode === UP_ARROW) {
       this.vy = -TILE_SIZE;
+      this.timesMovedUp++;
+      this.movementCombination.enqueue("up");
+      console.log("up");
     }
     else if(keyCode === DOWN_ARROW) {
       this.vy = TILE_SIZE;
+      this.timesMovedDown++;
+      this.movementCombination.enqueue("down");
+      console.log("down");
     }
     else {
       this.vy = 0;

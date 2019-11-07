@@ -99,6 +99,10 @@ class SceneHandler {
         this.sceneWasChanged = true;
         this.goingToScene = "spiritualDesert";
         break;
+      case "succeededAtHoudiniMiniGame":
+        this.sceneWasChanged = true;
+        this.goingToScene = "prayerAnswered";
+        alert("Final Game Scene");
       default:
         break;
     }

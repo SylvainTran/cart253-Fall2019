@@ -5,12 +5,16 @@
 class SpiritualDesert extends Scene {
   constructor(sceneData, actorFactory, tileMapExplorer){
     super(sceneData);
-    this.strugglingAdam = new Survivor(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
+    this.contriteAdam = new Prisoner(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
     this.actorFactory = actorFactory;
     this.actorArray = []; // Empty on start
     this.tileMapExplorer = tileMapExplorer;
     this.timesComplained = 0; // Times player has complained so far
+    this.succeededMinigame = false;
+    this.combinationCount = 0; // Counter
+    this.maxCombinationLength = 4; // The max number of attempts
+    this.successfulCombination = ["left", "right", "left", "down"];
   }
   /**
     Updates the scene.
@@ -19,49 +23,23 @@ class SpiritualDesert extends Scene {
   updateScene() {
     this.displayCinematic();
     this.displayCaptions();
-    this.strugglingAdam.protestOutloud(this.sceneData, this.timesComplained);
-  }
-  /**
-    Fills the actor array with zombies by calling the actor factory if it's not full.
-
-  */
-  fillActorArray() {
-    if(this.actorArray.length < this.actorFactory.numberOfActors) {
-      this.actorArray = this.actorFactory.generateActors("Snowflakes", this.actorArray);
-      console.log(this.actorArray);
-    }
-  }
-  /**
-    Updates the actors' Array after they pass through the screen. (Splice)
-
-  */
-  updateActors() {
-    for(let i = 0; i < this.actorArray.length; i++) {
-      if(this.actorArray[i].passedScreenBorders) {
-        //splice
+    this.contriteAdam.protestOutloud(this.sceneData, this.timesComplained);
+    if(!this.succeededMinigame) { //if we didn't succeed at the mini-game yet
+      if(this.contriteAdam.movementCombination.isFull() && !this.succeededMiniGame) {
+        this.displayFailMessage();
       }
+      this.contriteAdam.displayKeyPressed();
+      this.checkMoveCombination();
     }
   }
-  /**
-    Enacts the actors in the actors array. In zombie mode.
-
-  */
-  enactActing() {
-    if(this.actorArray.length > 0) {
-      for(let i = 0; i < this.actorArray.length; i++) {
-        let checkMove = this.actorArray[i].checkNeighbourTiles(this.tileMapExplorer);
-        this.actorArray[i].move(checkMove);
-        this.actorArray[i].display();
-      }
-    }
-  }
+  displayFailMessage
   /**
     Creates a little cinematic scene.
 
   */
   displayCinematic() {
     background(this.sceneData.bgColor); // Black
-    this.strugglingAdam.display(this.sceneData.sizeMultiplier);
+    this.contriteAdam.display(this.sceneData.sizeMultiplier);
   }
   /**
     Displays the text.
@@ -100,35 +78,62 @@ class SpiritualDesert extends Scene {
       pop();
     }
   }
-  /**
-    Uses the position of the displayed narration and the size of the font to calculate
-    the positions of the buttons that handle start or exit game behaviours.
-
-  */
   mousePressed() {
-
+    console.log("Mouse pressed");
   }
   /**
     Handles keyboard inputs.
 
   */
   keyPressed(TILE_SIZE) {
+    console.log("Key pressed");
     let sceneKeyPressEvent = null;
-    this.strugglingAdam.keyPressed(TILE_SIZE);
-    this.timesComplained = this.strugglingAdam.protestOutloud(this.sceneData, this.timesComplained);
-    sceneKeyPressEvent = this.countComplaints();
+    this.contriteAdam.keyPressed(TILE_SIZE);
+    //this.timesComplained = this.contriteAdam.protestOutloud(this.sceneData, this.timesComplained);
+    sceneKeyPressEvent = this.checkMoveCombination();
     return sceneKeyPressEvent;
   }
   /**
-    Checks if the player successfully complained 266 times over again.
+    Checks if the player got the right input combination. There is a right order.
 
   */
-  countComplaints() {
-    if(this.timesComplained >= 266) {
-        return "successfullyComplained";
+  checkMoveCombination() {
+    // Initialize the mini-game attempts and also resets it
+    let miniGameAttempt = [];
+    text("Moves combination starting, attempts left: ", width / 2, height / 2);
+    // If the player moved four times (max combinations)
+    if(this.contriteAdam.movementCombination.isFull()) {
+      // Store the results
+      console.log(this.contriteAdam.movementCombination);
+      while(!this.contriteAdam.movementCombination.isEmpty()) {
+        miniGameAttempt.push(this.contriteAdam.movementCombination.dequeue());
+      }
+      console.log("Results: " + miniGameAttempt);
+      // Validate the results by comparing the values at equal indexes
+      for(let i = 0; i < miniGameAttempt.length; i++) {
+        console.log("Entering checking attempts loop");
+        if(miniGameAttempt[i] !== this.successfulCombination[i]) {
+          // Leave the function if a key press doesn't match
+          return;
+        }
+      }
+      // If we didn't return, then we succeeed at the mini-game
+      this.succeededMiniGame = true;
+      if(this.succeededMiniGame) {
+        //alert("succeeded at the mini-game: " + this.succeededMiniGame);
+        return "succeededAtHoudiniMiniGame";
+      }
     }
-    else {
-      return null;
-    }
+  }
+  /**
+    Displays fail message.
+
+  */
+  displayFailMessage() {
+    push();
+    textSize(42);
+    fill(255);
+    text("Wrong combination. Try again.", width / 2, 150);
+    pop();
   }
 }

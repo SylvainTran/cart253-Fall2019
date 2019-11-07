@@ -146,6 +146,9 @@ function keyPressed() {
       case "zombieAttack":
         sceneKeyPressEvent = sceneObjects.zombieAttack.keyPressed(TILE_SIZE);
         break;
+      case "spiritualDesert":
+        sceneKeyPressEvent = sceneObjects.spiritualDesert.keyPressed(TILE_SIZE);
+        break;
       default:
         break;
     }
