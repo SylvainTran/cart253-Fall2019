@@ -12,7 +12,7 @@
   "textColor5": [0, 255, 0],
   "narrationPosX": 0,
   "narrationPosY": 100,
-  "narration": ["Hear that? They're coming for you!", "(She casts a squatting spell on you.)", "Brb, needz to pee."],
+  "narration": ["Hear that? They're coming for you!", "Brb, needz to pee."],
   "dialogue": ["Wait a minute--she needs to pee? Does that mean she's", "a living being too? And that she's out there somewhere?", "I need to investigate."],
   "dialoguePosX": 0,
   "dialoguePosY": 750,
@@ -22,5 +22,6 @@
   "dialogueTSize": 30,
   "subtitles": ["No... This is too much...", "I am doomed."],
   "translation": ["FR", "ENG"],
-  "references": ""
+  "references": "",
+  "sizeMultiplier": 1.5
 }

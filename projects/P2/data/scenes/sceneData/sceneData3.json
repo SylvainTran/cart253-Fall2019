@@ -21,5 +21,6 @@
   "dialogueChoice3PosY": 0,
   "dialogueTSize": 30,
   "subtitles": ["Let. Me. Out!", "Arghh I need a hug", "I want to eat\n a salad sandwich.", "LORD.\nWhat do you want\nfrom me?", "LORD, I surrender.\nI am willing\nto DIE even."],
-  "translation": ["FR", "ENG"]
+  "translation": ["FR", "ENG"],
+  "sizeMultiplier": 5
 }

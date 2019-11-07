@@ -18,5 +18,6 @@
   "dialogueTSize": 30,
   "subtitles": "This game was created for reflection.",
   "translation": ["FR", "ENG"],
-  "references": "www.biblestudytools.com/dictionary/flesh/"
+  "references": "www.biblestudytools.com/dictionary/flesh/",
+  "sizeMultiplier": 5  
 }

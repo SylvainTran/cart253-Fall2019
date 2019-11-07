@@ -64,23 +64,23 @@ class Survivor extends Human {
   keyPressed(TILE_SIZE) {
     if(keyCode === LEFT_ARROW) {
       this.vx = -TILE_SIZE;
-      this.health -= this.healthLossPerMove;
+      //this.health -= this.healthLossPerMove;
     }
     else if(keyCode === RIGHT_ARROW) {
       this.vx = TILE_SIZE;
-      this.health -= this.healthLossPerMove;
+      //this.health -= this.healthLossPerMove;
     }
     else {
       this.vx = 0;
-      this.health -= this.healthLossPerMove;
+      //this.health -= this.healthLossPerMove;
     }
     if(keyCode === UP_ARROW) {
       this.vy = -TILE_SIZE;
-      this.health -= this.healthLossPerMove;
+      //this.health -= this.healthLossPerMove;
     }
     else if(keyCode === DOWN_ARROW) {
       this.vy = TILE_SIZE;
-      this.health -= this.healthLossPerMove;
+      //this.health -= this.healthLossPerMove;
     }
     else {
       this.vy = 0;

@@ -22,7 +22,7 @@ class MovementTutorialScene extends Scene {
   */
   displayCinematic() {
     background(this.sceneData.bgColor); // Black
-    this.movingAdam.display();
+    this.movingAdam.display(this.sceneData.sizeMultiplier);
   }
   /**
     Displays the text.

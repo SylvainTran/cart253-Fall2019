@@ -53,12 +53,12 @@ class Human extends MobileElement {
     are redefined by the maxHealth.
 
   */
-  display() {
-    this.avatarPic.width = this.health;
-    this.avatarPic.height = this.health;
+  display(sizeMultiplier) {
+    //this.avatarPic.width = this.health;
+    //this.avatarPic.height = this.health;
     push();
     imageMode(CENTER);
-    image(this.avatarPic, this.x, this.y, this.avatarPic.width * 20, this.avatarPic.height * 20);
+    image(this.avatarPic, this.x, this.y, this.avatarPic.width * sizeMultiplier, this.avatarPic.height * sizeMultiplier);
     pop();
   }
   /**

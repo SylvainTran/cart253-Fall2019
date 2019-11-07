@@ -61,7 +61,7 @@ class SpiritualDesert extends Scene {
   */
   displayCinematic() {
     background(this.sceneData.bgColor); // Black
-    this.strugglingAdam.displaySurvivalMode();
+    this.strugglingAdam.display(this.sceneData.sizeMultiplier);
   }
   /**
     Displays the text.

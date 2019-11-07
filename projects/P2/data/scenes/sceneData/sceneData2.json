@@ -18,5 +18,6 @@
   "dialogueTSize": 30,
   "subtitles": "Use either the Left mouse button or touch, or the arrow keys on your keyboard to move.",
   "translation": ["FR", "ENG"],
-  "references": ""
+  "references": "",
+  "sizeMultiplier": 5  
 }

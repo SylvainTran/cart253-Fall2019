@@ -22,5 +22,6 @@
   "dialogueTSize": 30,
   "subtitles": [""],
   "translation": ["FR", "ENG"],
-  "references": ""
+  "references": "",
+  "sizeMultiplier": 5  
 }

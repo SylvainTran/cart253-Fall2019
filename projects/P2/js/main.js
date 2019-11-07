@@ -58,6 +58,8 @@ function preload() {
 
 */
 function setup() {
+  console.log("Avatar width: " + avatarMale.width);
+  console.log("Avatar height: " + avatarMale.height);
   mainCanvas = createCanvas(TILE_MAP_SIZE, TILE_MAP_SIZE);
   mainCanvas.parent('mainDisplay');
   uiLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
@@ -108,11 +110,11 @@ function mousePressed() {
       sceneMouseEvent = sceneObjects.introduction.mousePressed();
       break;
     case "movementTutorial":
-        sceneMouseEvent = sceneObjects.movementTutorial.mousePressed();
-        break;
+      sceneMouseEvent = sceneObjects.movementTutorial.mousePressed();
+      break;
     case "spiritualDesert":
-        sceneMouseEvent = sceneObjects.spiritualDesert.mousePressed();
-        break;
+      sceneMouseEvent = sceneObjects.spiritualDesert.mousePressed();
+      break;
     default:
       break;
   }
@@ -164,7 +166,7 @@ function draw() {
   // Displays the tile map
   image(gridLayer, 0, 0);
   // Display all the actors
-  adam.display();
+  adam.display(sceneData0.sizeMultiplier);
   for(let j = 0; j < numberOfActors; j++){
     // Check neighbouring tiles
     let checkMove = persons[j].checkNeighbourTiles(tileMapExplorer);

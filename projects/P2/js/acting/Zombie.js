@@ -50,8 +50,13 @@ class Zombie extends Prey {
 
   */
   damagePlayer(player) {
-    if(player.health > 0) {
-      player.health -= this.attackValue;
+    let distanceToPlayer = dist(this.x + this.avatarPic.width / 2, this.y + this.avatarPic.height / 2, player.x + player.avatarPic.width / 2, player.y + player.avatarPic.height / 2);
+
+    if (distanceToPlayer < this.radius * 2) {
+      if(player.health > 0) {
+        player.health -= this.attackValue;
+        console.log("This zombie is busy eating the player.");
+      }
     }
   }
   /**

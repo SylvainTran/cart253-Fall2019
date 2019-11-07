@@ -64,7 +64,7 @@ class GameplayTutorialScene extends Scene {
   */
   displayCinematic() {
     background(this.sceneData.bgColor); // Black
-    this.strugglingAdam.display(this.sceneData.playerSize);
+    this.strugglingAdam.display(this.sceneData.sizeMultiplier);
   }
   /**
     Displays the text.

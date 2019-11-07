@@ -23,7 +23,7 @@ class IntroductionScene extends Scene {
   displayCinematic() {
     background(this.sceneData.bgColor); // Black
     this.jitteringAdam.jitterAnimation();
-    this.jitteringAdam.display();
+    this.jitteringAdam.display(this.sceneData.sizeMultiplier);
   }
   /**
     Displays the text.
