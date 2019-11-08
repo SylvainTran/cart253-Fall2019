@@ -7,12 +7,12 @@ class ConclusionScene extends Scene {
     super(sceneData);
     this.conclusionVoiceActing = conclusionVoiceActing;
     this.playedVoiceActing = false;
-    this.contriteAdam = new Prisoner(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
     this.actorFactory = actorFactory;
     this.actorArray = [];
     this.tileMapExplorer = tileMapExplorer;
     this.timesPraised = 0; // TO BE IMPLEMENTED (with protest outloud)
+    this.contriteAdam = new Prisoner(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, this.actorFactory.avatarMale);
   }
   /**
     Updates the scene.
@@ -70,13 +70,19 @@ class ConclusionScene extends Scene {
     }
   }
   /**
+    mousePressed events. To be implemented later.
+
+  */
+  mousePressed() {
+    console.log("Mouse pressed");
+  }
+  /**
     Handles keyboard inputs.
 
   */
   keyPressed(TILE_SIZE) {
     let sceneKeyPressEvent = null;
     this.contriteAdam.keyPressed(TILE_SIZE);
-    sceneKeyPressEvent = this.checkMoveCombination();
     return sceneKeyPressEvent;
   }
 }

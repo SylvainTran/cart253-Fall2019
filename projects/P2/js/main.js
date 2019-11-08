@@ -11,12 +11,8 @@
 // The main canvas for actors
 let mainCanvas;
 // Scene related variables
-let sceneHandler;
-let sceneConfig;
-let sceneObjects;
+let sceneHandler, sceneConfig, sceneObjects;
 let sceneData0, sceneData1, sceneData2, sceneData3, sceneData4, sceneData5, sceneData6;
-// Our first human
-let adam;
 // Pics
 let avatarFemale, avatarMale;
 // The canvas layers for each display category
@@ -92,8 +88,8 @@ function setup() {
   };
   sceneObjects = {
     "mainMenuScene": new MainMenuScene(sceneData0, actorFactory, tileMapExplorer),
-    "introduction": new IntroductionScene(sceneData1, introductionVoiceActing),
-    "movementTutorial": new MovementTutorialScene(sceneData2, movementTutorialVoiceActing),
+    "introduction": new IntroductionScene(sceneData1, actorFactory, introductionVoiceActing),
+    "movementTutorial": new MovementTutorialScene(sceneData2, actorFactory, movementTutorialVoiceActing),
     "gameplayTutorial": new GameplayTutorialScene(sceneData3, actorFactory, tileMapExplorer, gameplayTutorialVoiceActing),
     "zombieAttackScene": new ZombieAttackScene(sceneData4, actorFactory, tileMapExplorer, zombieAttackVoiceActing),
     "spiritualDesert": new SpiritualDesert(sceneData5, actorFactory, tileMapExplorer, spiritualDesertVoiceActing),

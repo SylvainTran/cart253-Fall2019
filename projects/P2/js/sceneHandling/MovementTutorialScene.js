@@ -3,11 +3,12 @@
 
 */
 class MovementTutorialScene extends Scene {
-  constructor(sceneData, movementTutorialVoiceActing){
+  constructor(sceneData, actorFactory, movementTutorialVoiceActing){
     super(sceneData);
+    this.actorFactory = actorFactory;
     this.movementTutorialVoiceActing = movementTutorialVoiceActing;
     this.playedVoiceActing = false;
-    this.movingAdam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
+    this.movingAdam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, this.actorFactory.avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
   }
   /**
@@ -35,7 +36,6 @@ class MovementTutorialScene extends Scene {
 
   */
   displayCaptions() {
-    console.log("displaying captions for movement tutorial");
     const narrationLineSpacing = 200;
     const dialogueLineSpacing = this.sceneData.tSize;
     let narrationPosY = this.sceneData.narrationPosY;

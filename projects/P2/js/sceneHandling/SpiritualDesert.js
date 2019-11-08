@@ -8,7 +8,6 @@ class SpiritualDesert extends Scene {
     super(sceneData);
     this.spiritualDesertVoiceActing = spiritualDesertVoiceActing;
     this.playedVoiceActing = false;
-    this.contriteAdam = new Prisoner(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
     this.actorFactory = actorFactory;
     this.actorArray = [];
@@ -18,6 +17,7 @@ class SpiritualDesert extends Scene {
     this.combinationCount = 0; // Counter for how many times the player has guessed at the mini-game
     this.maxCombinationLength = 4; // The max number of attempts at the mini-game
     this.successfulCombination = ["left", "right", "left", "down"]; // The right key combination
+    this.contriteAdam = new Prisoner(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, this.actorFactory.avatarMale);
   }
   /**
     Updates the scene.

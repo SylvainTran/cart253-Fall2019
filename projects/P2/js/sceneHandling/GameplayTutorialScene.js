@@ -7,12 +7,12 @@ class GameplayTutorialScene extends Scene {
     super(sceneData);
     this.gameplayTutorialVoiceActing = gameplayTutorialVoiceActing;
     this.playedVoiceActing = false;
-    this.strugglingAdam = new Survivor(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
     this.actorFactory = actorFactory;
     this.actorArray = []; // Empty on start
     this.tileMapExplorer = tileMapExplorer;
     this.timesComplained = 0; // Times player has complained so far
+    this.strugglingAdam = new Survivor(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, this.actorFactory.avatarMale);
   }
   /**
     Updates the scene.

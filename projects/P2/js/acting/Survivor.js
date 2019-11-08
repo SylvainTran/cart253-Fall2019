@@ -83,7 +83,6 @@ class Survivor extends Human {
     this.x += this.vx;
     this.y += this.vy;
     this.handleWrapping();
-    console.log("New health: " + this.health);
   }
   /**
     Vocalize your suffering by displaying captions above your head.

@@ -3,12 +3,13 @@
 
 */
 class IntroductionScene extends Scene {
-  constructor(sceneData, introductionVoiceActing){
+  constructor(sceneData, actorFactory, introductionVoiceActing){
     super(sceneData);
+    this.actorFactory = actorFactory;
     this.introductionVoiceActing = introductionVoiceActing;
     this.playedVoiceActing = false;
-    this.jitteringAdam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
+    this.jitteringAdam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, this.actorFactory.avatarMale);
   }
   /**
     Updates the scene.

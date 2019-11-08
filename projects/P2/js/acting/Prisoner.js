@@ -6,7 +6,7 @@
 class Prisoner extends Human {
   constructor(x, y, speed, fillColor, radius, avatarPic, vx, vy, maxHealth, health) {
     super(x, y, speed, fillColor, radius, avatarPic, vx, vy, maxHealth, health);
-    this.movementCombination = new Queue(4); // TODO remove hardcoded value
+    this.movementCombination = new Queue(4);
     this.stainOfDarkness = 255;
     this.sizeOfStainOfDarkness = 42;
     this.movementsCounter = 0;
