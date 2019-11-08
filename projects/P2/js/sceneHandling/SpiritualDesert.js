@@ -33,12 +33,12 @@ class SpiritualDesert extends Scene {
     this.displayCaptions();
     //this.contriteAdam.protestOutloud(this.sceneData, this.timesComplained);
     if(!this.succeededMinigame) { //if we didn't succeed at the mini-game yet
-      this.contriteAdam.displayKeyPressed();
-      this.checkMoveCombination();
       // Player feedback for the number of times they have moved yet and if it failed.
-      if(this.contriteAdam.movementsCounter === this.maxCombinationLength - 2) { // Because started at 0
+      if(this.contriteAdam.movementsCounter === this.maxCombinationLength - 2) {
         this.displayFailMessage();
       }
+      this.contriteAdam.displayKeyPressed();
+      this.checkMoveCombination();
     }
   }
   /**

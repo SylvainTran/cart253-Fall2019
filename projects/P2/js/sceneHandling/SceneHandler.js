@@ -21,7 +21,7 @@ class SceneHandler {
     // Scene management structures: maxScenes = 2 allows us to have two scenes at the same time (the previous scene history + the current game scene
     // or the current game scene + a game menu)
     this.maxScenes = 2;
-    this.processingQueue = new Queue(this.maxScenes); // Will allow for defensive coding later
+    this.processingQueue = new Queue(this.maxScenes); // Will allow for defensive coding later (NOT IMPLEMENTED YET)
     this.currentSceneQueue = new Queue(this.maxScenes);
     // Updates the current scene queue initially to mainMenuScene
     this.processingQueue.enqueue(this.currentSceneName);
@@ -66,7 +66,7 @@ class SceneHandler {
         break;
       case "Human Body":
         this.sceneWasChanged = true;
-        console.log("sceneMouseEvent over Human body");
+        console.log("sceneMouseEvent over the implemented choice.");
         this.goingToScene = "movementTutorial";
         break;
       default:
@@ -101,7 +101,7 @@ class SceneHandler {
         break;
       case "succeededAtHoudiniMiniGame":
         this.sceneWasChanged = true;
-        this.goingToScene = "prayerAnswered";
+        this.goingToScene = "conclusionScene";
         alert("Final Game Scene");
       default:
         break;
@@ -120,13 +120,17 @@ class SceneHandler {
     this.sceneConfig[this.previousGameScene].currentScene = false;
     this.sceneConfig[this.previousGameScene].readyForNextScene = false;
   }
+  /**
+    Internally changes scenes' config flags by using the queues. Assigns a string literal and a boolean
+    in the config file to do this, but only the next call to update will update the scene.
 
+  */
   changeScene() {
     // Updates the previous game scene property by using the last scene in the queue
     this.previousGameScene = this.currentSceneQueue.dequeue();
     // Updates the current scene queue
     this.currentSceneQueue.enqueue(this.goingToScene);
-    // Adds the new scene to the queue of scenes that are processing
+    // Adds the new scene to the queue of scenes that are processing. NOT IMPLEMENTED YET.
     this.processingQueue = this.currentSceneQueue.front();
     // Go to the next scene by using its name
     this.sceneObjects[this.goingToScene].updateScene();

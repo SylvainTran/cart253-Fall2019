@@ -33,46 +33,41 @@ class Prey extends MobileElement {
     // To be added as part of the game later.
     this.passedScreenBorders = false;
   }
+  /**
+    Gradually enlarges in width and height.
+    Z position illusion effect.
 
+  */
+  enlarge(){
+    this.avatarPic.width += 0.01;
+    this.avatarPic.height += 0.01;
+  }
   /**
     Sets velocity based on the noise() function and the Prey's speed
     Moves based on the resulting velocity and handles wrapping
 
   */
-  move(canMove) {
-    if (canMove) {
-      this.x += this.vx;
-      this.y += this.vy;
-    } else {
-      this.handleWrapping();
-      this.x += this.vx;
-      this.y += this.vy;
-    }
-    this.tx += 0.01;
-    this.ty += 0.02;
+  move() {
+    this.vx = random(-1, 1);
+    this.vy = random(-1, 1);
+    this.x += this.vx;
+    this.y += this.vy;
+    this.enlarge();
+    this.handleWrapping();
   }
-
   /**
     Check if the up, down, left, right tiles around the prey or predator
     trying to move is moveable to (empty space).
+    TO BE IMPLEMENTED.
 
   */
   checkNeighbourTiles(tileMapExplorer) {
-    this.vx = random(-1, 1); //floor(map(noise(this.tx), 0, 1, -this.speed, this.speed));
-    this.vy = random(-1, 1); //floor(map(noise(this.ty), 0, 1, -this.speed, this.speed));
-    this.avatarPic.width += 0.01;
-    this.avatarPic.height += 0.01;
-
-    let currentX = this.x;
-    let currentY = this.y;
-
-    let anticipatedX = floor(currentX += this.vx);
-    let anticipatedY = floor(currentY += this.vy);
-
-    let constrainedX = constrain(anticipatedX, 0, 639);
-    let constrainedY = constrain(anticipatedY, 0, 639);
+    // TODO
+    // return true if neighbours are checked and assessed as ok.
+    // do this by adding paths in a queue and stopping when the path is obsolete
+    // or a valid path is found
+    // pop the found path and return the itinary back or simply return a "can move" instead
   }
-
   /**
     Checks if the prey has gone off the canvas and
     wraps it to the other side if so
@@ -93,24 +88,22 @@ class Prey extends MobileElement {
     }
     pop();
   }
-
   /**
     Draw the prey as per the provided avatar pic.
 
   */
   display() {
-    //this.avatarPic.width = this.radius;
-    //this.avatarPic.height = this.radius;
+    const sizeMultiplier = 5;
+    // Big fleshy effect
     push();
-    imageMode(CENTER); // Big fleshy effect
+    imageMode(CENTER);
     this.radius = this.health;
-    image(this.avatarPic, this.x, this.y, this.avatarPic.width * 5, this.avatarPic.height * 5);
+    image(this.avatarPic, this.x, this.y, this.avatarPic.width * sizeMultiplier, this.avatarPic.height * sizeMultiplier);
     pop();
   }
-
   /**
     Set the position to a random location and reset health
-   and radius back to default
+   and radius back to default. Not used currently.
 
   */
   reset() {

@@ -3,14 +3,24 @@
 
 */
 class MainMenuScene extends Scene {
-  constructor(sceneData){
+  constructor(sceneData, actorFactory, tileExplorer){
     super(sceneData);
+    this.actorFactory = actorFactory;
+    this.tileExplorer = tileExplorer;
+    this.adam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, this.actorFactory.avatarMale);
+    this.generatedActorsYet = false;
+    this.persons = [];
   }
   /**
     Updates the scene.
 
   */
   updateScene() {
+    if(!this.generatedActorsYet) {
+      // Actor generation
+      this.actorFactory.generateActors("Person", this.persons);
+      this.generatedActorsYet = true;
+    }
     this.displayMainMenu();
     this.displayCaptions();
   }
@@ -20,6 +30,12 @@ class MainMenuScene extends Scene {
   */
   displayMainMenu() {
     background(this.sceneData.bgColor); // Alpha value set to 10 for transparency
+    // Display all the actors and handle their eating and movement
+    this.adam.display(this.sceneData.sizeMultiplier);
+    for (let j = 0; j < this.actorFactory.numberOfActors; j++) {
+      this.persons[j].move();
+      this.persons[j].display();
+    }
   }
   /**
     Displays the text.
@@ -68,5 +84,14 @@ class MainMenuScene extends Scene {
       sceneMouseEvent = "Exiting Game";
     }
     return sceneMouseEvent;
+  }
+  /**
+    Handles keyboard inputs.
+
+  */
+  keyPressed(TILE_SIZE, movementSounds) {
+    let sceneKeyPressEvent = null;
+    this.adam.keyPressed(TILE_SIZE, movementSounds);
+    return sceneKeyPressEvent;
   }
 }

@@ -10,24 +10,24 @@ class Survivor extends Human {
     this.healthGainPerEat = 1;
   }
   /**
-    Takes a zombie object as an argument and checks if the survivor decides to cook it.
-    (while it overlaps it and press shift) If so, reduces the prey's health and increases
-    the Human's. If the prey dies, it gets reset.
+    Takes an object as an argument and checks if the survivor decides to cook it.
+    (while it overlaps it and press shift) If so, reduces the food's health and increases
+    the Human's. If the food dies, it gets reset.
 
   */
-  handleEating(prey) {
-    // Calculate distance from this Human to the prey
-    let d = dist(this.x, this.y, prey.x, prey.y);
+  handleEating(food) {
+    // Calculate distance from this Human to the food
+    let d = dist(this.x, this.y, food.x, food.y);
     // Check if the distance is less than their two radii (an overlap)
-    if (d < this.radius + prey.radius) {
+    if (d < this.radius + food.radius) {
       // Increase Human health and constrain it to its possible range
       this.health += this.healthGainPerEat;
       this.health = constrain(this.health, 0, this.maxHealth);
-      // Decrease prey health by the same amount
-      prey.health -= this.healthGainPerEat;
-      // Check if the prey died and reset it if so
-      if (prey.health < 0) {
-        prey.reset();
+      // Decrease food health by the same amount
+      food.health -= this.healthGainPerEat;
+      // Check if the food died and reset it if so
+      if (food.health < 0) {
+        food.reset();
       }
     }
   }

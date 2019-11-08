@@ -1,6 +1,6 @@
 /**
   A class that represents a simple zombie that moves
-  on screen based on a noise() function. It can move around
+  on screen based on the player's position. It can move around
   the screen and be try to consume the player.
 
 */

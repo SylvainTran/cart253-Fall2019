@@ -68,7 +68,7 @@ class Scene {
       numberOfChars = 0; // reset
     }
     averageLengthPerWord = totalLength / text.length;
-    textLineWidth = averageLengthPerWord * (this.sceneData.tSize - 30); // TODO remove hardcoded values
+    textLineWidth = averageLengthPerWord * (this.sceneData.tSize - this.sceneData.tSize / 2);
     return textLineWidth;
   }
 }

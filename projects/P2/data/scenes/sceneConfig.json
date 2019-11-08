@@ -40,5 +40,12 @@
     "textObjectPath": "data/scenes/sceneData/sceneData5.json",
     "readyForNextScene": false,
     "currentScene": false
+  },
+  "conclusionScene": {
+    "sceneIndex": 6,
+    "sceneName": "conclusionScene",
+    "textObjectPath": "data/scenes/sceneData/sceneData6.json",
+    "readyForNextScene": false,
+    "currentScene": false
   }
 }

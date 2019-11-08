@@ -43,7 +43,7 @@ class TileMapFactory {
     }
   }
   /**
-    Snaps mousePosX on the gridmap.
+    TODO - Snaps mousePosX on the gridmap.
 
   */
   gridSnapX(mouseX, mouseY) {
@@ -53,7 +53,7 @@ class TileMapFactory {
   }
 
   /**
-    Snaps mousePosY on the gridmap.
+    TODO - Snaps mousePosY on the gridmap.
 
   */
   gridSnapY() {

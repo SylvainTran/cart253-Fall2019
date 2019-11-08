@@ -14,25 +14,17 @@ let mainCanvas;
 let sceneHandler;
 let sceneConfig;
 let sceneObjects;
-let sceneData0, sceneData1, sceneData2, sceneData3, sceneData4, sceneData5;
+let sceneData0, sceneData1, sceneData2, sceneData3, sceneData4, sceneData5, sceneData6;
 // Our first human
 let adam;
 // Pics
-let avatarMale;
-// The three prey
-let person1;
-let person2;
-let person3;
+let avatarFemale, avatarMale;
 // The canvas layers for each display category
-let uiLayer;
-let actorsLayer;
 let gridLayer;
-let environmentLayer;
 // The tile map -- TODO setup in a json config file
 let tileMap = [];
 let tileMapFactory;
 let tileMapExplorer;
-let tileFillColor = [];
 const TILE_MAP_SIZE = 1000;
 const TILE_SIZE = TILE_MAP_SIZE / 10;
 // The persons array
@@ -51,6 +43,7 @@ let movementTutorialVoiceActing;
 let gameplayTutorialVoiceActing;
 let zombieAttackVoiceActing;
 let spiritualDesertVoiceActing;
+let conclusionSceneVoiceActing;
 /**
   Preloads the sceneConfig, sceneData, avatar assets, and fonts.
 
@@ -63,6 +56,7 @@ function preload() {
   sceneData3 = loadJSON("data/scenes/sceneData/sceneData3.json");
   sceneData4 = loadJSON("data/scenes/sceneData/sceneData4.json");
   sceneData5 = loadJSON("data/scenes/sceneData/sceneData5.json");
+  sceneData6 = loadJSON("data/scenes/sceneData/sceneData6.json");
   avatarMale = loadImage("assets/images/avatarMale.png");
   avatarFemale = loadImage("assets/images/avatarFemale.png");
   dosisTTF = loadFont("assets/fonts/dosis.ttf");
@@ -76,6 +70,7 @@ function preload() {
   gameplayTutorialVoiceActing = loadSound("assets/sounds/mainGameplayTutorialScene.mp3");
   zombieAttackVoiceActing = loadSound("assets/sounds/zombieAttackScene_v2.mp3");
   spiritualDesertVoiceActing = loadSound("assets/sounds/spiritualDesertScene.mp3");
+  conclusionSceneVoiceActing = loadSound("assets/sounds/conclusionScene_v2.mp3");
 }
 /**
   Sets up a canvas and creates objects for the Human and three prey.
@@ -84,12 +79,8 @@ function preload() {
 function setup() {
   mainCanvas = createCanvas(TILE_MAP_SIZE, TILE_MAP_SIZE);
   mainCanvas.parent('mainDisplay');
-  uiLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
-  uiLayer.clear();
   gridLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
   gridLayer.clear();
-  environmentLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
-  environmentLayer.clear();
   actorFactory = new ActorFactory(numberOfActors, avatarMale, avatarFemale);
   const tileMapSize = TILE_MAP_SIZE;
   tileMapExplorer = new TileMapExplorer(tileMap);
@@ -100,25 +91,20 @@ function setup() {
     DOWN: downKeySound
   };
   sceneObjects = {
-    "mainMenuScene": new MainMenuScene(sceneData0),
+    "mainMenuScene": new MainMenuScene(sceneData0, actorFactory, tileMapExplorer),
     "introduction": new IntroductionScene(sceneData1, introductionVoiceActing),
     "movementTutorial": new MovementTutorialScene(sceneData2, movementTutorialVoiceActing),
     "gameplayTutorial": new GameplayTutorialScene(sceneData3, actorFactory, tileMapExplorer, gameplayTutorialVoiceActing),
     "zombieAttackScene": new ZombieAttackScene(sceneData4, actorFactory, tileMapExplorer, zombieAttackVoiceActing),
-    "spiritualDesert": new SpiritualDesert(sceneData5, actorFactory, tileMapExplorer, spiritualDesertVoiceActing)
+    "spiritualDesert": new SpiritualDesert(sceneData5, actorFactory, tileMapExplorer, spiritualDesertVoiceActing),
+    "conclusionScene": new ConclusionScene(sceneData6, actorFactory, tileMapExplorer, conclusionSceneVoiceActing)
   };
   // Keeping the data separated from the manipulation on the data.
-  // All data is encapsulated in the sceneConfig and sceneData files.
+  // All data is kept in the sceneConfig and sceneData files and most of the behaviour
+  // is encapsulated away from the data.
   sceneHandler = new SceneHandler(sceneObjects, sceneConfig, nextSceneSound);
-  tileFillColor.push(color(255, 255, 255)); // White
-  adam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
   tileMapFactory = new TileMapFactory(tileMapSize, tileMapExplorer);
   tileMapFactory.createEmptyTileMap(gridLayer, tileMapSize);
-  // Actor generation (temporary)
-  for (let i = 0; i < numberOfActors; i++) {
-    let newPerson = new Prey(random(0, width), random(0, height), 20, color(255, 255, 0), 10, avatarFemale);
-    persons[i] = newPerson;
-  }
 }
 /**
   Accesses the sceneHandler object's currentSceneName to gate
@@ -143,6 +129,9 @@ function mousePressed() {
     case "spiritualDesert":
       sceneMouseEvent = sceneObjects.spiritualDesert.mousePressed();
       break;
+    case "conclusionScene":
+      sceneMouseEvent = sceneObjects.conclusionScene.mousePressed();
+      break;
     default:
       break;
   }
@@ -150,23 +139,19 @@ function mousePressed() {
   if (sceneMouseEvent !== null) {
     sceneHandler.handleSceneMouseEvent(sceneMouseEvent);
   }
-  // TODO event listeners for onMouseOver tile map stuff
-  for (let i = 0; i <= TILE_MAP_SIZE / TILE_SIZE; i++) {
-    for (let j = i; j <= TILE_MAP_SIZE / TILE_SIZE; j++) {
-      //tileMap[i][j].clicked(gridLayer, tileFillColor, TILE_SIZE);
-    }
-  }
 }
 /**
   P5.js keyPressed, listens to key events.
 
 */
 function keyPressed() {
-  // Main menu keyPressed ? TODO refactor
-  adam.keyPressed(TILE_SIZE, movementSounds);
+  // By default
   let sceneKeyPressEvent = null;
   // Call the Humans and persons' custom keyPressed
   switch (sceneHandler.currentSceneName) {
+    case "mainMenuScene":
+      sceneKeyPressEvent = sceneObjects.mainMenuScene.keyPressed(TILE_SIZE, movementSounds);
+      break;
     case "movementTutorial":
       sceneKeyPressEvent = sceneObjects.movementTutorial.keyPressed(TILE_SIZE, movementSounds);
       break;
@@ -178,6 +163,9 @@ function keyPressed() {
       break;
     case "spiritualDesert":
       sceneKeyPressEvent = sceneObjects.spiritualDesert.keyPressed(TILE_SIZE, movementSounds);
+      break;
+    case "conclusionScene":
+      sceneKeyPressEvent = sceneObjects.conclusionScene.keyPressed(TILE_SIZE, movementSounds);
       break;
     default:
       break;
@@ -196,17 +184,6 @@ function draw() {
   textFont(dosisTTF);
   // Displays the tile map
   image(gridLayer, 0, 0);
-  // Display all the actors
-  adam.display(sceneData0.sizeMultiplier);
-  for (let j = 0; j < numberOfActors; j++) {
-    // Check neighbouring tiles
-    let checkMove = persons[j].checkNeighbourTiles(tileMapExplorer);
-    persons[j].move();
-    persons[j].display();
-    adam.handleEating(persons[j]);
-  }
   // If ready to render the current scene, render it.
   sceneHandler.process();
-  // The environment layer createGraphics
-  image(environmentLayer, 0, 0);
 }

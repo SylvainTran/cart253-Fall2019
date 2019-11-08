@@ -60,7 +60,6 @@ class ZombieAttackScene extends Scene {
   enactActing() {
     if(this.actorArray.length > 0) {
       for(let i = 0; i < this.actorArray.length; i++) {
-        let checkMove = this.actorArray[i].checkNeighbourTiles(this.tileMapExplorer);
         this.actorArray[i].seekPlayer(this.strugglingAdam);
         this.actorArray[i].damagePlayer(this.strugglingAdam);
         this.actorArray[i].displayZombieMode();

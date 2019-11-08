@@ -28,13 +28,6 @@ class Prisoner extends Human {
 
   */
   keyPressed(TILE_SIZE) {
-    // Count the number of moves yet to handle displaying the fail message feedback in SpiritualDesert.js
-    if(!this.movementCombination.isFull()) { // If we still have space in the queue
-      this.movementsCounter++;
-    }
-    else {
-      this.movementsCounter = 0; // Reset counter
-    }
     if(keyCode === LEFT_ARROW) {
       this.vx = -TILE_SIZE;
       this.movementCombination.enqueue("left");
@@ -60,5 +53,12 @@ class Prisoner extends Human {
     this.x += this.vx;
     this.y += this.vy;
     this.handleWrapping();
+    // Count the number of moves yet to handle displaying the fail message feedback in SpiritualDesert.js
+    if(!this.movementCombination.isFull()) { // If we still have space in the queue
+      this.movementsCounter++;
+    }
+    else {
+      this.movementsCounter = 0; // Reset counter
+    }
   }
 }

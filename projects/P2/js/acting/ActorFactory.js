@@ -26,6 +26,9 @@ class ActorFactory {
       }
     } else if (actorTypeRequested === "Person") {
       // Persons.
+      for (let i = 0; i < this.numberOfActors; i++) {
+        actorArray[i] = new Prey(random(0, width), random(0, height), 20, color(255, 255, 0), 10, this.avatarFemale);
+      }
     }
     return actorArray;
   }

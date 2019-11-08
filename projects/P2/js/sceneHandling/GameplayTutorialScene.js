@@ -59,7 +59,7 @@ class GameplayTutorialScene extends Scene {
     if(this.actorArray.length > 0) {
       for(let i = 0; i < this.actorArray.length; i++) {
         let checkMove = this.actorArray[i].checkNeighbourTiles(this.tileMapExplorer);
-        this.actorArray[i].move(checkMove);
+        this.actorArray[i].move();
         this.actorArray[i].displayZombieMode();
       }
     }
