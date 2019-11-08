@@ -4,10 +4,12 @@
 
 */
 class SceneHandler {
-  constructor(sceneObjects, sceneConfig) {
+  constructor(sceneObjects, sceneConfig, nextSceneSound) {
     // Scene data: the objects and the config file
     this.sceneObjects = sceneObjects;
     this.sceneConfig = sceneConfig;
+    // The next scene sound
+    this.nextSceneSound = nextSceneSound;
     // Start at the main menu. This property is used to know which is the current scene
     this.currentSceneName = sceneConfig.mainMenuScene.sceneName;
     // A string property that keeps the name of the previous game scene (non in-game menu type)
@@ -32,7 +34,7 @@ class SceneHandler {
 
   */
   process() {
-    this.trackProcessedScenes();
+    this.updatePreviousSceneFlags();
     // Boots the current scene's update functions, by referring to its name.
     this.sceneObjects[this.currentSceneName].updateScene();
     // Updates the sceneWasChanged flag gating (to prevent discrepancy between mousePressed() and process()
@@ -113,15 +115,11 @@ class SceneHandler {
 
   /**
     This function deals with the previous and processing scenes in the queue
-    to update their flag parameters (currentScene)
-    Updates the processing and current scenes queues
-    Updates the previous game scene name so to be able to update its properties
+    to update their flag parameters (currentScene).
+    Updates the processing and current scenes queues and the previous game scene name as to be able to update its properties.
 
   */
-  trackProcessedScenes() {
-    // Should keep up to date the currentScene information
-    //console.log("Current game scene name: " + this.sceneConfig[this.currentSceneName].sceneName);
-    //console.log("Previous game scene name: " + this.previousGameScene);
+  updatePreviousSceneFlags() {
     this.sceneConfig[this.previousGameScene].currentScene = false;
     this.sceneConfig[this.previousGameScene].readyForNextScene = false;
   }
@@ -139,5 +137,9 @@ class SceneHandler {
     this.currentSceneName = this.goingToScene;
     // Update the scene config file
     this.sceneConfig[this.currentSceneName].currentScene = true;
+    // Play the nextSceneSound.wav, except prior to the last scene.
+    if(this.sceneConfig[this.currentSceneName].sceneName !== "spiritualDesert") {
+      this.nextSceneSound.play();
+    }
   }
 }

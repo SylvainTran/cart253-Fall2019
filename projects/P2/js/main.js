@@ -41,6 +41,8 @@ const numberOfActors = 10;
 let actorFactory;
 // The font
 let dosisTTF;
+// next scene sound
+let nextSceneSound;
 /**
   Preloads the sceneConfig, sceneData, avatar assets, and fonts.
 
@@ -56,6 +58,7 @@ function preload() {
   avatarMale = loadImage("assets/images/avatarMale.png");
   avatarFemale = loadImage("assets/images/avatarFemale.png");
   dosisTTF = loadFont("assets/fonts/dosis.ttf");
+  nextSceneSound = loadSound("assets/sounds/nextSceneSound.wav");
 }
 /**
   Sets up a canvas and creates objects for the Human and three prey.
@@ -83,7 +86,7 @@ function setup() {
   }
   // Keeping the data separated from the manipulation on the data.
   // All data is encapsulated in the sceneConfig and sceneData files.
-  sceneHandler = new SceneHandler(sceneObjects, sceneConfig);
+  sceneHandler = new SceneHandler(sceneObjects, sceneConfig, nextSceneSound);
   tileFillColor.push(color(255, 255, 255)); // White
   adam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
   tileMapFactory = new TileMapFactory(tileMapSize, tileMapExplorer);
