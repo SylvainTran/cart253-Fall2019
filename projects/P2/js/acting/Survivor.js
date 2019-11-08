@@ -127,7 +127,7 @@ class Survivor extends Human {
         text(sceneData.subtitles[4], this.x - this.avatarPic.width, this.y - this.avatarPic.height - this.radius);
         pop();
       }
-      timesComplained += 100;
+      timesComplained++;
     }
     return timesComplained;
   }

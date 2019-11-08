@@ -14,7 +14,7 @@ class SpiritualDesert extends Scene {
     this.actorArray = [];
     this.tileMapExplorer = tileMapExplorer;
     this.timesComplained = 0;
-    this.succeededMinigame = false;
+    this.succeededMinigame = false; // Whether the player completed the mini-game
     this.combinationCount = 0; // Counter for how many times the player has guessed at the mini-game
     this.maxCombinationLength = 4; // The max number of attempts at the mini-game
     this.successfulCombination = ["left", "right", "left", "down"]; // The right key combination
@@ -24,6 +24,7 @@ class SpiritualDesert extends Scene {
 
   */
   updateScene() {
+    console.log(this.contriteAdam.movementsCounter);
     if(!this.playedVoiceActing) {
       this.spiritualDesertVoiceActing.play();
       this.playedVoiceActing = true;
@@ -32,11 +33,12 @@ class SpiritualDesert extends Scene {
     this.displayCaptions();
     //this.contriteAdam.protestOutloud(this.sceneData, this.timesComplained);
     if(!this.succeededMinigame) { //if we didn't succeed at the mini-game yet
-      if(this.contriteAdam.movementCombination.isFull()) {
-        this.displayFailMessage();
-      }
       this.contriteAdam.displayKeyPressed();
       this.checkMoveCombination();
+      // Player feedback for the number of times they have moved yet and if it failed.
+      if(this.contriteAdam.movementsCounter === this.maxCombinationLength - 2) { // Because started at 0
+        this.displayFailMessage();
+      }
     }
   }
   /**
@@ -104,27 +106,26 @@ class SpiritualDesert extends Scene {
 
   */
   checkMoveCombination() {
-    // Initialize the mini-game attempts and also resets it
+    // Allocate a copy of the queue, also resets attempts upon recall of this function.
     let miniGameAttempt = [];
     // If the player moved four times (max combinations)
     if(this.contriteAdam.movementCombination.isFull()) {
       // Store the results
-      console.log(this.contriteAdam.movementCombination);
       while(!this.contriteAdam.movementCombination.isEmpty()) {
         miniGameAttempt.push(this.contriteAdam.movementCombination.dequeue());
       }
       console.log("Results: " + miniGameAttempt);
-      // Validate the results by comparing the values at equal indexes
+      // Validate the results by comparing the values at equal indexes.
       for(let i = 0; i < miniGameAttempt.length; i++) {
-        console.log("Entering checking attempts loop");
         if(miniGameAttempt[i] !== this.successfulCombination[i]) {
-          // Leave the function if a key press doesn't match
+          // Leave the function if a key press doesn't match.
           return;
         }
       }
-      // If we didn't return, then we succeeed at the mini-game
+      // If we didn't return, then we must have succeeded at the mini-game
       this.succeededMiniGame = true;
       if(this.succeededMiniGame) {
+        alert("Succeess");
         return "succeededAtHoudiniMiniGame";
       }
     }
@@ -135,8 +136,8 @@ class SpiritualDesert extends Scene {
   */
   displayFailMessage() {
     push();
-    textSize(this.sceneData.tSize);
-    fill(this.sceneData.textColor);
+    textSize(this.tSize);
+    fill(this.textColor);
     text("Wrong combination. Try again.", this.sceneData.failMessagePosX, this.sceneData.failMessagePosY);
     pop();
   }

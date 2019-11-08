@@ -13,7 +13,7 @@
   "narrationPosX": 0,
   "narrationPosY": 100,
   "narration": ["\"But the Lord God called to the man: \"Where are you?\"", "Genesis 3:9"],
-  "dialogue": ["I am in the shadow of the valley of death.", "Find the right consecutive four arrow key combination to proceed."],
+  "dialogue": ["Find the right consecutive four arrow key combination to proceed."],
   "dialoguePosX": 0,
   "dialoguePosY": 750,
   "dialogueChoice1PosY": 873,
@@ -24,6 +24,6 @@
   "translation": ["FR", "ENG"],
   "references": "",
   "sizeMultiplier": 5,
-  "failMessagePosX": 500,
+  "failMessagePosX": 200,
   "failMessagePosY": 100
 }

@@ -16,7 +16,7 @@ class Queue {
     return this.items.length === 0;
   }
   /**
-      Checks if the queue is full by comparing the item length with the max length.
+    Checks if the queue is full by comparing the item length with the max length.
 
   */
   isFull() {
@@ -40,7 +40,8 @@ class Queue {
   */
   dequeue() {
     if (this.isEmpty()) {
-      return "Queue is empty: underflow.";
+      console.log("Queue is empty: underflow.");
+      return;
     } else {
       return this.items.shift();
     }
@@ -51,7 +52,8 @@ class Queue {
   */
   front() {
     if (this.isEmpty()) {
-      return "Queue is empty of elements.";
+      console.log("Queue is empty: underflow.");
+      return;
     } else {
       return this.items[0];
     }
