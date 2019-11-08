@@ -4,7 +4,7 @@
   the screen and be consumed by Predator objects.
 
 */
-class Prey extends MobileElement{
+class Prey extends MobileElement {
   constructor(x, y, speed, fillColor, radius, avatarPic) {
     super(x, y);
     // Velocity and speed
@@ -29,7 +29,8 @@ class Prey extends MobileElement{
     this.movementQueueX = new Queue(1);
     this.movementQueueY = new Queue(1);
 
-    // Property that checks if this actor has passed beyond the canvas' borders already. Mainly for zombie mode
+    // Property that checks if this actor has passed beyond the canvas' borders already. Mainly for zombie mode,
+    // To be added as part of the game later.
     this.passedScreenBorders = false;
   }
 
@@ -39,11 +40,10 @@ class Prey extends MobileElement{
 
   */
   move(canMove) {
-    if(canMove) {
+    if (canMove) {
       this.x += this.vx;
       this.y += this.vy;
-    }
-    else {
+    } else {
       this.handleWrapping();
       this.x += this.vx;
       this.y += this.vy;

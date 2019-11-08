@@ -9,9 +9,8 @@ class Zombie extends Prey {
     super(x, y, speed, fillColor, radius, avatarPic);
     this.healthGainPerEat = 1;
     //this.attackValue = 0.05;
-    this.attackValue = 100;
+    this.attackValue = 100; // Debug mode
   }
-
   /**
     Seeks the player in order to eat them.
 
@@ -45,16 +44,14 @@ class Zombie extends Prey {
     }
     this.handleWrapping();
   }
-
   /**
     Damages the player when they overlap.
 
   */
   damagePlayer(player) {
     let distanceToPlayer = dist(this.x + this.avatarPic.width / 2, this.y + this.avatarPic.height / 2, player.x + player.avatarPic.width / 2, player.y + player.avatarPic.height / 2);
-
     if (distanceToPlayer < this.radius * 2) {
-      if(player.health > 0) {
+      if (player.health > 0) {
         player.health -= this.attackValue;
         console.log("This zombie is busy eating the player.");
       }

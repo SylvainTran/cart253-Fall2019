@@ -27,9 +27,9 @@
     "readyForNextScene": false,
     "currentScene": false
   },
-  "zombieAttack": {
+  "zombieAttackScene": {
     "sceneIndex": 4,
-    "sceneName": "zombieAttack",
+    "sceneName": "zombieAttackScene",
     "textObjectPath": "data/scenes/sceneData/sceneData4.json",
     "readyForNextScene": false,
     "currentScene": false

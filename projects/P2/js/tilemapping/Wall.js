@@ -7,7 +7,6 @@ class Wall extends StaticElement {
     super(x, y);
     this.elementType = spaceTypeId.BORDER;
   }
-
   /**
     Draws a wall picture at the specified position.
 

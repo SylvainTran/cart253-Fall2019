@@ -24,7 +24,6 @@ class Human extends MobileElement {
     this.rightKey = RIGHT_ARROW;
     this.avatarPic = avatarPic;
   }
-
   /**
     Takes a Prey object as an argument and checks if the Human
     overlaps it. If so, reduces the prey's health and increases
@@ -47,7 +46,6 @@ class Human extends MobileElement {
       }
     }
   }
-
   /**
     Draw the Human as per the avatarPic's width and height which in turn
     are redefined by the maxHealth.
@@ -66,29 +64,24 @@ class Human extends MobileElement {
 
   */
   keyPressed(TILE_SIZE) {
-    if(keyCode === LEFT_ARROW) {
+    if (keyCode === LEFT_ARROW) {
       this.vx = -TILE_SIZE;
-    }
-    else if(keyCode === RIGHT_ARROW) {
+    } else if (keyCode === RIGHT_ARROW) {
       this.vx = TILE_SIZE;
-    }
-    else {
+    } else {
       this.vx = 0;
     }
-    if(keyCode === UP_ARROW) {
+    if (keyCode === UP_ARROW) {
       this.vy = -TILE_SIZE;
-    }
-    else if(keyCode === DOWN_ARROW) {
+    } else if (keyCode === DOWN_ARROW) {
       this.vy = TILE_SIZE;
-    }
-    else {
+    } else {
       this.vy = 0;
     }
     this.x += this.vx;
     this.y += this.vy;
     this.handleWrapping();
   }
-
   /**
     Checks if the Human has gone off the canvas and
     wraps it to the other side if so

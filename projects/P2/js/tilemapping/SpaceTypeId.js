@@ -3,11 +3,10 @@
 
 */
 let spaceTypeId = {
-  EMPTY: 1, // Can walk on this tile
-  START: 2,
-  BUILD_LOCATION: 3,
-  BATTLE_LOCATION: 4,
-  CHANGE_SCENE: 5,
-  BORDER: 6,
-  DEFAULT: 7
+  EMPTY: 1, // Default tile. Can walk on this tile.
+  START: 2, // Player or enemy starting position.
+  BUILD_LOCATION: 3, // Build location for objects.
+  BATTLE_LOCATION: 4, // Location for battle events.
+  CHANGE_SCENE: 5, // Change scene point location.
+  BORDER: 6, // Wall borders.
 }

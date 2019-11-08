@@ -1,8 +1,8 @@
 /**
-  MovementTutorial scene. Teaches how to move, and explores the concept of the body.
+  Zombie attack scene. Introduces the damage mechanic. Explores the concept of the body.
 
 */
-class ZombieAttack extends Scene {
+class ZombieAttackScene extends Scene {
   constructor(sceneData, actorFactory, tileMapExplorer){
     super(sceneData);
     this.strugglingAdam = new Survivor(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);

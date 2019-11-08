@@ -58,7 +58,7 @@ class Survivor extends Human {
     pop();
   }
   /**
-    Tile-based movement upon keyPressed.
+    Tile-size based movement upon keyPressed.
 
   */
   keyPressed(TILE_SIZE) {
@@ -87,6 +87,7 @@ class Survivor extends Human {
   }
   /**
     Vocalize your suffering by displaying captions above your head.
+    TODO threshold for times complained in sceneData
 
   */
   protestOutloud(sceneData, timesComplained) {

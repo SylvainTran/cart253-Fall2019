@@ -2,8 +2,10 @@
   BASAR / FLESH
 
   Methodology: Goal is to be more explicitly conscious about my design choices.
-  Listening to the Word: Hebraic word for "flesh": Basar
-  Explore more basic mechanics.
+  Goals:
+  Listening to the Word: Hebraic word for "flesh", Basar.
+  Explore more basic gamplay mechanics in different scenes by using OOP.
+  Near complete exclusion of data from state logic through the use of files.
 
 */
 // The main canvas for actors
@@ -39,7 +41,10 @@ const numberOfActors = 10;
 let actorFactory;
 // The font
 let dosisTTF;
+/**
+  Preloads the sceneConfig, sceneData, avatar assets, and fonts.
 
+*/
 function preload() {
   sceneConfig = loadJSON("data/scenes/sceneConfig.json");
   sceneData0 = loadJSON("data/scenes/sceneData/sceneData0.json");
@@ -52,14 +57,11 @@ function preload() {
   avatarFemale = loadImage("assets/images/avatarFemale.png");
   dosisTTF = loadFont("assets/fonts/dosis.ttf");
 }
-
 /**
   Sets up a canvas and creates objects for the Human and three prey.
 
 */
 function setup() {
-  console.log("Avatar width: " + avatarMale.width);
-  console.log("Avatar height: " + avatarMale.height);
   mainCanvas = createCanvas(TILE_MAP_SIZE, TILE_MAP_SIZE);
   mainCanvas.parent('mainDisplay');
   uiLayer = createGraphics(TILE_MAP_SIZE, TILE_MAP_SIZE);
@@ -70,15 +72,13 @@ function setup() {
   environmentLayer.clear();
   actorFactory = new ActorFactory(numberOfActors, avatarMale, avatarFemale);
   const tileMapSize = TILE_MAP_SIZE;
-  //const tileMapWidth = tileMapSize;
-  //const tileMapHeight = tileMapSize;
   tileMapExplorer = new TileMapExplorer(tileMap);
   sceneObjects = {
     "mainMenuScene": new MainMenuScene(sceneData0),
     "introduction": new IntroductionScene(sceneData1),
     "movementTutorial": new MovementTutorialScene(sceneData2),
     "gameplayTutorial": new GameplayTutorialScene(sceneData3, actorFactory, tileMapExplorer),
-    "zombieAttack": new ZombieAttack(sceneData4, actorFactory, tileMapExplorer),
+    "zombieAttackScene": new ZombieAttackScene(sceneData4, actorFactory, tileMapExplorer),
     "spiritualDesert": new SpiritualDesert(sceneData5, actorFactory, tileMapExplorer)
   }
   // Keeping the data separated from the manipulation on the data.
@@ -89,12 +89,11 @@ function setup() {
   tileMapFactory = new TileMapFactory(tileMapSize, tileMapExplorer);
   tileMapFactory.createEmptyTileMap(gridLayer, tileMapSize);
   // Actor generation (temporary)
-  for(let i = 0; i < numberOfActors; i++) {
+  for (let i = 0; i < numberOfActors; i++) {
     let newPerson = new Prey(random(0, width), random(0, height), 20, color(255, 255, 0), 10, avatarFemale);
     persons[i] = newPerson;
   }
 }
-
 /**
   Accesses the sceneHandler object's currentSceneName to gate
   which mouse event (situation) to handle.
@@ -102,7 +101,7 @@ function setup() {
 */
 function mousePressed() {
   let sceneMouseEvent = null;
-  switch(sceneHandler.currentSceneName) {
+  switch (sceneHandler.currentSceneName) {
     case "mainMenuScene":
       sceneMouseEvent = sceneObjects.mainMenuScene.mousePressed();
       break;
@@ -112,6 +111,9 @@ function mousePressed() {
     case "movementTutorial":
       sceneMouseEvent = sceneObjects.movementTutorial.mousePressed();
       break;
+    case "zombieAttackScene":
+      sceneMouseEvent = sceneObjects.zombieAttackScene.mousePressed();
+      break;
     case "spiritualDesert":
       sceneMouseEvent = sceneObjects.spiritualDesert.mousePressed();
       break;
@@ -119,58 +121,58 @@ function mousePressed() {
       break;
   }
   // If we actually got an event or if it stayed null.
-  if(sceneMouseEvent !== null) {
+  if (sceneMouseEvent !== null) {
     sceneHandler.handleSceneMouseEvent(sceneMouseEvent);
   }
-    //createSettlement(windowWidth, windowHeight);
-    // Event listeners for onMouseOver tile map stuff
-    for(let i = 0; i <= TILE_MAP_SIZE / TILE_SIZE; i++) {
-      for(let j = i; j <= TILE_MAP_SIZE / TILE_SIZE; j++) {
-        //tileMap[i][j].clicked(gridLayer, tileFillColor, TILE_SIZE);
-      }
+  // TODO event listeners for onMouseOver tile map stuff
+  for (let i = 0; i <= TILE_MAP_SIZE / TILE_SIZE; i++) {
+    for (let j = i; j <= TILE_MAP_SIZE / TILE_SIZE; j++) {
+      //tileMap[i][j].clicked(gridLayer, tileFillColor, TILE_SIZE);
     }
+  }
 }
+/**
+  P5.js keyPressed, listens to key events.
 
+*/
 function keyPressed() {
-    // Call the Humans and persons' tile-based movement (custom keyPressed)
-    // Main menu keyPressed ? TODO refactor
-    adam.keyPressed(TILE_SIZE);
-    let sceneKeyPressEvent = null;
-    switch(sceneHandler.currentSceneName) {
-      case "movementTutorial":
-        sceneKeyPressEvent = sceneObjects.movementTutorial.keyPressed(TILE_SIZE);
-        break;
-      case "gameplayTutorial":
-        sceneKeyPressEvent = sceneObjects.gameplayTutorial.keyPressed(TILE_SIZE);
-        break;
-      case "zombieAttack":
-        sceneKeyPressEvent = sceneObjects.zombieAttack.keyPressed(TILE_SIZE);
-        break;
-      case "spiritualDesert":
-        sceneKeyPressEvent = sceneObjects.spiritualDesert.keyPressed(TILE_SIZE);
-        break;
-      default:
-        break;
-    }
-    // If we actually got an event or if it stayed null
-    if(sceneKeyPressEvent !== null) {
-      sceneHandler.handleSceneKeyEvent(sceneKeyPressEvent);
-    }
+  // Main menu keyPressed ? TODO refactor
+  adam.keyPressed(TILE_SIZE);
+  let sceneKeyPressEvent = null;
+  // Call the Humans and persons' custom keyPressed
+  switch (sceneHandler.currentSceneName) {
+    case "movementTutorial":
+      sceneKeyPressEvent = sceneObjects.movementTutorial.keyPressed(TILE_SIZE);
+      break;
+    case "gameplayTutorial":
+      sceneKeyPressEvent = sceneObjects.gameplayTutorial.keyPressed(TILE_SIZE);
+      break;
+    case "zombieAttackScene":
+      sceneKeyPressEvent = sceneObjects.zombieAttackScene.keyPressed(TILE_SIZE);
+      break;
+    case "spiritualDesert":
+      sceneKeyPressEvent = sceneObjects.spiritualDesert.keyPressed(TILE_SIZE);
+      break;
+    default:
+      break;
+  }
+  // If we actually got an event or if it stayed null
+  if (sceneKeyPressEvent !== null) {
+    sceneHandler.handleSceneKeyEvent(sceneKeyPressEvent);
+  }
 }
-
 /**
   Handles input, movement, eating, and displaying for the system's objects.
 
 */
 function draw() {
-  // Main canvas bg
   mainCanvas.background(0);
   textFont(dosisTTF);
   // Displays the tile map
   image(gridLayer, 0, 0);
   // Display all the actors
   adam.display(sceneData0.sizeMultiplier);
-  for(let j = 0; j < numberOfActors; j++){
+  for (let j = 0; j < numberOfActors; j++) {
     // Check neighbouring tiles
     let checkMove = persons[j].checkNeighbourTiles(tileMapExplorer);
     persons[j].move();
@@ -179,9 +181,6 @@ function draw() {
   }
   // If ready to render the current scene, render it.
   sceneHandler.process();
-
-  // The UI layer display
-  // image(uiLayer, 0, 0);
   // The environment layer createGraphics
   image(environmentLayer, 0, 0);
 }

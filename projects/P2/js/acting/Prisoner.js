@@ -1,15 +1,16 @@
 /**
-  A class that represents a simple Survivor
-  controlled by the arrow keys. It can move around and loses health if he does.
+  A class that represents a simple Prisoner controlled by the arrow keys. It can move around
+  and attempt to break free from spiritual bondage.
 
 */
 class Prisoner extends Human {
   constructor(x, y, speed, fillColor, radius, avatarPic, vx, vy, maxHealth, health) {
     super(x, y, speed, fillColor, radius, avatarPic, vx, vy, maxHealth, health);
-    this.movementCombination = new Queue(4);
+    this.movementCombination = new Queue(4); // TODO remove hardcoded value
   }
   /**
-    Displays the key pressed. For the combination puzzle in the SpiritualDesert scene.
+    Displays the key pressed by the prisoner.
+    For the combination puzzle in the SpiritualDesert scene.
 
   */
   displayKeyPressed() {
@@ -31,7 +32,6 @@ class Prisoner extends Human {
     }
     else if(keyCode === RIGHT_ARROW) {
       this.vx = TILE_SIZE;
-      this.timesMovedRight++;
       this.movementCombination.enqueue("right");
       console.log("right");
     }
@@ -40,13 +40,11 @@ class Prisoner extends Human {
     }
     if(keyCode === UP_ARROW) {
       this.vy = -TILE_SIZE;
-      this.timesMovedUp++;
       this.movementCombination.enqueue("up");
       console.log("up");
     }
     else if(keyCode === DOWN_ARROW) {
       this.vy = TILE_SIZE;
-      this.timesMovedDown++;
       this.movementCombination.enqueue("down");
       console.log("down");
     }
@@ -57,50 +55,5 @@ class Prisoner extends Human {
     this.y += this.vy;
     this.handleWrapping();
     console.log("New health: " + this.health);
-  }
-  /**
-    Vocalize your suffering by displaying captions above your head.
-
-  */
-  protestOutloud(sceneData, timesComplained) {
-    if(keyCode === ENTER) {
-      if(timesComplained <= 30) {
-        push();
-        fill(sceneData.textColor);
-        textSize(sceneData.tSize);
-        text(sceneData.subtitles[0], this.x - this.avatarPic.width, this.y - this.avatarPic.height - this.radius);
-        pop();
-      }
-      else if(timesComplained <= 60) {
-        push();
-        fill(sceneData.textColor2);
-        textSize(sceneData.tSize * 1.2);
-        text(sceneData.subtitles[1], this.x - this.avatarPic.width, this.y - this.avatarPic.height - this.radius);
-        pop();
-      }
-      else if(timesComplained <= 120) {
-        push();
-        fill(sceneData.textColor3);
-        textSize(sceneData.tSize * 1.4);
-        text(sceneData.subtitles[2], this.x - this.avatarPic.width, this.y - this.avatarPic.height - this.radius);
-        pop();
-      }
-      else if(timesComplained <= 180) {
-        push();
-        fill(sceneData.textColor4);
-        textSize(sceneData.tSize * 1.6);
-        text(sceneData.subtitles[3], this.x - this.avatarPic.width, this.y - this.avatarPic.height - this.radius);
-        pop();
-      }
-      else if(timesComplained <= 266) {
-        push();
-        fill(sceneData.textColor4);
-        textSize(sceneData.tSize * 2);
-        text(sceneData.subtitles[4], this.x - this.avatarPic.width, this.y - this.avatarPic.height - this.radius);
-        pop();
-      }
-      timesComplained += 100;
-    }
-    return timesComplained;
   }
 }

@@ -1,5 +1,6 @@
 /**
-  Spiritual Desert scene. Explores spirituality in the vastness of the cosmos.
+  Spiritual Desert scene. Explores spirituality in the context of
+  struggling in a directionless situation.
 
 */
 class SpiritualDesert extends Scene {
@@ -8,13 +9,13 @@ class SpiritualDesert extends Scene {
     this.contriteAdam = new Prisoner(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
     this.actorFactory = actorFactory;
-    this.actorArray = []; // Empty on start
+    this.actorArray = [];
     this.tileMapExplorer = tileMapExplorer;
-    this.timesComplained = 0; // Times player has complained so far
+    this.timesComplained = 0;
     this.succeededMinigame = false;
-    this.combinationCount = 0; // Counter
-    this.maxCombinationLength = 4; // The max number of attempts
-    this.successfulCombination = ["left", "right", "left", "down"];
+    this.combinationCount = 0; // Counter for how many times the player has guessed at the mini-game
+    this.maxCombinationLength = 4; // The max number of attempts at the mini-game
+    this.successfulCombination = ["left", "right", "left", "down"]; // The right key combination
   }
   /**
     Updates the scene.
@@ -23,16 +24,15 @@ class SpiritualDesert extends Scene {
   updateScene() {
     this.displayCinematic();
     this.displayCaptions();
-    this.contriteAdam.protestOutloud(this.sceneData, this.timesComplained);
+    //this.contriteAdam.protestOutloud(this.sceneData, this.timesComplained);
     if(!this.succeededMinigame) { //if we didn't succeed at the mini-game yet
-      if(this.contriteAdam.movementCombination.isFull() && !this.succeededMiniGame) {
+      if(this.contriteAdam.movementCombination.isFull()) {
         this.displayFailMessage();
       }
       this.contriteAdam.displayKeyPressed();
       this.checkMoveCombination();
     }
   }
-  displayFailMessage
   /**
     Creates a little cinematic scene.
 
@@ -50,11 +50,9 @@ class SpiritualDesert extends Scene {
     const dialogueLineSpacing = this.sceneData.tSize;
     let narrationPosY = this.sceneData.narrationPosY;
     let dialoguePosY = this.sceneData.dialoguePosY;
-    // The semi-transparent bg behind the dialogue choices
     let dialogueBg = this.sceneData.dialoguePosY - this.sceneData.dialogueTSize;
     const dialogueBgSize = this.sceneData.dialogueTSize + 10;
     for(let i = 0; i < this.sceneData.narration.length; i++) {
-      // Adds incremented line spacing
       narrationPosY += narrationLineSpacing;
       push();
       fill(this.sceneData.textColor);
@@ -78,6 +76,10 @@ class SpiritualDesert extends Scene {
       pop();
     }
   }
+  /**
+    mousePressed events. To be implemented later.
+
+  */
   mousePressed() {
     console.log("Mouse pressed");
   }
@@ -86,10 +88,8 @@ class SpiritualDesert extends Scene {
 
   */
   keyPressed(TILE_SIZE) {
-    console.log("Key pressed");
     let sceneKeyPressEvent = null;
     this.contriteAdam.keyPressed(TILE_SIZE);
-    //this.timesComplained = this.contriteAdam.protestOutloud(this.sceneData, this.timesComplained);
     sceneKeyPressEvent = this.checkMoveCombination();
     return sceneKeyPressEvent;
   }
@@ -100,7 +100,6 @@ class SpiritualDesert extends Scene {
   checkMoveCombination() {
     // Initialize the mini-game attempts and also resets it
     let miniGameAttempt = [];
-    text("Moves combination starting, attempts left: ", width / 2, height / 2);
     // If the player moved four times (max combinations)
     if(this.contriteAdam.movementCombination.isFull()) {
       // Store the results
@@ -120,7 +119,6 @@ class SpiritualDesert extends Scene {
       // If we didn't return, then we succeeed at the mini-game
       this.succeededMiniGame = true;
       if(this.succeededMiniGame) {
-        //alert("succeeded at the mini-game: " + this.succeededMiniGame);
         return "succeededAtHoudiniMiniGame";
       }
     }
@@ -131,9 +129,9 @@ class SpiritualDesert extends Scene {
   */
   displayFailMessage() {
     push();
-    textSize(42);
-    fill(255);
-    text("Wrong combination. Try again.", width / 2, 150);
+    textSize(this.sceneData.tSize);
+    fill(this.sceneData.textColor);
+    text("Wrong combination. Try again.", this.sceneData.failMessagePosX, this.sceneData.failMessagePosY);
     pop();
   }
 }

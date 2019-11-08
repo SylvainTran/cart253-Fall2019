@@ -10,29 +10,27 @@ class TileMapExplorer {
     this.walkableTiles = [];
     this.paths = new Queue();
   }
-
   /**
     Charts walkable tiles and stores them in an array.
-    // TODO pass tile Map size in a better way
+    TODO pass tile Map size in a better way.
 
   */
   chartTileMap(tileMapSize) {
     console.log("charting map");
     // iterate through the tileMap, starting at location 0, 0 (top left).
     // chart all the walkable spaces on this map. -> decorator class to do this only?
-    for(let k = 0; k < tileMapSize; k++) {
-      for(let m = 0; m < tileMapSize; m++) {
-        if(this.tileMap[k][m].elementType === spaceTypeId.EMPTY) {
+    for (let k = 0; k < tileMapSize; k++) {
+      for (let m = 0; m < tileMapSize; m++) {
+        if (this.tileMap[k][m].elementType === spaceTypeId.EMPTY) {
           // we're on a space element. Is it walkable? Occupied?
           // Add to the list of empties (walkable)
           this.walkableTiles.push(this.tileMap[k][m]);
         }
       }
     }
-
     // test the walkable tiles.
-    for(let i = 0; i <= this.walkableTiles.length; i++) {
-        console.log("Walkable tile: " + this.walkableTiles[i].elementPositionX);
+    for (let i = 0; i <= this.walkableTiles.length; i++) {
+      console.log("Walkable tile: " + this.walkableTiles[i].elementPositionX);
     }
     // starting at the mobile element's current position x, y, check if the desired movement
     // starting at the mobile element's current position x, y, check if the desired movement

@@ -93,7 +93,7 @@ class SceneHandler {
         break;
       case "successfullyComplained":
         this.sceneWasChanged = true;
-        this.goingToScene = "zombieAttack";
+        this.goingToScene = "zombieAttackScene";
         break;
       case "playerIsDead":
         this.sceneWasChanged = true;

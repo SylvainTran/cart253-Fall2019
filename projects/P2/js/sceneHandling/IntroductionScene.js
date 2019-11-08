@@ -1,5 +1,5 @@
 /**
-  Main Menu scene. Start game or exit game.
+  IntroductionScene. Introduces the game.
 
 */
 class IntroductionScene extends Scene {

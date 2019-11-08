@@ -1,5 +1,5 @@
 /**
-  MovementTutorial scene. Teaches how to move, and explores the concept of the body.
+  GameplayTutorialScene. Teaches how to move, and explores the concept of the body.
 
 */
 class GameplayTutorialScene extends Scene {
@@ -104,12 +104,11 @@ class GameplayTutorialScene extends Scene {
     }
   }
   /**
-    Uses the position of the displayed narration and the size of the font to calculate
-    the positions of the buttons that handle start or exit game behaviours.
+    Handles mouse input. To be implemented for other things later.
 
   */
   mousePressed() {
-
+    console.log("Mouse pressed.");
   }
   /**
     Handles keyboard inputs.

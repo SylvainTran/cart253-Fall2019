@@ -1,5 +1,5 @@
 /**
-  MovementTutorial scene. Teaches how to move, and explores the concept of the body.
+  MovementTutorial scene. Teaches how to move mainly.
 
 */
 class MovementTutorialScene extends Scene {

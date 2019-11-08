@@ -2,7 +2,6 @@
   The elements that are mobile in the game.
 
 */
-
 class MobileElement extends Element {
   constructor(x, y) {
     super(x, y);
@@ -13,7 +12,6 @@ class MobileElement extends Element {
     this.tx = random(0, 1000); // To make x and y noise different
     this.ty = random(0, 1000); // we use random starting values
   }
-
   /**
     Moves the mobile element according to the tile map. This is what all the preys
     and predators inherit by default.
@@ -32,7 +30,6 @@ class MobileElement extends Element {
     // Handle wrapping
     this.handleWrapping();
   }
-
   /**
     Checks if the prey has gone off the canvas and
     wraps it to the other side if so
@@ -43,15 +40,13 @@ class MobileElement extends Element {
     // Off the left or right
     if (this.x < 0 + innerMargins) {
       this.x += width - innerMargins;
-    }
-    else if (this.x > width - innerMargins) {
+    } else if (this.x > width - innerMargins) {
       this.x -= width + innerMargins;
     }
     // Off the top or bottom
     if (this.y < 0 + innerMargins) {
       this.y += height - innerMargins;
-    }
-    else if (this.y > height - innerMargins) {
+    } else if (this.y > height - innerMargins) {
       this.y -= height + innerMargins;
     }
   }
@@ -63,8 +58,8 @@ class MobileElement extends Element {
   jitterAnimation() {
     const animationsCount = 100;
     const frameSkip = 2;
-    for(let i = 0; i <= animationsCount; i++) {
-      if(frameCount % frameSkip) {
+    for (let i = 0; i <= animationsCount; i++) {
+      if (frameCount % frameSkip) {
         this.x += random(-1, 1);
         this.y += random(-1, 1);
       }
@@ -79,7 +74,7 @@ class MobileElement extends Element {
   stayingStillAnimation() {
     this.x = random(0, width);
     this.y = random(0, height);
-      // TODO display a circle sine function instead
+    // TODO display in a sine function instead
     this.handleWrapping();
   }
 }

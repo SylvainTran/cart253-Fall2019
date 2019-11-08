@@ -1,86 +1,79 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
 
-    <!-- CSS stylesheet(s) -->
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Forum&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Amatic+SC&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Mountains+of+Christmas&display=swap" rel="stylesheet">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
 
-    <!-- Library script(s) -->
-    <script src="js/libraring/p5.min.js"></script>
-    <script src="js/libraring/p5.sound.min.js"></script>
-    <script src="js/libraring/p5.dom.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <!-- CSS stylesheet(s) -->
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Forum&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Amatic+SC&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Mountains+of+Christmas&display=swap" rel="stylesheet">
 
-    <!-- My script(s) -->
-    <script src="js/tilemapping/Element.js"></script>
-    <script src="js/tilemapping/MobileElement.js"></script>
-    <script src="js/tilemapping/StaticElement.js"></script>
-    <script src="js/tilemapping/Space.js"></script>
-    <script src="js/tilemapping/SpaceTypeId.js"></script>
-    <script src="js/tilemapping/Wall.js"></script>
-    <script src="js/tilemapping/wallTypeId.js"></script>
-    <script src="js/tilemapping/TileMapExplorer.js"></script>
-    <script src="js/sceneHandling/Scene.js"></script>
-    <script src="js/sceneHandling/SceneHandler.js"></script>
-    <script src="js/sceneHandling/SceneTable.js"></script>
-    <script src="js/sceneHandling/TextObject.js"></script>
-    <script src="js/gameplaying/Settlement.js"></script>
-    <script src="js/dataStructuring/Queue.js"></script>
-    <script src="js/acting/Human.js"></script>
-    <script src="js/acting/Survivor.js"></script>
-    <script src="js/acting/Prisoner.js"></script>    
-    <script src="js/acting/Prey.js"></script>
-    <script src="js/acting/Zombie.js"></script>
-    <script src="js/acting/ActorFactory.js"></script>
-    <script src="js/tilemapping/TileMapFactory.js"></script>
+  <!-- Library script(s) -->
+  <script src="js/libraring/p5.min.js"></script>
+  <script src="js/libraring/p5.sound.min.js"></script>
+  <script src="js/libraring/p5.dom.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
-    <script src="js/sceneHandling/MainMenuScene.js"></script>
-    <script src="js/sceneHandling/IntroductionScene.js"></script>
-    <script src="js/sceneHandling/MovementTutorialScene.js"></script>
-    <script src="js/sceneHandling/GameplayTutorialScene.js"></script>
-    <script src="js/sceneHandling/ZombieAttack.js"></script>
-    <script src="js/sceneHandling/SpiritualDesert.js"></script>
-    <script src="js/main.js"></script>
-  </head>
-    <body>
-      <!-- Start of the flex box container -->
-      <div class="flex-container">
-        <div class="banner"> <!-- Just the title -->
-          BASAR/FLESH
-          <span style="font-size: 22px; margin-left: 10px; margin-right: 10px;">Experimental narrative game.</span>
-        </div>
-        <div class="navMenu"> <!-- The game options -->
-          <div class="gameMenu">
-            <button onclick="$(document).ready(function() {
-              console.log('Starting the Adam game.');
-              bootAdam()
-            })
-            ;">Play As Adam</button>
-            <button onclick="$(document).ready(function() {
-              console.log('Starting the Eve game.');
-              bootEve()
-            })
-            ;">Play As Eve</button>
-            <button onclick="$(document).ready(function() {
+  <!-- My script(s) -->
+  <script src="js/tilemapping/Element.js"></script>
+  <script src="js/tilemapping/MobileElement.js"></script>
+  <script src="js/tilemapping/StaticElement.js"></script>
+  <script src="js/tilemapping/Space.js"></script>
+  <script src="js/tilemapping/SpaceTypeId.js"></script>
+  <script src="js/tilemapping/Wall.js"></script>
+  <script src="js/tilemapping/wallTypeId.js"></script>
+  <script src="js/tilemapping/TileMapExplorer.js"></script>
+  <script src="js/sceneHandling/Scene.js"></script>
+  <script src="js/sceneHandling/SceneHandler.js"></script>
+  <script src="js/sceneHandling/SceneTable.js"></script>
+  <script src="js/sceneHandling/TextObject.js"></script>
+  <script src="js/gameplaying/Settlement.js"></script>
+  <script src="js/dataStructuring/Queue.js"></script>
+  <script src="js/acting/Human.js"></script>
+  <script src="js/acting/Survivor.js"></script>
+  <script src="js/acting/Prisoner.js"></script>
+  <script src="js/acting/Prey.js"></script>
+  <script src="js/acting/Zombie.js"></script>
+  <script src="js/acting/ActorFactory.js"></script>
+  <script src="js/tilemapping/TileMapFactory.js"></script>
+
+  <script src="js/sceneHandling/MainMenuScene.js"></script>
+  <script src="js/sceneHandling/IntroductionScene.js"></script>
+  <script src="js/sceneHandling/MovementTutorialScene.js"></script>
+  <script src="js/sceneHandling/GameplayTutorialScene.js"></script>
+  <script src="js/sceneHandling/ZombieAttackScene.js"></script>
+  <script src="js/sceneHandling/SpiritualDesert.js"></script>
+  <script src="js/main.js"></script>
+</head>
+
+<body>
+  <!-- Start of the flex box container -->
+  <div class="flex-container">
+    <div class="banner">
+      <!-- Just the title -->
+      BASAR/FLESH
+      <span style="font-size: 22px; margin-left: 10px; margin-right: 10px;">Experimental narrative game.</span>
+    </div>
+    <div class="navMenu">
+      <!-- The game options -->
+      <div class="gameMenu">
+        <button onclick="$(document).ready(function() {
               console.log('Restarting game.');
-              console.log("Calling restartGame()");
-            })
-            ;">Restart Game</button>
-          </div>
-        </div>
-      <!-- End of flex-container. -->
+              console.log(" Calling restartGame()"); }) ;">Restart Game</button>
       </div>
-      <!-- p5.js canvas is childed to mainDisplay which uses Flexbox. -->
-      <div id="mainDisplay">
-      </div>
-      <div class="bible-quote">
-          <span style="font-family: 'Fredericka the Great', cursive;">What is the <em>flesh?</em>
-      </div>
-    </body>
+    </div>
+    <!-- End of flex-container. -->
+  </div>
+  <!-- p5.js canvas is childed to mainDisplay which uses Flexbox. -->
+  <div id="mainDisplay">
+  </div>
+  <div class="bible-quote">
+    <span style="font-family: 'Fredericka the Great', cursive;">What is the <em>flesh?</em>
+  </div>
+</body>
+
 </html>

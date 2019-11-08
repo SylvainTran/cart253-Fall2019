@@ -23,5 +23,7 @@
   "subtitles": [""],
   "translation": ["FR", "ENG"],
   "references": "",
-  "sizeMultiplier": 5
+  "sizeMultiplier": 5,
+  "failMessagePosX": 500,
+  "failMessagePosY": 100
 }

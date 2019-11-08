@@ -1,5 +1,5 @@
 /**
-  The base type of scene to be inherited.
+  The base type of scene to be inherited by all other scenes.
 
 */
 class Scene {
