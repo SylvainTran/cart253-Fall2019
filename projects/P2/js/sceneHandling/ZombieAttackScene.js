@@ -3,8 +3,10 @@
 
 */
 class ZombieAttackScene extends Scene {
-  constructor(sceneData, actorFactory, tileMapExplorer){
+  constructor(sceneData, actorFactory, tileMapExplorer, zombieAttackVoiceActing){
     super(sceneData);
+    this.zombieAttackVoiceActing = zombieAttackVoiceActing;
+    this.playedVoiceActing = false;
     this.strugglingAdam = new Survivor(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
     this.actorFactory = actorFactory;
@@ -18,6 +20,10 @@ class ZombieAttackScene extends Scene {
 
   */
   updateScene() {
+    if(!this.playedVoiceActing) {
+      this.zombieAttackVoiceActing.play();
+      this.playedVoiceActing = true;
+    }
     this.playerIsDead = this.strugglingAdam.checkHealth();
     this.strugglingAdam.protestOutloud(this.sceneData, this.timesComplained);
     this.displayCinematic();

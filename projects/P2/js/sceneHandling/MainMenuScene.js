@@ -32,12 +32,11 @@ class MainMenuScene extends Scene {
     text(this.sceneData.narration, this.sceneData.narrationPosX, this.sceneData.narrationPosY);
     text(this.sceneData.startButton, this.sceneData.startButtonPosX, this.sceneData.startButtonPosY);
     text(this.sceneData.exitButton, this.sceneData.exitButtonPosX, this.sceneData.exitButtonPosY);
-    text("Please turn on your sound.\n", width / 10, height / 1.2);
     pop();
     push();
     fill(255, 0, 0);
-    textSize(30);
-    text("(Be advised that this game may be shocking.)", width / 10, height / 1.1);
+    textSize(this.sceneData.tSize);
+    text("Important: Please turn on your sound\n for the full narrative experience.\n", width / 10, height / 1.2);
     pop();
   }
   /**

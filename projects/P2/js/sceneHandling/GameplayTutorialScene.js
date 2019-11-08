@@ -3,8 +3,10 @@
 
 */
 class GameplayTutorialScene extends Scene {
-  constructor(sceneData, actorFactory, tileMapExplorer){
+  constructor(sceneData, actorFactory, tileMapExplorer, gameplayTutorialVoiceActing){
     super(sceneData);
+    this.gameplayTutorialVoiceActing = gameplayTutorialVoiceActing;
+    this.playedVoiceActing = false;
     this.strugglingAdam = new Survivor(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
     this.actorFactory = actorFactory;
@@ -17,6 +19,10 @@ class GameplayTutorialScene extends Scene {
 
   */
   updateScene() {
+    if(!this.playedVoiceActing) {
+      this.gameplayTutorialVoiceActing.play();
+      this.playedVoiceActing = true;
+    }
     this.displayCinematic();
     this.displayCaptions();
     this.fillActorArray();

@@ -3,8 +3,10 @@
 
 */
 class MovementTutorialScene extends Scene {
-  constructor(sceneData){
+  constructor(sceneData, movementTutorialVoiceActing){
     super(sceneData);
+    this.movementTutorialVoiceActing = movementTutorialVoiceActing;
+    this.playedVoiceActing = false;
     this.movingAdam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
   }
@@ -13,6 +15,10 @@ class MovementTutorialScene extends Scene {
 
   */
   updateScene() {
+    if(!this.playedVoiceActing) {
+      this.movementTutorialVoiceActing.play();
+      this.playedVoiceActing = true;
+    }
     this.displayCinematic();
     this.displayCaptions();
   }
@@ -75,9 +81,9 @@ class MovementTutorialScene extends Scene {
     Handles keyboard inputs.
 
   */
-  keyPressed(TILE_SIZE){
+  keyPressed(TILE_SIZE, movementSounds){
     let sceneKeyPressEvent = this.checkIfExited();
-    this.movingAdam.keyPressed(TILE_SIZE);
+    this.movingAdam.keyPressed(TILE_SIZE, movementSounds);
     return sceneKeyPressEvent;
   }
   /**

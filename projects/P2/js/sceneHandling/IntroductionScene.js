@@ -3,8 +3,10 @@
 
 */
 class IntroductionScene extends Scene {
-  constructor(sceneData){
+  constructor(sceneData, introductionVoiceActing){
     super(sceneData);
+    this.introductionVoiceActing = introductionVoiceActing;
+    this.playedVoiceActing = false;
     this.jitteringAdam = new Human(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
   }
@@ -13,6 +15,11 @@ class IntroductionScene extends Scene {
 
   */
   updateScene() {
+    // Play the narration once
+    if(!this.playedVoiceActing) {
+      this.introductionVoiceActing.play();
+      this.playedVoiceActing = true;
+    }
     this.displayCinematic();
     this.displayCaptions();
   }
@@ -61,7 +68,6 @@ class IntroductionScene extends Scene {
       text(this.sceneData.dialogue[j], this.sceneData.dialoguePosX, dialoguePosY);
       pop();
     }
-
   }
   /**
     Uses the position of the displayed narration and the size of the font to calculate

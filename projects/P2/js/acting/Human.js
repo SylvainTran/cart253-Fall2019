@@ -63,18 +63,22 @@ class Human extends MobileElement {
     Tile-based movement upon keyPressed.
 
   */
-  keyPressed(TILE_SIZE) {
+  keyPressed(TILE_SIZE, movementSounds) {
     if (keyCode === LEFT_ARROW) {
       this.vx = -TILE_SIZE;
+      movementSounds.LEFT.play();
     } else if (keyCode === RIGHT_ARROW) {
       this.vx = TILE_SIZE;
+      movementSounds.RIGHT.play();
     } else {
       this.vx = 0;
     }
     if (keyCode === UP_ARROW) {
       this.vy = -TILE_SIZE;
+      movementSounds.UP.play();
     } else if (keyCode === DOWN_ARROW) {
       this.vy = TILE_SIZE;
+      movementSounds.DOWN.play();
     } else {
       this.vy = 0;
     }

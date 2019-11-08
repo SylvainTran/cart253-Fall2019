@@ -4,8 +4,10 @@
 
 */
 class SpiritualDesert extends Scene {
-  constructor(sceneData, actorFactory, tileMapExplorer){
+  constructor(sceneData, actorFactory, tileMapExplorer, spiritualDesertVoiceActing){
     super(sceneData);
+    this.spiritualDesertVoiceActing = spiritualDesertVoiceActing;
+    this.playedVoiceActing = false;
     this.contriteAdam = new Prisoner(width / 2, height / 2, TILE_SIZE, color(200, 200, 0), 40, avatarMale);
     this.dialogueAverageTextWidth = this.textLineWidth(this.sceneData.dialogue);
     this.actorFactory = actorFactory;
@@ -22,6 +24,10 @@ class SpiritualDesert extends Scene {
 
   */
   updateScene() {
+    if(!this.playedVoiceActing) {
+      this.spiritualDesertVoiceActing.play();
+      this.playedVoiceActing = true;
+    }
     this.displayCinematic();
     this.displayCaptions();
     //this.contriteAdam.protestOutloud(this.sceneData, this.timesComplained);

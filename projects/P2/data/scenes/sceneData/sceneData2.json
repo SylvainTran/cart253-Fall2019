@@ -9,7 +9,7 @@
   "narrationPosX": 0,
   "narrationPosY": 100,
   "narration": ["Hah! Fooled you. What did you think would\nhappen?", "Move that puny body around for now.\nSee how it feels to be some footless fool."],
-  "dialogue": ["\"...Why is she doing this to me?\" (Use Arrow Keys to move.)", "In vain doth the man scrambled around blindly in panic,","though he art but Pixel and Luminosity;", "Yet thy felt the tears so organic.", "Marvel not at his navel long: For thus man has seen: shifting shadows of rare parity...", "...to the right side. Always to the right side."],
+  "dialogue": ["\"...Why is he doing this to me?\" (Use Arrow Keys to move.)", "In vain doth the man scrambled around blindly in panic,","though he art but Pixel and Luminosity;", "Yet thy felt the tears so organic.", "Marvel not at his navel long: For thus man has seen: shifting shadows of rare parity...", "...to the right side. Always to the right side."],
   "dialoguePosX": 0,
   "dialoguePosY": 600,
   "dialogueChoice1PosY": 630,
@@ -19,5 +19,5 @@
   "subtitles": "Use either the Left mouse button or touch, or the arrow keys on your keyboard to move.",
   "translation": ["FR", "ENG"],
   "references": "",
-  "sizeMultiplier": 5  
+  "sizeMultiplier": 5
 }

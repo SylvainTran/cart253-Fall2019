@@ -41,8 +41,16 @@ const numberOfActors = 10;
 let actorFactory;
 // The font
 let dosisTTF;
-// next scene sound
+// Sound
 let nextSceneSound;
+let leftKeySound, rightKeySound, upKeySound, downKeySound;
+let movementSounds;
+// Narration
+let introductionVoiceActing;
+let movementTutorialVoiceActing;
+let gameplayTutorialVoiceActing;
+let zombieAttackVoiceActing;
+let spiritualDesertVoiceActing;
 /**
   Preloads the sceneConfig, sceneData, avatar assets, and fonts.
 
@@ -59,6 +67,15 @@ function preload() {
   avatarFemale = loadImage("assets/images/avatarFemale.png");
   dosisTTF = loadFont("assets/fonts/dosis.ttf");
   nextSceneSound = loadSound("assets/sounds/nextSceneSound.wav");
+  leftKeySound = loadSound("assets/sounds/leftKey.wav");
+  rightKeySound = loadSound("assets/sounds/rightKey.wav");
+  upKeySound = loadSound("assets/sounds/upKey.wav");
+  downKeySound = loadSound("assets/sounds/downKey.wav");
+  introductionVoiceActing = loadSound("assets/sounds/introductionScene.mp3");
+  movementTutorialVoiceActing = loadSound("assets/sounds/movementTutorialScene.mp3");
+  gameplayTutorialVoiceActing = loadSound("assets/sounds/mainGameplayTutorialScene.mp3");
+  zombieAttackVoiceActing = loadSound("assets/sounds/zombieAttackScene_v2.mp3");
+  spiritualDesertVoiceActing = loadSound("assets/sounds/spiritualDesertScene.mp3");
 }
 /**
   Sets up a canvas and creates objects for the Human and three prey.
@@ -76,14 +93,20 @@ function setup() {
   actorFactory = new ActorFactory(numberOfActors, avatarMale, avatarFemale);
   const tileMapSize = TILE_MAP_SIZE;
   tileMapExplorer = new TileMapExplorer(tileMap);
+  movementSounds = {
+    LEFT: leftKeySound,
+    RIGHT: rightKeySound,
+    UP: upKeySound,
+    DOWN: downKeySound
+  };
   sceneObjects = {
     "mainMenuScene": new MainMenuScene(sceneData0),
-    "introduction": new IntroductionScene(sceneData1),
-    "movementTutorial": new MovementTutorialScene(sceneData2),
-    "gameplayTutorial": new GameplayTutorialScene(sceneData3, actorFactory, tileMapExplorer),
-    "zombieAttackScene": new ZombieAttackScene(sceneData4, actorFactory, tileMapExplorer),
-    "spiritualDesert": new SpiritualDesert(sceneData5, actorFactory, tileMapExplorer)
-  }
+    "introduction": new IntroductionScene(sceneData1, introductionVoiceActing),
+    "movementTutorial": new MovementTutorialScene(sceneData2, movementTutorialVoiceActing),
+    "gameplayTutorial": new GameplayTutorialScene(sceneData3, actorFactory, tileMapExplorer, gameplayTutorialVoiceActing),
+    "zombieAttackScene": new ZombieAttackScene(sceneData4, actorFactory, tileMapExplorer, zombieAttackVoiceActing),
+    "spiritualDesert": new SpiritualDesert(sceneData5, actorFactory, tileMapExplorer, spiritualDesertVoiceActing)
+  };
   // Keeping the data separated from the manipulation on the data.
   // All data is encapsulated in the sceneConfig and sceneData files.
   sceneHandler = new SceneHandler(sceneObjects, sceneConfig, nextSceneSound);
@@ -140,21 +163,21 @@ function mousePressed() {
 */
 function keyPressed() {
   // Main menu keyPressed ? TODO refactor
-  adam.keyPressed(TILE_SIZE);
+  adam.keyPressed(TILE_SIZE, movementSounds);
   let sceneKeyPressEvent = null;
   // Call the Humans and persons' custom keyPressed
   switch (sceneHandler.currentSceneName) {
     case "movementTutorial":
-      sceneKeyPressEvent = sceneObjects.movementTutorial.keyPressed(TILE_SIZE);
+      sceneKeyPressEvent = sceneObjects.movementTutorial.keyPressed(TILE_SIZE, movementSounds);
       break;
     case "gameplayTutorial":
-      sceneKeyPressEvent = sceneObjects.gameplayTutorial.keyPressed(TILE_SIZE);
+      sceneKeyPressEvent = sceneObjects.gameplayTutorial.keyPressed(TILE_SIZE, movementSounds);
       break;
     case "zombieAttackScene":
-      sceneKeyPressEvent = sceneObjects.zombieAttackScene.keyPressed(TILE_SIZE);
+      sceneKeyPressEvent = sceneObjects.zombieAttackScene.keyPressed(TILE_SIZE, movementSounds);
       break;
     case "spiritualDesert":
-      sceneKeyPressEvent = sceneObjects.spiritualDesert.keyPressed(TILE_SIZE);
+      sceneKeyPressEvent = sceneObjects.spiritualDesert.keyPressed(TILE_SIZE, movementSounds);
       break;
     default:
       break;

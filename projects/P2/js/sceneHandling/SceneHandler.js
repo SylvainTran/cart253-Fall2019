@@ -38,14 +38,12 @@ class SceneHandler {
     // Boots the current scene's update functions, by referring to its name.
     this.sceneObjects[this.currentSceneName].updateScene();
     // Updates the sceneWasChanged flag gating (to prevent discrepancy between mousePressed() and process()
-    if(this.sceneWasChanged === true) {
+    if (this.sceneWasChanged === true) {
       this.sceneConfig[this.currentSceneName].readyForNextScene = true;
-    }
-    else {
+    } else {
       this.sceneConfig[this.currentSceneName].readyForNextScene = false;
     }
   }
-
   /**
     Checks what's going on within the scenes.
     The sceneWasChanged property is only set to true if this event
@@ -53,7 +51,7 @@ class SceneHandler {
 
   */
   handleSceneMouseEvent(sceneMouseEvent) {
-    switch(sceneMouseEvent) {
+    switch (sceneMouseEvent) {
       case "Starting Game":
         console.log(sceneMouseEvent);
         // Flags that we just changed scene
@@ -74,7 +72,7 @@ class SceneHandler {
       default:
         break;
     }
-    if(this.sceneConfig[this.currentSceneName].readyForNextScene) {
+    if (this.sceneConfig[this.currentSceneName].readyForNextScene) {
       this.changeScene();
       console.log(this.currentSceneName);
       console.log(this.sceneConfig[this.currentSceneName].currentScene);
@@ -88,7 +86,7 @@ class SceneHandler {
   */
   handleSceneKeyEvent(sceneKeyPressEvent) {
     // sceneKeyPressEvent is already garanteed to be non-null
-    switch(sceneKeyPressEvent) {
+    switch (sceneKeyPressEvent) {
       case "exitedSuccessfully":
         this.sceneWasChanged = true;
         this.goingToScene = "gameplayTutorial";
@@ -108,11 +106,10 @@ class SceneHandler {
       default:
         break;
     }
-    if(this.sceneConfig[this.currentSceneName].readyForNextScene) {
+    if (this.sceneConfig[this.currentSceneName].readyForNextScene) {
       this.changeScene();
     }
   }
-
   /**
     This function deals with the previous and processing scenes in the queue
     to update their flag parameters (currentScene).
@@ -138,7 +135,7 @@ class SceneHandler {
     // Update the scene config file
     this.sceneConfig[this.currentSceneName].currentScene = true;
     // Play the nextSceneSound.wav, except prior to the last scene.
-    if(this.sceneConfig[this.currentSceneName].sceneName !== "spiritualDesert") {
+    if (this.sceneConfig[this.currentSceneName].sceneName !== "spiritualDesert") {
       this.nextSceneSound.play();
     }
   }

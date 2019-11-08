@@ -12,7 +12,7 @@
   "textColor5": [0, 255, 0],
   "narrationPosX": 0,
   "narrationPosY": 100,
-  "narration": ["That's right, the movement's choppy because", "you are on a tilemap of pixels.", "See them? They are watching you.", "They want to eat you.\nPress Enter to complain."],
+  "narration": ["That's right, the movement's choppy because", "you see, you don't really have legs. Only pixels.", "How pathetic. See them? They are watching you.", "They want to eat you.\nPress Enter to complain."],
   "dialogue": ["Times complained out of 266 times:"],
   "dialoguePosX": 500,
   "dialoguePosY": 900,
