@@ -56,7 +56,7 @@ function preload() {
   avatarMale = loadImage("assets/images/avatarMale.png");
   avatarFemale = loadImage("assets/images/avatarFemale.png");
   dosisTTF = loadFont("assets/fonts/dosis.ttf");
-  nextSceneSound = loadSound("assets/sounds/nextSceneSound.wav");
+  nextSceneSound = loadSound("assets/sounds/nextSceneSound.mp3");
   leftKeySound = loadSound("assets/sounds/leftKey.wav");
   rightKeySound = loadSound("assets/sounds/rightKey.wav");
   upKeySound = loadSound("assets/sounds/upKey.wav");
