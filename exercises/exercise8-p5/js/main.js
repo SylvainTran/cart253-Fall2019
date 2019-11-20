@@ -25,6 +25,8 @@ let clickedOnMenuButton = false;
 let numberOfClicksOverPortrait = 0;
 // Current State
 let currentState = "introduction";
+// Whether to begin drawing the new state
+let readyState = false;
 //
 /**
   preload()
@@ -67,6 +69,7 @@ function draw() {
   // to another layer using createGraphics
   if(currentState === "introduction") {
     decayMemory();
+    updateClickCounter();
     if(numberOfClicksOverPortrait >= 6) {
       currentState = "AzayashiMall";
       push();
@@ -77,7 +80,7 @@ function draw() {
       pop();
     }
   }
-  else if(currentState === "AzayashiMall") {
+  else if(currentState === "AzayashiMall" && readyState) {
     background(255);
     push();
     fill(0, 0, 0);
@@ -109,13 +112,15 @@ function mousePressed() {
       console.log("Clicking over menu button.");
       clickedOnMenuButton = !clickedOnMenuButton;
       if(clickedOnMenuButton) {
-        push();
-        fill(0);
-        rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 300);
-        fill(255);
-        textSize(45);
-        text("Close your eyes for a second.", openContextMenuButtonX - 300, openContextMenuButtonHeight + 125);
-        pop();
+        // UI text prompt
+        let message = null;
+        if(numberOfClicksOverPortrait <= 3) {
+          message = "Keep clicking\non the picture\nto recall\nthe memory.";
+        }
+        else if(numberOfClicksOverPortrait <= 6) {
+          message = "That's good.\nYou're doing great.\nKeep it up.";
+        }
+        createContextMenu(message);
       }
       else {
         push();
@@ -126,6 +131,7 @@ function mousePressed() {
     }
   }
   else if(currentState === "AzayashiMall") {
+    readyState = true;
     console.log("Click to move.");
     push();
     fill(0);
@@ -143,34 +149,20 @@ function mousePressed() {
 */
 function decayMemory() {
   textFont(zeyadaType);
-  displayUI();
-  // Psychologist's instructions
-  push();
-  fill(255);
-  textSize(35);
-  text("instructions", openContextMenuButtonX + 10, 50);
-  // State text
-  textSize(60);
-  text("This is my Allison.\nShe was... four years\nold at the time.", width/2, 200);
-  pop();
   // Decay effect using blur, gray and dilate filters.
   push();
   filter(BLUR);
   filter(GRAY);
   filter(DILATE);
   pop();
-  // UI text prompt
+
+  displayUI();
+  // State text
   push();
-  fill(255,0,0);
+  textSize(60);
+  fill(0);
   textSize(42);
-  if(numberOfClicksOverPortrait <= 3) {
-    text("Keep clicking\non the picture\nto recall the memory.", width/1.5,height/2);
-    text("Number of recalls. " + numberOfClicksOverPortrait, width/1.5,height/1.2);
-  }
-  else if(numberOfClicksOverPortrait <= 6) {
-    text("That's good.\nYou're doing great.\nKeep it up.", width/1.5,height/2);
-    text("Number of recalls. " + numberOfClicksOverPortrait, width/1.5,height/1.2);
-  }
+  text("This is my Allison.\nShe was... four years\nold at the time.", width/1.44, 600);
   pop();
 }
 
@@ -222,6 +214,12 @@ function displayPortrait(character) {
   pop();
 }
 
+/**
+  displayUI()
+  @args: none.
+
+  @Displays the UI images provided at the specified x, y positions.
+*/
 function displayUI() {
   push();
   // The UI at the top.
@@ -229,5 +227,41 @@ function displayUI() {
   rect(0,0,width,100);
   fill(64,224,208);
   rect(width-150,0,150,100);
+  pop();
+
+  // Psychologist's Instructions
+  push();
+  fill(0);
+  textSize(35);
+  text("Instructions", openContextMenuButtonX + 10, 50);
+  pop();
+}
+
+/**
+  createContextMenu()
+  @arg: message.
+    The string to be passed as the first argument of text().
+  @Displays Displays the context menu at the top.
+*/
+function createContextMenu(message) {
+  push();
+  fill(0);
+  rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 300);
+  textSize(45);
+  fill(255);
+  text(message, openContextMenuButtonX - 250, openContextMenuButtonHeight + 50);
+  pop();
+}
+
+/**
+  updateClickCounter()
+  @arg: none.
+  @Displays the click counter for this state. TODO pass parameters for other scenes.
+*/
+function updateClickCounter() {
+  push();
+  textSize(42);
+  fill(255);
+  text("Number of recalls: " + numberOfClicksOverPortrait, 100, 50);
   pop();
 }
