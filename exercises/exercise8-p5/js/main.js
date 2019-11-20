@@ -43,6 +43,7 @@ function setup() {
   };
   StateSystem = new StateSystem(states);
   StateSystem.createSubSystems();
+  displayPortrait(allison);
 }
 
 /**
@@ -132,4 +133,20 @@ function mouseOverPortrait() {
     state = true;
   }
   return state;
+}
+
+/**
+  displayPortrait()
+  @arg: character
+    The cached image to display.
+  @Displays the character image provided as an argument
+  at the portrait's default x, y positions.
+*/
+function displayPortrait(character) {
+  let portraitDefaultX = 300;
+  let portraitDefaultY = 540;
+  push();
+  imageMode(CENTER);
+  image(character, portraitDefaultX, portraitDefaultY, character.width, character.height);
+  pop();
 }
