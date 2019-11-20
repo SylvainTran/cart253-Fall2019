@@ -2,7 +2,9 @@
   StateSystem()
   @constructor args: states
     inits default state parameters in parent State prototype.
-  @Assigns a tag to this scene to identify it.
+  @Creates Subsystems to handle data processing.
+  @Updates the scenes by updating the subsystems.
+  @Changes scenes.
 */
 class StateSystem {
   constructor(states) {
