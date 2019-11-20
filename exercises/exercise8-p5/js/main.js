@@ -23,6 +23,8 @@ const openContextMenuButtonHeight = 100;
 let clickedOnMenuButton = false;
 // The counter for how many recalls the main character has attempted
 let numberOfClicksOverPortrait = 0;
+// Current State
+let currentState = "introduction";
 //
 /**
   preload()
@@ -63,14 +65,26 @@ function setup() {
 function draw() {
   // TODO separate idea of decay from UI display
   // to another layer using createGraphics
-  decayMemory();
-  if(numberOfClicksOverPortrait >= 6) {
+  if(currentState === "introduction") {
+    decayMemory();
+    if(numberOfClicksOverPortrait >= 6) {
+      currentState = "AzayashiMall";
+      push();
+      background(0);
+      fill(255);
+      textSize(42);
+      text("I was at the mall.", width/1.5, height/2);
+      pop();
+    }
+  }
+  else if(currentState === "AzayashiMall") {
+    background(255);
     push();
-    background(0);
-    fill(255);
-    textSize(42);
-    text("I was at the mall.", width/1.5, height/2);
+    fill(0, 0, 0);
+    rect(width/2, height/2, 300, 300);
     pop();
+    displayPortrait(allison);
+    displayUI();
   }
 }
 
@@ -80,34 +94,44 @@ function draw() {
   @Listens to mouse presses on canvas.
 */
 function mousePressed() {
-  if(mouseOverPortrait()) {
-    ++numberOfClicksOverPortrait;
-    console.log("Number of clicks: " + numberOfClicksOverPortrait);
-    push();
-    clear();
-    console.log("Clicking over portrait.");
-    imageMode(CENTER);
-    image(allison, 300, 540, allison.width, allison.height);
-    pop();
+  if(currentState === "introduction") {
+    if(mouseOverPortrait()) {
+      ++numberOfClicksOverPortrait;
+      console.log("Number of clicks: " + numberOfClicksOverPortrait);
+      push();
+      clear();
+      console.log("Clicking over portrait.");
+      imageMode(CENTER);
+      image(allison, 300, 540, allison.width, allison.height);
+      pop();
+    }
+    if(mouseOverUIButton()) {
+      console.log("Clicking over menu button.");
+      clickedOnMenuButton = !clickedOnMenuButton;
+      if(clickedOnMenuButton) {
+        push();
+        fill(0);
+        rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 300);
+        fill(255);
+        textSize(45);
+        text("Close your eyes for a second.", openContextMenuButtonX - 300, openContextMenuButtonHeight + 125);
+        pop();
+      }
+      else {
+        push();
+        fill(255,255,255);
+        rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 300);
+        pop();
+      }
+    }
   }
-  if(mouseOverUIButton()) {
-    console.log("Clicking over menu button.");
-    clickedOnMenuButton = !clickedOnMenuButton;
-    if(clickedOnMenuButton) {
-      push();
-      fill(0);
-      rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 300);
-      fill(255);
-      textSize(45);
-      text("Close your eyes for a second.", openContextMenuButtonX - 300, openContextMenuButtonHeight + 125);
-      pop();
-    }
-    else {
-      push();
-      fill(255,255,255);
-      rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 300);
-      pop();
-    }
+  else if(currentState === "AzayashiMall") {
+    console.log("Click to move.");
+    push();
+    fill(0);
+    textSize(42);
+    text("Click to move.", width/2,height/2);
+    pop();
   }
 }
 
@@ -119,13 +143,7 @@ function mousePressed() {
 */
 function decayMemory() {
   textFont(zeyadaType);
-  push();
-  // The UI at the top.
-  fill(0);
-  rect(0,0,width,100);
-  fill(64,224,208);
-  rect(width-150,0,150,100);
-  pop();
+  displayUI();
   // Psychologist's instructions
   push();
   fill(255);
@@ -201,5 +219,15 @@ function displayPortrait(character) {
   push();
   imageMode(CENTER);
   image(character, portraitDefaultX, portraitDefaultY, character.width, character.height);
+  pop();
+}
+
+function displayUI() {
+  push();
+  // The UI at the top.
+  fill(0);
+  rect(0,0,width,100);
+  fill(64,224,208);
+  rect(width-150,0,150,100);
   pop();
 }
