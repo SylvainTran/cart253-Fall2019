@@ -27,7 +27,10 @@ let numberOfClicksOverPortrait = 0;
 let currentState = "introduction";
 // Whether to begin drawing the new state
 let readyState = false;
-//
+// The UI Layer
+let UILayer;
+let contextMenuDisplayed = false;
+let message = null;
 /**
   preload()
   @no custom args.
@@ -50,6 +53,7 @@ function preload() {
 function setup() {
   gameCanvas = createCanvas(1000, 1000);
   gameCanvas.parent('gameCanvas');
+  UILayer = createGraphics(1000, 200);
   states =
   {
     "AzayashiMall": new AzayashiMall()
@@ -65,8 +69,8 @@ function setup() {
   @Render each frame.
 */
 function draw() {
-  // TODO separate idea of decay from UI display
-  // to another layer using createGraphics
+  // Display the elements of the UI
+  displayUI();
   if(currentState === "introduction") {
     decayMemory();
     updateClickCounter();
@@ -78,6 +82,7 @@ function draw() {
       textSize(42);
       text("I was at the mall.", width/1.5, height/2);
       pop();
+      resetNumberOfClicks(); // Reset the number of clicks for the next state
     }
   }
   else if(currentState === "AzayashiMall" && readyState) {
@@ -87,8 +92,14 @@ function draw() {
     rect(width/2, height/2, 300, 300);
     pop();
     displayPortrait(allison);
-    displayUI();
+    push();
+    fill(255);
+    textSize(42);
+    text("Click the mall's door to continue.", width/2,height/2);
+    pop();
   }
+  // Render the UI layer
+  image(UILayer,0,0,1000,200);
 }
 
 /**
@@ -99,6 +110,7 @@ function draw() {
 function mousePressed() {
   if(currentState === "introduction") {
     if(mouseOverPortrait()) {
+      contextMenuDisplayed = false;
       ++numberOfClicksOverPortrait;
       console.log("Number of clicks: " + numberOfClicksOverPortrait);
       push();
@@ -113,31 +125,43 @@ function mousePressed() {
       clickedOnMenuButton = !clickedOnMenuButton;
       if(clickedOnMenuButton) {
         // UI text prompt
-        let message = null;
         if(numberOfClicksOverPortrait <= 3) {
-          message = "Keep clicking\non the picture\nto recall\nthe memory.";
+          message = "Keep clicking on the picture to recall\nthe memory.";
         }
         else if(numberOfClicksOverPortrait <= 6) {
-          message = "That's good.\nYou're doing great.\nKeep it up.";
+          message = "That's good. You're doing great.";
         }
         createContextMenu(message);
       }
-      else {
-        push();
-        fill(255,255,255);
-        rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 300);
-        pop();
-      }
+    }
+    else {
+      contextMenuDisplayed = false;
+    }
+    if(!contextMenuDisplayed) {
+      clearContextMenu();
     }
   }
   else if(currentState === "AzayashiMall") {
     readyState = true;
-    console.log("Click to move.");
-    push();
-    fill(0);
-    textSize(42);
-    text("Click to move.", width/2,height/2);
-    pop();
+    if(mouseOverUIButton()) {
+      clickedOnMenuButton = !clickedOnMenuButton;
+      if(clickedOnMenuButton) {
+        // UI text prompt
+        if(numberOfClicksOverPortrait <= 3) {
+          message = "Find out what happened to your parents.";
+        }
+        else if(numberOfClicksOverPortrait <= 6) {
+          message = "Keep trying.";
+        }
+        createContextMenu(message);
+      }
+      else {
+        contextMenuDisplayed = false;
+      }
+      if(!contextMenuDisplayed) {
+        clearContextMenu();
+      }
+    }
   }
 }
 
@@ -156,7 +180,6 @@ function decayMemory() {
   filter(DILATE);
   pop();
 
-  displayUI();
   // State text
   push();
   textSize(60);
@@ -221,20 +244,20 @@ function displayPortrait(character) {
   @Displays the UI images provided at the specified x, y positions.
 */
 function displayUI() {
-  push();
+  UILayer.push();
   // The UI at the top.
-  fill(0);
-  rect(0,0,width,100);
-  fill(64,224,208);
-  rect(width-150,0,150,100);
-  pop();
+  UILayer.fill(0);
+  UILayer.rect(0,0,width,100);
+  UILayer.fill(64,224,208);
+  UILayer.rect(width-150,0,150,100);
+  UILayer.pop();
 
   // Psychologist's Instructions
-  push();
-  fill(0);
-  textSize(35);
-  text("Instructions", openContextMenuButtonX + 10, 50);
-  pop();
+  UILayer.push();
+  UILayer.fill(0);
+  UILayer.textSize(25);
+  UILayer.text("Instructions", openContextMenuButtonX + 10, 50);
+  UILayer.pop();
 }
 
 /**
@@ -244,13 +267,14 @@ function displayUI() {
   @Displays Displays the context menu at the top.
 */
 function createContextMenu(message) {
-  push();
-  fill(0);
-  rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 300);
-  textSize(45);
-  fill(255);
-  text(message, openContextMenuButtonX - 250, openContextMenuButtonHeight + 50);
-  pop();
+  contextMenuDisplayed = true;
+  UILayer.push();
+  UILayer.fill(0);
+  UILayer.rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 200);
+  UILayer.textSize(25);
+  UILayer.fill(255);
+  UILayer.text(message, openContextMenuButtonX - 295, openContextMenuButtonHeight + 50);
+  UILayer.pop();
 }
 
 /**
@@ -259,9 +283,19 @@ function createContextMenu(message) {
   @Displays the click counter for this state. TODO pass parameters for other scenes.
 */
 function updateClickCounter() {
-  push();
-  textSize(42);
-  fill(255);
-  text("Number of recalls: " + numberOfClicksOverPortrait, 100, 50);
-  pop();
+  UILayer.push();
+  UILayer.textSize(42);
+  UILayer.fill(255);
+  UILayer.text("Number of recalls: " + numberOfClicksOverPortrait, 100, 50);
+  UILayer.pop();
+}
+
+function resetNumberOfClicks() {
+  numberOfClicksOverPortrait = 0;
+}
+
+function clearContextMenu() {
+  UILayer.push();
+  UILayer.background(255);
+  UILayer.pop();
 }

@@ -18,6 +18,8 @@ that moves, along with the events and encounters in her life that she witnesses.
 life. Also, Allison gets stuck in a vinyl.
 ++Many different characters to illustrate the slice-of-life + surrealistic setting of this game
 ++Perhaps some combat, fun task-mechanic to add in Ally's more turbulent life phases, RPG-style.
++Dialogue options for different endings and conversations.
++Tile-based? Turn-based combat...
 
 Summary:
 ++Click to wash the dishes... follow Allison's estranged/neglected childhood
