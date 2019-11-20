@@ -6,15 +6,18 @@ Author: Sylvain Tran
 Pitch:
 ++Player can drag stuff and shove it down our character Allison, who is
 basically living the years of her life. This is a slice of life game.
-++The real story is that Ally's mom, having amnesia (and potentially schizophrenia)
-is trying to gradually recover memories of her daughter after she sadly passed away. She is
-undergoing some futuristic amnesia therapy. +Consider basing the game on real therapy methods.
+++The real story is that the Ally believed that it was her mom that had amnesia (and potentially schizophrenia)
+and throughout the game is trying to gradually recover memories of "her lost daughter" after she sadly passed away.
+This is in fact a fabrication; the player eventually discovers that Ally is recalling her own memories, and the game
+follows her undergoing some futuristic amnesia therapy.
++Consider basing the game on real therapy methods.
 ++Mechanics wise, the idea is to cancel the need for real movement by displaying an illusion
 of it, and having the character seemingly move while it is the background
 that moves, along with the events and encounters in her life that she witnesses.
 ++Idea of memories going around in a loop when people ruminate about their
 life. Also, Allison gets stuck in a vinyl.
 ++Many different characters to illustrate the slice-of-life + surrealistic setting of this game
+++Perhaps some combat, fun task-mechanic to add in Ally's more turbulent life phases, RPG-style.
 
 Summary:
 ++Click to wash the dishes... follow Allison's estranged/neglected childhood
