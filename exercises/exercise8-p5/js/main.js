@@ -15,13 +15,16 @@
 */
 let states = {};
 let gameCanvas;
+//
+let allison;
+//
 /**
   preload()
   @no custom args.
   @Preload images and sounds needed.
 */
 function preload() {
-
+  allison = loadImage("assets/images/Allison-0001_c1.png");
 }
 
 /**
@@ -57,5 +60,9 @@ function draw() {
   @Listens to mouse presses on canvas.
 */
 function mousePressed() {
-  text("This is a text.", width/2, height/2);
+  clear();
+  imageMode(CENTER);
+  image(allison, 300, 540, allison.width, allison.height);
+  textSize(50);
+  text("This is Allison.\nShe is four years old.", width/2, height/2);
 }
