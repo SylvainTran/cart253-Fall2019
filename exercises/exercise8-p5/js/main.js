@@ -290,10 +290,20 @@ function updateClickCounter() {
   UILayer.pop();
 }
 
+/**
+  resetNumberOfClicks()
+  @arg: none.
+  @Resets the click counter for this state.
+*/
 function resetNumberOfClicks() {
   numberOfClicksOverPortrait = 0;
 }
 
+/**
+  clearContextMenu()
+  @arg: none.
+  @Clears the context menu.
+*/
 function clearContextMenu() {
   UILayer.push();
   UILayer.background(255);
