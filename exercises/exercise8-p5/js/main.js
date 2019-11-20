@@ -51,15 +51,7 @@ function setup() {
   @Render each frame.
 */
 function draw() {
-  push();
-  fill(0);
-  rect(0,0,width,100);
-  filter(BLUR);
-  filter(GRAY);
-  filter(DILATE);
-  fill(64,224,208);
-  rect(width-150,0,150,100);
-  pop();
+  decayMemory();
 }
 
 /**
@@ -71,6 +63,48 @@ function mousePressed() {
   clear();
   imageMode(CENTER);
   image(allison, 300, 540, allison.width, allison.height);
+  if(mouseOverUIButton()) {
+    console.log("Clicking over turquoise button.");
+  }
+}
+
+/**
+  decayMemory()
+  @no custom args.
+  @Uses filter effects to induce a decay effect on displayed
+  text, image and "UI".
+*/
+function decayMemory() {
+  push();
+  // The UI at the top.
+  fill(0);
+  rect(0,0,width,100);
+  fill(64,224,208);
+  rect(width-150,0,150,100);
+  // State text
   textSize(50);
   text("This is my Allison.\nShe was... four years\nold at the time.", width/2, 200);
+  pop();
+  // Decay effect using blur, gray and dilate filters.
+  push();
+  filter(BLUR);
+  filter(GRAY);
+  filter(DILATE);
+  pop();
+}
+
+/**
+  mouseOverUIButton()
+  @no custom args.
+  @Checks if the mouse is hovering over the
+  turquoise UI button at the top right. Returns the
+  state as a result.
+*/
+function mouseOverUIButton() {
+  let state = false;
+  if(mouseX >= width-150 && mouseX <= width && mouseY >= 0 && mouseY <= 100)
+  {
+    state = true;
+  }
+  return state;
 }
