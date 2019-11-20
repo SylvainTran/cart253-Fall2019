@@ -72,5 +72,5 @@ function mousePressed() {
   imageMode(CENTER);
   image(allison, 300, 540, allison.width, allison.height);
   textSize(50);
-  text("This is Allison.\nShe is four years old.", width/2, height/2);
+  text("This is my Allison.\nShe was... four years\nold at the time.", width/2, 200);
 }
