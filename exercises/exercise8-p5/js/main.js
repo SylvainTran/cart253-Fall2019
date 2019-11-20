@@ -95,17 +95,17 @@ function mousePressed() {
     clickedOnMenuButton = !clickedOnMenuButton;
     if(clickedOnMenuButton) {
       push();
-      fill(0,0,255);
-      rect(openContextMenuButtonX, openContextMenuButtonHeight, 300, 300);
+      fill(0);
+      rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 300);
       fill(255);
-      textSize(20);
-      text("Close your eyes for a second.", openContextMenuButtonX, openContextMenuButtonHeight + 125);
+      textSize(45);
+      text("Close your eyes for a second.", openContextMenuButtonX - 300, openContextMenuButtonHeight + 125);
       pop();
     }
     else {
       push();
       fill(255,255,255);
-      rect(openContextMenuButtonX, openContextMenuButtonHeight, 300, 300);
+      rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 300);
       pop();
     }
   }
@@ -125,6 +125,12 @@ function decayMemory() {
   rect(0,0,width,100);
   fill(64,224,208);
   rect(width-150,0,150,100);
+  pop();
+  // Psychologist's instructions
+  push();
+  fill(255);
+  textSize(35);
+  text("instructions", openContextMenuButtonX + 10, 50);
   // State text
   textSize(60);
   text("This is my Allison.\nShe was... four years\nold at the time.", width/2, 200);
@@ -138,13 +144,13 @@ function decayMemory() {
   // UI text prompt
   push();
   fill(255,0,0);
-  textSize(30);
+  textSize(42);
   if(numberOfClicksOverPortrait <= 3) {
-    text("Keep clicking\non the picture\nto keep recalling.", width/1.5,height/2);
+    text("Keep clicking\non the picture\nto recall the memory.", width/1.5,height/2);
     text("Number of recalls. " + numberOfClicksOverPortrait, width/1.5,height/1.2);
   }
   else if(numberOfClicksOverPortrait <= 6) {
-    text("That's good.\nYou're doing great. Keep it up.", width/1.5,height/2);
+    text("That's good.\nYou're doing great.\nKeep it up.", width/1.5,height/2);
     text("Number of recalls. " + numberOfClicksOverPortrait, width/1.5,height/1.2);
   }
   pop();
