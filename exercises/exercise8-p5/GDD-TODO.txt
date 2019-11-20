@@ -6,8 +6,9 @@ Author: Sylvain Tran
 Pitch:
 ++Player can drag stuff and shove it down our character Allison, who is
 basically living the years of her life. This is a slice of life game.
-++The real story is that Ally's mom, having Alzheimer (and potentially schizophrenia)
-is trying to gradually recover memories of her daughter after she sadly passed away.
+++The real story is that Ally's mom, having amnesia (and potentially schizophrenia)
+is trying to gradually recover memories of her daughter after she sadly passed away. She is
+undergoing some futuristic amnesia therapy. +Consider basing the game on real therapy methods.
 ++Mechanics wise, the idea is to cancel the need for real movement by displaying an illusion
 of it, and having the character seemingly move while it is the background
 that moves, along with the events and encounters in her life that she witnesses.
@@ -54,3 +55,10 @@ The idea is that the player can play mini-games in each scene,
 such as click on certain areas of the environment to move them away
 or interact in some way or just enjoy watching the character's life. (Yes)
 ===
+
+Font history: Zeyada:
+Zeyada is based on the handwriting of a warm and generous young mom.
+
+Her family sponsors an amazing Ethiopian young woman named Zeyada and pays for her to continue to be in school.
+This font has curls and curves and is not a typical cursive, nor a typical print. It is slightly connected, but
+not a traditional script in any way.

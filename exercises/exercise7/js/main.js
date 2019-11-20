@@ -44,7 +44,7 @@ function preload ()
 {
     this.load.image('bg', 'assets/images/bg.png');
     this.load.image('ground', 'assets/images/platform.png');
-    this.load.spritesheet('dude', 'assets/images/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('melansuko', 'assets/images/melansuko.png', { frameWidth: 32, frameHeight: 48 });
 }
 /**
   Creates elements on the scene. Phaser.js native.
@@ -70,25 +70,25 @@ function create ()
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
     // The player and its settings
-    player = this.physics.add.sprite(100, 450, 'dude');
+    player = this.physics.add.sprite(100, 450, 'melansuko');
     //  Player physics properties. Give the little guy a slight bounce.
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+        frames: this.anims.generateFrameNumbers('melansuko', { start: 0, end: 3 }),
         frameRate: 10,
         repeat: -1
     });
     this.anims.create({
         key: 'turn',
-        frames: [ { key: 'dude', frame: 4 } ],
+        frames: [ { key: 'melansuko', frame: 4 } ],
         frameRate: 20
     });
     this.anims.create({
         key: 'right',
-        frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+        frames: this.anims.generateFrameNumbers('melansuko', { start: 5, end: 8 }),
         frameRate: 10,
         repeat: -1
     });

@@ -15,11 +15,14 @@
 */
 let states = {};
 let gameCanvas;
+let zeyadaType;
 //
 let allison;
 const openContextMenuButtonX = 850;
 const openContextMenuButtonHeight = 100;
 let clickedOnMenuButton = false;
+// The counter for how many recalls the main character has attempted
+let numberOfClicksOverPortrait = 0;
 //
 /**
   preload()
@@ -28,6 +31,7 @@ let clickedOnMenuButton = false;
 */
 function preload() {
   allison = loadImage("assets/images/Allison-0001_c1.png");
+  zeyadaType = loadFont("assets/fonts/Zeyada-Regular.ttf");
 }
 
 /**
@@ -60,6 +64,14 @@ function draw() {
   // TODO separate idea of decay from UI display
   // to another layer using createGraphics
   decayMemory();
+  if(numberOfClicksOverPortrait >= 6) {
+    push();
+    background(0);
+    fill(255);
+    textSize(42);
+    text("I was at the mall.", width/1.5, height/2);
+    pop();
+  }
 }
 
 /**
@@ -69,6 +81,8 @@ function draw() {
 */
 function mousePressed() {
   if(mouseOverPortrait()) {
+    ++numberOfClicksOverPortrait;
+    console.log("Number of clicks: " + numberOfClicksOverPortrait);
     push();
     clear();
     console.log("Clicking over portrait.");
@@ -83,6 +97,9 @@ function mousePressed() {
       push();
       fill(0,0,255);
       rect(openContextMenuButtonX, openContextMenuButtonHeight, 300, 300);
+      fill(255);
+      textSize(20);
+      text("Close your eyes for a second.", openContextMenuButtonX, openContextMenuButtonHeight + 125);
       pop();
     }
     else {
@@ -101,6 +118,7 @@ function mousePressed() {
   text, image and "UI".
 */
 function decayMemory() {
+  textFont(zeyadaType);
   push();
   // The UI at the top.
   fill(0);
@@ -108,7 +126,7 @@ function decayMemory() {
   fill(64,224,208);
   rect(width-150,0,150,100);
   // State text
-  textSize(50);
+  textSize(60);
   text("This is my Allison.\nShe was... four years\nold at the time.", width/2, 200);
   pop();
   // Decay effect using blur, gray and dilate filters.
@@ -120,8 +138,15 @@ function decayMemory() {
   // UI text prompt
   push();
   fill(255,0,0);
-  textSize(25);
-  text("Keep clicking\non the picture\nto remember!", width/1.5,height/2);
+  textSize(30);
+  if(numberOfClicksOverPortrait <= 3) {
+    text("Keep clicking\non the picture\nto keep recalling.", width/1.5,height/2);
+    text("Number of recalls. " + numberOfClicksOverPortrait, width/1.5,height/1.2);
+  }
+  else if(numberOfClicksOverPortrait <= 6) {
+    text("That's good.\nYou're doing great. Keep it up.", width/1.5,height/2);
+    text("Number of recalls. " + numberOfClicksOverPortrait, width/1.5,height/1.2);
+  }
   pop();
 }
 
@@ -139,6 +164,7 @@ function mouseOverUIButton() {
   }
   return state;
 }
+
 /**
   mouseOverPortrait()
   @no custom args.
