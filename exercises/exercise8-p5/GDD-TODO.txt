@@ -1,17 +1,29 @@
+GDD
+
 Melansuko: The Decades Day Album
 Author: Sylvain Tran
 
+Pitch:
+++Player can drag stuff and shove it down our character Allison, who is
+basically living the years of her life. This is a slice of life game.
+++The idea is to cancel the need for real movement by displaying an illusion
+of it, and having the character seemingly move while it is the background
+that moves, along with the events and encounters in her life that she witnesses.
 ++Idea of memories going around in a loop when people ruminate about their
-life: Also, she gets stuck in a vinyl
-++Slice of life
+life. Also, Allison gets stuck in a vinyl.
+++Many different characters to illustrate the slice-of-life + surrealistic setting of this game
+
+Summary:
 ++Click to wash the dishes... follow Allison's estranged/neglected childhood
-+Levels are slices of life, common things.
+++Levels are slices of life, common things.
 ++Different kind of visualization of the main characters' emotions.
 ++Trigonometry play for animations and some level obstacles
 +Basic fake platformer ("big sprite game going through life obstacles")
-  "some restricted jumping"
+"some restricted jumping" and "task grabbing"
 +Weird UI
-+Mixin really weird ideas:
+
+Characters:
++Mixin really weird ideas as follows:
 +Melansuko, Ally's mother who is trapped washing dishes in a surrealistic
 looping vinyl.
 +Coffee Spirit idea: taking the perspective of a coffee cup
@@ -24,17 +36,19 @@ through the loss of her turtle and breaks up with her boyfriend.
 +Finally, the AMBER Alert grandma hero, bored and watching TV. Call
 the cops when you spot anomalies in the news.
 
+Development Diary:
 ===
 Extend the idea of the emotion visualization primarily.
 to react with player movement (Hot and Cold system)
-as she gets nearer to certain objects in the scene.
+as she gets nearer to certain objects in the scene. (Cancelled idea)
 
 Or maybe she needs to put out a small fire in order to build
 some heat. Or maybe she needs to stop listen to the cacophony
-by journaling (press shift to begin journaling) repeatedly on place.
+by journaling (press shift to begin journaling) repeatedly on place. (Maybe)
 
-Those would be "emotional memories" that the player has to collect.
+Those would be "emotional memories" that the player has to collect. (No)
 
-The second thing is that the player can click on certain areas of the
-environment to move them away or interact in some way.
+The idea is that the player can play mini-games in each scene,
+such as click on certain areas of the environment to move them away
+or interact in some way or just enjoy watching the character's life. (Yes)
 ===
