@@ -6,7 +6,9 @@ Author: Sylvain Tran
 Pitch:
 ++Player can drag stuff and shove it down our character Allison, who is
 basically living the years of her life. This is a slice of life game.
-++The idea is to cancel the need for real movement by displaying an illusion
+++The real story is that Ally's mom, having Alzheimer (and potentially schizophrenia)
+is trying to gradually recover memories of her daughter after she sadly passed away.
+++Mechanics wise, the idea is to cancel the need for real movement by displaying an illusion
 of it, and having the character seemingly move while it is the background
 that moves, along with the events and encounters in her life that she witnesses.
 ++Idea of memories going around in a loop when people ruminate about their

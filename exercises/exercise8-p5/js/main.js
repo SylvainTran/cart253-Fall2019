@@ -60,11 +60,15 @@ function draw() {
   @Listens to mouse presses on canvas.
 */
 function mousePressed() {
-  clear();
-  imageMode(CENTER);
-  image(allison, 300, 540, allison.width, allison.height);
+  if(mouseOverPortrait()) {
+    clear();
+    console.log("Clicking over portrait.");
+    imageMode(CENTER);
+    image(allison, 300, 540, allison.width, allison.height);
+  }
   if(mouseOverUIButton()) {
     console.log("Clicking over turquoise button.");
+
   }
 }
 
@@ -91,6 +95,12 @@ function decayMemory() {
   filter(GRAY);
   filter(DILATE);
   pop();
+  // UI text prompt
+  push();
+  fill(255,0,0);
+  textSize(25);
+  text("Keep clicking\non the picture\nto remember!", width/1.5,height/2);
+  pop();
 }
 
 /**
@@ -102,8 +112,23 @@ function decayMemory() {
 */
 function mouseOverUIButton() {
   let state = false;
-  if(mouseX >= width-150 && mouseX <= width && mouseY >= 0 && mouseY <= 100)
-  {
+  if(mouseX >= width-150 && mouseX <= width && mouseY >= 0 && mouseY <= 100){
+    state = true;
+  }
+  return state;
+}
+/**
+  mouseOverPortrait()
+  @no custom args.
+  @Checks if the mouse is hovering over the
+  current state's portrait (always fixed position).
+  Returns the state as a result.
+*/
+function mouseOverPortrait() {
+  let state = false;
+  const portraitX = 0 + 300;
+  const portraitY = 250;
+  if(mouseX >= 0 && mouseX <= portraitX + 300 && mouseY >= portraitY && mouseY <= height){
     state = true;
   }
   return state;
