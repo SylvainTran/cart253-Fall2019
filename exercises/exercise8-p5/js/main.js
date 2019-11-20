@@ -17,6 +17,9 @@ let states = {};
 let gameCanvas;
 //
 let allison;
+const openContextMenuButtonX = 850;
+const openContextMenuButtonHeight = 100;
+let clickedOnMenuButton = false;
 //
 /**
   preload()
@@ -33,6 +36,8 @@ function preload() {
   @Creates canvas and appends it to the game container.
   @Initializes the game states.
   @Creates a new StateSystem and pass it the states/scenes.
+  Creates the StateSystem subsystems next, then display the
+  portrait of Allison.
 */
 function setup() {
   gameCanvas = createCanvas(1000, 1000);
@@ -52,6 +57,8 @@ function setup() {
   @Render each frame.
 */
 function draw() {
+  // TODO separate idea of decay from UI display
+  // to another layer using createGraphics
   decayMemory();
 }
 
@@ -62,14 +69,28 @@ function draw() {
 */
 function mousePressed() {
   if(mouseOverPortrait()) {
+    push();
     clear();
     console.log("Clicking over portrait.");
     imageMode(CENTER);
     image(allison, 300, 540, allison.width, allison.height);
+    pop();
   }
   if(mouseOverUIButton()) {
-    console.log("Clicking over turquoise button.");
-
+    console.log("Clicking over menu button.");
+    clickedOnMenuButton = !clickedOnMenuButton;
+    if(clickedOnMenuButton) {
+      push();
+      fill(0,0,255);
+      rect(openContextMenuButtonX, openContextMenuButtonHeight, 300, 300);
+      pop();
+    }
+    else {
+      push();
+      fill(255,255,255);
+      rect(openContextMenuButtonX, openContextMenuButtonHeight, 300, 300);
+      pop();
+    }
   }
 }
 
@@ -113,7 +134,7 @@ function decayMemory() {
 */
 function mouseOverUIButton() {
   let state = false;
-  if(mouseX >= width-150 && mouseX <= width && mouseY >= 0 && mouseY <= 100){
+  if(mouseX >= openContextMenuButtonX && mouseX <= width && mouseY >= 0 && mouseY <= openContextMenuButtonHeight){
     state = true;
   }
   return state;
