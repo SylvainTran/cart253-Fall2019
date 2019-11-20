@@ -51,7 +51,15 @@ function setup() {
   @Render each frame.
 */
 function draw() {
-
+  push();
+  fill(0);
+  rect(0,0,width,100);
+  filter(BLUR);
+  filter(GRAY);
+  filter(DILATE);
+  fill(64,224,208);
+  rect(width-150,0,150,100);
+  pop();
 }
 
 /**
