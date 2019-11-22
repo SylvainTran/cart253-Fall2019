@@ -1,6 +1,6 @@
 /**
   State()
-  @constructor args: stateData
+  @constructor args: stateConfig
     inits default state parameters in the parent State prototype.
   The base type of state to be inherited by all other states.
   States are basically data-dumps. There should be no logic in it,
@@ -9,12 +9,12 @@
   @Initializes all static properties of this state.
 */
 class State {
-  constructor(stateData){
-    this.stateData = stateData; // A reference to the original state data file.
+  constructor(stateConfig, stateData){
+    this.stateConfig = stateConfig; // A reference to the original state data file.
     // Making sure all extended states get are initialized with these properties.
     // These properties are only static elements (non-interactible or non-mobile)
-    this.stateIndex = stateData.stateIndex;
-    this.stateTag = stateData.stateTag;
+    this.stateIndex = stateConfig.stateIndex;
+    this.stateTag = stateConfig.stateTag;
     this.bgColor = stateData.bgColor;
     this.isCinematic = stateData.isCinematic;
     this.nbActors = stateData.nbActors;
@@ -26,5 +26,22 @@ class State {
     this.dialogue = stateData.dialogue;
     this.subtitles = stateData.subtitles;
     this.translation = stateData.translation;
+  }
+
+  /**
+    mouseOverPortrait()
+    @no custom args.
+    @Checks if the mouse is hovering over the
+    current state's portrait (always fixed position).
+    Returns the state as a result.
+  */
+  mouseOverPortrait() {
+    let state = false;
+    const portraitX = 0 + 300;
+    const portraitY = 250;
+    if(mouseX >= 0 && mouseX <= portraitX + 300 && mouseY >= portraitY && mouseY <= height){
+      state = true;
+    }
+    return state;
   }
 }

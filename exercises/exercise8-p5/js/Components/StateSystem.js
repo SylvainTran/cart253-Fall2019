@@ -7,21 +7,24 @@
   @Changes scenes.
 */
 class StateSystem {
-  constructor(states) {
+  constructor(states, UILayer) {
     this.states = states;
-    this.currentStateTag = "";
+    this.UILayer = UILayer;
+    this.currentStateTag = "AzayashiMall";
     this.previousStateTag = "MainMenu";
     this.nextStateTag = "";
     this.maxScenes = 2;
     console.log("StateSystem created.");
   }
   createSubSystems() {
-    this.StateParticles = new StateParticles(currentStateTag);
-    this.StateInteractors = new StateInteractors(currentStateTag);
+    this.StateParticles = new StateParticles(this.states);
+    this.StateInteractors = new StateInteractors(this.states);
+    this.UISystem = new UISystem(this.states, this.UILayer);
   }
-  update() {
+  updateSystems() {
     this.StateParticles.updateParticles(this.currentStateTag);
     this.StateInteractors.updateInteractors(this.currentStateTag);
+    this.UISystem.updateStateUI();
     this.changeState();
   }
   /**
@@ -30,7 +33,7 @@ class StateSystem {
     @Changes state if the StateInteractor returned a scene change event.
   */
   changeState() {
-    if(this.StateInteractors.updateState()){
+    if(this.StateInteractors.updateInteractors()){
       this.states[this.currentStateTag].updateState();
     }
   }

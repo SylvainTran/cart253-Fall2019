@@ -9,9 +9,8 @@
 */
 class StateParticles extends StateSystem{
   constructor(states) {
-    super();
-    this.states = states;
-    console.log("StateParticles created.");    
+    super(states);
+    console.log("StateParticles created.");
   }
   /**
     updateParticles()
@@ -21,15 +20,21 @@ class StateParticles extends StateSystem{
     on screen accordingly in the states object.
   */
   updateParticles(currentStateTag) {
-    
+    this.updateBackground(currentStateTag);
+    this.updateText(currentStateTag);
   }
-  /**
-    Displays captions.
-
-  */
-  displayCaptions() {
-    console.log("Displaying captions.");
-  }  
+  updateBackground(currentStateTag) {
+    push();
+    background(this.states[currentStateTag].bgColor);
+    pop();
+  }
+  updateText(currentStateTag) {
+    push();
+    fill(this.states[currentStateTag].textColor);
+    textSize(this.states[currentStateTag].tSize);
+    text(this.states[currentStateTag].narration, this.states[currentStateTag].narrationPosX, this.states[currentStateTag].narrationPosY);
+    pop();
+  }
 
   /**
     Takes an array of strings and calculate the average length of all the entries.
@@ -52,5 +57,5 @@ class StateParticles extends StateSystem{
     averageLengthPerWord = totalLength / stringArray.length;
     textLineWidth = averageLengthPerWord * (this.stateData.tSize - this.stateData.tSize / 2);
     return textLineWidth;
-  }  
+  }
 }

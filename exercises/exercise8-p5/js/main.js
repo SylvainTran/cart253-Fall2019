@@ -14,6 +14,7 @@
 
 */
 let states = {};
+let stateConfig, stateData0, stateData1, stateData2;
 let gameCanvas;
 let zeyadaType;
 //
@@ -46,6 +47,10 @@ let rightKeyPressed = 0;
 function preload() {
   allison = loadImage("assets/images/Allison-0001_c1.png");
   zeyadaType = loadFont("assets/fonts/Zeyada-Regular.ttf");
+  stateConfig = loadJSON("data/states/stateConfig.json");
+  stateData0 = loadJSON("data/states/stateData/stateData0.json");
+  stateData1 = loadJSON("data/states/stateData/stateData1.json");
+  stateData2 = loadJSON("data/states/stateData/stateData2.json");
 }
 
 /**
@@ -63,9 +68,10 @@ function setup() {
   UILayer = createGraphics(1000, 200);
   states =
   {
-    "AzayashiMall": new AzayashiMall()
+    "AzayashiMall": new AzayashiMall(stateConfig, stateData0)
   };
-  StateSystem = new StateSystem(states);
+  console.log(states);
+  StateSystem = new StateSystem(states, UILayer);
   StateSystem.createSubSystems();
   displayPortrait(allison);
 }
@@ -77,10 +83,11 @@ function setup() {
 */
 function draw() {
   // Display the elements of the UI
-  displayUI();
+  //displayUI();
+  StateSystem.updateSystems();
   if(currentState === "introduction") {
-    decayMemory();
-    updateClickCounter();
+    //decayMemory();
+    //updateClickCounter();
     if(numberOfClicksOverPortrait >= 6) {
       currentState = "AzayashiMall";
       push();
@@ -325,7 +332,7 @@ function clearContextMenu() {
 */
 function keyPressed() {
   if(keyCode === inputKeys.LEFT) {
-    leftKeyPressed++;    
+    leftKeyPressed++;
     push();
     fill(255, 0, 0);
     rect(0, 540, allison.width, allison.height);
@@ -341,4 +348,3 @@ function keyPressed() {
     console.log(rightKeyPressed);
   }
 }
-

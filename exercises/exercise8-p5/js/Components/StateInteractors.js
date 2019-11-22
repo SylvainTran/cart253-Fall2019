@@ -4,12 +4,13 @@
   @Updates state interactors (keypresses, mouse inputs).
 */
 class StateInteractors extends StateSystem {
-  constructor() {
-    super();
+  constructor(states) {
+    super(states);
     this.oldState = true; // The old state which is true by default
     this.newState = false; // A new state than the last one is true
     console.log("StateInteractors created.");
   }
+
   /**
     Tells the StateSystem whether to change states, if it changed.
   */
@@ -27,8 +28,8 @@ class StateInteractors extends StateSystem {
     switch (stateMouseEvent) {
       case "Starting Game":
         this.nextStateTag = "introduction";
-        this.newState = true;      
-        this.updateInteractors();  
+        this.newState = true;
+        this.updateInteractors();
         break;
       case "Exiting Game":
         document.write("Game Over.");
@@ -37,6 +38,6 @@ class StateInteractors extends StateSystem {
         break;
     }
     // Reset state changes
-    this.newState = false; 
-  }  
+    this.newState = false;
+  }
 }
