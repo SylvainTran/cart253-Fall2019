@@ -31,6 +31,13 @@ let readyState = false;
 let UILayer;
 let contextMenuDisplayed = false;
 let message = null;
+let inputKeys = {
+  "LEFT": 37,
+  "RIGHT": 39
+};
+let leftKeyPressed = 0;
+let rightKeyPressed = 0;
+
 /**
   preload()
   @no custom args.
@@ -98,6 +105,7 @@ function draw() {
     text("Click the mall's door to continue.", width/2,height/2);
     pop();
   }
+
   // Render the UI layer
   image(UILayer,0,0,1000,200);
 }
@@ -309,3 +317,28 @@ function clearContextMenu() {
   UILayer.background(255);
   UILayer.pop();
 }
+
+/**
+  keyPressed()
+  @arg: no custom args.
+  @Handles key pressed.
+*/
+function keyPressed() {
+  if(keyCode === inputKeys.LEFT) {
+    leftKeyPressed++;    
+    push();
+    fill(255, 0, 0);
+    rect(0, 540, allison.width, allison.height);
+    pop();
+    console.log(leftKeyPressed);
+  }
+  else if(keyCode === inputKeys.RIGHT) {
+    rightKeyPressed++;
+    push();
+    fill(0, 255, 0);
+    rect(0, 540, allison.width, allison.height);
+    pop();
+    console.log(rightKeyPressed);
+  }
+}
+

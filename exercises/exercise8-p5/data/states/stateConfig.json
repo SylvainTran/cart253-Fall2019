@@ -1,0 +1,17 @@
+{
+  "mainMenustate": {
+    "stateIndex": 0,
+    "stateName": "mainMenustate",
+    "textObjectPath": "data/states/stateData/stateData0.json"
+  },
+  "tutorial": {
+    "stateIndex": 1,
+    "stateName": "tutorial",
+    "textObjectPath": "data/states/stateData/stateData1.json"
+  },
+  "introduction": {
+    "stateIndex": 2,
+    "stateName": "introduction",
+    "textObjectPath": "data/states/stateData/stateData2.json"
+  }
+}

@@ -9,17 +9,29 @@
 class StateSystem {
   constructor(states) {
     this.states = states;
-    this.currentState = "";
-    this.previousState = "MainMenu";
-    this.nextState = "";
+    this.currentStateTag = "";
+    this.previousStateTag = "MainMenu";
+    this.nextStateTag = "";
+    this.maxScenes = 2;
     console.log("StateSystem created.");
   }
   createSubSystems() {
-    this.StateInteractors = new StateParticles();
-    this.StateInteractors = new StateInteractors();
+    this.StateParticles = new StateParticles(currentStateTag);
+    this.StateInteractors = new StateInteractors(currentStateTag);
   }
   update() {
+    this.StateParticles.updateParticles(this.currentStateTag);
+    this.StateInteractors.updateInteractors(this.currentStateTag);
+    this.changeState();
   }
-  changeScene() {
+  /**
+    changeState()
+    @args: none.
+    @Changes state if the StateInteractor returned a scene change event.
+  */
+  changeState() {
+    if(this.StateInteractors.updateState()){
+      this.states[this.currentStateTag].updateState();
+    }
   }
 }
