@@ -12,11 +12,12 @@ class StateParticles extends StateSystem {
     super(states, UILayer, stateConfig, characterPortrait);
     console.log("StateParticles created.");
   }
+
   /**
     updateParticles()
     @constructor args: checkCurrentStateTag
       The string variable of the current state tag returned by the callback function.
-    @Takes in the callback function checkCurrentStateTag(stateConfig) and gets the currentState while using closure.
+    @Takes in the callback function checkCurrentStateTag(stateConfig) and gets the currentState.
     Updates the visuals to render on screen the currentState's defined settings.
   */
   updateParticles(checkCurrentStateTag) {
@@ -24,20 +25,23 @@ class StateParticles extends StateSystem {
     this.updateBackground(currentState);
     this.updateText(currentState);
     this.updateSpecialState(currentState);
-    //this.displayPortrait();
   }
+
   updateBackground(currentState) {
     push();
     background(this.states[currentState].bgColor);
     pop();
   }
+
   updateText(currentState) {
+    textFont(zeyadaType);
     push();
     fill(this.states[currentState].textColor);
     textSize(this.states[currentState].tSize);
     text(this.states[currentState].narration, this.states[currentState].narrationPosX, this.states[currentState].narrationPosY);
     pop();
   }
+
   updateSpecialState(currentState) {
     this.states[currentState].updateState();
   }

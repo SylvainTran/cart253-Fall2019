@@ -1,7 +1,8 @@
 /**
   StateSystem()
-  @constructor args: states
+  @constructor args: states, UILayer, stateConfig, characterPortrait
     inits default state parameters in parent State prototype.
+    Starts at the currentStateTag.
   @Creates Subsystems to handle data processing.
   @Updates the scenes by updating the subsystems.
   @Changes scenes.

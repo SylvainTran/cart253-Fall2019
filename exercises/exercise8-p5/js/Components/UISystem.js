@@ -19,7 +19,7 @@ class UISystem extends StateSystem {
     this.updatePsyInstructions();
   }
 
-  // The UI at the top.
+  // The UI at the top. Black bar with a turquoise button.
   updateUI() {
     this.UILayer.push();
     this.UILayer.fill(0);
@@ -34,7 +34,7 @@ class UISystem extends StateSystem {
     this.UILayer.push();
     this.UILayer.fill(0);
     this.UILayer.textSize(25);
-    this.UILayer.text("Instructions", this.openContextMenuButtonX + 10, 50);
+    this.UILayer.text("Instructions", this.openContextMenuButtonX + 10, 50); // "Instructions"
     this.UILayer.pop();
   }
 
@@ -101,7 +101,8 @@ class UISystem extends StateSystem {
   /**
     updateInstructions()
     @no custom args.
-    @Updates the psychologists' instructions on the button at the top-right. Toggles off and on.
+    @Called by mousePressed() in main.js if the click was on the instructions button.
+    Updates the psychologists' instructions on the button at the top-right. Toggles off and on.
   */
   updateInstructions() {
     console.log("Clicking over menu button.");

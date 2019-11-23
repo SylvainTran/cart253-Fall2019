@@ -34,7 +34,7 @@ let rightKeyPressed = 0;
   @Preload images and sounds needed.
 */
 function preload() {
-  allison = loadImage("assets/images/duckguy.jpg");
+  allison = loadImage("assets/images/Allison-0001_c1.png");
   zeyadaType = loadFont("assets/fonts/Zeyada-Regular.ttf");
   stateConfig = loadJSON("data/states/stateConfig.json");
   stateData0 = loadJSON("data/states/stateData/stateData0.json");
@@ -61,7 +61,7 @@ function setup() {
   };
   StateSystem = new StateSystem(states, UILayer, stateConfig, allison);
   StateSystem.createSubSystems();
-  StateSystem.updateSystems();
+  StateSystem.StateParticles.displayPortrait();
 }
 
 /**
@@ -88,7 +88,6 @@ function mousePressed() {
     StateSystem.UISystem.updateInstructions();
   }
   else {
-    //StateSystem.UISystem.contextMenuDisplayed = false;
     StateSystem.UISystem.clearContextMenu();
   }
 }
