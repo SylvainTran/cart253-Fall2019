@@ -17,6 +17,7 @@ class UISystem extends StateSystem {
   updateStateUI() {
     this.updateUI();
     this.updatePsyInstructions();
+    this.updateClickDisplay();
   }
 
   // The UI at the top. Black bar with a turquoise button.
@@ -121,5 +122,27 @@ class UISystem extends StateSystem {
     else {
       this.clearContextMenu();
     }
+  }
+
+  /**
+    updateClickDisplay()
+    @arg: none.
+    @Displays the numberOfClicksOverPortrait variable for this state.
+  */
+  updateClickDisplay() {
+    UILayer.push();
+    UILayer.textSize(42);
+    UILayer.fill(255);
+    UILayer.text("Number of recalls: " + this.numberOfClicksOverPortrait, 100, 50);
+    UILayer.pop();
+  }
+
+  /**
+    updateClickCounter()
+    @arg: none.
+    @Increments the numberOfClicksOverPortrait variable after the player clicked on the portrait.
+  */
+  updateClickCounter() {
+    this.numberOfClicksOverPortrait++;
   }
 }

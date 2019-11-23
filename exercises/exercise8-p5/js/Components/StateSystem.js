@@ -37,6 +37,7 @@ class StateSystem {
   updateSystems() {
     this.UISystem.updateStateUI();
     this.StateParticles.updateParticles(this.checkCurrentStateTag);
+    this.states[this.currentStateTag].updateState();
   }
 
   /**
@@ -59,20 +60,5 @@ class StateSystem {
       }
     }
     return currentState;
-  }
-
-  /**
-    updateClickCounter()
-    @arg: none.
-    @Displays the click counter for this state. TODO pass parameters for other scenes.
-  */
-  updateClickCounter() {
-    ++this.numberOfClicksOverPortrait;
-    push();
-    textSize(42);
-    fill(255);
-    //console.log(this.numberOfClicksOverPortrait);
-    text("Number of recalls: " + this.numberOfClicksOverPortrait, 100, 50);
-    pop();
   }
 }

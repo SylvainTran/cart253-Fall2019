@@ -27,7 +27,7 @@ let inputKeys = {
 };
 let leftKeyPressed = 0;
 let rightKeyPressed = 0;
-
+let numberOfClicksOverPortrait = 0;
 /**
   preload()
   @no custom args.
@@ -77,12 +77,13 @@ function draw() {
 /**
   mousePressed()
   @no custom args (has a default callback arg)
-  @Listens to mouse presses on canvas. Activates the current state's updateClicks() function.
+  @Listens to mouse presses on canvas. Activates the current state's updateClicks() function,
+    which has its own callback function to request an update of the click counter in the UISystem.
   This current state should always be up to date due to the StateSystem's own update function.
 */
 function mousePressed() {
   if(StateSystem.UISystem.mouseOverPortrait()) {
-    StateSystem.states[StateSystem.currentStateTag].updateClicks();
+    StateSystem.states[StateSystem.currentStateTag].updateClicks(StateSystem.UISystem.updateClickCounter());
   }
   if(StateSystem.UISystem.mouseOverUIButton()) {
     StateSystem.UISystem.updateInstructions();

@@ -10,12 +10,14 @@ class Introduction extends State {
       super(stateConfig, stateData);
       this.characterPortrait = characterPortrait;
     }
-    
+
+    /**
+      updateState()
+      @no custom args.
+      @Updates this state.
+    */
     updateState() {
       this.decayMemory();
-      console.log(this.numberOfClicksOverPortrait);
-      if(this.numberOfClicksOverPortrait > 6) {
-      }
     }
 
     /**
@@ -33,12 +35,16 @@ class Introduction extends State {
       filter(DILATE);
       pop();
     }
-    updateClicks() {
-      this.contextMenuDisplayed = false;
-      ++this.numberOfClicksOverPortrait;
-      console.log("Number of clicks: " + this.numberOfClicksOverPortrait);
-      push();
 
+    /**
+      updateClicks()
+      @arg: updateClickCounter.
+        callbacks the function updateClickCounter in the UISystem after this is done.
+      @Listens to mousePressed in main.js.
+    */
+    updateClicks(updateClickCounter) {
+      this.contextMenuDisplayed = false;
+      push();
       clear(); // Resets the memory decay effect to visualize what it means to "recall".
       imageMode(CENTER);
       image(this.characterPortrait, 300, 540, this.characterPortrait.width, this.characterPortrait.height);
