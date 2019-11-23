@@ -7,9 +7,9 @@
   @Transforms particle data inputted by the StateSystem and returns
   the processed output.
 */
-class StateParticles extends StateSystem {
-  constructor(states, UILayer, stateConfig) {
-    super(states, UILayer, stateConfig);
+class StateParticles {
+  constructor(states) {
+    this.states = states;
     console.log("StateParticles created.");
   }
   /**
@@ -19,13 +19,12 @@ class StateParticles extends StateSystem {
     @Takes in the currentStateTag and updates the visuals to render
     on screen accordingly in the states object.
   */
-  updateParticles() {
-    //this.updateBackground(currentStateTag);
-    //this.updateText(currentStateTag);
+  updateParticles(currentStateTag) {
+    this.updateBackground(currentStateTag);
+    this.updateText(currentStateTag);
   }
   updateBackground(currentStateTag) {
     push();
-    console.log(currentStateTag);
     background(this.states[currentStateTag].bgColor);
     pop();
   }

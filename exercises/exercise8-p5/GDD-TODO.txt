@@ -8,7 +8,7 @@ TODOS
 21-11-2019: Really decide on the game mechanics on paper analogue version. (Yes)
 21-11-2019: Transfer the scene system from P2.
 21-11-2019: Core: +Point and click static objects. Left and right movement. One map each side.
-Array of: people (crowds), thoughts (physical text to banish), dialogue (A vs B branching)
+Try callback functions (closure). Recursive functions. Array of: people (crowds), thoughts (physical text to banish), dialogue (A vs B branching)
 Decision game RPG, 10 years gaps, Ally's life skills (money, love, experience, confidence, morality, skill)
 Tutorial scene, depression or schizophrenia bar mechanic in each scene -- starts to see psychedelic stuff or
 blurry/pixelated version of scene when full until game over.

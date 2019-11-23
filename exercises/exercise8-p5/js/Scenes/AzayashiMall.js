@@ -11,29 +11,27 @@ class AzayashiMall extends State {
       this.tag = "AzayashiMall";
     }
     updateState() {
-      decayMemory();
-    }
-    /**
-      decayMemory()
-      @no custom args.
-      @Uses filter effects to induce a decay effect on displayed
-      text, image and "UI".
-    */
-    decayMemory() {
-      textFont(zeyadaType);
-      // Decay effect using blur, gray and dilate filters.
-      push();
-      filter(BLUR);
-      filter(GRAY);
-      filter(DILATE);
-      pop();
 
-      // State text
-      push();
-      textSize(60);
-      fill(0);
-      textSize(42);
-      text("This is my Allison.\nShe was... four years\nold at the time.", width/1.44, 600);
-      pop();
     }
+    updateClicks() {
+      if(mouseOverUIButton()) {
+        clickedOnMenuButton = !clickedOnMenuButton;
+        if(clickedOnMenuButton) {
+          // UI text prompt
+          if(numberOfClicksOverPortrait <= 3) {
+            message = "Find out what happened to your parents.";
+          }
+          else if(numberOfClicksOverPortrait <= 6) {
+            message = "Keep trying.";
+          }
+          createContextMenu(message);
+        }
+        else {
+          contextMenuDisplayed = false;
+        }
+        if(!contextMenuDisplayed) {
+          clearContextMenu();
+        }
+      }  
+    }  
 }

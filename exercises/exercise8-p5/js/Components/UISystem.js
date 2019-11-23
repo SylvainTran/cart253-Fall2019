@@ -6,15 +6,14 @@
   @Displays the UI images provided at the specified x, y positions.
 */
 class UISystem extends StateSystem {
-  constructor(states, UILayer) {
-    super(states, UILayer)
+  constructor(states, UILayer, stateConfig) {
+    super(states, UILayer, stateConfig)
     this.contextMenuDisplayed = false;
   }
 
   updateStateUI() {
     this.updateUI();
     this.updatePsyInstructions();
-    this.updateClickCounter();
   }
 
   updateUI() {
@@ -50,19 +49,6 @@ class UISystem extends StateSystem {
     this.UILayer.textSize(25);
     this.UILayer.fill(255);
     this.UILayer.text(message, openContextMenuButtonX - 295, openContextMenuButtonHeight + 50);
-    this.UILayer.pop();
-  }
-
-  /**
-    updateClickCounter()
-    @arg: none.
-    @Displays the click counter for this state. TODO pass parameters for other scenes.
-  */
-  updateClickCounter() {
-    this.UILayer.push();
-    this.UILayer.textSize(42);
-    this.UILayer.fill(255);
-    this.UILayer.text("Number of recalls: " + this.states[this.currentStateTag].numberOfClicksOverPortrait, 100, 50);
     this.UILayer.pop();
   }
 }

@@ -7,18 +7,15 @@
   @Changes scenes.
 */
 class StateSystem {
-  constructor(states, UILayer, stateConfig) {
+  constructor(states, UILayer) {
     this.states = states;
     this.UILayer = UILayer;
-    this.stateConfig = stateConfig;
     this.currentStateTag = "Introduction";
+    this.previousStateTag = "Tutorial";
+    this.nextStateTag = "";
     this.maxScenes = 2;
     this.numberOfClicksOverPortrait = 0;    
     console.log("StateSystem created.");
-    console.log(this.getStateConfig());
-  }
-  getStateConfig() {
-    return this.stateConfig;
   }
   /**
     createSubSystems()
@@ -26,8 +23,9 @@ class StateSystem {
     @Creates the UISystem, StatesParticles and StateInteractor subsystems.
   */   
   createSubSystems() {
-    this.UISystem = new UISystem(this.states, this.UILayer, this.stateConfig);    
-    this.StateParticles = new StateParticles(this.states, this.UILayer, this.stateConfig);
+    this.UISystem = new UISystem(this.states, this.UILayer);    
+    this.StateParticles = new StateParticles(this.states);
+    this.StateInteractors = new StateInteractors(this.states);
   }
   /**
     updateSystems()
@@ -35,24 +33,20 @@ class StateSystem {
     @Updates the UISystem and the StateParticles subsystems.
   */  
   updateSystems() {
-    // Update the current state based on the current state tag
-    this.checkCurrentSceneTag();    
-    this.UISystem.updateStateUI();
-    this.StateParticles.updateParticles();
-    console.log("Updated systems");
+    this.UISystem.updateStateUI(this.currentStateTag);
+    this.StateParticles.updateParticles(this.currentStateTag);
   }
-
-  checkCurrentSceneTag() {
-    //For each key in the object stateConfig, check their tag
-    for(let i = 0; i <= Object.keys(this.stateConfig).length; i++) {
-      alert("going through loop");
-      let val = this.stateConfig[i];
-      console.log(val);
-      if(this.stateConfig[val].currentState === true) {
-        alert(this.stateConfig[val].stateTag);
-      }
+  /**
+    changeState()
+    @args: none.
+    @Changes state if the StateInteractor returned a scene change event.
+  */
+  changeState() {
+    if(this.StateInteractors.updateInteractors()){
+      this.states[this.currentStateTag].updateState();
     }
   }
+
   /**
     updateClickCounter()
     @arg: none.

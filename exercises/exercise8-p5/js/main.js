@@ -45,7 +45,7 @@ let rightKeyPressed = 0;
   @Preload images and sounds needed.
 */
 function preload() {
-  allison = loadImage("assets/images/Allison-0001_c1.png");
+  allison = loadImage("assets/images/duckguy.jpg");
   zeyadaType = loadFont("assets/fonts/Zeyada-Regular.ttf");
   stateConfig = loadJSON("data/states/stateConfig.json");
   stateData0 = loadJSON("data/states/stateData/stateData0.json");
@@ -68,10 +68,9 @@ function setup() {
   UILayer = createGraphics(1000, 200);
   states =
   {
-    "AzayashiMall": new AzayashiMall(stateConfig, stateData0)
+    "Introduction": new Introduction(stateConfig, stateData2)
   };
-  console.log(states);
-  StateSystem = new StateSystem(states, UILayer);
+  StateSystem = new StateSystem(states, UILayer, stateConfig);
   StateSystem.createSubSystems();
   displayPortrait(allison);
 }
@@ -82,38 +81,7 @@ function setup() {
   @Render each frame.
 */
 function draw() {
-  // Display the elements of the UI
-  //displayUI();
   StateSystem.updateSystems();
-  if(currentState === "introduction") {
-    //decayMemory();
-    //updateClickCounter();
-    if(numberOfClicksOverPortrait >= 6) {
-      currentState = "AzayashiMall";
-      push();
-      background(0);
-      fill(255);
-      textSize(42);
-      text("I was at the mall.", width/1.5, height/2);
-      pop();
-      resetNumberOfClicks(); // Reset the number of clicks for the next state
-    }
-  }
-  else if(currentState === "AzayashiMall" && readyState) {
-    background(255);
-    push();
-    fill(0, 0, 0);
-    rect(width/2, height/2, 300, 300);
-    pop();
-    displayPortrait(allison);
-    push();
-    fill(255);
-    textSize(42);
-    text("Click the mall's door to continue.", width/2,height/2);
-    pop();
-  }
-
-  // Render the UI layer
   image(UILayer,0,0,1000,200);
 }
 
@@ -123,85 +91,7 @@ function draw() {
   @Listens to mouse presses on canvas.
 */
 function mousePressed() {
-  if(currentState === "introduction") {
-    if(mouseOverPortrait()) {
-      contextMenuDisplayed = false;
-      ++numberOfClicksOverPortrait;
-      console.log("Number of clicks: " + numberOfClicksOverPortrait);
-      push();
-      clear();
-      console.log("Clicking over portrait.");
-      imageMode(CENTER);
-      image(allison, 300, 540, allison.width, allison.height);
-      pop();
-    }
-    if(mouseOverUIButton()) {
-      console.log("Clicking over menu button.");
-      clickedOnMenuButton = !clickedOnMenuButton;
-      if(clickedOnMenuButton) {
-        // UI text prompt
-        if(numberOfClicksOverPortrait <= 3) {
-          message = "Keep clicking on the picture to recall\nthe memory.";
-        }
-        else if(numberOfClicksOverPortrait <= 6) {
-          message = "That's good. You're doing great.";
-        }
-        createContextMenu(message);
-      }
-    }
-    else {
-      contextMenuDisplayed = false;
-    }
-    if(!contextMenuDisplayed) {
-      clearContextMenu();
-    }
-  }
-  else if(currentState === "AzayashiMall") {
-    readyState = true;
-    if(mouseOverUIButton()) {
-      clickedOnMenuButton = !clickedOnMenuButton;
-      if(clickedOnMenuButton) {
-        // UI text prompt
-        if(numberOfClicksOverPortrait <= 3) {
-          message = "Find out what happened to your parents.";
-        }
-        else if(numberOfClicksOverPortrait <= 6) {
-          message = "Keep trying.";
-        }
-        createContextMenu(message);
-      }
-      else {
-        contextMenuDisplayed = false;
-      }
-      if(!contextMenuDisplayed) {
-        clearContextMenu();
-      }
-    }
-  }
-}
-
-/**
-  decayMemory()
-  @no custom args.
-  @Uses filter effects to induce a decay effect on displayed
-  text, image and "UI".
-*/
-function decayMemory() {
-  textFont(zeyadaType);
-  // Decay effect using blur, gray and dilate filters.
-  push();
-  filter(BLUR);
-  filter(GRAY);
-  filter(DILATE);
-  pop();
-
-  // State text
-  push();
-  textSize(60);
-  fill(0);
-  textSize(42);
-  text("This is my Allison.\nShe was... four years\nold at the time.", width/1.44, 600);
-  pop();
+  StateSystem.states[StateSystem.currentStateTag].updateState();
 }
 
 /**
@@ -253,29 +143,6 @@ function displayPortrait(character) {
 }
 
 /**
-  displayUI()
-  @args: none.
-
-  @Displays the UI images provided at the specified x, y positions.
-*/
-function displayUI() {
-  UILayer.push();
-  // The UI at the top.
-  UILayer.fill(0);
-  UILayer.rect(0,0,width,100);
-  UILayer.fill(64,224,208);
-  UILayer.rect(width-150,0,150,100);
-  UILayer.pop();
-
-  // Psychologist's Instructions
-  UILayer.push();
-  UILayer.fill(0);
-  UILayer.textSize(25);
-  UILayer.text("Instructions", openContextMenuButtonX + 10, 50);
-  UILayer.pop();
-}
-
-/**
   createContextMenu()
   @arg: message.
     The string to be passed as the first argument of text().
@@ -289,19 +156,6 @@ function createContextMenu(message) {
   UILayer.textSize(25);
   UILayer.fill(255);
   UILayer.text(message, openContextMenuButtonX - 295, openContextMenuButtonHeight + 50);
-  UILayer.pop();
-}
-
-/**
-  updateClickCounter()
-  @arg: none.
-  @Displays the click counter for this state. TODO pass parameters for other scenes.
-*/
-function updateClickCounter() {
-  UILayer.push();
-  UILayer.textSize(42);
-  UILayer.fill(255);
-  UILayer.text("Number of recalls: " + numberOfClicksOverPortrait, 100, 50);
   UILayer.pop();
 }
 
