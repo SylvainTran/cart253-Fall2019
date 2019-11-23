@@ -8,7 +8,10 @@
 class UISystem extends StateSystem {
   constructor(states, UILayer, stateConfig) {
     super(states, UILayer, stateConfig)
+    this.clickedOnMenuButton = false; // Whether the menu button was clicked in any state.
     this.contextMenuDisplayed = false;
+    this.openContextMenuButtonX = 850;
+    this.openContextMenuButtonHeight = 100;
   }
 
   updateStateUI() {
@@ -16,9 +19,9 @@ class UISystem extends StateSystem {
     this.updatePsyInstructions();
   }
 
+  // The UI at the top.
   updateUI() {
     this.UILayer.push();
-    // The UI at the top.
     this.UILayer.fill(0);
     this.UILayer.rect(0,0,width,100);
     this.UILayer.fill(64,224,208);
@@ -31,7 +34,7 @@ class UISystem extends StateSystem {
     this.UILayer.push();
     this.UILayer.fill(0);
     this.UILayer.textSize(25);
-    this.UILayer.text("Instructions", openContextMenuButtonX + 10, 50);
+    this.UILayer.text("Instructions", this.openContextMenuButtonX + 10, 50);
     this.UILayer.pop();
   }
 
@@ -45,10 +48,77 @@ class UISystem extends StateSystem {
     this.contextMenuDisplayed = true;
     this.UILayer.push();
     this.UILayer.fill(0);
-    this.UILayer.rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 200);
+    this.UILayer.rect(this.openContextMenuButtonX - 300, this.openContextMenuButtonHeight, 600, 200);
     this.UILayer.textSize(25);
     this.UILayer.fill(255);
-    this.UILayer.text(message, openContextMenuButtonX - 295, openContextMenuButtonHeight + 50);
+    this.UILayer.text(message, this.openContextMenuButtonX - 295, this.openContextMenuButtonHeight + 50);
     this.UILayer.pop();
+  }
+
+  /**
+    clearContextMenu()
+    @arg: none.
+    @Clears the context menu.
+  */
+  clearContextMenu() {
+    UILayer.push();
+    UILayer.background(255);
+    UILayer.pop();
+  }
+
+  /**
+    mouseOverPortrait()
+    @no custom args.
+    @Checks if the mouse is hovering over the
+    current state's portrait (always fixed position).
+    Returns the state as a result.
+  */
+  mouseOverPortrait() {
+    let state = false;
+    const portraitX = 0 + 300;
+    const portraitY = 250;
+    if(mouseX >= 0 && mouseX <= portraitX + 300 && mouseY >= portraitY && mouseY <= height){
+      state = true;
+    }
+    return state;
+  }
+
+  /**
+    mouseOverUIButton()
+    @no custom args.
+    @Checks if the mouse is hovering over the
+    turquoise UI button at the top right. Returns the
+    state as a result.
+  */
+  mouseOverUIButton() {
+    let state = false;
+    if(mouseX >= this.openContextMenuButtonX && mouseX <= width && mouseY >= 0 && mouseY <= this.openContextMenuButtonHeight){
+      state = true;
+    }
+    return state;
+  }
+
+  /**
+    updateInstructions()
+    @no custom args.
+    @Updates the psychologists' instructions on the button at the top-right. Toggles off and on.
+  */
+  updateInstructions() {
+    console.log("Clicking over menu button.");
+    this.clickedOnMenuButton = !this.clickedOnMenuButton;
+    let message = null;
+    if(this.clickedOnMenuButton) {
+      // UI text prompt
+      if(this.numberOfClicksOverPortrait <= 3) {
+        message = "Keep clicking on the picture to recall\nthe memory.";
+      }
+      else if(numberOfClicksOverPortrait <= 6) {
+        message = "That's good. You're doing great.";
+      }
+      this.createContextMenu(message);
+    }
+    else {
+      this.clearContextMenu();
+    }
   }
 }

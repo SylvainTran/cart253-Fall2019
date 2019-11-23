@@ -17,21 +17,10 @@ let states = {};
 let stateConfig, stateData0, stateData1, stateData2;
 let gameCanvas;
 let zeyadaType;
-//
+
 let allison;
-const openContextMenuButtonX = 850;
-const openContextMenuButtonHeight = 100;
-let clickedOnMenuButton = false;
-// The counter for how many recalls the main character has attempted
-let numberOfClicksOverPortrait = 0;
-// Current State
-let currentState = "introduction";
-// Whether to begin drawing the new state
-let readyState = false;
 // The UI Layer
 let UILayer;
-let contextMenuDisplayed = false;
-let message = null;
 let inputKeys = {
   "LEFT": 37,
   "RIGHT": 39
@@ -68,11 +57,11 @@ function setup() {
   UILayer = createGraphics(1000, 200);
   states =
   {
-    "Introduction": new Introduction(stateConfig, stateData2)
+    "Introduction": new Introduction(stateConfig, stateData2, allison)
   };
-  StateSystem = new StateSystem(states, UILayer, stateConfig);
+  StateSystem = new StateSystem(states, UILayer, stateConfig, allison);
   StateSystem.createSubSystems();
-  displayPortrait(allison);
+  StateSystem.updateSystems();
 }
 
 /**
@@ -88,95 +77,20 @@ function draw() {
 /**
   mousePressed()
   @no custom args (has a default callback arg)
-  @Listens to mouse presses on canvas.
+  @Listens to mouse presses on canvas. Activates the current state's updateClicks() function.
+  This current state should always be up to date due to the StateSystem's own update function.
 */
 function mousePressed() {
-  StateSystem.states[StateSystem.currentStateTag].updateState();
-}
-
-/**
-  mouseOverUIButton()
-  @no custom args.
-  @Checks if the mouse is hovering over the
-  turquoise UI button at the top right. Returns the
-  state as a result.
-*/
-function mouseOverUIButton() {
-  let state = false;
-  if(mouseX >= openContextMenuButtonX && mouseX <= width && mouseY >= 0 && mouseY <= openContextMenuButtonHeight){
-    state = true;
+  if(StateSystem.UISystem.mouseOverPortrait()) {
+    StateSystem.states[StateSystem.currentStateTag].updateClicks();
   }
-  return state;
-}
-
-/**
-  mouseOverPortrait()
-  @no custom args.
-  @Checks if the mouse is hovering over the
-  current state's portrait (always fixed position).
-  Returns the state as a result.
-*/
-function mouseOverPortrait() {
-  let state = false;
-  const portraitX = 0 + 300;
-  const portraitY = 250;
-  if(mouseX >= 0 && mouseX <= portraitX + 300 && mouseY >= portraitY && mouseY <= height){
-    state = true;
+  if(StateSystem.UISystem.mouseOverUIButton()) {
+    StateSystem.UISystem.updateInstructions();
   }
-  return state;
-}
-
-/**
-  displayPortrait()
-  @arg: character
-    The cached image to display.
-  @Displays the character image provided as an argument
-  at the portrait's default x, y positions.
-*/
-function displayPortrait(character) {
-  let portraitDefaultX = 300;
-  let portraitDefaultY = 540;
-  push();
-  imageMode(CENTER);
-  image(character, portraitDefaultX, portraitDefaultY, character.width, character.height);
-  pop();
-}
-
-/**
-  createContextMenu()
-  @arg: message.
-    The string to be passed as the first argument of text().
-  @Displays Displays the context menu at the top.
-*/
-function createContextMenu(message) {
-  contextMenuDisplayed = true;
-  UILayer.push();
-  UILayer.fill(0);
-  UILayer.rect(openContextMenuButtonX - 300, openContextMenuButtonHeight, 600, 200);
-  UILayer.textSize(25);
-  UILayer.fill(255);
-  UILayer.text(message, openContextMenuButtonX - 295, openContextMenuButtonHeight + 50);
-  UILayer.pop();
-}
-
-/**
-  resetNumberOfClicks()
-  @arg: none.
-  @Resets the click counter for this state.
-*/
-function resetNumberOfClicks() {
-  numberOfClicksOverPortrait = 0;
-}
-
-/**
-  clearContextMenu()
-  @arg: none.
-  @Clears the context menu.
-*/
-function clearContextMenu() {
-  UILayer.push();
-  UILayer.background(255);
-  UILayer.pop();
+  else {
+    //StateSystem.UISystem.contextMenuDisplayed = false;
+    StateSystem.UISystem.clearContextMenu();
+  }
 }
 
 /**

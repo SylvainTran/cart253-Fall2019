@@ -26,22 +26,15 @@ class State {
     this.dialogue = stateData.dialogue;
     this.subtitles = stateData.subtitles;
     this.translation = stateData.translation;
+    this.numberOfClicksOverPortrait = 0; // Number of times player has clicked the portrait.
   }
 
   /**
-    mouseOverPortrait()
-    @no custom args.
-    @Checks if the mouse is hovering over the
-    current state's portrait (always fixed position).
-    Returns the state as a result.
+    resetNumberOfClicks()
+    @arg: none.
+    @Resets the click counter for this state.
   */
-  mouseOverPortrait() {
-    let state = false;
-    const portraitX = 0 + 300;
-    const portraitY = 250;
-    if(mouseX >= 0 && mouseX <= portraitX + 300 && mouseY >= portraitY && mouseY <= height){
-      state = true;
-    }
-    return state;
+  resetNumberOfClicks() {
+    this.numberOfClicksOverPortrait = 0;
   }
 }

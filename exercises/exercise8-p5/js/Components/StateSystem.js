@@ -7,11 +7,12 @@
   @Changes scenes.
 */
 class StateSystem {
-  constructor(states, UILayer, stateConfig) {
+  constructor(states, UILayer, stateConfig, characterPortrait) {
     this.states = states;
     this.UILayer = UILayer;
     this.stateConfig = stateConfig;
     this.currentStateTag = "Introduction";
+    this.characterPortrait = characterPortrait;
     this.numberOfClicksOverPortrait = 0;
     console.log("StateSystem created.");
   }
@@ -23,7 +24,7 @@ class StateSystem {
   */
   createSubSystems() {
     this.UISystem = new UISystem(this.states, this.UILayer, this.stateConfig);
-    this.StateParticles = new StateParticles(this.states, this.UILayer, this.stateConfig);
+    this.StateParticles = new StateParticles(this.states, this.UILayer, this.stateConfig, this.characterPortrait);
   }
 
   /**
@@ -39,7 +40,7 @@ class StateSystem {
 
   /**
     checkCurrentStateTag()
-    @args: stateConfig.
+    @args: none.
       Contains the state config objects to check for the status of states.
     @Returns the currentState by looping through the stateConfig.
   */

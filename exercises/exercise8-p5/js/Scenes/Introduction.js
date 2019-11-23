@@ -6,17 +6,18 @@
   @Updates the scene with the provided map.
 */
 class Introduction extends State {
-    constructor(stateConfig, stateData) {
+    constructor(stateConfig, stateData, characterPortrait) {
       super(stateConfig, stateData);
-      this.tag = "Introduction";
-      this.numberOfClicksOverPortrait = 0; // Number of times player has clicked the portrait.
+      this.characterPortrait = characterPortrait;
     }
+    
     updateState() {
       this.decayMemory();
+      console.log(this.numberOfClicksOverPortrait);
       if(this.numberOfClicksOverPortrait > 6) {
-
       }
     }
+
     /**
       decayMemory()
       @no custom args.
@@ -33,36 +34,14 @@ class Introduction extends State {
       pop();
     }
     updateClicks() {
-      if(mouseOverPortrait()) {
-        contextMenuDisplayed = false;
-        ++numberOfClicksOverPortrait;
-        console.log("Number of clicks: " + numberOfClicksOverPortrait);
-        push();
-        clear();
-        console.log("Clicking over portrait.");
-        imageMode(CENTER);
-        image(allison, 300, 540, allison.width, allison.height);
-        pop();
-      }
-      if(mouseOverUIButton()) {
-        console.log("Clicking over menu button.");
-        clickedOnMenuButton = !clickedOnMenuButton;
-        if(clickedOnMenuButton) {
-          // UI text prompt
-          if(numberOfClicksOverPortrait <= 3) {
-            message = "Keep clicking on the picture to recall\nthe memory.";
-          }
-          else if(numberOfClicksOverPortrait <= 6) {
-            message = "That's good. You're doing great.";
-          }
-          createContextMenu(message);
-        }
-      }
-      else {
-        contextMenuDisplayed = false;
-      }
-      if(!contextMenuDisplayed) {
-        clearContextMenu();
-      }
+      this.contextMenuDisplayed = false;
+      ++this.numberOfClicksOverPortrait;
+      console.log("Number of clicks: " + this.numberOfClicksOverPortrait);
+      push();
+
+      clear(); // Resets the memory decay effect to visualize what it means to "recall".
+      imageMode(CENTER);
+      image(this.characterPortrait, 300, 540, this.characterPortrait.width, this.characterPortrait.height);
+      pop();
     }
 }

@@ -8,8 +8,8 @@
   the processed output.
 */
 class StateParticles extends StateSystem {
-  constructor(states, UILayer, stateConfig) {
-    super(states, UILayer, stateConfig);
+  constructor(states, UILayer, stateConfig, characterPortrait) {
+    super(states, UILayer, stateConfig, characterPortrait);
     console.log("StateParticles created.");
   }
   /**
@@ -24,6 +24,7 @@ class StateParticles extends StateSystem {
     this.updateBackground(currentState);
     this.updateText(currentState);
     this.updateSpecialState(currentState);
+    //this.displayPortrait();
   }
   updateBackground(currentState) {
     push();
@@ -39,6 +40,21 @@ class StateParticles extends StateSystem {
   }
   updateSpecialState(currentState) {
     this.states[currentState].updateState();
+  }
+  /**
+    displayPortrait()
+    @arg: character
+      The cached image to display.
+    @Displays the character image provided as an argument
+    at the portrait's default x, y positions.
+  */
+  displayPortrait() {
+    let portraitDefaultX = 300;
+    let portraitDefaultY = 540;
+    push();
+    imageMode(CENTER);
+    image(this.characterPortrait, portraitDefaultX, portraitDefaultY, this.characterPortrait.width, this.characterPortrait.height);
+    pop();
   }
   /**
     Takes an array of strings and calculate the average length of all the entries.
