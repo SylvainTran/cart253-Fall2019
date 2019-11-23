@@ -54,6 +54,7 @@ function setup() {
   UILayer = createGraphics(1000, 200);
   states =
   {
+    "Tutorial": new Tutorial(stateConfig, stateData1, allison),    
     "Introduction": new Introduction(stateConfig, stateData2, allison)
   };
   StateSystem = new StateSystem(states, UILayer, stateConfig, allison);

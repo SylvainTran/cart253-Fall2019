@@ -11,6 +11,7 @@
 class State {
   constructor(stateConfig, stateData){
     this.stateConfig = stateConfig; // A reference to the original state data file.
+    this.stateData = stateData;
     // Making sure all extended states get are initialized with these properties.
     // These properties are only static elements (non-interactible or non-mobile)
     this.stateIndex = stateConfig.stateIndex;

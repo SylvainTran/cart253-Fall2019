@@ -12,7 +12,7 @@ class StateSystem {
     this.states = states;
     this.UILayer = UILayer;
     this.stateConfig = stateConfig;
-    this.currentStateTag = "Introduction";
+    this.currentStateTag = "Tutorial";
     this.characterPortrait = characterPortrait;
     this.numberOfClicksOverPortrait = 0;
     console.log("StateSystem created.");
