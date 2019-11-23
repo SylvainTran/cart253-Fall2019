@@ -37,7 +37,6 @@ class StateSystem {
   updateSystems() {
     this.UISystem.updateStateUI();
     this.StateParticles.updateParticles(this.checkCurrentStateTag);
-    this.states[this.currentStateTag].updateState();
   }
 
   /**

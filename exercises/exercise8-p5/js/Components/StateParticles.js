@@ -45,6 +45,7 @@ class StateParticles extends StateSystem {
   updateSpecialState(currentState) {
     this.states[currentState].updateState();
   }
+
   /**
     displayPortrait()
     @arg: character
@@ -60,6 +61,7 @@ class StateParticles extends StateSystem {
     image(this.characterPortrait, portraitDefaultX, portraitDefaultY, this.characterPortrait.width, this.characterPortrait.height);
     pop();
   }
+
   /**
     Takes an array of strings and calculate the average length of all the entries.
 

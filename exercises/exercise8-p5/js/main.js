@@ -17,9 +17,7 @@ let states = {};
 let stateConfig, stateData0, stateData1, stateData2;
 let gameCanvas;
 let zeyadaType;
-
 let allison;
-// The UI Layer
 let UILayer;
 let inputKeys = {
   "LEFT": 37,
@@ -27,7 +25,6 @@ let inputKeys = {
 };
 let leftKeyPressed = 0;
 let rightKeyPressed = 0;
-let numberOfClicksOverPortrait = 0;
 /**
   preload()
   @no custom args.
