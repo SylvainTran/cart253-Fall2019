@@ -14,27 +14,31 @@ class StateParticles extends StateSystem {
   }
   /**
     updateParticles()
-    @constructor args: currentStateTag
-      The string variable of the current state tag passed by the StateSystem.
-    @Takes in the currentStateTag and updates the visuals to render
-    on screen accordingly in the states object.
+    @constructor args: checkCurrentStateTag
+      The string variable of the current state tag returned by the callback function.
+    @Takes in the callback function checkCurrentStateTag(stateConfig) and gets the currentState while using closure.
+    Updates the visuals to render on screen the currentState's defined settings.
   */
-  updateParticles() {
-    //this.updateBackground(currentStateTag);
-    //this.updateText(currentStateTag);
+  updateParticles(checkCurrentStateTag) {
+    let currentState = checkCurrentStateTag();
+    this.updateBackground(currentState);
+    this.updateText(currentState);
+    this.updateSpecialState(currentState);
   }
-  updateBackground(currentStateTag) {
+  updateBackground(currentState) {
     push();
-    console.log(currentStateTag);
-    background(this.states[currentStateTag].bgColor);
+    background(this.states[currentState].bgColor);
     pop();
   }
-  updateText(currentStateTag) {
+  updateText(currentState) {
     push();
-    fill(this.states[currentStateTag].textColor);
-    textSize(this.states[currentStateTag].tSize);
-    text(this.states[currentStateTag].narration, this.states[currentStateTag].narrationPosX, this.states[currentStateTag].narrationPosY);
+    fill(this.states[currentState].textColor);
+    textSize(this.states[currentState].tSize);
+    text(this.states[currentState].narration, this.states[currentState].narrationPosX, this.states[currentState].narrationPosY);
     pop();
+  }
+  updateSpecialState(currentState) {
+    this.states[currentState].updateState();
   }
   /**
     Takes an array of strings and calculate the average length of all the entries.

@@ -12,47 +12,53 @@ class StateSystem {
     this.UILayer = UILayer;
     this.stateConfig = stateConfig;
     this.currentStateTag = "Introduction";
-    this.maxScenes = 2;
-    this.numberOfClicksOverPortrait = 0;    
+    this.numberOfClicksOverPortrait = 0;
     console.log("StateSystem created.");
-    console.log(this.getStateConfig());
   }
-  getStateConfig() {
-    return this.stateConfig;
-  }
+
   /**
     createSubSystems()
     @args: none.
     @Creates the UISystem, StatesParticles and StateInteractor subsystems.
-  */   
+  */
   createSubSystems() {
-    this.UISystem = new UISystem(this.states, this.UILayer, this.stateConfig);    
+    this.UISystem = new UISystem(this.states, this.UILayer, this.stateConfig);
     this.StateParticles = new StateParticles(this.states, this.UILayer, this.stateConfig);
   }
+
   /**
     updateSystems()
     @args: none.
-    @Updates the UISystem and the StateParticles subsystems.
-  */  
+    @Updates the UISystem and the StateParticles subsystems using a callback function, i.e., using closure
+    on the checkCurrentStateTag(stateConfig) method for the stateConfig.
+  */
   updateSystems() {
-    // Update the current state based on the current state tag
-    this.checkCurrentSceneTag();    
     this.UISystem.updateStateUI();
-    this.StateParticles.updateParticles();
-    console.log("Updated systems");
+    this.StateParticles.updateParticles(this.checkCurrentStateTag);
   }
 
-  checkCurrentSceneTag() {
-    //For each key in the object stateConfig, check their tag
-    for(let i = 0; i <= Object.keys(this.stateConfig).length; i++) {
-      alert("going through loop");
-      let val = this.stateConfig[i];
-      console.log(val);
-      if(this.stateConfig[val].currentState === true) {
-        alert(this.stateConfig[val].stateTag);
+  /**
+    checkCurrentStateTag()
+    @args: stateConfig.
+      Contains the state config objects to check for the status of states.
+    @Returns the currentState by looping through the stateConfig.
+  */
+  checkCurrentStateTag() {
+    let currentState = null;
+    for(let i = 0; i < Object.keys(stateConfig).length; i++)
+    {
+      for (var state in stateConfig)
+      {
+        if(stateConfig[state].currentState === "true")
+        {
+            //&& stateConfig[state].stateTag !== this.currentStateTag
+            currentState = state;
+        }
       }
     }
+    return currentState;
   }
+
   /**
     updateClickCounter()
     @arg: none.

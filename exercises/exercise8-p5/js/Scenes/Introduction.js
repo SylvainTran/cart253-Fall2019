@@ -14,7 +14,7 @@ class Introduction extends State {
     updateState() {
       this.decayMemory();
       if(this.numberOfClicksOverPortrait > 6) {
-        
+
       }
     }
     /**
@@ -30,14 +30,6 @@ class Introduction extends State {
       filter(BLUR);
       filter(GRAY);
       filter(DILATE);
-      pop();
-
-      // State text
-      push();
-      textSize(60);
-      fill(0);
-      textSize(42);
-      text("This is my Allison.\nShe was... four years\nold at the time.", width/1.44, 600);
       pop();
     }
     updateClicks() {
@@ -72,5 +64,5 @@ class Introduction extends State {
       if(!contextMenuDisplayed) {
         clearContextMenu();
       }
-    }    
+    }
 }

@@ -87,7 +87,7 @@ function draw() {
 
 /**
   mousePressed()
-  @no custom args (has a default event arg)
+  @no custom args (has a default callback arg)
   @Listens to mouse presses on canvas.
 */
 function mousePressed() {
