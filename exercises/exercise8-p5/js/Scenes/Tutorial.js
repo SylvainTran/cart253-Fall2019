@@ -12,10 +12,6 @@ class Tutorial extends State {
   }
   updateState() {
     this.updateText();
-    if(mouseIsPressed) {
-      alert("Changing scene");
-      this.readyToChangeState = true;
-    }
   }
 
   /**
@@ -26,7 +22,8 @@ class Tutorial extends State {
   */
   updateClicks(updateClickCounter) {
     this.contextMenuDisplayed = false;
-  }  
+    this.readyToChangeState = true;
+  }
 
   updateText() {
     const specialNarrationLineSpacing = 100;
@@ -60,6 +57,6 @@ class Tutorial extends State {
       textSize(this.stateData.dialogueTSize);
       text(this.stateData.dialogue[j], this.stateData.dialoguePosX, dialoguePosY);
       pop();
-    }    
+    }
   }
 }

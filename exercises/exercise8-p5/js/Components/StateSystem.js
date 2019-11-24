@@ -50,7 +50,14 @@ class StateSystem {
     // Check the current active state
     // See if the boolean variable flag "readyToChangeState" is true
     // If so, update the currentState flags' values (this one and the next state)
-    this.states[this.currentStateTag].readyToChangeState ? this.stateConfig.currentStateTag.currentState = false : this.stateConfig[this.nextStateTag].currentState = true;
+    console.log(this.stateConfig[this.nextStateTag].currentState);
+    if(this.states[this.currentStateTag].readyToChangeState === true) {
+      this.states[this.currentStateTag].readyToChangeState = false;
+      this.stateConfig[this.currentStateTag].currentState = "false";
+      this.stateConfig[this.nextStateTag].currentState = "true";
+      this.currentStateTag = this.stateConfig[this.nextStateTag].stateTag;
+      //this.nextStateTag = this.stateConfig[this.nextStateTag.nextStateTag].stateTag;        
+    }
   }
 
   /**
@@ -72,6 +79,7 @@ class StateSystem {
         }
       }
     }
+    console.log(currentState);
     return currentState;
   }
 }

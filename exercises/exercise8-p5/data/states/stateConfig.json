@@ -3,18 +3,21 @@
     "stateIndex": 0,
     "stateTag": "MainMenu",
     "textObjectPath": "data/states/stateData/stateData0.json",
-    "currentState": "false"
+    "currentState": "false",
+    "readyToChangeState": "false"
   },
   "Tutorial": {
     "stateIndex": 1,
     "stateTag": "Tutorial",
     "textObjectPath": "data/states/stateData/stateData1.json",
-    "currentState": "true"
+    "currentState": "true",
+    "readyToChangeState": "false"
   },
   "Introduction": {
     "stateIndex": 2,
     "stateTag": "Introduction",
     "textObjectPath": "data/states/stateData/stateData2.json",
-    "currentState": "false"
+    "currentState": "false",
+    "readyToChangeState": "false"
   }
 }
