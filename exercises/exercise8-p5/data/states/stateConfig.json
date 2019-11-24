@@ -9,12 +9,12 @@
     "stateIndex": 1,
     "stateTag": "Tutorial",
     "textObjectPath": "data/states/stateData/stateData1.json",
-    "currentState": "false"
+    "currentState": "true"
   },
   "Introduction": {
     "stateIndex": 2,
     "stateTag": "Introduction",
     "textObjectPath": "data/states/stateData/stateData2.json",
-    "currentState": "true"
+    "currentState": "false"
   }
 }

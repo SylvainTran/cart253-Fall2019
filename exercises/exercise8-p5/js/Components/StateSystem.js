@@ -12,7 +12,8 @@ class StateSystem {
     this.states = states;
     this.UILayer = UILayer;
     this.stateConfig = stateConfig;
-    this.currentStateTag = "Introduction";
+    this.currentStateTag = "Tutorial";
+    this.nextStateTag = "Introduction";
     this.characterPortrait = characterPortrait;
     this.numberOfClicksOverPortrait = 0;
     console.log("StateSystem created.");
@@ -35,8 +36,21 @@ class StateSystem {
     on the checkCurrentStateTag(stateConfig) method for the stateConfig.
   */
   updateSystems() {
+    this.updateCurrentStateTag();
     this.UISystem.updateStateUI();
     this.StateParticles.updateParticles(this.checkCurrentStateTag);
+  }
+
+  /**
+    updateCurrentStateTag()
+    @args: none.
+      @Updates the current state tag depending on in-state behaviours.
+  */
+  updateCurrentStateTag() {
+    // Check the current active state
+    // See if the boolean variable flag "readyToChangeState" is true
+    // If so, update the currentState flags' values (this one and the next state)
+    this.states[this.currentStateTag].readyToChangeState ? this.stateConfig.currentStateTag.currentState = false : this.stateConfig[this.nextStateTag].currentState = true;
   }
 
   /**

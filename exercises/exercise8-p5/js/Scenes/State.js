@@ -11,6 +11,7 @@
 class State {
   constructor(stateConfig, stateData){
     this.stateConfig = stateConfig; // A reference to the original state data file.
+    this.stateData = stateData;
     // Making sure all extended states get are initialized with these properties.
     // These properties are only static elements (non-interactible or non-mobile)
     this.stateIndex = stateConfig.stateIndex;
@@ -27,6 +28,7 @@ class State {
     this.subtitles = stateData.subtitles;
     this.translation = stateData.translation;
     this.numberOfClicksOverPortrait = 0; // Number of times player has clicked the portrait.
+    this.readyToChangeState = false; // The flag that says this state is ready to change to the next one, depending on in-state player behaviours
   }
 
   /**
