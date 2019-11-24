@@ -13,6 +13,9 @@ Decision game RPG, 10 years gaps, Ally's life skills (money, love, experience, c
 Tutorial scene, depression or schizophrenia bar mechanic in each scene -- starts to see psychedelic stuff or
 blurry/pixelated version of scene when full until game over.
 
+23-11-2019: Implement the change scene condition for each state in the StateSystem and configFile.
+23-11-2019: Implement a mouseX, mouseY check to display different text "thoughts" around the visual elements of a state.
+
 Pitch:
 ++Player can drag stuff and shove it down our character Allison, who is
 basically living the years of her life. This is a slice of life game. (No)
