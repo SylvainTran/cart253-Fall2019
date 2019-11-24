@@ -14,6 +14,7 @@ class Tutorial extends State {
     this.updateText();
     if(mouseIsPressed) {
       alert("Changing scene");
+      this.readyToChangeState = true;
     }
   }
 

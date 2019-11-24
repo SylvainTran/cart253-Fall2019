@@ -28,6 +28,7 @@ class State {
     this.subtitles = stateData.subtitles;
     this.translation = stateData.translation;
     this.numberOfClicksOverPortrait = 0; // Number of times player has clicked the portrait.
+    this.readyToChangeState = false; // The flag that says this state is ready to change to the next one, depending on in-state player behaviours
   }
 
   /**
