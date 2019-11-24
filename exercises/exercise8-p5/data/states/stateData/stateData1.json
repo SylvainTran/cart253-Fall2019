@@ -9,7 +9,7 @@
   "narrationPosX": 100,
   "narrationPosY": 333,
   "narration": ["Tutorial."],
-  "specialNarration": ["In this game, you follow Allison as she recalls life events in a special\ntherapy from age four to seventy-four.", "Use the mouse/touch to choose options on screen. Use the mouse to sweep Allison's\nthoughts and keep those that you want her to keep in that slice of life.", "Choose carefully and see a different ending.", "Click anywhere to continue."],
+"specialNarration": ["In this game, you follow Allison as she recalls life events in a special\ntherapy from age four to seventy-four.", "Hold any key to hold an opposite thought pattern in Ally's mind, filling the Slice\nof Life Bar at that age of Allison's life.", "This will direct her towards certain life choices.", "Use the mouse to sweep Allison's\nthoughts and keep those that you want her to keep in that slice of life.", "Choose carefully and see a different ending.", "Click anywhere to continue."],
   "specialNarrationPosX": 100,
   "specialNarrationPosY": 333,
   "startButton": "\"Start Therapy.\"",

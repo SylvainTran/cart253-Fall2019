@@ -50,9 +50,9 @@ class Introduction extends State {
     spawnMentalSchemas() {
       // Instructions
       push();
-      fill(255, 0, 0);
+      fill(0, 255, 255);
       textSize(42);
-      text("Hold any key down to choose another thought for Allison.", 50, 250);
+      text("Game Psychologist: Try holding any key down.\nKeep doing it.", 50, 250);
       pop();
 
       push();
