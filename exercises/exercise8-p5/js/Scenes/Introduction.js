@@ -18,6 +18,8 @@ class Introduction extends State {
     */
     updateState() {
       this.decayMemory();
+      this.spawnMentalSchemas();
+      //if > 6 triggerReadyToChangeState
     }
 
     /**
@@ -34,6 +36,46 @@ class Introduction extends State {
       filter(GRAY);
       filter(DILATE);
       pop();
+    }
+
+    /**
+      spawnMentalSchemas()
+      @arg:
+      @spawn allison's thoughts (stored in an array) in random coordinates to create a mental map.
+        also known as a mental schema or script.
+      @allows the player to redirect their x-y values towards the portrait.
+        The positive or negative thoughts that touch her will be the life choice of that slice of life.
+        Output should be displayed in the life bar skills.
+    */
+    spawnMentalSchemas() {
+      // Instructions
+      push();
+      fill(255, 0, 0);
+      textSize(42);
+      text("Hold any key down to choose another thought for Allison.", 50, 250);
+      pop();
+
+      push();
+      fill(0);
+      textSize(42);
+      // TODO replace with array of different positive or negative thoughts
+      text("I am different", random(width/2, width), random(height/2, height));
+      pop();
+      // Hold any key down to think about the opposite
+      if(keyIsPressed) {
+        push();
+        fill(0, 255, 0);
+        textSize(42);
+        text("No, I'm just like the other kids", mouseX - 250, mouseY);
+        pop();
+      }
+      else {
+        push();
+        fill(255, 0, 0);
+        textSize(42);
+        text("I really am different than the other kids", mouseX - 250, mouseY);
+        pop();
+      }
     }
 
     /**

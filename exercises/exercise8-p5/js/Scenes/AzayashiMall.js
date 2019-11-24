@@ -10,28 +10,23 @@ class AzayashiMall extends State {
       super(stateConfig, stateData);
       this.tag = "AzayashiMall";
     }
+
+    /**
+      updateState()
+      @no custom args.
+      @Updates this state.
+    */
     updateState() {
 
     }
-    updateClicks() {
-      if(mouseOverUIButton()) {
-        clickedOnMenuButton = !clickedOnMenuButton;
-        if(clickedOnMenuButton) {
-          // UI text prompt
-          if(numberOfClicksOverPortrait <= 3) {
-            message = "Find out what happened to your parents.";
-          }
-          else if(numberOfClicksOverPortrait <= 6) {
-            message = "Keep trying.";
-          }
-          createContextMenu(message);
-        }
-        else {
-          contextMenuDisplayed = false;
-        }
-        if(!contextMenuDisplayed) {
-          clearContextMenu();
-        }
-      }  
-    }  
+
+    /**
+      updateClicks()
+      @arg: updateClickCounter.
+        callbacks the function updateClickCounter in the UISystem after this is done.
+      @Listens to mousePressed in main.js.
+    */
+    updateClicks(updateClickCounter) {
+
+    }
 }

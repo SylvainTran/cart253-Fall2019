@@ -28,6 +28,23 @@ class UISystem extends StateSystem {
     this.UILayer.fill(64,224,208);
     this.UILayer.rect(width-150,0,150,100);
     this.UILayer.pop();
+
+    // Spawn self-perception bar
+    this.UILayer.push();
+    this.UILayer.fill(255);
+    this.UILayer.rect(0, 75, width, 50);
+    this.UILayer.pop();
+
+    this.UILayer.push();
+    this.UILayer.fill(0, 255, 0);
+    this.UILayer.rect(0, 75, width - 500, 50);
+    this.UILayer.pop();
+
+    this.UILayer.push();
+    this.UILayer.textSize(42);
+    this.UILayer.fill(255, 0, 255);
+    this.UILayer.text("Slice-of-Life Result At 4 Years Old", 200, 115);
+    this.UILayer.pop();
   }
 
   updatePsyInstructions() {
@@ -100,12 +117,63 @@ class UISystem extends StateSystem {
   }
 
   /**
-    updateInstructions()
+    updateStateInstructions()
     @no custom args.
     @Called by mousePressed() in main.js if the click was on the instructions button.
-    Updates the psychologists' instructions on the button at the top-right. Toggles off and on.
+    Updates the psychologists' instructions on the button at the top-right as per state.
   */
-  updateInstructions() {
+  updateStateInstructions() {
+    console.log(this.currentStateTag);
+    switch(this.currentStateTag) {
+      case "Tutorial":
+        this.updateIntroInstructions();
+        break;
+      case "Introduction":
+        this.updateIntroInstructions();
+        break;
+      case "AzayashiMall":
+        this.updateAzayashiMallIntructions();
+        break;
+      default:
+        break;
+    }
+  }
+
+  /**
+    updateAzayashiMallIntructions()
+    @no custom args.
+    @Called by updateStateInstructions ().
+    Updates the psychologists' instructions on the button at the top-right for the AzayashiMall state.
+    Toggles off and on.
+  */
+  updateAzayashiMallIntructions() {
+    this.clickedOnMenuButton = !this.clickedOnMenuButton;
+    let message = null;
+    if(this.clickedOnMenuButton) {
+      if(this.numberOfClicksOverPortrait <= 3) {
+        message = "Find out what happened to your parents.";
+      }
+      else if(this.numberOfClicksOverPortrait <= 6) {
+        message = "Keep trying.";
+      }
+      else {
+        message = "...";
+      }
+      createContextMenu(message);
+    }
+    else {
+      this.clearContextMenu();
+    }
+  }
+
+  /**
+    updateInstructions()
+    @no custom args.
+    @Called by updateStateInstructions ().
+    Updates the psychologists' instructions on the button at the top-right for the introduction state.
+    Toggles off and on.
+  */
+  updateIntroInstructions() {
     console.log("Clicking over menu button.");
     this.clickedOnMenuButton = !this.clickedOnMenuButton;
     let message = null;
@@ -114,8 +182,11 @@ class UISystem extends StateSystem {
       if(this.numberOfClicksOverPortrait <= 3) {
         message = "Keep clicking on the picture to recall\nthe memory.";
       }
-      else if(numberOfClicksOverPortrait <= 6) {
+      else if(this.numberOfClicksOverPortrait <= 6) {
         message = "That's good. You're doing great.";
+      }
+      else {
+        message = "...";
       }
       this.createContextMenu(message);
     }

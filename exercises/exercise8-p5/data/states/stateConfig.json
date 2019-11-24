@@ -4,6 +4,7 @@
     "stateTag": "MainMenu",
     "textObjectPath": "data/states/stateData/stateData0.json",
     "currentState": "false",
+    "nextStateTag": "Tutorial",
     "readyToChangeState": "false"
   },
   "Tutorial": {
@@ -11,6 +12,7 @@
     "stateTag": "Tutorial",
     "textObjectPath": "data/states/stateData/stateData1.json",
     "currentState": "true",
+    "nextStateTag": "Introduction",
     "readyToChangeState": "false"
   },
   "Introduction": {
@@ -18,6 +20,15 @@
     "stateTag": "Introduction",
     "textObjectPath": "data/states/stateData/stateData2.json",
     "currentState": "false",
+    "nextStateTag": "AzayashiMall",
+    "readyToChangeState": "false"
+  },
+  "AzayashiMall": {
+    "stateIndex": 3,
+    "stateTag": "AzayashiMall",
+    "textObjectPath": "data/states/stateData/stateData3.json",
+    "currentState": "false",
+    "nextStateTag": "HighSchool",
     "readyToChangeState": "false"
   }
 }

@@ -14,7 +14,7 @@
 
 */
 let states = {};
-let stateConfig, stateData0, stateData1, stateData2;
+let stateConfig, stateData0, stateData1, stateData2, stateData3;
 let gameCanvas;
 let zeyadaType;
 let allison;
@@ -37,6 +37,7 @@ function preload() {
   stateData0 = loadJSON("data/states/stateData/stateData0.json");
   stateData1 = loadJSON("data/states/stateData/stateData1.json");
   stateData2 = loadJSON("data/states/stateData/stateData2.json");
+  stateData3 = loadJSON("data/states/stateData/stateData3.json");
 }
 
 /**
@@ -54,8 +55,9 @@ function setup() {
   UILayer = createGraphics(1000, 200);
   states =
   {
-    "Tutorial": new Tutorial(stateConfig, stateData1, allison),    
-    "Introduction": new Introduction(stateConfig, stateData2, allison)
+    "Tutorial": new Tutorial(stateConfig, stateData1, allison),
+    "Introduction": new Introduction(stateConfig, stateData2, allison),
+    "AzayashiMall": new AzayashiMall(stateConfig, stateData3, allison)
   };
   StateSystem = new StateSystem(states, UILayer, stateConfig, allison);
   StateSystem.createSubSystems();
@@ -84,7 +86,7 @@ function mousePressed() {
     StateSystem.states[StateSystem.currentStateTag].updateClicks(StateSystem.UISystem.updateClickCounter());
   }
   if(StateSystem.UISystem.mouseOverUIButton()) {
-    StateSystem.UISystem.updateInstructions();
+    StateSystem.UISystem.updateStateInstructions();
   }
   else {
     StateSystem.UISystem.clearContextMenu();

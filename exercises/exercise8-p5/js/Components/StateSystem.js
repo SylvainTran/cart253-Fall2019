@@ -55,8 +55,9 @@ class StateSystem {
       this.states[this.currentStateTag].readyToChangeState = false;
       this.stateConfig[this.currentStateTag].currentState = "false";
       this.stateConfig[this.nextStateTag].currentState = "true";
+      // Update the current and next state tags in the config file
       this.currentStateTag = this.stateConfig[this.nextStateTag].stateTag;
-      //this.nextStateTag = this.stateConfig[this.nextStateTag.nextStateTag].stateTag;        
+      this.nextStateTag = this.stateConfig[this.currentStateTag].nextStateTag;
     }
   }
 
@@ -79,7 +80,10 @@ class StateSystem {
         }
       }
     }
-    console.log(currentState);
     return currentState;
+  }
+
+  triggerReadyToChangeState() {
+    this.states[this.currentStateTag].readyToChangeState = true;
   }
 }
