@@ -1,6 +1,7 @@
 /**
   Tutorial()
-  @constructor args: none
+  @constructor args: characterPortrait
+    Assigns portrait.
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.

@@ -30,5 +30,13 @@
     "currentState": "false",
     "nextStateTag": "HighSchool",
     "readyToChangeState": "false"
+  },
+  "HighSchool": {
+    "stateIndex": 4,
+    "stateTag": "HighSchool",
+    "textObjectPath": "data/states/stateData/stateData4.json",
+    "currentState": "false",
+    "nextStateTag": "FirstJob",
+    "readyToChangeState": "false"
   }
 }

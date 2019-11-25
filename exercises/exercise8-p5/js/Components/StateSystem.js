@@ -50,6 +50,7 @@ class StateSystem {
     // Check the current active state
     // See if the boolean variable flag "readyToChangeState" is true
     // If so, update the currentState flags' values (this one and the next state)
+    console.log(this.stateConfig[this.currentStateTag].stateTag);
     console.log(this.stateConfig[this.nextStateTag].currentState);
     if(this.states[this.currentStateTag].readyToChangeState === true) {
       this.states[this.currentStateTag].readyToChangeState = false;

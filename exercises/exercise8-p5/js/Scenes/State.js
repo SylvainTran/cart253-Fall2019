@@ -39,4 +39,20 @@ class State {
   resetNumberOfClicks() {
     this.numberOfClicksOverPortrait = 0;
   }
+
+  /**
+    displayPortrait()
+    @arg: character
+      The cached image to display.
+    @Displays the character image provided as an argument
+    at the portrait's default x, y positions.
+  */
+  displayPortrait() {
+    let portraitDefaultX = 300;
+    let portraitDefaultY = 650;
+    push();
+    imageMode(CENTER);
+    image(this.characterPortrait, portraitDefaultX, portraitDefaultY, this.characterPortrait.width, this.characterPortrait.height);
+    pop();
+  }
 }

@@ -1,12 +1,12 @@
 /**
-  Introduction()
+  HighSchool()
   @constructor args: characterPortrait
     Assigns portrait.
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.
 */
-class Introduction extends State {
+class HighSchool extends State {
     constructor(stateConfig, stateData, characterPortrait) {
       super(stateConfig, stateData);
       this.characterPortrait = characterPortrait;
@@ -18,29 +18,7 @@ class Introduction extends State {
       @Updates this state.
     */
     updateState() {
-      this.decayMemory();
       this.spawnMentalSchemas();
-      // Change scene
-      if(this.numberOfClicksOverPortrait >= 6) {
-
-        this.readyToChangeState = true;
-      }
-    }
-
-    /**
-      decayMemory()
-      @no custom args.
-      @Uses filter effects to induce a decay effect on displayed
-      text, image and "UI".
-    */
-    decayMemory() {
-      textFont(zeyadaType);
-      // Decay effect using blur, gray and dilate filters.
-      push();
-      filter(BLUR);
-      filter(GRAY);
-      filter(DILATE);
-      pop();
     }
 
     /**
@@ -64,21 +42,21 @@ class Introduction extends State {
       fill(0);
       textSize(42);
       // TODO replace with array of different positive or negative thoughts
-      text("I don't fit in...", random(width/2, width), random(height/2, height));
+      text("I am different", random(width/2, width), random(height/2, height));
       pop();
       // Hold any key down to think about the opposite
       if(keyIsPressed) {
         push();
         fill(0, 255, 0);
         textSize(42);
-        text("No, I can make friends with anybody", mouseX - 250, mouseY);
+        text("No, I can make friends with anyone.", mouseX - 250, mouseY);
         pop();
       }
       else {
         push();
         fill(255, 0, 0);
         textSize(42);
-        text("I really don't fit in...", mouseX - 250, mouseY);
+        text("I don't fit in...", mouseX - 250, mouseY);
         pop();
       }
     }
@@ -91,12 +69,5 @@ class Introduction extends State {
     */
     updateClicks(updateClickCounter) {
       this.contextMenuDisplayed = false;
-      this.numberOfClicksOverPortrait++;
-      console.log(this.numberOfClicksOverPortrait);
-      push();
-      clear(); // Resets the memory decay effect to visualize what it means to "recall".
-      imageMode(CENTER);
-      image(this.characterPortrait, 300, 540, this.characterPortrait.width, this.characterPortrait.height);
-      pop();
     }
 }

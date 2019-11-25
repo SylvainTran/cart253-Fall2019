@@ -14,10 +14,10 @@
 
 */
 let states = {};
-let stateConfig, stateData0, stateData1, stateData2, stateData3;
+let stateConfig, stateData0, stateData1, stateData2, stateData3, stateData4;
 let gameCanvas;
 let zeyadaType;
-let allison;
+let allison, allisonMall;
 let UILayer;
 let inputKeys = {
   "LEFT": 37,
@@ -32,12 +32,14 @@ let rightKeyPressed = 0;
 */
 function preload() {
   allison = loadImage("assets/images/Allison-0001_c1.png");
+  allisonMall = loadImage("assets/images/Allison-0002-AMall-FX.png");
   zeyadaType = loadFont("assets/fonts/Zeyada-Regular.ttf");
   stateConfig = loadJSON("data/states/stateConfig.json");
   stateData0 = loadJSON("data/states/stateData/stateData0.json");
   stateData1 = loadJSON("data/states/stateData/stateData1.json");
   stateData2 = loadJSON("data/states/stateData/stateData2.json");
   stateData3 = loadJSON("data/states/stateData/stateData3.json");
+  stateData4 = loadJSON("data/states/stateData/stateData4.json");
 }
 
 /**
@@ -57,7 +59,8 @@ function setup() {
   {
     "Tutorial": new Tutorial(stateConfig, stateData1, allison),
     "Introduction": new Introduction(stateConfig, stateData2, allison),
-    "AzayashiMall": new AzayashiMall(stateConfig, stateData3, allison)
+    "AzayashiMall": new AzayashiMall(stateConfig, stateData3, allisonMall),
+    "HighSchool": new HighSchool(stateConfig, stateData4, allison)
   };
   StateSystem = new StateSystem(states, UILayer, stateConfig, allison);
   StateSystem.createSubSystems();
