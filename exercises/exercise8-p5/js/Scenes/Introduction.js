@@ -7,9 +7,12 @@
   @Updates the scene with the provided map.
 */
 class Introduction extends State {
-    constructor(stateConfig, stateData, characterPortrait) {
-      super(stateConfig, stateData);
+    constructor(stateConfig, stateData, UILayer, characterPortrait) {
+      super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
+      this.positivityGrowthFactor = 50;
+      this.positivityDecayFactor = 10;
+      this.resetPositivity();
     }
 
     /**
@@ -18,11 +21,13 @@ class Introduction extends State {
       @Updates this state.
     */
     updateState() {
+      this.autoDecreasePositivity(this.positivityDecayFactor)
+      this.incrementPositivity(this.positivityGrowthFactor)
+      this.displayPositivity();
       this.decayMemory();
       this.spawnMentalSchemas();
       // Change scene
       if(this.numberOfClicksOverPortrait >= 6) {
-
         this.readyToChangeState = true;
       }
     }
@@ -34,7 +39,6 @@ class Introduction extends State {
       text, image and "UI".
     */
     decayMemory() {
-      textFont(zeyadaType);
       // Decay effect using blur, gray and dilate filters.
       push();
       filter(BLUR);
@@ -54,6 +58,7 @@ class Introduction extends State {
     */
     spawnMentalSchemas() {
       // Instructions
+      textFont(AntonRegularType);
       push();
       fill(0, 255, 255);
       textSize(42);
@@ -66,8 +71,8 @@ class Introduction extends State {
       // TODO replace with array of different positive or negative thoughts
       text("I don't fit in...", random(width/2, width), random(height/2, height));
       pop();
-      // Hold any key down to think about the opposite
-      if(keyIsPressed) {
+      // Hold any key down or mouse button to think about the opposite
+      if(keyIsPressed || mouseIsPressed) {
         push();
         fill(0, 255, 0);
         textSize(42);

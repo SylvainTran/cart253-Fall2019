@@ -36,11 +36,6 @@ class UISystem extends StateSystem {
     this.UILayer.pop();
 
     this.UILayer.push();
-    this.UILayer.fill(0, 255, 0);
-    this.UILayer.rect(0, 75, width - 500, 50);
-    this.UILayer.pop();
-
-    this.UILayer.push();
     this.UILayer.textSize(42);
     this.UILayer.fill(255, 0, 255);
     this.UILayer.text("Slice-of-Life Result At 4 Years Old", 200, 115);

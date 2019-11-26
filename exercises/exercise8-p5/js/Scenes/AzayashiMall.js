@@ -7,8 +7,8 @@
   @Updates the scene with the provided map.
 */
 class AzayashiMall extends State {
-    constructor(stateConfig, stateData, characterPortrait) {
-      super(stateConfig, stateData);
+    constructor(stateConfig, stateData, UILayer, characterPortrait) {
+      super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
     }
 

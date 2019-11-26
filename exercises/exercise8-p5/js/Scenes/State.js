@@ -9,9 +9,10 @@
   @Initializes all static properties of this state.
 */
 class State {
-  constructor(stateConfig, stateData){
+  constructor(stateConfig, stateData, UILayer){
     this.stateConfig = stateConfig; // A reference to the original state data file.
     this.stateData = stateData;
+    this.UILayer = UILayer;
     // Making sure all extended states get are initialized with these properties.
     // These properties are only static elements (non-interactible or non-mobile)
     this.stateIndex = stateConfig.stateIndex;
@@ -29,6 +30,9 @@ class State {
     this.translation = stateData.translation;
     this.numberOfClicksOverPortrait = 0; // Number of times player has clicked the portrait.
     this.readyToChangeState = false; // The flag that says this state is ready to change to the next one, depending on in-state player behaviours
+    //Slice of life bar mechanics
+    this.positiveThoughts = 0;
+    this.stateTimer = 0;
   }
 
   /**
@@ -54,5 +58,64 @@ class State {
     imageMode(CENTER);
     image(this.characterPortrait, portraitDefaultX, portraitDefaultY, this.characterPortrait.width, this.characterPortrait.height);
     pop();
+  }
+
+  /**
+    incrementPositivity()
+    @arg: none.
+    @Increments the slice of life bar's positivity if any key or mouse button is pressed.
+  */
+  incrementPositivity(positivityGrowthFactor) {
+    if(keyIsPressed || mouseIsPressed) {
+      this.positiveThoughts += positivityGrowthFactor;
+    }
+  }
+
+  /**
+    autoDecreasePositivity()
+    @arg: none.
+    @Automatically decreases positivity in a given state. Game mechanic.
+  */
+  autoDecreasePositivity(positivityDecayFactor) {
+    this.positiveThoughts -= positivityDecayFactor;
+  }
+
+  /**
+    resetPositivity()
+    @arg: none.
+    @Resets the slice of life bar's positivity.
+  */
+  resetPositivity() {
+    this.positiveThoughts = 0;
+  }
+
+  /**
+    displayPositivity()
+    @arg: none.
+    @Displays the internal amount of positive thoughts as a horizontal green bar.
+  */
+  displayPositivity() {
+    this.UILayer.push();
+    this.UILayer.fill(0, 255, 0);
+    this.UILayer.rect(0, 75, this.positiveThoughts, 50);
+    this.UILayer.pop();
+  }
+
+  /**
+    updateStateTimer()
+    @arg: none.
+    @Updates the state timer.
+  */
+  updateStateTimer() {
+    this.stateTimer++;
+  }
+
+  /**
+    displayStateTimer()
+    @arg: none.
+    @Displays the state timer.
+  */
+  displayStateTimer() {
+    this.stateTimer++;
   }
 }

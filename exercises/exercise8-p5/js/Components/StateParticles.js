@@ -34,7 +34,7 @@ class StateParticles extends StateSystem {
   }
 
   updateText(currentState) {
-    textFont(zeyadaType);
+    textFont(AntonRegularType);
     push();
     fill(this.states[currentState].textColor);
     textSize(this.states[currentState].tSize);
