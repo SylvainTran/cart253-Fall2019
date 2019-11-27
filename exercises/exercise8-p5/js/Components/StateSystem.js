@@ -37,7 +37,7 @@ class StateSystem {
   */
   updateSystems() {
     this.updateCurrentStateTag();
-    this.UISystem.updateStateUI();
+    this.UISystem.updateStateUI(); // TODO pass in the current state's years for Ally
     this.StateParticles.updateParticles(this.checkCurrentStateTag);
   }
 

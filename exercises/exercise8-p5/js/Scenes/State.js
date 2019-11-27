@@ -15,8 +15,8 @@ class State {
     this.UILayer = UILayer;
     // Making sure all extended states get are initialized with these properties.
     // These properties are only static elements (non-interactible or non-mobile)
-    this.stateIndex = stateConfig.stateIndex;
-    this.stateTag = stateConfig.stateTag;
+    this.stateIndex = stateConfig.stateIndex; // TODO fix this
+    this.stateTag = stateConfig.stateTag; // TODO fix this
     this.bgColor = stateData.bgColor;
     this.isCinematic = stateData.isCinematic;
     this.nbActors = stateData.nbActors;
@@ -33,6 +33,10 @@ class State {
     //Slice of life bar mechanics
     this.positiveThoughts = 0;
     this.stateTimer = 0;
+    this.timerAngle = 0;
+    this.tSizer = 150;
+    this.strokeW = 5;
+    this.stateDuration = 60;
   }
 
   /**
@@ -69,6 +73,7 @@ class State {
     if(keyIsPressed || mouseIsPressed) {
       this.positiveThoughts += positivityGrowthFactor;
     }
+    return this.positiveThoughts;
   }
 
   /**
@@ -90,6 +95,15 @@ class State {
   }
 
   /**
+    resetStateTimer()
+    @arg: none.
+    @Resets the state timer of the state.
+  */
+  resetStateTimer() {
+    this.stateTimer = 0;
+  }
+
+  /**
     displayPositivity()
     @arg: none.
     @Displays the internal amount of positive thoughts as a horizontal green bar.
@@ -107,7 +121,9 @@ class State {
     @Updates the state timer.
   */
   updateStateTimer() {
-    this.stateTimer++;
+    if(frameCount % 60) {
+      this.stateTimer++;
+    }
   }
 
   /**
@@ -116,6 +132,26 @@ class State {
     @Displays the state timer.
   */
   displayStateTimer() {
-    this.stateTimer++;
+    this.UILayer.push();
+    this.UILayer.fill(255);
+    this.UILayer.textSize(30);
+    this.UILayer.text("Days of Life Spent: " + this.stateTimer, sin(this.timerAngle), cos(this.timerAngle) + 50);
+    this.UILayer.pop();
+  }
+
+  /**
+    modifyStroke()
+    @arg:
+    Decrements the text stroke size and weight properties.
+  */
+  modifyStroke() {
+    this.tSizer-= 10;
+    this.strokeW-= 0.1;
+    if(this.tSizer <= 0) {
+      this.tSizer = 150;
+    }
+    else if(this.strokeW <= 0) {
+      this.strokeW = 5;
+    }
   }
 }

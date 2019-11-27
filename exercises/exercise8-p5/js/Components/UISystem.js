@@ -12,12 +12,12 @@ class UISystem extends StateSystem {
     this.contextMenuDisplayed = false;
     this.openContextMenuButtonX = 850;
     this.openContextMenuButtonHeight = 100;
+    this.timerAngle = 0;
   }
 
   updateStateUI() {
     this.updateUI();
     this.updatePsyInstructions();
-    this.updateClickDisplay();
   }
 
   // The UI at the top. Black bar with a turquoise button.
@@ -38,7 +38,7 @@ class UISystem extends StateSystem {
     this.UILayer.push();
     this.UILayer.textSize(42);
     this.UILayer.fill(255, 0, 255);
-    this.UILayer.text("Slice-of-Life Result At 4 Years Old", 200, 115);
+    this.UILayer.text("Slice-of-Life Result At 4 Years Old", 200, 115); // TODO change years as per state
     this.UILayer.pop();
   }
 
@@ -188,19 +188,6 @@ class UISystem extends StateSystem {
     else {
       this.clearContextMenu();
     }
-  }
-
-  /**
-    updateClickDisplay()
-    @arg: none.
-    @Displays the numberOfClicksOverPortrait variable for this state.
-  */
-  updateClickDisplay() {
-    UILayer.push();
-    UILayer.textSize(42);
-    UILayer.fill(255);
-    UILayer.text("Number of recalls: " + this.numberOfClicksOverPortrait, 100, 50);
-    UILayer.pop();
   }
 
   /**

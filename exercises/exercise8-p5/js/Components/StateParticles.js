@@ -36,6 +36,7 @@ class StateParticles extends StateSystem {
   updateText(currentState) {
     textFont(AntonRegularType);
     push();
+    noStroke();
     fill(this.states[currentState].textColor);
     textSize(this.states[currentState].tSize);
     text(this.states[currentState].narration, this.states[currentState].narrationPosX, this.states[currentState].narrationPosY);
@@ -55,7 +56,7 @@ class StateParticles extends StateSystem {
   */
   displayPortrait() {
     let portraitDefaultX = 300;
-    let portraitDefaultY = 540;
+    let portraitDefaultY = 640;
     push();
     imageMode(CENTER);
     image(this.characterPortrait, portraitDefaultX, portraitDefaultY, this.characterPortrait.width, this.characterPortrait.height);

@@ -38,5 +38,13 @@
     "currentState": "false",
     "nextStateTag": "FirstJob",
     "readyToChangeState": "false"
+  },
+  "FirstJob": {
+    "stateIndex": 5,
+    "stateTag": "FirstJob",
+    "textObjectPath": "data/states/stateData/stateData5.json",
+    "currentState": "false",
+    "nextStateTag": "GangLife",
+    "readyToChangeState": "false"
   }
 }

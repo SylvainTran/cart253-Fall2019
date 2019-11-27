@@ -1,12 +1,12 @@
 /**
-  HighSchool()
+  GangLife()
   @constructor args: characterPortrait
     Assigns portrait.
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.
 */
-class HighSchool extends State {
+class GangLife extends State {
     constructor(stateConfig, stateData, UILayer, characterPortrait) {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
@@ -18,12 +18,6 @@ class HighSchool extends State {
       @Updates this state.
     */
     updateState() {
-      this.updateStateTimer();
-      this.autoDecreasePositivity(this.positivityDecayFactor)
-      this.incrementPositivity(this.positivityGrowthFactor)
-      this.displayPositivity();
-      this.displayStateTimer();
-      this.displayPortrait();
       this.spawnMentalSchemas();
     }
 
@@ -41,29 +35,28 @@ class HighSchool extends State {
       push();
       fill(0, 255, 255);
       textSize(42);
-      text("Game Psychologist: Nice glasses.", 50, 250);
+      text("Game Psychologist: Try holding any key down.\nKeep doing it.", 50, 250);
       pop();
 
       push();
       fill(0);
       textSize(42);
       // TODO replace with array of different positive or negative thoughts
-      text("I am unattractive", random(width/2, width), random(height/2, height));
+      text("I am leading this gang. We need more weed.", random(width/2, width), random(height/2, height));
       pop();
       // Hold any key down to think about the opposite
-      if(keyIsPressed || mouseIsPressed) {
+      if(keyIsPressed) {
         push();
         fill(0, 255, 0);
         textSize(42);
-        text("Nah, I am beautiful.", mouseX - 250, mouseY);
+        text("I just want to make money like crazy.", mouseX - 250, mouseY);
         pop();
       }
       else {
         push();
-        noStroke();
         fill(255, 0, 0);
         textSize(42);
-        text("Nah, I'm ugly...", mouseX - 250, mouseY);
+        text("Maybe I should try reconnecting with myself...", mouseX - 250, mouseY);
         pop();
       }
     }

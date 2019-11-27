@@ -17,7 +17,7 @@ let states = {};
 let stateConfig, stateData0, stateData1, stateData2, stateData3, stateData4;
 let gameCanvas;
 let zeyadaType, AntonRegularType;
-let allison, allisonMall;
+let allison, allisonMall, allisonHighSchool;
 let UILayer;
 let inputKeys = {
   "LEFT": 37,
@@ -32,8 +32,9 @@ let rightKeyPressed = 0;
   @Preload images and sounds needed.
 */
 function preload() {
-  allison = loadImage("assets/images/Allison-0001_c1.png");
+  allison = loadImage("assets/images/Allison-0001-FourYears-FX.png");
   allisonMall = loadImage("assets/images/Allison-0002-AMall-FX.png");
+  allisonHighSchool = loadImage("assets/images/Allison-0003-HighSchool-FX.png");
   zeyadaType = loadFont("assets/fonts/Zeyada-Regular.ttf");
   AntonRegularType = loadFont("assets/fonts/Anton-Regular.ttf");
   stateConfig = loadJSON("data/states/stateConfig.json");
@@ -62,7 +63,7 @@ function setup() {
     "Tutorial": new Tutorial(stateConfig, stateData1, UILayer, allison),
     "Introduction": new Introduction(stateConfig, stateData2, UILayer, allison),
     "AzayashiMall": new AzayashiMall(stateConfig, stateData3, UILayer, allisonMall),
-    "HighSchool": new HighSchool(stateConfig, stateData4, UILayer, allison)
+    "HighSchool": new HighSchool(stateConfig, stateData4, UILayer, allisonHighSchool)
   };
   StateSystem = new StateSystem(states, UILayer, stateConfig, allison);
   StateSystem.createSubSystems();
