@@ -36,7 +36,7 @@ class State {
     this.timerAngle = 0;
     this.tSizer = 150;
     this.strokeW = 5;
-    this.stateDuration = 60;
+    this.stateDuration = 10;
   }
 
   /**

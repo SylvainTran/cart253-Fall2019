@@ -52,7 +52,30 @@
     "stateTag": "GangLife",
     "textObjectPath": "data/states/stateData/stateData6.json",
     "currentState": "false",
-    "nextStateTag": "HotelSpa",
+    "nextStateTag": "HotelSpa"
+  },
+  "HotelSpa": {
+    "stateIndex": 7,
+    "stateTag": "HotelSpa",
+    "textObjectPath": "data/states/stateData/stateData7.json",
+    "currentState": "false",
+    "nextStateTag": "BetweenLifeSlices",
     "readyToChangeState": "false"
-  }
+  },
+  "BetweenLifeSlices": {
+    "stateIndex": 8,
+    "stateTag": "BetweenLifeSlices",
+    "textObjectPath": "data/states/stateData/stateData8.json",
+    "currentState": "false",
+    "nextStateTag": "Downtown",
+    "readyToChangeState": "false"
+  },
+  "Downtown": {
+    "stateIndex": 9,
+    "stateTag": "Downtown",
+    "textObjectPath": "data/states/stateData/stateData9.json",
+    "currentState": "false",
+    "nextStateTag": "Kitchen",
+    "readyToChangeState": "false"
+  }  
 }

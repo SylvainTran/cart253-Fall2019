@@ -16,6 +16,7 @@ blurry/pixelated version of scene when full until game over.
 23-11-2019: Implement the change scene condition for each state in the StateSystem and configFile.
 23-11-2019: Implement a mouseX, mouseY check to display different text "thoughts" around the visual elements of a state.
 26-11-2019: Slice of life bar and time counter, high school portrait
+28-11-2019: Add a little fake platformer for between scene transitions.
 
 Pitch:
 ++Player can drag stuff and shove it down our character Allison, who is

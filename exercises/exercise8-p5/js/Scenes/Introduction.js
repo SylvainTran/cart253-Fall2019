@@ -14,6 +14,7 @@ class Introduction extends State {
       this.positivityDecayFactor = 10; // Could become increasingly larger relative to growth factor by age slice.
       this.resetPositivity();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
+      this.specialFX = 200;
     }
 
     /**
@@ -45,10 +46,13 @@ class Introduction extends State {
       text, image and "UI".
     */
     decayMemory() {
+      //this.specialFX--;      
+      //frameRate(5);
       // Decay effect using blur, gray and dilate filters.
       push();
-      filter(BLUR);
-      filter(GRAY);
+      //this.bgColor = this.specialFX; 
+      //filter(BLUR);
+      //filter(GRAY);
       filter(DILATE);
       pop();
     }
@@ -89,7 +93,7 @@ class Introduction extends State {
       stroke(255, 0, 0);
       strokeWeight(5);
       textSize(this.tSizer);
-      text("I don't fit in...?", random(width/2, width), random(height/2, height));
+      text("I don't like playing in the sand", random(width/2, width), random(height/2, height));
       pop();
 
       // Hold any key down or mouse button to think about the opposite

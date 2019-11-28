@@ -10,6 +10,12 @@ class GangLife extends State {
     constructor(stateConfig, stateData, UILayer, characterPortrait) {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
+      this.positivityGrowthFactor = 50;
+      this.positivityDecayFactor = 20; // Could become increasingly larger relative to growth factor by age slice.
+      this.resetPositivity();
+      this.resetStateTimer();
+      this.stateDuration = 120;
+      this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.      
     }
 
     /**
@@ -18,7 +24,21 @@ class GangLife extends State {
       @Updates this state.
     */
     updateState() {
+      this.updateStateTimer();
+      this.autoDecreasePositivity(this.positivityDecayFactor)
+      this.incrementPositivity(this.positivityGrowthFactor)
+      this.displayPositivity();
+      this.displayPortrait();
       this.spawnMentalSchemas();
+      this.displayStateTimer();
+      if(this.stateTimer >= this.stateDuration) {
+        this.readyToChangeState = true;
+        if(this.positivityScore < 0) {
+          // If the positivity score was negative, make the next state significantly harder
+          this.states[this.stateConfig[this.stateTag].nextStateTag].positivityDecayFactor += 15;
+          alert(this.states[this.stateConfig[this.stateTag].nextStateTag].positivityDecayFactor);
+        }
+      }
     }
 
     /**

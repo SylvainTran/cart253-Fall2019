@@ -1,6 +1,6 @@
 {
-  "stateIndex": 3,
-  "stateName": "AzayashiMall",
+  "stateIndex": 5,
+  "stateName": "FirstJob",
   "bgColor": [0, 0, 0, 10],
   "isCinematic": true,
   "nbActors": 2,
@@ -8,7 +8,7 @@
   "textColor": 0,
   "narrationPosX": 600,
   "narrationPosY": 333,
-  "narration": ["This is the mall where I got lost at seven."],
+  "narration": ["This is where I'm working.", "It's a pretty dull office."],
   "startButton": "",
   "startButtonPosX": 100,
   "startButtonPosY": 453,

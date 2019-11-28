@@ -1,21 +1,21 @@
 /**
-  HighSchool()
+  Downtown()
   @constructor args: characterPortrait
     Assigns portrait.
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.
 */
-class HighSchool extends State {
+class Downtown extends State {
     constructor(stateConfig, stateData, UILayer, characterPortrait) {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
       this.positivityGrowthFactor = 50;
-      this.positivityDecayFactor = 25; 
+      this.positivityDecayFactor = 20; // Could become increasingly larger relative to growth factor by age slice.
       this.resetPositivity();
       this.resetStateTimer();
       this.stateDuration = 120;
-      this.positivityScore = 0; 
+      this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
     }
 
     /**
@@ -28,14 +28,20 @@ class HighSchool extends State {
       this.autoDecreasePositivity(this.positivityDecayFactor)
       this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
-      this.displayStateTimer();
       this.displayPortrait();
       this.spawnMentalSchemas();
+      this.displayStateTimer();
+      console.log("State timer: " + this.stateTimer);
+      console.log("State duration: " + this.stateDuration);
+      // Change scene after the duration of state
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
         if(this.positivityScore < 0) {
+          // If the positivity score was negative, make the next state significantly harder
+          this.states[this.stateConfig[this.stateTag].nextStateTag].positivityDecayFactor += 15;
+          alert(this.states[this.stateConfig[this.stateTag].nextStateTag].positivityDecayFactor);
         }
-      }      
+      }
     }
 
     /**
@@ -52,21 +58,41 @@ class HighSchool extends State {
       push();
       fill(0, 255, 255);
       textSize(42);
-      text("Game Psychologist: Nice glasses.", 50, 250);
+      text("I got lost at the mall when I was around seven...", 50, 250);
       pop();
 
+      // push();
+      // stroke(255, 0, 0);
+      // strokeWeight(this.strokeW);
+      // fill(0);
+      // textSize(this.tSizer);
+      // push();
+      // translate(width/2, height/2);
+      // // TODO replace with array of different positive or negative thoughts
+      // text("I'm useless.", sin(this.timerAngle) * 200, cos(this.timerAngle) * 200);
+      // pop();
+
       push();
-      fill(0);
-      textSize(42);
-      // TODO replace with array of different positive or negative thoughts
-      text("I am unattractive", random(width/2, width), random(height/2, height));
+      translate(0, 0);
+      stroke(255, 0, 0);
+      strokeWeight(5);
+      textSize(this.tSizer);
+      text("I'm useless.", random(width/2, width), random(height/2, height));
       pop();
-      // Hold any key down to think about the opposite
+
+      // Hold any key down or mouse button to think about the opposite
       if(keyIsPressed || mouseIsPressed) {
+        // Re-display the colored portrait to show the character's renewed self-confidence
         push();
+        imageMode(CENTER);
+        image(this.characterPortrait, 300, 640, this.characterPortrait.width, this.characterPortrait.height);
+        pop();
+
+        push();
+        noStroke();
         fill(0, 255, 0);
         textSize(42);
-        text("Nah, I am beautiful.", mouseX - 250, mouseY);
+        text("I'll wait for them. I'm sure they'll find me soon!", mouseX - 250, mouseY);
         pop();
       }
       else {
@@ -74,17 +100,11 @@ class HighSchool extends State {
         noStroke();
         fill(255, 0, 0);
         textSize(42);
-        text("Nah, I'm ugly...", mouseX - 250, mouseY);
+        text("I'm useless", mouseX - 250, mouseY);
         pop();
       }
+        this.modifyStroke();
     }
-
-    /**
-      updateClicks()
-      @arg: updateClickCounter.
-        callbacks the function updateClickCounter in the UISystem after this is done.
-      @Listens to mousePressed in main.js.
-    */
     updateClicks(updateClickCounter) {
       this.contextMenuDisplayed = false;
     }

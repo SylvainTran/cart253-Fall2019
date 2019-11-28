@@ -14,7 +14,7 @@ class AzayashiMall extends State {
       this.positivityDecayFactor = 20; // Could become increasingly larger relative to growth factor by age slice.
       this.resetPositivity();
       this.resetStateTimer();
-      this.stateDuration = 200;
+      this.stateDuration = 120;
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
     }
 

@@ -14,10 +14,11 @@
 
 */
 let states = {};
-let stateConfig, stateData0, stateData1, stateData2, stateData3, stateData4;
+let stateConfig, stateData0, stateData1, stateData2, stateData3, stateData4, stateData5, stateData6, stateData7, stateData8;
 let gameCanvas;
 let zeyadaType, AntonRegularType;
 let allison, allisonMall, allisonHighSchool, duckguy;
+let moveableAllison;
 let UILayer;
 let inputKeys = {
   "LEFT": 37,
@@ -44,6 +45,10 @@ function preload() {
   stateData2 = loadJSON("data/states/stateData/stateData2.json");
   stateData3 = loadJSON("data/states/stateData/stateData3.json");
   stateData4 = loadJSON("data/states/stateData/stateData4.json");
+  stateData5 = loadJSON("data/states/stateData/stateData5.json");  
+  stateData6 = loadJSON("data/states/stateData/stateData6.json");    
+  stateData7 = loadJSON("data/states/stateData/stateData7.json");    
+  stateData8 = loadJSON("data/states/stateData/stateData8.json");      
 }
 
 /**
@@ -67,11 +72,13 @@ function setup() {
     "HighSchool": new HighSchool(stateConfig, stateData4, UILayer, duckguy),
     "FirstJob": new FirstJob(stateConfig, stateData5, UILayer, duckguy),
     "GangLife": new GangLife(stateConfig, stateData6, UILayer, duckguy),
-    "HotelSpa": new GangLife(stateConfig, stateData6, UILayer, duckguy)
+    "HotelSpa": new HotelSpa(stateConfig, stateData7, UILayer, duckguy),
+    "BetweenLifeSlices": new BetweenLifeSlices(stateConfig, stateData8, UILayer, duckguy)
   };
   StateSystem = new StateSystem(states, UILayer, stateConfig, allison);
   StateSystem.createSubSystems();
   StateSystem.StateParticles.displayPortrait();
+  filter(DILATE);  
 }
 
 /**

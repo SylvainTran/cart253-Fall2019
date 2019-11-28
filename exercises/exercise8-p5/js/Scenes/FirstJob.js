@@ -14,7 +14,7 @@ class FirstJob extends State {
       this.positivityDecayFactor = 20; // Could become increasingly larger relative to growth factor by age slice.
       this.resetPositivity();
       this.resetStateTimer();
-      this.stateDuration = 200;
+      this.stateDuration = 120;
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
     }
 
@@ -31,8 +31,6 @@ class FirstJob extends State {
       this.displayPortrait();
       this.spawnMentalSchemas();
       this.displayStateTimer();
-      console.log("State timer: " + this.stateTimer);
-      console.log("State duration: " + this.stateDuration);
       // Change scene after the duration of state
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
@@ -58,19 +56,19 @@ class FirstJob extends State {
       push();
       fill(0, 255, 255);
       textSize(42);
-      text("First Job at the office!", 50, 250);
+      text("First Job at the office!", width/2, height/2);
       pop();
 
-      // push();
-      // stroke(255, 0, 0);
-      // strokeWeight(this.strokeW);
-      // fill(0);
-      // textSize(this.tSizer);
-      // push();
-      // translate(width/2, height/2);
-      // // TODO replace with array of different positive or negative thoughts
-      // text("I'm useless.", sin(this.timerAngle) * 200, cos(this.timerAngle) * 200);
-      // pop();
+      push();
+      stroke(255, 0, 0);
+      strokeWeight(this.strokeW);
+      fill(0);
+      textSize(this.tSizer);
+      push();
+      translate(width/2, height/2);
+      // TODO replace with array of different positive or negative thoughts
+      text("I'm not competent.", sin(this.timerAngle) * 200, cos(this.timerAngle) * 200);
+      pop();
 
       push();
       translate(0, 0);
@@ -92,7 +90,7 @@ class FirstJob extends State {
         noStroke();
         fill(0, 255, 0);
         textSize(42);
-        text("I'll wait for them. I'm sure they'll find me soon!", mouseX - 250, mouseY);
+        text("I don't mind starting somewhere!", mouseX - 250, mouseY);
         pop();
       }
       else {
