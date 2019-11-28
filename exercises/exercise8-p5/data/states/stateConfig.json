@@ -46,5 +46,13 @@
     "currentState": "false",
     "nextStateTag": "GangLife",
     "readyToChangeState": "false"
+  },
+  "GangLife": {
+    "stateIndex": 6,
+    "stateTag": "GangLife",
+    "textObjectPath": "data/states/stateData/stateData6.json",
+    "currentState": "false",
+    "nextStateTag": "HotelSpa",
+    "readyToChangeState": "false"
   }
 }
