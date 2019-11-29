@@ -29,7 +29,7 @@ class BetweenLifeSlicesE extends BetweenLifeSlices {
     noStroke();
     textSize(40);
     fill(255);
-    text("“You can't win everybody. So you can't base your\nself-worth on others' approval.” - Everybody's Secret Thought", 20, 850);
+    text("“You can't win everybody. So you can't base your\nself-worth on others' approval.”\n- Everybody's Secret Thought", 20, 850);
     pop();
   }
 }

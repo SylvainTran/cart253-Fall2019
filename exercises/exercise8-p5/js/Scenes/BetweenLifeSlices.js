@@ -63,7 +63,7 @@ class BetweenLifeSlices extends State {
       noStroke();
       textSize(40);
       fill(255);
-      text("“In three words I can sum up everything I've learned about\nlife: it goes on.” ― Robert Frost", 20, 850);
+      text("“Love is like an orange, but do you even like oranges?” - The End.", 20, 850);
       pop();
     }
 }

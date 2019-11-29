@@ -29,7 +29,7 @@ class BetweenLifeSlicesF extends BetweenLifeSlices {
     noStroke();
     textSize(40);
     fill(255);
-    text("“Be proud of what you've accomplished, whether it's\nlittle or big. Nobody else could have\ndone it the same way.” - Yourself", 20, 850);
+    text("“Be proud of what you've accomplished, whether it's\nlittle or big. Nobody else could have\ndone it the same way.” - Your Own Self", 20, 850);
     pop();
   }
 }
