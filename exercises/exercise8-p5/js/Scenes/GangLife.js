@@ -14,8 +14,7 @@ class GangLife extends State {
       this.positivityDecayFactor = 20; // Could become increasingly larger relative to growth factor by age slice.
       this.resetPositivity();
       this.resetStateTimer();
-      this.stateDuration = 120;
-      this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.      
+      this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
     }
 
     /**
@@ -33,11 +32,7 @@ class GangLife extends State {
       this.displayStateTimer();
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
-        if(this.positivityScore < 0) {
-          // If the positivity score was negative, make the next state significantly harder
-          this.states[this.stateConfig[this.stateTag].nextStateTag].positivityDecayFactor += 15;
-          alert(this.states[this.stateConfig[this.stateTag].nextStateTag].positivityDecayFactor);
-        }
+        congratulations.play();
       }
     }
 
@@ -51,13 +46,6 @@ class GangLife extends State {
         Output should be displayed in the life bar skills.
     */
     spawnMentalSchemas() {
-      // Instructions
-      push();
-      fill(0, 255, 255);
-      textSize(42);
-      text("Game Psychologist: Try holding any key down.\nKeep doing it.", 50, 250);
-      pop();
-
       push();
       fill(0);
       textSize(42);
@@ -65,7 +53,7 @@ class GangLife extends State {
       text("I am leading this gang. We need more weed.", random(width/2, width), random(height/2, height));
       pop();
       // Hold any key down to think about the opposite
-      if(keyIsPressed) {
+      if(keyIsPressed || mouseIsPressed) {
         push();
         fill(0, 255, 0);
         textSize(42);

@@ -24,6 +24,7 @@ class Tutorial extends State {
   updateClicks(updateClickCounter) {
     this.contextMenuDisplayed = false;
     this.readyToChangeState = true;
+    readyVoice.play();
   }
 
   updateText() {

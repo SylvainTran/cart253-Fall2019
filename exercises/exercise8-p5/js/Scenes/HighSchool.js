@@ -11,11 +11,10 @@ class HighSchool extends State {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
       this.positivityGrowthFactor = 50;
-      this.positivityDecayFactor = 25; 
+      this.positivityDecayFactor = 25;
       this.resetPositivity();
       this.resetStateTimer();
-      this.stateDuration = 120;
-      this.positivityScore = 0; 
+      this.positivityScore = 0;
     }
 
     /**
@@ -33,9 +32,8 @@ class HighSchool extends State {
       this.spawnMentalSchemas();
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
-        if(this.positivityScore < 0) {
-        }
-      }      
+        congratulations.play();
+      }
     }
 
     /**
@@ -48,13 +46,6 @@ class HighSchool extends State {
         Output should be displayed in the life bar skills.
     */
     spawnMentalSchemas() {
-      // Instructions
-      push();
-      fill(0, 255, 255);
-      textSize(42);
-      text("Game Psychologist: Nice glasses.", 50, 250);
-      pop();
-
       push();
       fill(0);
       textSize(42);
@@ -66,7 +57,7 @@ class HighSchool extends State {
         push();
         fill(0, 255, 0);
         textSize(42);
-        text("Nah, I am beautiful.", mouseX - 250, mouseY);
+        text("I am beautiful.", mouseX - 250, mouseY);
         pop();
       }
       else {

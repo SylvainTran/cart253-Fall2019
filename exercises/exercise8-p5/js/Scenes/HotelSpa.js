@@ -14,7 +14,6 @@ class HotelSpa extends State {
       this.positivityDecayFactor = 20; // Could become increasingly larger relative to growth factor by age slice.
       this.resetPositivity();
       this.resetStateTimer();
-      this.stateDuration = 120;
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
     }
 
@@ -31,15 +30,11 @@ class HotelSpa extends State {
       this.displayPortrait();
       this.spawnMentalSchemas();
       this.displayStateTimer();
-      console.log("State timer: " + this.stateTimer);
-      console.log("State duration: " + this.stateDuration);
       // Change scene after the duration of state
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
         if(this.positivityScore < 0) {
-          // If the positivity score was negative, make the next state significantly harder
-          this.states[this.stateConfig[this.stateTag].nextStateTag].positivityDecayFactor += 15;
-          alert(this.states[this.stateConfig[this.stateTag].nextStateTag].positivityDecayFactor);
+          congratulations.play();
         }
       }
     }
@@ -54,30 +49,12 @@ class HotelSpa extends State {
         Output should be displayed in the life bar skills.
     */
     spawnMentalSchemas() {
-      // Instructions
-      push();
-      fill(0, 255, 255);
-      textSize(42);
-      text("First Job at the office!", width/2, height/2);
-      pop();
-
-      push();
-      stroke(255, 0, 0);
-      strokeWeight(this.strokeW);
-      fill(0);
-      textSize(this.tSizer);
-      push();
-      translate(width/2, height/2);
-      // TODO replace with array of different positive or negative thoughts
-      text("I'm not competent.", sin(this.timerAngle) * 200, cos(this.timerAngle) * 200);
-      pop();
-
       push();
       translate(0, 0);
       stroke(255, 0, 0);
       strokeWeight(5);
       textSize(this.tSizer);
-      text("I'm going to fail.", random(width/2, width), random(height/2, height));
+      text("I'm having a midlife crisis.", random(width/2, width), random(height/2, height));
       pop();
 
       // Hold any key down or mouse button to think about the opposite
@@ -92,7 +69,7 @@ class HotelSpa extends State {
         noStroke();
         fill(0, 255, 0);
         textSize(42);
-        text("I don't mind starting somewhere!", mouseX - 250, mouseY);
+        text("I'm proud of what I've done.", mouseX - 250, mouseY);
         pop();
       }
       else {
@@ -100,7 +77,7 @@ class HotelSpa extends State {
         noStroke();
         fill(255, 0, 0);
         textSize(42);
-        text("I'm a failure", mouseX - 250, mouseY);
+        text("I messed up my life.", mouseX - 250, mouseY);
         pop();
       }
         this.modifyStroke();

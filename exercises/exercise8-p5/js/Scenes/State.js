@@ -36,7 +36,7 @@ class State {
     this.timerAngle = 0;
     this.tSizer = 150;
     this.strokeW = 5;
-    this.stateDuration = 10;
+    this.stateDuration = 365; // The duration of a slice of life. Reduce to go through scenes quickly
   }
 
   /**
@@ -135,7 +135,7 @@ class State {
     this.UILayer.push();
     this.UILayer.fill(255);
     this.UILayer.textSize(30);
-    this.UILayer.text("Days of Life Spent: " + this.stateTimer, sin(this.timerAngle), cos(this.timerAngle) + 50);
+    this.UILayer.text("Days of Life: " + this.stateTimer + " days.", sin(this.timerAngle), cos(this.timerAngle) + 50);
     this.UILayer.pop();
   }
 

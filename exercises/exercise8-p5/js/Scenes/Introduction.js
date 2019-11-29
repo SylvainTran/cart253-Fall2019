@@ -10,6 +10,7 @@ class Introduction extends State {
     constructor(stateConfig, stateData, UILayer, characterPortrait) {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
+      this.resetStateTimer();
       this.positivityGrowthFactor = 50;
       this.positivityDecayFactor = 10; // Could become increasingly larger relative to growth factor by age slice.
       this.resetPositivity();
@@ -31,11 +32,10 @@ class Introduction extends State {
       this.decayMemory();
       this.spawnMentalSchemas();
       this.displayStateTimer();
-      console.log("State timer: " + this.stateTimer);
-      console.log("State duration: " + this.stateDuration);
       // Change scene after the duration of state
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
+        congratulations.play();
       }
     }
 
@@ -46,13 +46,9 @@ class Introduction extends State {
       text, image and "UI".
     */
     decayMemory() {
-      //this.specialFX--;      
-      //frameRate(5);
-      // Decay effect using blur, gray and dilate filters.
+      // Sets the frame rate to 24 to slow down the game's display
+      frameRate(24);
       push();
-      //this.bgColor = this.specialFX; 
-      //filter(BLUR);
-      //filter(GRAY);
       filter(DILATE);
       pop();
     }

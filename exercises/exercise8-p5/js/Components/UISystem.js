@@ -38,7 +38,7 @@ class UISystem extends StateSystem {
     this.UILayer.push();
     this.UILayer.textSize(42);
     this.UILayer.fill(255, 0, 255);
-    this.UILayer.text("Slice-of-Life Result At 4 Years Old", 200, 115); // TODO change years as per state
+    this.UILayer.text("During a slice-of-life, Press any key or mouse button.", 0, 115); // TODO change years as per state
     this.UILayer.pop();
   }
 

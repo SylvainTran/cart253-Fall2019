@@ -10,7 +10,7 @@ class MoveablePerson {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius) {
+  constructor(x, y, speed, avatar) {
     // Position
     this.x = x;
     this.y = y;
@@ -18,14 +18,8 @@ class MoveablePerson {
     this.vx = 0;
     this.vy = 0;
     this.speed = speed;
-    // Health properties
-    this.maxHealth = radius;
-    this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
-    this.healthLossPerMove = 0.1;
-    this.healthGainPerEat = 1;
     // Display properties
-    this.fillColor = fillColor;
-    this.radius = this.health; // Radius is defined in terms of health
+    this.avatar = avatar;
     // Input properties
     this.upKey = UP_ARROW;
     this.downKey = DOWN_ARROW;
@@ -64,43 +58,20 @@ class MoveablePerson {
     this.handleWrapping();
   }
 
-  // handleWrapping
-  //
-  // Checks if the predator has gone off the canvas and
-  // wraps it to the other side if so
-  handleWrapping() {
-    // Off the left or right
+  /**
+    handleWrapping()
+    Handles wrapping to the left and right.
+    Prevents from going backwards but wraps when going forward.
+
+  */
+  handleWrapping() {  
     if (this.x < 0) {
-      this.x += width;
+      // Reverse the velocity and sums it to the negative x value to block the left side
+      this.vx = -this.vx;
+      this.x += this.vx;
     }
     else if (this.x > width) {
       this.x -= width;
-    }
-    // Off the top or bottom
-    if (this.y > height) {
-      this.y -= this.vy;
-    }
-  }
-
-  // handleEating
-  //
-  // Takes a Prey object as an argument and checks if the predator
-  // overlaps it. If so, reduces the prey's health and increases
-  // the predator's. If the prey dies, it gets reset.
-  handleEating(prey) {
-    // Calculate distance from this predator to the prey
-    let d = dist(this.x, this.y, prey.x, prey.y);
-    // Check if the distance is less than their two radii (an overlap)
-    if (d < this.radius + prey.radius) {
-      // Increase predator health and constrain it to its possible range
-      this.health += this.healthGainPerEat;
-      this.health = constrain(this.health, 0, this.maxHealth);
-      // Decrease prey health by the same amount
-      prey.health -= this.healthGainPerEat;
-      // Check if the prey died and reset it if so
-      if (prey.health < 0) {
-        prey.reset();
-      }
     }
   }
 
@@ -109,11 +80,7 @@ class MoveablePerson {
   // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
-    push();
-    noStroke();
-    fill(this.fillColor);
-    this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
-    pop();
+    const sizeMultiplier = 3;
+    image(this.avatar, this.x, this.y, this.avatar.width * sizeMultiplier, this.avatar.height * sizeMultiplier);
   }
 }

@@ -12,13 +12,18 @@
     some complex ideas using other libraries.
   @Simplify my code and use more robust designs.
 
+  Music:
+  https://opengameart.org/content/chill-lofi-inspired
+  Voices:
+  https://opengameart.org/content/voiceover-pack-40-lines
 */
 let states = {};
 let stateConfig, stateData0, stateData1, stateData2, stateData3, stateData4, stateData5, stateData6, stateData7, stateData8;
 let gameCanvas;
 let zeyadaType, AntonRegularType;
 let allison, allisonMall, allisonHighSchool, duckguy;
-let moveableAllison;
+let moveableAllison, oldAllison;
+let cloudsPlatformerBg;
 let UILayer;
 let inputKeys = {
   "LEFT": 37,
@@ -27,6 +32,10 @@ let inputKeys = {
 };
 let leftKeyPressed = 0;
 let rightKeyPressed = 0;
+let ChillLofiR; // Chill lofi song
+let readyVoice;
+let congratulations;
+let go;
 /**
   preload()
   @no custom args.
@@ -37,6 +46,8 @@ function preload() {
   allison = loadImage("assets/images/Allison-0001-FourYears-FX.png");
   allisonMall = loadImage("assets/images/Allison-0002-AMall-FX.png");
   allisonHighSchool = loadImage("assets/images/Allison-0003-HighSchool-FX.png");
+  oldAllison = loadImage("assets/images/old-allison.gif");
+  cloudsPlatformerBg = loadImage("assets/images/cloudsPlatformerBg.png");
   zeyadaType = loadFont("assets/fonts/Zeyada-Regular.ttf");
   AntonRegularType = loadFont("assets/fonts/Anton-Regular.ttf");
   stateConfig = loadJSON("data/states/stateConfig.json");
@@ -45,10 +56,14 @@ function preload() {
   stateData2 = loadJSON("data/states/stateData/stateData2.json");
   stateData3 = loadJSON("data/states/stateData/stateData3.json");
   stateData4 = loadJSON("data/states/stateData/stateData4.json");
-  stateData5 = loadJSON("data/states/stateData/stateData5.json");  
-  stateData6 = loadJSON("data/states/stateData/stateData6.json");    
-  stateData7 = loadJSON("data/states/stateData/stateData7.json");    
-  stateData8 = loadJSON("data/states/stateData/stateData8.json");      
+  stateData5 = loadJSON("data/states/stateData/stateData5.json");
+  stateData6 = loadJSON("data/states/stateData/stateData6.json");
+  stateData7 = loadJSON("data/states/stateData/stateData7.json");
+  stateData8 = loadJSON("data/states/stateData/stateData8.json");
+  ChillLofiR = loadSound("assets/sounds/ChillLofiR.mp3");
+  readyVoice = loadSound("assets/sounds/ready.ogg");
+  congratulations = loadSound("assets/sounds/congratulations.ogg");
+  go = loadSound("assets/sounds/go.ogg");
 }
 
 /**
@@ -67,18 +82,24 @@ function setup() {
   states =
   {
     "Tutorial": new Tutorial(stateConfig, stateData1, UILayer, allison),
+    "BetweenLifeSlicesA": new BetweenLifeSlicesA(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
     "Introduction": new Introduction(stateConfig, stateData2, UILayer, allison),
+    "BetweenLifeSlicesB": new BetweenLifeSlicesB(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
     "AzayashiMall": new AzayashiMall(stateConfig, stateData3, UILayer, allisonMall),
-    "HighSchool": new HighSchool(stateConfig, stateData4, UILayer, duckguy),
-    "FirstJob": new FirstJob(stateConfig, stateData5, UILayer, duckguy),
-    "GangLife": new GangLife(stateConfig, stateData6, UILayer, duckguy),
-    "HotelSpa": new HotelSpa(stateConfig, stateData7, UILayer, duckguy),
-    "BetweenLifeSlices": new BetweenLifeSlices(stateConfig, stateData8, UILayer, duckguy)
+    "BetweenLifeSlicesC": new BetweenLifeSlicesC(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
+    "HighSchool": new HighSchool(stateConfig, stateData4, UILayer, allisonMall),
+    "BetweenLifeSlicesD": new BetweenLifeSlicesD(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
+    "FirstJob": new FirstJob(stateConfig, stateData5, UILayer, allisonMall),
+    "BetweenLifeSlicesE": new BetweenLifeSlicesE(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
+    "GangLife": new GangLife(stateConfig, stateData6, UILayer, allisonMall),
+    "BetweenLifeSlicesF": new BetweenLifeSlicesF(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
+    "HotelSpa": new HotelSpa(stateConfig, stateData7, UILayer, allisonMall),
+    "BetweenLifeSlices": new BetweenLifeSlices(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg)
   };
   StateSystem = new StateSystem(states, UILayer, stateConfig, allison);
   StateSystem.createSubSystems();
   StateSystem.StateParticles.displayPortrait();
-  filter(DILATE);  
+  ChillLofiR.loop();
 }
 
 /**
@@ -107,29 +128,5 @@ function mousePressed() {
   }
   else {
     StateSystem.UISystem.clearContextMenu();
-  }
-}
-
-/**
-  keyPressed()
-  @arg: no custom args.
-  @Handles key pressed.
-*/
-function keyPressed() {
-  if(keyCode === inputKeys.LEFT) {
-    leftKeyPressed++;
-    push();
-    fill(255, 0, 0);
-    rect(0, 540, allison.width, allison.height);
-    pop();
-    console.log(leftKeyPressed);
-  }
-  else if(keyCode === inputKeys.RIGHT) {
-    rightKeyPressed++;
-    push();
-    fill(0, 255, 0);
-    rect(0, 540, allison.width, allison.height);
-    pop();
-    console.log(rightKeyPressed);
   }
 }
