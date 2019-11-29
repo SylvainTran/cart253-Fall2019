@@ -63,7 +63,7 @@ class BetweenLifeSlices extends State {
       noStroke();
       textSize(40);
       fill(255);
-      text("“Love is like an orange, but do you even like oranges?” - The End.", 20, 850);
+      text("“Love is like an orange, but do you even like oranges?”\n-The End.", 20, 850);
       pop();
     }
 }

@@ -29,7 +29,7 @@ class BetweenLifeSlicesC extends BetweenLifeSlices {
     noStroke();
     textSize(40);
     fill(255);
-    text("“If at first life seems to pass you by,\nwalk and jump and cry but don't give up.”\n -Your Own Intuition", 20, 850);
+    text("“If at first life seems to pass you by,\nwalk and jump and cry but don't give up.”\n-Your Own Intuition", 20, 850);
     pop();
   }
 }
