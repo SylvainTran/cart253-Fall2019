@@ -29,7 +29,7 @@ class BetweenLifeSlicesD extends BetweenLifeSlices {
     noStroke();
     textSize(40);
     fill(255);
-    text("“Your self-dignity comes from what's authentic\nand beautiful within, not from your\n exterior performance.” - Yet Another Christian", 20, 850);
+    text("“Your self-dignity comes from what's authentic\nand beautiful within, not from your\nexterior performance.” - The Average Opinion", 20, 850);
     pop();
   }
 }
