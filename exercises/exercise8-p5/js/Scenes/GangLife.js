@@ -23,10 +23,12 @@ class GangLife extends State {
       @Updates this state.
     */
     updateState() {
+      this.setFrameRate();
       this.updateStateTimer();
       this.autoDecreasePositivity(this.positivityDecayFactor)
       this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
+      this.curveDecayFactor();
       this.displayPortrait();
       this.spawnMentalSchemas();
       this.displayStateTimer();

@@ -13,7 +13,7 @@ class BetweenLifeSlices extends State {
       this.characterPortrait = characterPortrait;
       this.cloudsPlatformerBg = cloudsPlatformerBg;
       this.resetStateTimer();
-      //this.stateDuration = 3650;
+      this.stateDuration = 365;
       this.moveableAllison = new MoveablePerson(300, 255, 10, characterPortrait);
       this.leftBg = 0;
       this.rightBg = width;

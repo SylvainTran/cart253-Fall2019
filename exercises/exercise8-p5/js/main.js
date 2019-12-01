@@ -36,6 +36,8 @@ let ChillLofiR; // Chill lofi song
 let readyVoice;
 let congratulations;
 let go;
+let positiveChime;
+let hurryUp;
 /**
   preload()
   @no custom args.
@@ -64,6 +66,7 @@ function preload() {
   readyVoice = loadSound("assets/sounds/ready.ogg");
   congratulations = loadSound("assets/sounds/congratulations.ogg");
   go = loadSound("assets/sounds/go.ogg");
+  positiveChime = loadSound("assets/sounds/positiveChime.wav");
 }
 
 /**
@@ -129,4 +132,8 @@ function mousePressed() {
   else {
     StateSystem.UISystem.clearContextMenu();
   }
+}
+
+function mouseClicked() {
+  StateSystem.states[StateSystem.currentStateTag].stateMouseClicked();
 }

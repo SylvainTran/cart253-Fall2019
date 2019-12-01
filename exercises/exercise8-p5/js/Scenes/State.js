@@ -36,9 +36,32 @@ class State {
     this.timerAngle = 0;
     this.tSizer = 150;
     this.strokeW = 5;
-    this.stateDuration = 365; // The duration of a slice of life. Reduce to go through scenes quickly
+    this.stateDuration = 200; // The duration of a slice of life. Reduce to go through scenes quickly
+    this.firstQuartersThreshold = width / 4;
+    this.threeQuartersThreshold = width / 1.5;
   }
 
+  setFrameRate() {
+    // Sets the frame rate to 24 to slow down the game's display
+    frameRate(24);
+  }
+
+  // Thought difficulty mini-Game
+  curveDecayFactor() {
+    if(this.positivityScore <= this.firstQuartersThreshold) {
+      this.positivityDecayFactor = 35; // reset the decay factor to normal
+    }
+    if(this.positivityScore > this.threeQuartersThreshold) {
+      this.positivityDecayFactor++; // increment the decay factor to make it like you are struggling to fight negativity
+    }
+  }
+
+  stateMouseClicked() {
+    fill(255);
+    textSize(42);
+    text("Click the mouse button repeatedly to update positivity!", width/2, 200);
+    this.positiveThoughts +=100;
+  }
   /**
     resetNumberOfClicks()
     @arg: none.
@@ -72,6 +95,9 @@ class State {
   incrementPositivity(positivityGrowthFactor) {
     if(keyIsPressed || mouseIsPressed) {
       this.positiveThoughts += positivityGrowthFactor;
+      // Animation and sound effect for user feedback
+      positiveChime.play();
+
     }
     return this.positiveThoughts;
   }
@@ -80,9 +106,12 @@ class State {
     autoDecreasePositivity()
     @arg: none.
     @Automatically decreases positivity in a given state. Game mechanic.
+    Constrains the range of positive thoughts to a value between 0 and width.
   */
   autoDecreasePositivity(positivityDecayFactor) {
     this.positiveThoughts -= positivityDecayFactor;
+    let constrainedPositiveThoughts = constrain(this.positiveThoughts, 0, width);
+    this.positiveThoughts = constrainedPositiveThoughts;
   }
 
   /**
@@ -106,11 +135,23 @@ class State {
   /**
     displayPositivity()
     @arg: none.
-    @Displays the internal amount of positive thoughts as a horizontal green bar.
+    @Displays the internal amount of positive thoughts as a horizontal bar whose
+    color depends on the current value of positive thoughts.
   */
   displayPositivity() {
     this.UILayer.push();
-    this.UILayer.fill(0, 255, 0);
+    if(this.positiveThoughts <= width / 6) {
+      this.UILayer.fill(255, 0, 0);
+    }
+    if(this.positiveThoughts >= width / 6) {
+      this.UILayer.fill(200, 0, 0);
+    }
+    if(this.positiveThoughts >= width / 2) {
+      this.UILayer.fill(255, 255, 0);
+    }
+    if(this.positiveThoughts >= width / 1.5) {
+      this.UILayer.fill(0, 255, 0);
+    }
     this.UILayer.rect(0, 75, this.positiveThoughts, 50);
     this.UILayer.pop();
   }

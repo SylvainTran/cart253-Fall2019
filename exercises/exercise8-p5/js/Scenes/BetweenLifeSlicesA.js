@@ -2,6 +2,7 @@ class BetweenLifeSlicesA extends BetweenLifeSlices {
   constructor(stateConfig, stateData, UILayer, characterPortrait, cloudsPlatformerBg) {
     super(stateConfig, stateData, UILayer, characterPortrait, cloudsPlatformerBg);
     this.resetStateTimer();
+    this.stateDuration = 365;
   }
 
   /**

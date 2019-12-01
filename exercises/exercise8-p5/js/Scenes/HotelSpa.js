@@ -11,7 +11,7 @@ class HotelSpa extends State {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
       this.positivityGrowthFactor = 50;
-      this.positivityDecayFactor = 20; // Could become increasingly larger relative to growth factor by age slice.
+      this.positivityDecayFactor = 35; // Could become increasingly larger relative to growth factor by age slice.
       this.resetPositivity();
       this.resetStateTimer();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
@@ -23,10 +23,12 @@ class HotelSpa extends State {
       @Updates this state.
     */
     updateState() {
+      this.setFrameRate();      
       this.updateStateTimer();
       this.autoDecreasePositivity(this.positivityDecayFactor)
       this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
+      this.curveDecayFactor();
       this.displayPortrait();
       this.spawnMentalSchemas();
       this.displayStateTimer();

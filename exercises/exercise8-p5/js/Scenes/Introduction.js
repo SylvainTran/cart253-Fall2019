@@ -12,7 +12,7 @@ class Introduction extends State {
       this.characterPortrait = characterPortrait;
       this.resetStateTimer();
       this.positivityGrowthFactor = 50;
-      this.positivityDecayFactor = 10; // Could become increasingly larger relative to growth factor by age slice.
+      this.positivityDecayFactor = 35; // Could become increasingly larger relative to growth factor by age slice.
       this.resetPositivity();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
       this.specialFX = 200;
@@ -24,11 +24,12 @@ class Introduction extends State {
       @Updates this state.
     */
     updateState() {
+      this.setFrameRate();
       this.updateStateTimer();
       this.autoDecreasePositivity(this.positivityDecayFactor);
       this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor);
-      //console.log("Final positivity score: " + this.positivityScore);
       this.displayPositivity();
+      this.curveDecayFactor();
       this.decayMemory();
       this.spawnMentalSchemas();
       this.displayStateTimer();
@@ -36,6 +37,7 @@ class Introduction extends State {
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
         congratulations.play();
+        this.positivityScore = this.positiveThoughts; // the score to display in the next between slice of life
       }
     }
 
@@ -46,8 +48,6 @@ class Introduction extends State {
       text, image and "UI".
     */
     decayMemory() {
-      // Sets the frame rate to 24 to slow down the game's display
-      frameRate(24);
       push();
       filter(DILATE);
       pop();
@@ -128,6 +128,5 @@ class Introduction extends State {
     updateClicks(updateClickCounter) {
       this.contextMenuDisplayed = false;
       this.numberOfClicksOverPortrait++;
-      console.log(this.numberOfClicksOverPortrait);
     }
 }

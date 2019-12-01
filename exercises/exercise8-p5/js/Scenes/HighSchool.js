@@ -11,7 +11,7 @@ class HighSchool extends State {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
       this.positivityGrowthFactor = 50;
-      this.positivityDecayFactor = 25;
+      this.positivityDecayFactor = 35;
       this.resetPositivity();
       this.resetStateTimer();
       this.positivityScore = 0;
@@ -23,10 +23,12 @@ class HighSchool extends State {
       @Updates this state.
     */
     updateState() {
+      this.setFrameRate();  
       this.updateStateTimer();
       this.autoDecreasePositivity(this.positivityDecayFactor)
       this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
+      this.curveDecayFactor();
       this.displayStateTimer();
       this.displayPortrait();
       this.spawnMentalSchemas();
