@@ -115,7 +115,6 @@ function setup() {
 */
 function draw() {
   // Spectator mode
-  //camera([x],[y],[z],[centerX],[centerY],[centerZ],[upX],[upY],[upZ])
   camera(player3DPositionX, height/2, player3DPositionZ / tan(PI/6), mouseX, 0, 0, 0, 1, 0);
   // Re-center the origin to top left
   gameCanvas.translate(-width/2,-height/2,10);

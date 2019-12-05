@@ -17,7 +17,7 @@ class Tutorial extends State {
     background(0);
     textSize(100);
     fill(255);
-    text("Welcome to Allison's Life Movie Theater.", 0, -150);
+    text("Welcome to Allison's Life Movie Theater.\nPress any mouse button to put on your VR glasses.\nIf you want to get up from your seat, use the key arrows.", -150, -150);
     pop();
     this.updateText();
   }
