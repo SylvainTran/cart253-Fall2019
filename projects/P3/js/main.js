@@ -24,7 +24,6 @@ let zeyadaType, AntonRegularType;
 let allison, allisonMall, allisonHighSchool, duckguy;
 let moveableAllison, oldAllison;
 let cloudsPlatformerBg;
-let bestSeats;
 let UILayer;
 let inputKeys = {
   "LEFT": 37,
@@ -39,6 +38,8 @@ let congratulations;
 let go;
 let positiveChime;
 let hurryUp;
+let player3DPositionX; // simple X position in 3D space
+let player3DPositionZ; // simple Z position in 3D space
 /**
   preload()
   @no custom args.
@@ -68,7 +69,6 @@ function preload() {
   congratulations = loadSound("assets/sounds/congratulations.ogg");
   go = loadSound("assets/sounds/go.ogg");
   positiveChime = loadSound("assets/sounds/positiveChime.wav");
-  bestSeats = loadImage("assets/images/bestSeats.jpeg");
 }
 
 /**
@@ -104,6 +104,8 @@ function setup() {
   StateSystem = new StateSystem(states, UILayer, stateConfig, allison);
   StateSystem.createSubSystems();
   ChillLofiR.loop();
+  player3DPositionX = width/2;
+  player3DPositionZ = height/2;
 }
 
 /**
@@ -113,7 +115,8 @@ function setup() {
 */
 function draw() {
   // Spectator mode
-  camera(width/2, height/2, (height/2) / tan(PI/6), mouseX, 0, 0, 0, 1, 0);
+  //camera([x],[y],[z],[centerX],[centerY],[centerZ],[upX],[upY],[upZ])
+  camera(player3DPositionX, height/2, player3DPositionZ / tan(PI/6), mouseX, 0, 0, 0, 1, 0);
   // Re-center the origin to top left
   gameCanvas.translate(-width/2,-height/2,10);
   // Update state graphics
@@ -146,4 +149,24 @@ function mouseClicked() {
 
 function keyPressed() {
   // Move in 3D place around the cinema seats
+  if(keyCode === LEFT_ARROW) {
+    player3DPositionX -= 100;
+  }
+  else if(keyCode === RIGHT_ARROW) {
+    player3DPositionX += 100;
+  }
+  else if(keyCode === UP_ARROW) {
+    player3DPositionZ -= 100;
+    // Block movement forward if player goes too close to the movie screen
+    if(player3DPositionZ <= 0) {
+      player3DPositionZ += + 100;
+    }
+  }
+  else if(keyCode === DOWN_ARROW) {
+    player3DPositionZ += 100;
+    // Block movement forward if player goes too far from the movie screen
+    if(player3DPositionZ >= 1000) {
+      player3DPositionZ -= 100;
+    }
+  }
 }
