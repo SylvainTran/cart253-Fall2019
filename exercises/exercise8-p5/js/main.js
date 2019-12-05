@@ -19,7 +19,7 @@
 */
 let states = {};
 let stateConfig, stateData0, stateData1, stateData2, stateData3, stateData4, stateData5, stateData6, stateData7, stateData8;
-let gameCanvas;
+let gameCanvas, webGLCanvas;
 let zeyadaType, AntonRegularType;
 let allison, allisonMall, allisonHighSchool, duckguy;
 let moveableAllison, oldAllison;
@@ -113,6 +113,7 @@ function setup() {
 function draw() {
   StateSystem.updateSystems();
   image(UILayer,0,0,1000,200);
+  //image(webGLCanvas, 0,0,1000,1000);
 }
 
 /**

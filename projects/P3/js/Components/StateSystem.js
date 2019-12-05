@@ -37,7 +37,13 @@ class StateSystem {
   */
   updateSystems() {
     this.updateCurrentStateTag();
-    this.UISystem.updateStateUI(); // TODO pass in the current state's years for Ally
+    // If we are not in a BetweenLifeSlices, display the UI
+    if(!this.states[this.currentStateTag].stateTag.includes("Life")) {
+      this.UISystem.updateStateUI();
+    }
+    else {
+      UILayer.clear();
+    }
     this.StateParticles.updateParticles(this.checkCurrentStateTag);
   }
 

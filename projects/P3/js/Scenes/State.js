@@ -39,6 +39,33 @@ class State {
     this.stateDuration = 200; // The duration of a slice of life. Reduce to go through scenes quickly
     this.firstQuartersThreshold = width / 4;
     this.threeQuartersThreshold = width / 1.5;
+    this.z = 0;
+  }
+
+  /**
+    Player goes meta-player with the movies's 3D scene in place.
+
+  */
+  displayEmotionalDimension() {
+    if(mouseIsPressed) {
+      push();
+      rotateX(PI/6);
+      translate(width/2,height/2,10);
+      fill(224,255,255); // Snowflakes' color
+      for(let i = 0; i <= 10000; i+=1) {
+        rotate(radians(30));
+        box(10 + this.z, 10 + this.z, 1);
+        translate(200, 100, 10);
+        box(20 + this.z, 10 + this.z, 1);
+      }
+      pop();
+
+      // Increment z
+      this.z+=10;
+      if(this.z >= 1200) {
+        this.z = 0;
+      }
+    }
   }
 
   setFrameRate() {
@@ -57,10 +84,12 @@ class State {
   }
 
   stateMouseClicked() {
+    push();
     fill(255);
     textSize(42);
     text("Click the mouse button repeatedly to update positivity!", width/2, 200);
     this.positiveThoughts +=100;
+    push();
   }
   /**
     resetNumberOfClicks()
@@ -96,7 +125,7 @@ class State {
     if(keyIsPressed || mouseIsPressed) {
       this.positiveThoughts += positivityGrowthFactor;
       // Animation and sound effect for user feedback
-      positiveChime.play();
+      //positiveChime.play();
 
     }
     return this.positiveThoughts;

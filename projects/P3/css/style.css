@@ -9,4 +9,12 @@ so the canvas is flush with the top left corner.
 body {
   padding: 0;
   margin: 0;
+  background-color: black;
+}
+
+.movieTheater {
+  height: 50vw;
+  color: white;
+  background-image: url("../assets/images/cinemaBg3.jpg");
+  background-size: contain;
 }

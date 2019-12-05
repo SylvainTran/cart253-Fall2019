@@ -3,6 +3,7 @@ class BetweenLifeSlicesB extends BetweenLifeSlices {
     super(stateConfig, stateData, UILayer, characterPortrait, cloudsPlatformerBg);
     this.resetStateTimer();
     this.stateDuration = 365;
+    this.stateTag = "BetweenLifeSlicesB";
   }
 
   /**
@@ -14,6 +15,12 @@ class BetweenLifeSlicesB extends BetweenLifeSlices {
     frameRate(60);
     this.updateStateTimer();
     this.displayStateTimer();
+    push();
+    background(0);
+    textSize(100);
+    fill(255);
+    text("CineLife Movies. Yours truly.", 0, -150);
+    pop();
     this.updateParallaxBg();
     this.updateText();
     this.moveableAllison.handleInput();
@@ -30,7 +37,7 @@ class BetweenLifeSlicesB extends BetweenLifeSlices {
     noStroke();
     textSize(40);
     fill(255);
-    text("“What you focus on expands. Focus not on other peoples'\n opinions, only the best in you.” - Anonymous", 20, 850);
+    text("“What you focus on expands. Don't focus on other peoples'\n opinions. Only the best in you.” - Anonymous", 20, 850);
     pop();
   }
 }

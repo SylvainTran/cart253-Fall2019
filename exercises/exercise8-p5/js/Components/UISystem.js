@@ -16,8 +16,12 @@ class UISystem extends StateSystem {
   }
 
   updateStateUI() {
-    this.updateUI();
-    this.updatePsyInstructions();
+    alert(this.stateConfig[this.currentStateTag].stateTag);
+    if(this.stateConfig[this.currentStateTag].stateTag.includes("Life")) {
+      alert("OK");
+      this.updateUI();
+      this.updatePsyInstructions();
+    }
   }
 
   // The UI at the top. Black bar with a turquoise button.

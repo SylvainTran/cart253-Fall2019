@@ -3,6 +3,7 @@ class BetweenLifeSlicesE extends BetweenLifeSlices {
     super(stateConfig, stateData, UILayer, characterPortrait, cloudsPlatformerBg);
     this.resetStateTimer();
     this.stateDuration = 365;
+    this.stateTag = "BetweenLifeSlicesE";
   }
 
   /**
@@ -14,6 +15,12 @@ class BetweenLifeSlicesE extends BetweenLifeSlices {
     frameRate(60);
     this.updateStateTimer();
     this.displayStateTimer();
+    push();
+    background(0);
+    textSize(100);
+    fill(255);
+    text("CineLife Movies. Yours truly.", 0, -150);
+    pop();
     this.updateParallaxBg();
     this.updateText();
     this.moveableAllison.handleInput();

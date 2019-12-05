@@ -15,6 +15,7 @@ class HighSchool extends State {
       this.resetPositivity();
       this.resetStateTimer();
       this.positivityScore = 0;
+      this.stateTag = "HighSchool";
     }
 
     /**
@@ -23,13 +24,20 @@ class HighSchool extends State {
       @Updates this state.
     */
     updateState() {
-      this.setFrameRate();  
+      this.setFrameRate();
       this.updateStateTimer();
       this.autoDecreasePositivity(this.positivityDecayFactor)
       this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
       this.displayStateTimer();
+      push();
+      background(0);
+      textSize(100);
+      fill(255);
+      text("CineLife Movies. Yours truly.", 0, -150);
+      pop();
+
       this.displayPortrait();
       this.spawnMentalSchemas();
       if(this.stateTimer >= this.stateDuration) {

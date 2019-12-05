@@ -15,6 +15,7 @@ class AzayashiMall extends State {
       this.resetPositivity();
       this.resetStateTimer();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
+      this.stateTag = "AzayashiMall";
     }
 
     /**
@@ -29,9 +30,16 @@ class AzayashiMall extends State {
       this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
+      push();
+      background(0);
+      textSize(100);
+      fill(255);
+      text("CineLife Movies. Yours truly.", 0, -150);
+      pop();
       this.displayPortrait();
       this.spawnMentalSchemas();
       this.displayStateTimer();
+      this.displayEmotionalDimension();
       // Change scene after the duration of state
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;

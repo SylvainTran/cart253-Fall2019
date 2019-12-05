@@ -15,6 +15,7 @@ class Downtown extends State {
       this.resetPositivity();
       this.resetStateTimer();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
+      this.stateTag = "Downtown";
     }
 
     /**
@@ -23,12 +24,19 @@ class Downtown extends State {
       @Updates this state.
     */
     updateState() {
-      this.setFrameRate();  
+      this.setFrameRate();
       this.updateStateTimer();
       this.autoDecreasePositivity(this.positivityDecayFactor)
       this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
+      push();
+      background(0);
+      textSize(100);
+      fill(255);
+      text("CineLife Movies. Yours truly.", 0, -150);
+      pop();
+
       this.displayPortrait();
       this.spawnMentalSchemas();
       this.displayStateTimer();

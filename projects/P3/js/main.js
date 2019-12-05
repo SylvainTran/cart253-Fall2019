@@ -19,11 +19,12 @@
 */
 let states = {};
 let stateConfig, stateData0, stateData1, stateData2, stateData3, stateData4, stateData5, stateData6, stateData7, stateData8;
-let gameCanvas;
+let gameCanvas, webGLCanvas;
 let zeyadaType, AntonRegularType;
 let allison, allisonMall, allisonHighSchool, duckguy;
 let moveableAllison, oldAllison;
 let cloudsPlatformerBg;
+let bestSeats;
 let UILayer;
 let inputKeys = {
   "LEFT": 37,
@@ -67,6 +68,7 @@ function preload() {
   congratulations = loadSound("assets/sounds/congratulations.ogg");
   go = loadSound("assets/sounds/go.ogg");
   positiveChime = loadSound("assets/sounds/positiveChime.wav");
+  bestSeats = loadImage("assets/images/bestSeats.jpeg");
 }
 
 /**
@@ -79,7 +81,7 @@ function preload() {
   portrait of Allison.
 */
 function setup() {
-  gameCanvas = createCanvas(1000, 1000);
+  gameCanvas = createCanvas(1000, 1000, WEBGL);
   gameCanvas.parent('gameCanvas');
   UILayer = createGraphics(1000, 200);
   states =
@@ -101,7 +103,6 @@ function setup() {
   };
   StateSystem = new StateSystem(states, UILayer, stateConfig, allison);
   StateSystem.createSubSystems();
-  StateSystem.StateParticles.displayPortrait();
   ChillLofiR.loop();
 }
 
@@ -111,6 +112,11 @@ function setup() {
   @Render each frame.
 */
 function draw() {
+  // Spectator mode
+  camera(width/2, height/2, (height/2) / tan(PI/6), mouseX, 0, 0, 0, 1, 0);
+  // Re-center the origin to top left
+  gameCanvas.translate(-width/2,-height/2,10);
+  // Update state graphics
   StateSystem.updateSystems();
   image(UILayer,0,0,1000,200);
 }
@@ -136,4 +142,8 @@ function mousePressed() {
 
 function mouseClicked() {
   StateSystem.states[StateSystem.currentStateTag].stateMouseClicked();
+}
+
+function keyPressed() {
+  // Move in 3D place around the cinema seats
 }

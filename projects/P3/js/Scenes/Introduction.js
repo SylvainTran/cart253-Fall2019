@@ -16,6 +16,7 @@ class Introduction extends State {
       this.resetPositivity();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
       this.specialFX = 200;
+      this.stateTag = "Introduction";
     }
 
     /**
@@ -49,7 +50,10 @@ class Introduction extends State {
     */
     decayMemory() {
       push();
-      filter(DILATE);
+      background(0);
+      textSize(100);
+      fill(255);
+      text("CineLife Movies. Yours truly.", 0, -150);
       pop();
     }
 
@@ -76,7 +80,7 @@ class Introduction extends State {
       push();
       stroke(255, 0, 0);
       strokeWeight(this.strokeW);
-      fill(0);
+      fill(255);
       textSize(this.tSizer);
       push();
       translate(width/2, height/2);

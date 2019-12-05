@@ -5,7 +5,7 @@
   "isCinematic": true,
   "nbActors": 2,
   "tSize": 42,
-  "textColor": 0,
+  "textColor": 255,
   "narrationPosX": 600,
   "narrationPosY": 333,
   "narration": ["This is the mall where I got lost at seven."],

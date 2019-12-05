@@ -75,7 +75,7 @@ class UISystem extends StateSystem {
   */
   clearContextMenu() {
     UILayer.push();
-    UILayer.background(255);
+    //UILayer.background(255);
     UILayer.pop();
   }
 

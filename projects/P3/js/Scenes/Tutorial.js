@@ -10,8 +10,15 @@ class Tutorial extends State {
   constructor(stateConfig, stateData, characterPortrait) {
     super(stateConfig, stateData);
     this.characterPortrait = characterPortrait;
+    this.stateTag = "Tutorial";
   }
   updateState() {
+    push();
+    background(0);
+    textSize(100);
+    fill(255);
+    text("Welcome to Allison's Life Movie Theater.", 0, -150);
+    pop();
     this.updateText();
   }
 
