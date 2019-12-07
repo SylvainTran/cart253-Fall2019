@@ -40,6 +40,9 @@ let positiveChime;
 let hurryUp;
 let player3DPositionX; // simple X position in 3D space
 let player3DPositionZ; // simple Z position in 3D space
+let speed = 10;
+let vx = 0;
+let vz = 0;
 /**
   preload()
   @no custom args.
@@ -114,6 +117,10 @@ function setup() {
   @Render each frame.
 */
 function draw() {
+  // 3D Movement
+  handleInputs();
+  roomBoundariesBounce();
+
   // Spectator mode
   camera(player3DPositionX, height/2, player3DPositionZ / tan(PI/6), mouseX, 0, 0, 0, 1, 0);
   // Re-center the origin to top left
@@ -146,26 +153,60 @@ function mouseClicked() {
   StateSystem.states[StateSystem.currentStateTag].stateMouseClicked();
 }
 
-function keyPressed() {
-  // Move in 3D place around the cinema seats
-  if(keyCode === LEFT_ARROW) {
-    player3DPositionX -= 100;
+
+/**
+  handleInputs()
+  @no custom args
+  @handles velocity changes depending on the keycode down:
+    currently set to WASD keys.
+*/
+function handleInputs() {
+  if(keyIsDown(65)) { // Left
+    vx = -speed;
   }
-  else if(keyCode === RIGHT_ARROW) {
-    player3DPositionX += 100;
+  else if(keyIsDown(68)) { // Right
+    vx = speed;
   }
-  else if(keyCode === UP_ARROW) {
-    player3DPositionZ -= 100;
-    // Block movement forward if player goes too close to the movie screen
-    if(player3DPositionZ <= 0) {
-      player3DPositionZ += + 100;
-    }
+  else {
+    vx = 0;
   }
-  else if(keyCode === DOWN_ARROW) {
-    player3DPositionZ += 100;
-    // Block movement forward if player goes too far from the movie screen
-    if(player3DPositionZ >= 1000) {
-      player3DPositionZ -= 100;
-    }
+
+  if(keyIsDown(87)) { // Forward
+    vz = -speed;
+  }
+  else if(keyIsDown(83)) { // Backward
+    vz = speed;
+  }
+  else {
+    vz = 0;
+  }
+
+  player3DPositionX += vx;
+  player3DPositionZ += vz;
+}
+
+/**
+  roomBoundariesBounce()
+  @no custom args
+  @handles screen bouncing at the borders of the game scene.
+
+*/
+function roomBoundariesBounce() {
+  const sceneUnitThreshold = 2000;
+  const bounceFactor = 50;
+  if(player3DPositionX <= -sceneUnitThreshold) { // Left
+    player3DPositionX += bounceFactor;
+  }
+
+  if(player3DPositionX >= sceneUnitThreshold) { // Right
+    player3DPositionX -= bounceFactor;
+  }
+
+  if(player3DPositionZ <= 0) { // Forward
+    player3DPositionZ += bounceFactor;
+  }
+
+  if(player3DPositionZ >= sceneUnitThreshold) { // Backward
+    player3DPositionZ -= bounceFactor;
   }
 }
