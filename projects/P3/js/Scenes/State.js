@@ -43,28 +43,33 @@ class State {
   }
 
   /**
-    Player goes meta-player with the movies's 3D scene in place.
+    Glitchy particles to evoke the surrealism of the Life Movie Screen.
 
   */
   displayEmotionalDimension() {
     if(mouseIsPressed) {
       push();
-      rotateX(PI/6);
-      translate(width/2,height/2,10);
-      fill(224,255,255); // Snowflakes' color
+      // Matrix neon green-blue glitchy colors
+      fill(0, random(35, 255), random(5, 255));
       for(let i = 0; i <= 10000; i+=1) {
-        rotate(radians(30));
-        box(10 + this.z, 10 + this.z, 1);
-        translate(200, 100, 10);
-        box(20 + this.z, 10 + this.z, 1);
+        translate(random(0, width), random(0, height), random(0, 100));
+        box(30 + random(0, this.z), 30 + random(0, 150), 30 + random(0, 150));
+        translate(-random(0, width), -random(0, height), -random(0, 100));
+        push();
+        fill(255);
+        pop();
       }
       pop();
 
-      // Increment z
-      this.z+=10;
-      if(this.z >= 1200) {
-        this.z = 0;
-      }
+      // matrix text
+      push();
+      fill(0, random(35, 255), random(5, 255)); // Matrix neon green-blue glitchy colors
+      let matrixString = "ATTEMPTING TO BREACH CURRENTLY DEFINED DIMENSIONAL REALITY PARAMETERS";
+      textSize(random(25, 200));
+      text(matrixString, random(0, width), random(0, height));
+      text(matrixString, random(0, width), random(0, height));
+      text(matrixString, random(0, width), random(0, height));
+      pop();
     }
   }
 

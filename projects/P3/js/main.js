@@ -40,9 +40,17 @@ let positiveChime;
 let hurryUp;
 let player3DPositionX; // simple X position in 3D space
 let player3DPositionZ; // simple Z position in 3D space
+let current3DPositionZ = player3DPositionZ;
 let speed = 10;
 let vx = 0;
 let vz = 0;
+// Whether the cube universe is visible, its dimensions and growth rate
+let cubeUniverseVisible = false;
+let cubeUniverseX = 500;
+let cubeUniverseY = 500;
+let cubeUniverseZ = 500;
+let cubeUniverseGrowthRate = 50;
+
 /**
   preload()
   @no custom args.
@@ -102,7 +110,8 @@ function setup() {
     "GangLife": new GangLife(stateConfig, stateData6, UILayer, allisonMall),
     "BetweenLifeSlicesF": new BetweenLifeSlicesF(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
     "HotelSpa": new HotelSpa(stateConfig, stateData7, UILayer, allisonMall),
-    "BetweenLifeSlices": new BetweenLifeSlices(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg)
+    "BetweenLifeSlicesG": new BetweenLifeSlicesG(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
+    "Downtown": new Downtown(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg)
   };
   StateSystem = new StateSystem(states, UILayer, stateConfig, allison);
   StateSystem.createSubSystems();
@@ -117,17 +126,64 @@ function setup() {
   @Render each frame.
 */
 function draw() {
-  // 3D Movement
-  handleInputs();
-  roomBoundariesBounce();
-
   // Spectator mode
   camera(player3DPositionX, height/2, player3DPositionZ / tan(PI/6), mouseX, 0, 0, 0, 1, 0);
   // Re-center the origin to top left
-  gameCanvas.translate(-width/2,-height/2,10);
+  translate(-width/2,-height/2,10);
   // Update state graphics
   StateSystem.updateSystems();
-  image(UILayer,0,0,1000,200);
+  console.log("X: " + player3DPositionX);
+  console.log("Z: " + player3DPositionZ);
+
+  // Check if player is at the exit point
+  if(player3DPositionX <= -1410 && player3DPositionZ <= 100) {
+    console.log("Changing scene");
+    cubeUniverseVisible = true;
+  }
+
+  if(cubeUniverseVisible) {
+    translate(500, 1000, 500);
+    push();
+    texture(cloudsPlatformerBg);
+    box(cubeUniverseX, cubeUniverseY, cubeUniverseZ);
+    pop();
+    translate(-500, -1000, -500);
+  }
+
+  if(cubeUniverseVisible && player3DPositionX >= -300 && player3DPositionX <= 500 && player3DPositionZ >= 150 && player3DPositionZ <= 500) {
+    // We are inside the cube
+    // Quick universe expansion effect
+    cubeUniverseX += cubeUniverseGrowthRate;
+    cubeUniverseY += cubeUniverseGrowthRate;
+    cubeUniverseZ += cubeUniverseGrowthRate;
+  }
+  // Text cue
+  push();
+  fill(255);
+  textSize(100);
+  text("Exit.", -1350, 100);
+  pop();
+
+  // Red door
+  push();
+  translate(-1250, 1000, 50);
+  fill(255, 0, 0);
+  box(500, 500, 10);
+  translate(1000, -1000, -50);
+  pop();
+
+  // Adjust the 3D UI
+  translate(500, 500, player3DPositionZ - 100);
+  let UIXPos = player3DPositionX - width / 2;
+  let maxUIXPos = constrain(UIXPos, 0, width / 2);
+
+  // 3D Movement
+  handleInputs();
+  // Bounce off walls
+  roomBoundariesBounce();
+
+  image(UILayer, maxUIXPos, -300, 1000,200);
+  translate(-500, -500, player3DPositionZ + 100);
 }
 
 /**
@@ -149,11 +205,6 @@ function mousePressed() {
   }
 }
 
-function mouseClicked() {
-  StateSystem.states[StateSystem.currentStateTag].stateMouseClicked();
-}
-
-
 /**
   handleInputs()
   @no custom args
@@ -169,6 +220,7 @@ function handleInputs() {
   }
   else {
     vx = 0;
+
   }
 
   if(keyIsDown(87)) { // Forward
@@ -180,9 +232,11 @@ function handleInputs() {
   else {
     vz = 0;
   }
-
   player3DPositionX += vx;
   player3DPositionZ += vz;
+  //let smoothFactor = 0.05;
+  //let distanceLastZPos = sq(current3DPositionZ - player3DPositionZ);
+  //rotateY(sqrt(distanceLastZPos * smoothFactor * PI/6));
 }
 
 /**

@@ -45,6 +45,7 @@ class StateSystem {
       UILayer.clear();
     }
     this.StateParticles.updateParticles(this.checkCurrentStateTag);
+    console.log(this.currentStateTag);
   }
 
   /**

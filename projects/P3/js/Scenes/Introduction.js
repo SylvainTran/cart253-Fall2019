@@ -108,7 +108,7 @@ class Introduction extends State {
         noStroke();
         fill(0, 255, 0);
         textSize(42);
-        text("No, I can be friends with everyone!", mouseX - 250, mouseY);
+        text("No, I can be friends with everyone!", mouseX - 50, mouseY);
         pop();
       }
       else {
@@ -116,7 +116,7 @@ class Introduction extends State {
         noStroke();
         fill(255, 0, 0);
         textSize(42);
-        text("I really don't fit in...", mouseX - 250, mouseY);
+        text("I really don't fit in...", mouseX - 50, mouseY - 100);
         pop();
       }
       // Decrement the text stroke size and weight properties

@@ -108,12 +108,12 @@
     "stateTag": "HotelSpa",
     "textObjectPath": "data/states/stateData/stateData7.json",
     "currentState": "false",
-    "nextStateTag": "BetweenLifeSlices",
+    "nextStateTag": "BetweenLifeSlicesG",
     "readyToChangeState": "false"
   },
-  "BetweenLifeSlices": {
+  "BetweenLifeSlicesG": {
     "stateIndex": 14,
-    "stateTag": "BetweenLifeSlices",
+    "stateTag": "BetweenLifeSlicesG",
     "textObjectPath": "data/states/stateData/stateData8.json",
     "currentState": "false",
     "nextStateTag": "Downtown",
@@ -124,7 +124,7 @@
     "stateTag": "Downtown",
     "textObjectPath": "data/states/stateData/stateData9.json",
     "currentState": "false",
-    "nextStateTag": "Kitchen",
+    "nextStateTag": "BetweenLifeSlicesA",
     "readyToChangeState": "false"
   }
 }

@@ -18,6 +18,7 @@ class BetweenLifeSlices extends State {
       this.leftBg = 0;
       this.rightBg = width;
       this.scrollSpeed = 2;
+      this.stateTag = "BetweenLifeSlices";
     }
 
     /**
