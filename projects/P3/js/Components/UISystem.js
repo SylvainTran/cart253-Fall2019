@@ -22,14 +22,14 @@ class UISystem extends StateSystem {
 
   // The UI at the top. Black bar with a turquoise button.
   updateUI() {
-    this.UILayer.push();
-    this.UILayer.fill(0);
-    this.UILayer.rect(0,0,width,100);
-    this.UILayer.fill(64,224,208);
-    this.UILayer.rect(width-150,0,150,100);
-    this.UILayer.pop();
+    // this.UILayer.push();
+    // this.UILayer.fill(0);
+    // this.UILayer.rect(0,0,width,100);
+    // this.UILayer.fill(64,224,208);
+    // this.UILayer.rect(width-150,0,150,100);
+    // this.UILayer.pop();
 
-    // Spawn self-perception bar
+    // Displays the slice-of-life bar
     this.UILayer.push();
     this.UILayer.fill(255);
     this.UILayer.rect(0, 75, width, 50);
@@ -37,8 +37,8 @@ class UISystem extends StateSystem {
 
     this.UILayer.push();
     this.UILayer.textSize(42);
-    this.UILayer.fill(255, 0, 255);
-    this.UILayer.text("During a slice-of-life, Press any key or mouse button.", 0, 115); // TODO change years as per state
+    this.UILayer.fill(0);
+    this.UILayer.text(" Cognitive Restructuration (%)... Press the mouse.", 0, 115); // TODO change years as per state
     this.UILayer.pop();
   }
 

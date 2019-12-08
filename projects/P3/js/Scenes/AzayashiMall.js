@@ -1,7 +1,6 @@
 /**
   AzayashiMall()
-  @constructor args: characterPortrait
-    Assigns portrait.
+  @constructor args:
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.
@@ -10,10 +9,10 @@ class AzayashiMall extends State {
     constructor(stateConfig, stateData, UILayer, characterPortrait) {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
+      this.resetStateTimer();
       this.positivityGrowthFactor = 50;
       this.positivityDecayFactor = 35; // Could become increasingly larger relative to growth factor by age slice.
       this.resetPositivity();
-      this.resetStateTimer();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
       this.stateTag = "AzayashiMall";
     }
@@ -27,15 +26,10 @@ class AzayashiMall extends State {
       this.setFrameRate();
       this.updateStateTimer();
       this.autoDecreasePositivity(this.positivityDecayFactor)
-      this.incrementPositivity(this.positivityGrowthFactor)
+      this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
-      push();
-      background(0);
-      textSize(100);
-      fill(255);
-      text("CineLife Movies. Yours truly.", 0, -150);
-      pop();
+      this.displayTitle("7 years old. You got lost at the mall.\nYour parents never came back, so you walked back home.");
       this.displayPortrait();
       this.spawnMentalSchemas();
       this.displayStateTimer();
@@ -44,6 +38,7 @@ class AzayashiMall extends State {
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
         congratulations.play();
+        this.positivityScore = this.positiveThoughts;
       }
     }
 
@@ -57,23 +52,23 @@ class AzayashiMall extends State {
         Output should be displayed in the life bar skills.
     */
     spawnMentalSchemas() {
+      this.timerAngle += 0.10;
+      textFont(AntonRegularType);
       // Instructions
       push();
+      noStroke();
       fill(0, 255, 255);
-      textSize(42);
+      textSize(30);
       text("I got lost at the mall when I was around seven...", 50, 250);
       pop();
 
-      // push();
-      // stroke(255, 0, 0);
-      // strokeWeight(this.strokeW);
-      // fill(0);
-      // textSize(this.tSizer);
-      // push();
-      // translate(width/2, height/2);
-      // // TODO replace with array of different positive or negative thoughts
-      // text("I'm useless.", sin(this.timerAngle) * 200, cos(this.timerAngle) * 200);
-      // pop();
+      push();
+      fill(255);
+      textSize(this.tSizer);
+      translate(width/2, height/2);
+      // TODO replace with array of different positive or negative thoughts
+      text("I'm useless.", sin(this.timerAngle) * 200, cos(this.timerAngle) * 200);
+      pop();
 
       push();
       translate(0, 0);

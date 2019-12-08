@@ -1,7 +1,6 @@
 /**
   HighSchool()
-  @constructor args: characterPortrait
-    Assigns portrait.
+  @constructor args:
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.
@@ -10,10 +9,10 @@ class HighSchool extends State {
     constructor(stateConfig, stateData, UILayer, characterPortrait) {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
+      this.resetStateTimer();
       this.positivityGrowthFactor = 50;
       this.positivityDecayFactor = 35;
       this.resetPositivity();
-      this.resetStateTimer();
       this.positivityScore = 0;
       this.stateTag = "HighSchool";
     }
@@ -27,22 +26,18 @@ class HighSchool extends State {
       this.setFrameRate();
       this.updateStateTimer();
       this.autoDecreasePositivity(this.positivityDecayFactor)
-      this.incrementPositivity(this.positivityGrowthFactor)
+      this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
+      this.displayTitle("14 years old. You didn't enjoy high school.\nYou liked the painting club.");
       this.displayStateTimer();
-      push();
-      background(0);
-      textSize(100);
-      fill(255);
-      text("CineLife Movies. Yours truly.", 0, -150);
-      pop();
-
       this.displayPortrait();
       this.spawnMentalSchemas();
+      this.displayEmotionalDimension();
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
         congratulations.play();
+        this.positivityScore = this.positiveThoughts;
       }
     }
 
@@ -56,9 +51,10 @@ class HighSchool extends State {
         Output should be displayed in the life bar skills.
     */
     spawnMentalSchemas() {
+      this.timerAngle += 0.10;
       push();
       fill(255);
-      textSize(42);
+      textSize(30);
       // TODO replace with array of different positive or negative thoughts
       text("I am unattractive", random(width/2, width), random(height/2, height));
       pop();
@@ -67,7 +63,7 @@ class HighSchool extends State {
         push();
         fill(0, 255, 0);
         textSize(42);
-        text("I am beautiful.", mouseX - 250, mouseY);
+        text("I am beautiful.", mouseX, mouseY);
         pop();
       }
       else {

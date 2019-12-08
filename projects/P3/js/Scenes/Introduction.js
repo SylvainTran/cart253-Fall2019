@@ -1,7 +1,6 @@
 /**
   Introduction()
-  @constructor args: characterPortrait
-    Assigns portrait.
+  @constructor args:
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.
@@ -15,7 +14,6 @@ class Introduction extends State {
       this.positivityDecayFactor = 35; // Could become increasingly larger relative to growth factor by age slice.
       this.resetPositivity();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
-      this.specialFX = 200;
       this.stateTag = "Introduction";
     }
 
@@ -31,30 +29,17 @@ class Introduction extends State {
       this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor);
       this.displayPositivity();
       this.curveDecayFactor();
-      this.decayMemory();
-      this.spawnMentalSchemas();
+      this.displayTitle("Life Is Not A Movie, Allison.");
       this.displayStateTimer();
+      this.displayPortrait();
+      this.spawnMentalSchemas();
+      this.displayEmotionalDimension();
       // Change scene after the duration of state
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
         congratulations.play();
         this.positivityScore = this.positiveThoughts; // the score to display in the next between slice of life
       }
-    }
-
-    /**
-      decayMemory()
-      @no custom args.
-      @Uses filter effects to induce a decay effect on displayed
-      text, image and "UI".
-    */
-    decayMemory() {
-      push();
-      background(0);
-      textSize(100);
-      fill(255);
-      text("CineLife Movies. Yours truly.", 0, -150);
-      pop();
     }
 
     /**
@@ -131,6 +116,5 @@ class Introduction extends State {
     */
     updateClicks(updateClickCounter) {
       this.contextMenuDisplayed = false;
-      this.numberOfClicksOverPortrait++;
     }
 }

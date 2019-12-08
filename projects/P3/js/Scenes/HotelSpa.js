@@ -1,7 +1,6 @@
 /**
   HotelSpa
-  @constructor args: characterPortrait
-    Assigns portrait.
+  @constructor args:
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.
@@ -10,11 +9,11 @@ class HotelSpa extends State {
     constructor(stateConfig, stateData, UILayer, characterPortrait) {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
-      this.positivityGrowthFactor = 50;
-      this.positivityDecayFactor = 35; // Could become increasingly larger relative to growth factor by age slice.
-      this.resetPositivity();
       this.resetStateTimer();
-      this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
+      this.positivityGrowthFactor = 50;
+      this.positivityDecayFactor = 40;
+      this.resetPositivity();
+      this.positivityScore = 0;
       this.stateTag = "HotelSpa";
     }
 
@@ -27,19 +26,14 @@ class HotelSpa extends State {
       this.setFrameRate();
       this.updateStateTimer();
       this.autoDecreasePositivity(this.positivityDecayFactor)
-      this.incrementPositivity(this.positivityGrowthFactor)
+      this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
-      push();
-      background(0);
-      textSize(100);
-      fill(255);
-      text("CineLife Movies. Yours truly.", 0, -150);
-      pop();
-
+      this.displayTitle("44 years old. You decided to become a florist.\nYour husband divorced you.");
+      this.displayStateTimer();
       this.displayPortrait();
       this.spawnMentalSchemas();
-      this.displayStateTimer();
+      this.displayEmotionalDimension();
       // Change scene after the duration of state
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
@@ -59,6 +53,7 @@ class HotelSpa extends State {
         Output should be displayed in the life bar skills.
     */
     spawnMentalSchemas() {
+      this.timerAngle += 0.10;
       push();
       translate(0, 0);
       stroke(255, 0, 0);
@@ -79,7 +74,7 @@ class HotelSpa extends State {
         noStroke();
         fill(0, 255, 0);
         textSize(42);
-        text("I'm proud of what I've done.", mouseX - 250, mouseY);
+        text("No, I'm proud of what I've done.", mouseX - 250, mouseY);
         pop();
       }
       else {
@@ -87,11 +82,18 @@ class HotelSpa extends State {
         noStroke();
         fill(255, 0, 0);
         textSize(42);
-        text("I messed up my life.", mouseX - 250, mouseY);
+        text("I... messed up my life.", mouseX - 250, mouseY);
         pop();
       }
         this.modifyStroke();
     }
+
+    /**
+      updateClicks()
+      @arg: updateClickCounter.
+        callbacks the function updateClickCounter in the UISystem after this is done.
+      @Listens to mousePressed in main.js.
+    */
     updateClicks(updateClickCounter) {
       this.contextMenuDisplayed = false;
     }

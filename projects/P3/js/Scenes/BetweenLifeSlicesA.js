@@ -19,7 +19,7 @@ class BetweenLifeSlicesA extends BetweenLifeSlices {
     background(0);
     textSize(100);
     fill(255);
-  text("“In three words I can sum up everything\nI've learned about life: it goes on.” ― Robert Frost", -150, -150);
+    text("“In three words I can sum up everything\nI've learned about life: it goes on.” ― Robert Frost", -150, -150);
     pop();
     this.updateParallaxBg();
     //this.updateText();

@@ -64,10 +64,8 @@ class State {
       // matrix text
       push();
       fill(0, random(35, 255), random(5, 255)); // Matrix neon green-blue glitchy colors
-      let matrixString = "NEURAL DISCONNECT. USE DEBUGGER.js";
+      let matrixString = "NEURAL DISCONNECT";
       textSize(random(25, 200));
-      text(matrixString, random(0, width), random(0, height));
-      text(matrixString, random(0, width), random(0, height));
       text(matrixString, random(0, width), random(0, height));
       pop();
     }
@@ -118,6 +116,20 @@ class State {
     push();
     imageMode(CENTER);
     image(this.characterPortrait, portraitDefaultX, portraitDefaultY, this.characterPortrait.width, this.characterPortrait.height);
+    pop();
+  }
+
+  /**
+    displayTitle()
+    @no custom args.
+    @Displays the title above the movie screen.
+  */
+  displayTitle(message) {
+    push();
+    background(0);
+    textSize(100);
+    fill(255);
+    text(message, 0, -350);
     pop();
   }
 
@@ -207,11 +219,11 @@ class State {
     @Displays the state timer.
   */
   displayStateTimer() {
-    this.UILayer.push();
-    this.UILayer.fill(255);
-    this.UILayer.textSize(30);
-    this.UILayer.text("Days of Life: " + this.stateTimer + " days.", sin(this.timerAngle), cos(this.timerAngle) + 50);
-    this.UILayer.pop();
+    // this.UILayer.push();
+    // this.UILayer.fill(255);
+    // this.UILayer.textSize(30);
+    // this.UILayer.text("Days of Life: " + this.stateTimer + " days.", sin(this.timerAngle), cos(this.timerAngle) + 50);
+    // this.UILayer.pop();
   }
 
   /**

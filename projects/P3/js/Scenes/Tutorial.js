@@ -1,7 +1,6 @@
 /**
   Tutorial()
-  @constructor args: characterPortrait
-    Assigns portrait.
+  @constructor args:
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.
@@ -17,7 +16,7 @@ class Tutorial extends State {
     background(0);
     textSize(100);
     fill(255);
-    text("Welcome to Allison's Life Movie Theater.\nPress any mouse button to put on your VR glasses.", -150, -150);
+    text("Press any mouse button to begin\nCognitive Restructuration Efforts.", -150, -150);
     text("If you want to get up from your seat, use the WASD keys.", -150, -600);
     pop();
     this.updateText();

@@ -1,7 +1,6 @@
 /**
   FirstJob
-  @constructor args: characterPortrait
-    Assigns portrait.
+  @constructor args:
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.
@@ -10,10 +9,10 @@ class FirstJob extends State {
     constructor(stateConfig, stateData, UILayer, characterPortrait) {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
-      this.positivityGrowthFactor = 50;
-      this.positivityDecayFactor = 35; // Could become increasingly larger relative to growth factor by age slice.
-      this.resetPositivity();
       this.resetStateTimer();
+      this.positivityGrowthFactor = 50;
+      this.positivityDecayFactor = 45; // Could become increasingly larger relative to growth factor by age slice.
+      this.resetPositivity();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
       this.stateTag = "FirstJob";
     }
@@ -27,19 +26,14 @@ class FirstJob extends State {
       this.setFrameRate();
       this.updateStateTimer();
       this.autoDecreasePositivity(this.positivityDecayFactor)
-      this.incrementPositivity(this.positivityGrowthFactor)
+      this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
-      push();
-      background(0);
-      textSize(100);
-      fill(255);
-      text("CineLife Movies. Yours truly.", 0, -150);
-      pop();
-
+      this.displayTitle("24 years old. You started working as a lawyer in a private firm.\nYou also met your husband, Harry.");
+      this.displayStateTimer();
       this.displayPortrait();
       this.spawnMentalSchemas();
-      this.displayStateTimer();
+      this.displayEmotionalDimension();
       // Change scene after the duration of state
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
@@ -57,11 +51,11 @@ class FirstJob extends State {
         Output should be displayed in the life bar skills.
     */
     spawnMentalSchemas() {
-      // Instructions
+      this.timerAngle += 0.10;
       push();
       fill(0, 255, 255);
       textSize(42);
-      text("First Job at the office!", width/2, height/2);
+      text("First Job at the office!", width/1.5, height/2);
       pop();
 
       push();
@@ -108,6 +102,13 @@ class FirstJob extends State {
       }
         this.modifyStroke();
     }
+
+    /**
+      updateClicks()
+      @arg: updateClickCounter.
+        callbacks the function updateClickCounter in the UISystem after this is done.
+      @Listens to mousePressed in main.js.
+    */
     updateClicks(updateClickCounter) {
       this.contextMenuDisplayed = false;
     }
