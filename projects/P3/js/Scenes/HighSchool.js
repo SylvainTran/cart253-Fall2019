@@ -57,7 +57,7 @@ class HighSchool extends State {
     */
     spawnMentalSchemas() {
       push();
-      fill(0);
+      fill(255);
       textSize(42);
       // TODO replace with array of different positive or negative thoughts
       text("I am unattractive", random(width/2, width), random(height/2, height));

@@ -21,7 +21,7 @@ let states = {};
 let stateConfig, stateData0, stateData1, stateData2, stateData3, stateData4, stateData5, stateData6, stateData7, stateData8;
 let gameCanvas, webGLCanvas;
 let zeyadaType, AntonRegularType;
-let allison, allisonMall, allisonHighSchool, duckguy;
+let allison, allisonMall, allisonHighSchool, allisonFirstJob, allisonMasterJudge, allisonFloristMiddleAge, allisonVeryOldAged, duckguy;
 let moveableAllison, oldAllison;
 let cloudsPlatformerBg;
 let UILayer;
@@ -61,6 +61,10 @@ function preload() {
   allison = loadImage("assets/images/Allison-0001-FourYears-FX.png");
   allisonMall = loadImage("assets/images/Allison-0002-AMall-FX.png");
   allisonHighSchool = loadImage("assets/images/Allison-0003-HighSchool-FX.png");
+  allisonFirstJob = loadImage("assets/images/Allison-0004-first-job.png");
+  allisonMasterJudge = loadImage("assets/images/Allison-0005-judge.png");
+  allisonFloristMiddleAge = loadImage("assets/images/Allison-0006-HotelSpa.png");
+  allisonVeryOldAged = loadImage("assets/images/Allison-0007-very-old-aged.png");
   oldAllison = loadImage("assets/images/old-allison.gif");
   cloudsPlatformerBg = loadImage("assets/images/cloudsPlatformerBg.png");
   zeyadaType = loadFont("assets/fonts/Zeyada-Regular.ttf");
@@ -105,13 +109,13 @@ function setup() {
     "BetweenLifeSlicesC": new BetweenLifeSlicesC(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
     "HighSchool": new HighSchool(stateConfig, stateData4, UILayer, allisonMall),
     "BetweenLifeSlicesD": new BetweenLifeSlicesD(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
-    "FirstJob": new FirstJob(stateConfig, stateData5, UILayer, allisonMall),
+    "FirstJob": new FirstJob(stateConfig, stateData5, UILayer, allisonFirstJob),
     "BetweenLifeSlicesE": new BetweenLifeSlicesE(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
-    "GangLife": new GangLife(stateConfig, stateData6, UILayer, allisonMall),
+    "Judge": new Judge(stateConfig, stateData6, UILayer, allisonMasterJudge),
     "BetweenLifeSlicesF": new BetweenLifeSlicesF(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
-    "HotelSpa": new HotelSpa(stateConfig, stateData7, UILayer, allisonMall),
+    "HotelSpa": new HotelSpa(stateConfig, stateData7, UILayer, allisonFloristMiddleAge),
     "BetweenLifeSlicesG": new BetweenLifeSlicesG(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg),
-    "Downtown": new Downtown(stateConfig, stateData8, UILayer, oldAllison, cloudsPlatformerBg)
+    "Downtown": new Downtown(stateConfig, stateData8, UILayer, allisonVeryOldAged, cloudsPlatformerBg)
   };
   StateSystem = new StateSystem(states, UILayer, stateConfig, allison);
   StateSystem.createSubSystems();

@@ -1,12 +1,12 @@
 /**
-  GangLife()
+  Judge()
   @constructor args: characterPortrait
     Assigns portrait.
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.
 */
-class GangLife extends State {
+class Judge extends State {
     constructor(stateConfig, stateData, UILayer, characterPortrait) {
       super(stateConfig, stateData, UILayer);
       this.characterPortrait = characterPortrait;
@@ -15,7 +15,7 @@ class GangLife extends State {
       this.resetPositivity();
       this.resetStateTimer();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
-      this.stateTag = "GangLife";
+      this.stateTag = "Judge";
     }
 
     /**
@@ -57,24 +57,24 @@ class GangLife extends State {
     */
     spawnMentalSchemas() {
       push();
-      fill(0);
+      fill(255);
       textSize(42);
       // TODO replace with array of different positive or negative thoughts
-      text("I am leading this gang. We need more weed.", random(width/2, width), random(height/2, height));
+      text("You should know better than to judge.\nYou've ", random(width/2, width), random(height/2, height));
       pop();
       // Hold any key down to think about the opposite
       if(keyIsPressed || mouseIsPressed) {
         push();
         fill(0, 255, 0);
         textSize(42);
-        text("I just want to make money like crazy.", mouseX - 250, mouseY);
+        text("I'm responsible for all\nthis young family's pain.", mouseX - 250, mouseY);
         pop();
       }
       else {
         push();
         fill(255, 0, 0);
         textSize(42);
-        text("Maybe I should try reconnecting with myself...", mouseX - 250, mouseY);
+        text("If this decision was a mistake, then so be it.\nThe sooner I accept it, the better.", mouseX - 250, mouseY);
         pop();
       }
     }

@@ -67,7 +67,7 @@ class FirstJob extends State {
       push();
       stroke(255, 0, 0);
       strokeWeight(this.strokeW);
-      fill(0);
+      fill(255);
       textSize(this.tSizer);
       push();
       translate(width/2, height/2);

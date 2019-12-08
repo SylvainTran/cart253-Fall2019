@@ -57,30 +57,14 @@ class Downtown extends State {
         Output should be displayed in the life bar skills.
     */
     spawnMentalSchemas() {
-      // Instructions
-      push();
-      fill(0, 255, 255);
-      textSize(42);
-      text("I got lost at the mall when I was around seven...", 50, 250);
-      pop();
-
-      // push();
-      // stroke(255, 0, 0);
-      // strokeWeight(this.strokeW);
-      // fill(0);
-      // textSize(this.tSizer);
-      // push();
-      // translate(width/2, height/2);
-      // // TODO replace with array of different positive or negative thoughts
-      // text("I'm useless.", sin(this.timerAngle) * 200, cos(this.timerAngle) * 200);
-      // pop();
-
       push();
       translate(0, 0);
+      fill(255);
       stroke(255, 0, 0);
       strokeWeight(5);
       textSize(this.tSizer);
-      text("I'm useless.", random(width/2, width), random(height/2, height));
+      text("I'm useless.", sin(this.timerAngle) * 200, cos(this.timerAngle) * 200);
+      text("I don't care about society.", random(width/2, width), random(height/2, height));
       pop();
 
       // Hold any key down or mouse button to think about the opposite
@@ -95,7 +79,7 @@ class Downtown extends State {
         noStroke();
         fill(0, 255, 0);
         textSize(42);
-        text("I'll wait for them. I'm sure they'll find me soon!", mouseX - 250, mouseY);
+        text("I can give back my experience to the next generation.", mouseX - 250, mouseY);
         pop();
       }
       else {
@@ -103,10 +87,11 @@ class Downtown extends State {
         noStroke();
         fill(255, 0, 0);
         textSize(42);
-        text("I'm useless", mouseX - 250, mouseY);
+        text("Nobody cares about what I know or did.", mouseX - 250, mouseY);
         pop();
       }
         this.modifyStroke();
+        this.timerAngle++;
     }
     updateClicks(updateClickCounter) {
       this.contextMenuDisplayed = false;

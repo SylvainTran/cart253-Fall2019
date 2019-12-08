@@ -64,7 +64,7 @@ class State {
       // matrix text
       push();
       fill(0, random(35, 255), random(5, 255)); // Matrix neon green-blue glitchy colors
-      let matrixString = "ATTEMPTING TO BREACH CURRENTLY DEFINED DIMENSIONAL REALITY PARAMETERS";
+      let matrixString = "NEURAL DISCONNECT. USE DEBUGGER.js";
       textSize(random(25, 200));
       text(matrixString, random(0, width), random(0, height));
       text(matrixString, random(0, width), random(0, height));

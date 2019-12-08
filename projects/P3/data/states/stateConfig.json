@@ -84,12 +84,12 @@
     "stateTag": "BetweenLifeSlicesE",
     "textObjectPath": "data/states/stateData/stateData8.json",
     "currentState": "false",
-    "nextStateTag": "GangLife",
+    "nextStateTag": "Judge",
     "readyToChangeState": "false"
   },
-  "GangLife": {
+  "Judge": {
     "stateIndex": 11,
-    "stateTag": "GangLife",
+    "stateTag": "Judge",
     "textObjectPath": "data/states/stateData/stateData6.json",
     "currentState": "false",
     "nextStateTag": "BetweenLifeSlicesF",
