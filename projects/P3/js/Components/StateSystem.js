@@ -140,7 +140,7 @@ class StateSystem {
     @handles screen bouncing at the borders of the game scene.
   */
   roomBoundariesBounce() {
-    const sceneUnitThreshold = 2000;
+    const sceneUnitThreshold = 2500;
     const bounceFactor = 50;
     if(player3DPositionX <= -sceneUnitThreshold) { // Left
       player3DPositionX += bounceFactor;
@@ -258,9 +258,12 @@ class StateSystem {
           pop();
         }
         // Rain emotions
-        translate(random(0, width), random(0, height), random(0, 100));
-        box(30 + random(0, player3DPositionZ), 30 + random(0, 150), 30 + random(0, 150));
-        translate(-random(0, width), -random(0, height), -random(0, 100));
+        push();
+        rotateZ(PI/4);
+        translate(random(0, width), random(0, height), random(0, 500));
+        box(30 + random(0, 50), 30 + random(0, 50), 30 + random(0, 50));
+        translate(-random(0, width), -random(0, height), -random(0, 500));
+        pop();
       }
     }
   }
