@@ -54,7 +54,7 @@ class State {
       push();
       // Matrix neon green-blue glitchy colors
       fill(0, random(35, 255), random(5, 255));
-      for (let i = 0; i <= 10000; i += 1) {
+      for (let i = 0; i <= 1000; i += 1) {
         translate(random(0, width), random(0, height), random(0, 100));
         box(30 + random(0, this.z), 30 + random(0, 150), 30 + random(0, 150));
         translate(-random(0, width), -random(0, height), -random(0, 100));
