@@ -147,7 +147,7 @@ function setup() {
 function draw() {
   // First-person view
   //camera([x],[y],[z],[centerX],[centerY],[centerZ],[upX],[upY],[upZ])
-  camera(player3DPositionX - 150, height / 3, player3DPositionZ / tan(PI / 6), mouseX * 5, mouseY * 5, 0, 0, 1, 0);
+  camera(player3DPositionX - 150, height / 3, player3DPositionZ / tan(PI / 6), mouseX * 2.5, mouseY * 2.5, 0, 0, 1, 0);
   // Re-center the origin to top left
   translate(-width / 2, -height / 2, 10);
   // Update state graphics
