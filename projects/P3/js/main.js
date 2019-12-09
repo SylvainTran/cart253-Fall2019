@@ -144,6 +144,7 @@ function draw() {
   // Update state graphics
   StateSystem.updateSystems();
   handleLifeScoreBoard();
+  handleClimaticScene();
   // 3D Movement
   handleInputs();
   // Bounce off walls
