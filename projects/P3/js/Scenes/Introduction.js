@@ -15,6 +15,7 @@ class Introduction extends State {
       this.resetPositivity();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
       this.stateTag = "Introduction";
+      this.stateScoreTag = "4 years old -- In The Sandbox"; // The display text for the life score board.
     }
 
     /**
@@ -29,7 +30,7 @@ class Introduction extends State {
       this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor);
       this.displayPositivity();
       this.curveDecayFactor();
-      this.displayTitle("Life Is Not A Movie, Allison.");
+      this.displayTitle("Game Psychologist: Hmm... You noted something here.\n\"Life is not a movie, Allison.\"...Do you often talk to yourself?");
       this.displayStateTimer();
       this.displayPortrait();
       this.spawnMentalSchemas();

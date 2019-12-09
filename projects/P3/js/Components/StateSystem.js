@@ -16,6 +16,7 @@ class StateSystem {
     this.nextStateTag = "BetweenLifeSlicesA";
     this.characterPortrait = characterPortrait;
     this.numberOfClicksOverPortrait = 0;
+    this.lifeScoreBoard = []; // The total positivity score for each slice of life. Accessible from outside to display the score to the player.
     console.log("StateSystem created.");
   }
 
@@ -45,7 +46,6 @@ class StateSystem {
       UILayer.clear();
     }
     this.StateParticles.updateParticles(this.checkCurrentStateTag);
-    console.log(this.currentStateTag);
   }
 
   /**
@@ -61,6 +61,15 @@ class StateSystem {
       this.states[this.currentStateTag].readyToChangeState = false;
       this.stateConfig[this.currentStateTag].currentState = "false";
       this.stateConfig[this.nextStateTag].currentState = "true";
+
+      // Get the positivity score of the last state if it's a slice of life game state
+      console.log("Final Score: " + this.states[this.currentStateTag].positivityScore);
+      if(!this.states[this.currentStateTag].stateTag.includes("Life") && this.states[this.currentStateTag].stateTag !== "Tutorial") {
+        if(this.lifeScoreBoard.length < 50) { // Capping at 50 to prevent overloading the array at the climax which fills it frantically
+          this.lifeScoreBoard.push(this.states[this.currentStateTag].stateScoreTag + " " + this.states[this.currentStateTag].positivityScore);
+          console.log(this.lifeScoreBoard);
+        }
+      }
       // Update the current and next state tags in the config file
       this.currentStateTag = this.stateConfig[this.nextStateTag].stateTag;
       this.nextStateTag = this.stateConfig[this.currentStateTag].nextStateTag;

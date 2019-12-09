@@ -15,6 +15,7 @@ class HighSchool extends State {
       this.resetPositivity();
       this.positivityScore = 0;
       this.stateTag = "HighSchool";
+      this.stateScoreTag = "14 years old -- High School Positivity";
     }
 
     /**
@@ -29,7 +30,7 @@ class HighSchool extends State {
       this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
-      this.displayTitle("14 years old. You didn't enjoy high school.\nYou liked the painting club.");
+      this.displayTitle("Game Psychologist: 14 years old. You didn't enjoy high school.\nYou liked the painting club. Hey, me too.");
       this.displayStateTimer();
       this.displayPortrait();
       this.spawnMentalSchemas();

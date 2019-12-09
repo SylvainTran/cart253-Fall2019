@@ -44,7 +44,6 @@ class State {
 
   /**
     Glitchy particles to evoke the surrealism of the Life Movie Screen.
-
   */
   displayEmotionalDimension() {
     if(mouseIsPressed) {
@@ -129,7 +128,7 @@ class State {
     background(0);
     textSize(100);
     fill(255);
-    text(message, 0, -350);
+    text(message, 0, -450);
     pop();
   }
 
@@ -143,7 +142,6 @@ class State {
       this.positiveThoughts += positivityGrowthFactor;
       // Animation and sound effect for user feedback
       //positiveChime.play();
-
     }
     return this.positiveThoughts;
   }

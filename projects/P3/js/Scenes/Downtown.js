@@ -16,6 +16,7 @@ class Downtown extends State {
       this.resetPositivity();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
       this.stateTag = "Downtown";
+      this.stateScoreTag = "74 years old -- Being A Retired Elderly. Reconnecting With Son";
     }
 
     /**
@@ -30,7 +31,7 @@ class Downtown extends State {
       this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
-      this.displayTitle("74 years old. You nearly died of a heart attack.\nYour son started talking to you again.");
+      this.displayTitle("Game Psychologist: 74 years old. You nearly\ndied of a heart attack. Your son started talking to you again.");
       this.displayStateTimer();
       this.displayPortrait();
       this.spawnMentalSchemas();
@@ -39,7 +40,7 @@ class Downtown extends State {
       if(this.stateTimer >= this.stateDuration) {
         this.readyToChangeState = true;
         congratulations.play();
-        climaticScene = true; 
+        climaticScene = true;
       }
     }
 

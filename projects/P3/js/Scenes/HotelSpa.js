@@ -15,6 +15,7 @@ class HotelSpa extends State {
       this.resetPositivity();
       this.positivityScore = 0;
       this.stateTag = "HotelSpa";
+      this.stateScoreTag = "44 years old -- Becoming A Florist, Divorcing";
     }
 
     /**
@@ -29,7 +30,7 @@ class HotelSpa extends State {
       this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
-      this.displayTitle("44 years old. You decided to become a florist.\nYour husband divorced you.");
+      this.displayTitle("Game Psychologist: 44 years old. You decided\nto become a florist. Your husband divorced you.");
       this.displayStateTimer();
       this.displayPortrait();
       this.spawnMentalSchemas();

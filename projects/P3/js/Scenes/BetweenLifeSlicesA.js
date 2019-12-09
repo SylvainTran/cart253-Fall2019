@@ -15,14 +15,9 @@ class BetweenLifeSlicesA extends BetweenLifeSlices {
     frameRate(60);
     this.updateStateTimer();
     this.displayStateTimer();
-    push();
-    background(0);
-    textSize(100);
-    fill(255);
-    text("“In three words I can sum up everything\nI've learned about life: it goes on.” ― Robert Frost", -150, -150);
-    pop();
+    this.displayTitle("Game Psychologist: So we've rendered your avatar in anime\n...Thought perhaps it would make you smile.");
     this.updateParallaxBg();
-    //this.updateText();
+    this.updateText();
     this.moveableAllison.handleInput();
     this.moveableAllison.move();
     this.moveableAllison.display();

@@ -15,12 +15,7 @@ class BetweenLifeSlicesD extends BetweenLifeSlices {
     frameRate(60);
     this.updateStateTimer();
     this.displayStateTimer();
-    push();
-    background(0);
-    textSize(100);
-    fill(255);
-    text("CineLife Movies. Yours truly.", 0, -150);
-    pop();
+    this.displayTitle("Game Psychologist: ...CBT can take at least 90 days to take effect.\nWith this new technology, it could take at most 90 minutes.");    
     this.updateParallaxBg();
     this.updateText();
     this.moveableAllison.handleInput();

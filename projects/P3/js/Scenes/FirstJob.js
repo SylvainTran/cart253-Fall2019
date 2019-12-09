@@ -15,6 +15,7 @@ class FirstJob extends State {
       this.resetPositivity();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
       this.stateTag = "FirstJob";
+      this.stateScoreTag = "24 years old -- A Lawyer's First (Unpaid) Job. Meeting Love";
     }
 
     /**
@@ -29,7 +30,7 @@ class FirstJob extends State {
       this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
-      this.displayTitle("24 years old. You started working as a lawyer in a private firm.\nYou also met your husband, Harry.");
+      this.displayTitle("Game Psychologist: 24 years old. You started working\nas a lawyer in a private firm. You also met your husband, Harry.");
       this.displayStateTimer();
       this.displayPortrait();
       this.spawnMentalSchemas();

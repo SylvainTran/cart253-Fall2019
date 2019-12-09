@@ -16,7 +16,7 @@ class Tutorial extends State {
     background(0);
     textSize(100);
     fill(255);
-    text("Press any mouse button to begin\nCognitive Restructuration Efforts.", -150, -150);
+    text("Please read the tutorial on the screen below to begin\nCognitive Restructuring Efforts.", -150, -400);
     text("If you want to get up from your seat, use the WASD keys.", -150, -600);
     pop();
     this.updateText();

@@ -15,6 +15,7 @@ class AzayashiMall extends State {
       this.resetPositivity();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
       this.stateTag = "AzayashiMall";
+      this.stateScoreTag = "7 years old -- Lost At The Mall";
     }
 
     /**
@@ -29,7 +30,7 @@ class AzayashiMall extends State {
       this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
-      this.displayTitle("7 years old. You got lost at the mall.\nYour parents never came back, so you walked back home.");
+      this.displayTitle("Game Psychologist: 7 years old. You got lost at the mall.\nYour parents never came back, so you...\nwalked back home alone.");
       this.displayPortrait();
       this.spawnMentalSchemas();
       this.displayStateTimer();

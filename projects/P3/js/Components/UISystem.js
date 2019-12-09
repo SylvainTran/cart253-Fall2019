@@ -36,19 +36,19 @@ class UISystem extends StateSystem {
     this.UILayer.pop();
 
     this.UILayer.push();
-    this.UILayer.textSize(42);
+    this.UILayer.textSize(35);
     this.UILayer.fill(0);
-    this.UILayer.text(" Cognitive Restructuration (%)... Press the mouse.", 0, 115); // TODO change years as per state
+    this.UILayer.text("Keep clicking the mouse for Cognitive Restructuration (%)...", 0, 115); // TODO change years as per state
     this.UILayer.pop();
   }
 
   updatePsyInstructions() {
-    // Psychologist's Instructions
-    this.UILayer.push();
-    this.UILayer.fill(0);
-    this.UILayer.textSize(25);
-    this.UILayer.text("Instructions", this.openContextMenuButtonX + 10, 50); // "Instructions"
-    this.UILayer.pop();
+    // // Psychologist's Instructions
+    // this.UILayer.push();
+    // this.UILayer.fill(0);
+    // this.UILayer.textSize(25);
+    // this.UILayer.text("Instructions", this.openContextMenuButtonX + 10, 50); // "Instructions"
+    // this.UILayer.pop();
   }
 
   /**

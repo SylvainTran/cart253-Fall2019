@@ -15,12 +15,7 @@ class BetweenLifeSlicesE extends BetweenLifeSlices {
     frameRate(60);
     this.updateStateTimer();
     this.displayStateTimer();
-    push();
-    background(0);
-    textSize(100);
-    fill(255);
-    text("CineLife Movies. Yours truly.", 0, -150);
-    pop();
+    this.displayTitle("Game Psychologist: I hope you're enjoying yourself.\nLet's see... where's my snackbar?");
     this.updateParallaxBg();
     this.updateText();
     this.moveableAllison.handleInput();

@@ -15,6 +15,7 @@ class Judge extends State {
       this.resetPositivity();
       this.positivityScore = 0; // Final positivity score for this slice of life when leaving state.
       this.stateTag = "Judge";
+      this.stateScoreTag = "34 years old -- Becoming A Judge";
     }
 
     /**
@@ -29,7 +30,7 @@ class Judge extends State {
       this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor)
       this.displayPositivity();
       this.curveDecayFactor();
-      this.displayTitle("34 years old. You were a judge at the Supreme Court.");
+      this.displayTitle("Game Psychologist: 34 years old. You were a judge in Seattle.\nOkay, let's get to work.");
       this.displayStateTimer();
       this.displayPortrait();
       this.spawnMentalSchemas();
