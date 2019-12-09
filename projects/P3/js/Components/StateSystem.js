@@ -62,7 +62,7 @@ class StateSystem {
       this.stateConfig[this.currentStateTag].currentState = "false";
       this.stateConfig[this.nextStateTag].currentState = "true";
 
-      // Get the positivity score of the last state if it's a slice of life game state
+      // Stores the positivity score of the last state if it's a slice of life game state.
       console.log("Final Score: " + this.states[this.currentStateTag].positivityScore);
       if(!this.states[this.currentStateTag].stateTag.includes("Life") && this.states[this.currentStateTag].stateTag !== "Tutorial") {
         if(this.lifeScoreBoard.length < 50) { // Capping at 50 to prevent overloading the array at the climax which fills it frantically
@@ -98,6 +98,11 @@ class StateSystem {
     return currentState;
   }
 
+  /**
+    triggerReadyToChangeState()
+    @no custom args
+    @triggers the ready to change state.
+  */
   triggerReadyToChangeState() {
     this.states[this.currentStateTag].readyToChangeState = true;
   }
@@ -133,7 +138,6 @@ class StateSystem {
     roomBoundariesBounce()
     @no custom args
     @handles screen bouncing at the borders of the game scene.
-
   */
   roomBoundariesBounce() {
     const sceneUnitThreshold = 2000;
@@ -155,12 +159,17 @@ class StateSystem {
     }
   }
 
+  /**
+    handleLifeScoreBoard()
+    @no custom args
+    @handles life score board.
+  */
   handleLifeScoreBoard() {
     // Update Life Scoreboard (positivity score for each slice of life)
     push();
     fill(255);
     textSize(100);
-    text("Cognitive Restructuring  Life Scoreboard", -2050, -500);
+    text("Cognitive Restructuring  Life Scoreboard", -2250, -500);
     pop();
 
     if(this.lifeScoreBoard.length > 0) {
@@ -168,13 +177,18 @@ class StateSystem {
         push();
         fill(255);
         textSize(50);
-        text(this.lifeScoreBoard[i] + " positive thoughts", -1550, -400 + i * 100);
+        text(this.lifeScoreBoard[i] + " positive thoughts", -2050, -400 + i * 100);
         pop();
         scoreBoardLineSpacing += 100;
       }
     }
   }
 
+  /**
+    handleClimaticScene()
+    @no custom args
+    @handles climatic scene cinematics.
+  */
   handleClimaticScene() {
     if(climaticScene) {
       let totalLifeBoardScore = 0;
@@ -187,6 +201,7 @@ class StateSystem {
       if(totalLifeBoardScore <= meetingGodThreshold) {
         // God NPC
         text("(Undiscernible voice): It is time to return to your maker, who gave you his life.", -1000, -1300);
+        // Creates the Door of life
         push();
         translate(-1250, 1000, 100);
         fill(0, 255, 0);
@@ -205,15 +220,7 @@ class StateSystem {
       text("Door of Life", -1450, 100);
       pop();
 
-      // Door of Life
-      push();
-      translate(-1250, 1000, 50);
-      fill(255, 0, 0);
-      box(500, 700, 10);
-      translate(1000, -1000, -50);
-      pop();
-
-      // Check if player collided the door of life
+      // Check if player collided the Door of life
       if(player3DPositionX <= -1410 && player3DPositionZ <= 100) {
         cubeUniverseVisible = true;
       }
@@ -238,20 +245,22 @@ class StateSystem {
 
       if(triggeredCubeUniverse) {
         if(player3DPositionX >= 0 && player3DPositionX <= 1000 && player3DPositionZ <= 50) {
+          let numberOfBoxes = 10000;
           // we're going into the screen
           push();
           // Matrix neon green-blue glitchy colors
           fill(0, random(35, 255), random(5, 255));
-          for(let i = 0; i <= 10000; i+=1) {
+          for(let i = 0; i <= numberOfBoxes; i++) {
             translate(random(0, width), random(0, height), random(0, 100));
             box(30 + random(0, player3DPositionZ), 30 + random(0, 150), 30 + random(0, 150));
             translate(-random(0, width), -random(0, height), -random(0, 100));
-            push();
-            fill(255);
-            pop();
           }
           pop();
         }
+        // Rain emotions
+        translate(random(0, width), random(0, height), random(0, 100));
+        box(30 + random(0, player3DPositionZ), 30 + random(0, 150), 30 + random(0, 150));
+        translate(-random(0, width), -random(0, height), -random(0, 100));
       }
     }
   }

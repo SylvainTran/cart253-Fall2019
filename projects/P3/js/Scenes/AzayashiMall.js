@@ -30,7 +30,7 @@ class AzayashiMall extends State {
     this.positivityScore = this.incrementPositivity(this.positivityGrowthFactor)
     this.displayPositivity();
     this.curveDecayFactor();
-    this.displayTitle("Game Psychologist: 7 years old. You got lost at the mall.\nYour parents never came back, so you... walked back home alone.");
+    this.displayTitle("Game Psychologist: 7 years old. You got lost at the mall.\nYour parents never came back, so you walked back home alone.");
     this.displayPortrait();
     this.spawnMentalSchemas();
     this.displayStateTimer();

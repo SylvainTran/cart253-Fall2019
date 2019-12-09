@@ -133,7 +133,7 @@ class State {
     background(0);
     textSize(100);
     fill(255);
-    text(message, 0, -450);
+    text(message, -500, -950);
     pop();
   }
 
