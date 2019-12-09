@@ -1,6 +1,6 @@
 /**
   UISystem()
-  @constructor args: states UILayer.
+  @constructor args: states, UILayer, stateConfig
     the states object required for certain methods.
     the create graphics layer used to update the UI.
   @Displays the UI images provided at the specified x, y positions.
@@ -15,13 +15,23 @@ class UISystem extends StateSystem {
     this.timerAngle = 0;
   }
 
+  /**
+    updateStateUI()
+    @no custom args.
+    @Drives the whole UI updating process. Not much going on for now.
+  */
   updateStateUI() {
     this.updateUI();
     this.updatePsyInstructions();
   }
 
-  // The UI at the top. Black bar with a turquoise button.
+  /**
+    updateUI()
+    @no custom args.
+    @Updates the UI elements on the slice of life bar.
+  */
   updateUI() {
+    // The UI at the top. Black bar with a turquoise button. DISCONTINUED for now, will modify later.
     // this.UILayer.push();
     // this.UILayer.fill(0);
     // this.UILayer.rect(0,0,width,100);
@@ -42,6 +52,12 @@ class UISystem extends StateSystem {
     this.UILayer.pop();
   }
 
+  /**
+    updatePsyInstructions()
+    @no custom args.
+    @Updates the psychologists' instructions on the button at the top-right for the introduction state.
+    Toggles off and on. DISCONTINUED for now.
+  */
   updatePsyInstructions() {
     // // Psychologist's Instructions
     // this.UILayer.push();
@@ -71,7 +87,7 @@ class UISystem extends StateSystem {
   /**
     clearContextMenu()
     @arg: none.
-    @Clears the context menu.
+    @Clears the context menu. DISCONTINUED for now, will be modified later.
   */
   clearContextMenu() {
     UILayer.push();
@@ -166,7 +182,7 @@ class UISystem extends StateSystem {
     @no custom args.
     @Called by updateStateInstructions ().
     Updates the psychologists' instructions on the button at the top-right for the introduction state.
-    Toggles off and on.
+    Toggles off and on. DISCONTINUED for now.
   */
   updateIntroInstructions() {
     console.log("Clicking over menu button.");

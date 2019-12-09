@@ -21,7 +21,7 @@ class BetweenLifeSlicesA extends BetweenLifeSlices {
     this.moveableAllison.handleInput();
     this.moveableAllison.move();
     this.moveableAllison.display();
-    if(this.stateTimer >= this.stateDuration) {
+    if (this.stateTimer >= this.stateDuration) {
       this.readyToChangeState = true;
       go.play();
     }

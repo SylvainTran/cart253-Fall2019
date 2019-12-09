@@ -21,7 +21,7 @@ class BetweenLifeSlicesG extends BetweenLifeSlices {
     this.moveableAllison.handleInput();
     this.moveableAllison.move();
     this.moveableAllison.display();
-    if(this.stateTimer >= this.stateDuration) {
+    if (this.stateTimer >= this.stateDuration) {
       // This final call will unroll all game states in an infinite loop to create the
       // Flash of life effect
       this.readyToChangeState = true;

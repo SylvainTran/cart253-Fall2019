@@ -1,9 +1,7 @@
 // MoveablePerson
 //
-// A class that represents a simple predator
+// A class that represents a simple moveable person
 // controlled by the arrow keys. It can move around
-// the screen and consume Prey objects to maintain its health.
-
 class MoveablePerson {
 
   // constructor
@@ -22,7 +20,6 @@ class MoveablePerson {
     this.avatar = avatar;
     // Input properties
     this.upKey = UP_ARROW;
-    this.downKey = DOWN_ARROW;
     this.leftKey = LEFT_ARROW;
     this.rightKey = RIGHT_ARROW;
   }
@@ -45,7 +42,7 @@ class MoveablePerson {
     // Jump
     if(keyIsDown(this.upKey)) {
     // Apply force from physics library
-
+      // May add more complete platformer in the future.
     }
   }
 
@@ -64,7 +61,7 @@ class MoveablePerson {
     Prevents from going backwards but wraps when going forward.
 
   */
-  handleWrapping() {  
+  handleWrapping() {
     if (this.x < 0) {
       // Reverse the velocity and sums it to the negative x value to block the left side
       this.vx = -this.vx;
@@ -77,8 +74,7 @@ class MoveablePerson {
 
   // display
   //
-  // Draw the predator as an ellipse on the canvas
-  // with a radius the same size as its current health.
+  // Draw the avatar
   display() {
     const sizeMultiplier = 3;
     image(this.avatar, this.x, this.y, this.avatar.width * sizeMultiplier, this.avatar.height * sizeMultiplier);

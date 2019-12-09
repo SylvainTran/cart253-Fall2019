@@ -1,10 +1,10 @@
 /**
   StateParticles()
-  @constructor args: states
+  @constructor args: states, UILayer, stateConfig, characterPortrait
     Takes in the states object.
   @Takes in the currentStateTag and updates the visuals to render
   on screen accordingly in the states object.
-  @Transforms particle data inputted by the StateSystem and returns
+  @TODO - Transforms particle data inputted by the StateSystem and returns
   the processed output.
 */
 class StateParticles extends StateSystem {
@@ -27,12 +27,22 @@ class StateParticles extends StateSystem {
     this.updateSpecialState(currentState);
   }
 
+  /**
+    updateBackground()
+    @currentState custom args.
+    @Updates the current state's text background color as defined in the stateData.json.
+  */
   updateBackground(currentState) {
     push();
     background(this.states[currentState].bgColor);
     pop();
   }
 
+  /**
+    updateText()
+    @currentState custom args.
+    @Updates the current state's text as defined in the stateData.json.
+  */
   updateText(currentState) {
     textFont(AntonRegularType);
     push();
@@ -43,6 +53,12 @@ class StateParticles extends StateSystem {
     pop();
   }
 
+  /**
+    updateSpecialState()
+    @arg: currentState
+      The current state in the StateSystem to update.
+    @Calls the current state's updateState method.
+  */
   updateSpecialState(currentState) {
     this.states[currentState].updateState();
   }
@@ -64,8 +80,10 @@ class StateParticles extends StateSystem {
   }
 
   /**
-    Takes an array of strings and calculate the average length of all the entries.
-
+    textLineWidth()
+    @arg: stringArray
+      The string array to check for width.
+    @Takes an array of strings and calculate the average length of all the entries.
   */
   textLineWidth(stringArray) {
     let averageLengthPerWord = 0;

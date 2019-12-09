@@ -101,4 +101,158 @@ class StateSystem {
   triggerReadyToChangeState() {
     this.states[this.currentStateTag].readyToChangeState = true;
   }
+
+  /**
+    handleInputs()
+    @no custom args
+    @handles velocity changes depending on the keycode down:
+      currently set to WASD keys.
+  */
+  handleInputs() {
+    if(keyIsDown(65)) { // Left
+      vx = -speed;
+    }
+    else if(keyIsDown(68)) { // Right
+      vx = speed;
+    }
+    else if(keyIsDown(87)) { // Forward
+      vz = -speed;
+    }
+    else if(keyIsDown(83)) { // Backward
+      vz = speed;
+    }
+    else {
+      vx = 0;
+      vz = 0;
+    }
+    player3DPositionX += vx;
+    player3DPositionZ += vz;
+  }
+
+  /**
+    roomBoundariesBounce()
+    @no custom args
+    @handles screen bouncing at the borders of the game scene.
+
+  */
+  roomBoundariesBounce() {
+    const sceneUnitThreshold = 2000;
+    const bounceFactor = 50;
+    if(player3DPositionX <= -sceneUnitThreshold) { // Left
+      player3DPositionX += bounceFactor;
+    }
+
+    if(player3DPositionX >= sceneUnitThreshold) { // Right
+      player3DPositionX -= bounceFactor;
+    }
+
+    if(player3DPositionZ <= 0) { // Forward
+      player3DPositionZ += bounceFactor;
+    }
+
+    if(player3DPositionZ >= sceneUnitThreshold) { // Backward
+      player3DPositionZ -= bounceFactor;
+    }
+  }
+
+  handleLifeScoreBoard() {
+    // Update Life Scoreboard (positivity score for each slice of life)
+    push();
+    fill(255);
+    textSize(100);
+    text("Cognitive Restructuring  Life Scoreboard", -2050, -500);
+    pop();
+
+    if(this.lifeScoreBoard.length > 0) {
+      for(let i = 0; i < this.lifeScoreBoard.length; i++) {
+        push();
+        fill(255);
+        textSize(50);
+        text(this.lifeScoreBoard[i] + " positive thoughts", -1550, -400 + i * 100);
+        pop();
+        scoreBoardLineSpacing += 100;
+      }
+    }
+  }
+
+  handleClimaticScene() {
+    if(climaticScene) {
+      let totalLifeBoardScore = 0;
+      let meetingGodThreshold = 2000; // The score threshold at which the player can meet God (if they were too negative)
+      // Count the total score of all states
+      for(let i = 0; i < this.lifeScoreBoard.length; i++) {
+        totalLifeBoardScore += parseInt(this.lifeScoreBoard[i]);
+      }
+      console.log("Total life score: " + totalLifeBoardScore);
+      if(totalLifeBoardScore <= meetingGodThreshold) {
+        // God NPC
+        text("(Undiscernible voice): It is time to return to your maker, who gave you his life.", -1000, -1300);
+        push();
+        translate(-1250, 1000, 100);
+        fill(0, 255, 0);
+        box(500, 700, 10);
+        translate(1250, -1000, -100);
+        pop();
+      }
+      else {
+        // Go to the next room where you see all the good that you have done on earth
+        // Spawn relatives and friends as cubes
+      }
+      // Text cue for the red door
+      push();
+      fill(0, 255, 0);
+      textSize(100);
+      text("Door of Life", -1450, 100);
+      pop();
+
+      // Door of Life
+      push();
+      translate(-1250, 1000, 50);
+      fill(255, 0, 0);
+      box(500, 700, 10);
+      translate(1000, -1000, -50);
+      pop();
+
+      // Check if player collided the door of life
+      if(player3DPositionX <= -1410 && player3DPositionZ <= 100) {
+        cubeUniverseVisible = true;
+      }
+
+      if(cubeUniverseVisible) {
+        translate(500, 1000, 500);
+        push();
+        texture(cloudsPlatformerBg);
+        box(cubeUniverseX, cubeUniverseY, cubeUniverseZ);
+        pop();
+        translate(-500, -1000, -500);
+      }
+
+      if(cubeUniverseVisible && player3DPositionX >= -300 && player3DPositionX <= 500 && player3DPositionZ >= 150 && player3DPositionZ <= 500) {
+        // We are inside the cube
+        triggeredCubeUniverse = true;
+        // Quick universe expansion effect
+        cubeUniverseX += cubeUniverseGrowthRate;
+        cubeUniverseY += cubeUniverseGrowthRate;
+        cubeUniverseZ += cubeUniverseGrowthRate;
+      }
+
+      if(triggeredCubeUniverse) {
+        if(player3DPositionX >= 0 && player3DPositionX <= 1000 && player3DPositionZ <= 50) {
+          // we're going into the screen
+          push();
+          // Matrix neon green-blue glitchy colors
+          fill(0, random(35, 255), random(5, 255));
+          for(let i = 0; i <= 10000; i+=1) {
+            translate(random(0, width), random(0, height), random(0, 100));
+            box(30 + random(0, player3DPositionZ), 30 + random(0, 150), 30 + random(0, 150));
+            translate(-random(0, width), -random(0, height), -random(0, 100));
+            push();
+            fill(255);
+            pop();
+          }
+          pop();
+        }
+      }
+    }
+  }
 }

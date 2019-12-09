@@ -1,6 +1,6 @@
 /**
   Tutorial()
-  @constructor args:
+  @constructor args: stateConfig, stateData, characterPortrait
     inits default state parameters in parent State prototype.
   @Assigns a tag to this scene to identify it.
   @Updates the scene with the provided map.
@@ -43,7 +43,7 @@ class Tutorial extends State {
     let dialogueBg = this.stateData.dialoguePosY - this.stateData.dialogueTSize;
     const dialogueBgSize = this.stateData.dialogueTSize + 10;
 
-    for(let i = 0; i < this.stateData.specialNarration.length; i++) {
+    for (let i = 0; i < this.stateData.specialNarration.length; i++) {
       // Adds incremented line spacing
       specialNarrationPosY += specialNarrationLineSpacing;
       push();
@@ -52,14 +52,14 @@ class Tutorial extends State {
       text(this.stateData.specialNarration[i], this.stateData.specialNarrationPosX, specialNarrationPosY);
       pop();
     }
-    for(let k = 0; k < this.stateData.dialogue.length; k++) {
+    for (let k = 0; k < this.stateData.dialogue.length; k++) {
       dialogueBg += dialogueLineSpacing;
       push();
       fill(20, 255, 60, 30);
       rect(this.stateData.dialoguePosX, dialogueBg, this.dialogueAverageTextWidth, dialogueBgSize);
       pop();
     }
-    for(let j = 0; j < this.stateData.dialogue.length; j++) {
+    for (let j = 0; j < this.stateData.dialogue.length; j++) {
       dialoguePosY += dialogueLineSpacing;
       push();
       fill(this.stateData.textColor);
