@@ -264,6 +264,62 @@ class StateSystem {
         box(30 + random(0, 50), 30 + random(0, 50), 30 + random(0, 50));
         translate(-random(0, width), -random(0, height), -random(0, 500));
         pop();
+
+        // Display young Allison inside boxes
+        translate(100, 1000, 100);
+        push();
+        texture(allisonMall);
+        box(100, 100, 100);
+        pop();
+        translate(-100, -1000, -100);
+
+        // Display young Allison inside boxes
+        translate(100, 1000, 200);
+        push();
+        texture(allisonFirstJob);
+        box(100, 100, 100);
+        pop();
+        translate(-100, -1000, -200);
+
+        // Display middle aged Allison inside boxes
+        translate(100, 1000, 300);
+        push();
+        texture(allisonMasterJudge);
+        box(100, 100, 100);
+        pop();
+        translate(-100, -1000, -300);
+
+        // Display middle middle aged Allison inside boxes
+        translate(100, 1000, 400);
+        push();
+        texture(allisonFloristMiddleAge);
+        box(100, 100, 100);
+        pop();
+        translate(-100, -1000, -400);
+
+        // Display very old aged Allison inside boxes
+        translate(100, 1000, 500);
+        push();
+        texture(allisonVeryOldAged);
+        box(100, 100, 100);
+        pop();
+        translate(-100, -1000, -500);
+
+        // Display kid Allison inside boxes
+        translate(100, 1000, 600);
+        push();
+        texture(allison);
+        box(100, 100, 100);
+        pop();
+        translate(-100, -1000, -600);
+
+        // Display the duckguy
+        translate(500, 1000, 500);
+        push();
+        texture(duckguy);
+        box(100, 100, 100);
+        pop();
+        translate(-500, -1000, -500);
       }
     }
   }
