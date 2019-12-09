@@ -65,6 +65,22 @@ class Downtown extends State {
     text("I don't care about society.", random(width / 2, width), random(height / 2, height));
     pop();
 
+    // Emotional effect: a snowflake star that looks like an alien
+    fill(224,255,255); // Snowflakes' color
+    for(let i = 0; i <= 1000; i+=1) {
+      translate(500, 100 + i, 300);
+      rotate(radians(30));
+      box(10 + this.z, 10 + this.z, 1);
+      translate(-500, -100 + i, -300);
+    }
+    pop();
+
+    // Increment z and resets it if past a certain point
+    this.z+=10;
+    if(this.z >= 1200) {
+      this.z = 0;
+    }
+
     // Hold any key down or mouse button to think about the opposite
     if (keyIsPressed || mouseIsPressed) {
       // Re-display the colored portrait to show the character's renewed self-confidence

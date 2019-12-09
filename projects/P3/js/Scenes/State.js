@@ -58,9 +58,6 @@ class State {
         translate(random(0, width), random(0, height), random(0, 100));
         box(30 + random(0, this.z), 30 + random(0, 150), 30 + random(0, 150));
         translate(-random(0, width), -random(0, height), -random(0, 100));
-        push();
-        fill(255);
-        pop();
       }
       pop();
 
